@@ -1,0 +1,403 @@
+{{ template "header" . }}
+
+<!-- LLM slop -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+             toggleHostSteamID();
+             toggleMasterServer();
+
+             const accountDirInput = document.getElementById('dynamite-accountDir');
+             validateAccountDir(accountDirInput);
+
+             const coopSteamID = document.getElementById('coop-hostSteamID');
+             validateSteamID(coopSteamID);
+        });
+
+        function toggleHostSteamID() {
+            const hostMode = document.getElementById('coop-host').checked;
+            steamID = document.getElementById('coop-host-SteamID')
+            steamIDInput = document.getElementById('coop-hostSteamID')
+            coopLists = document.getElementById('coop-lists');
+
+            steamIDInput.disabled = hostMode;
+
+            if (hostMode) {
+                document.getElementById('hostSteamID-message').style = "display:none";
+                steamID.style = "display:none;";
+                coopLists.style = "display:block;";
+            } else {
+                steamID.style = "display:block;";
+                coopLists.style = "display:none;";
+                validateSteamID(steamIDInput);
+            }
+        }
+
+        function toggleMasterServer() {
+            const useLocal = document.getElementById('dynamite-useLocalMaster').checked;
+            url = document.getElementById('masterServer-url');
+            url.disabled = useLocal;
+
+            gr = document.getElementById('masterServer-url-group');
+            if (url.disabled) {
+                gr.style = "display:none;";
+            } else {
+                gr.style = "display:block;";
+            }
+        }
+
+        function validateAccountDir(input) {
+            if (input.value.trim() === '') {
+                input.classList.add('error-field');
+                document.getElementById('account-message').style = "display:block";
+                // Show error message if you have one
+            } else {
+                input.classList.remove('error-field');
+                document.getElementById('account-message').style = "display:none";
+                // Hide error message if you have one
+            }
+        }
+
+        function validateSteamID(input) {
+            const isHost = document.getElementById('coop-host').checked;
+            if (isHost == true) {
+                return;
+            }
+
+            if (input.value.trim() === '') {
+                input.classList.add('error-field');
+                document.getElementById('hostSteamID-message').style = "display:block";
+            } else {
+                input.classList.remove('error-field');
+                document.getElementById('hostSteamID-message').style = "display:none";
+            }
+        }
+
+        // Store available keys from Go template
+        const availableKeys = [
+           {{ range $key, $_ := .Keys }}
+           "{{ $key }}",
+           {{ end }}
+        ];
+
+        let keyCounter = {{ len .Config.Keys }};
+
+        function addKeyRow() {
+            const tbody = document.querySelector('#keys-table tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                 <td><input type="text" name="Config.Keys[${keyCounter}].Module"></td>
+                 <td><input type="text" name="Config.Keys[${keyCounter}].Function"></td>
+                <td>
+                    <select name="Config.Keys[${keyCounter}].Name">
+                        ${availableKeys.map(key =>
+                            `<option value="${key}">${key}</option>`
+                        ).join('')}
+                    </select>
+                </td>
+                <td>
+                    <button type="button" onclick="deleteKeyRow(this)">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+            keyCounter++;
+        }
+
+        function deleteKeyRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+            // Reindex remaining rows
+            const rows = document.querySelectorAll('#keys-table tbody tr');
+            rows.forEach((row, index) => {
+                row.querySelector('select').name = `Config.Keys[${index}].Name`;
+                row.querySelector('input[name$=".Module"]').name = `Config.Keys[${index}].Module`;
+                row.querySelector('input[name$=".Function"]').name = `Config.Keys[${index}].Function`;
+            });
+            keyCounter = rows.length;
+        }
+
+
+        function toggleCoopSettings() {
+            const isHost = document.getElementById('coop-host').checked;
+            document.getElementById('coop-hostSteamID').disabled = !isHost;
+            document.getElementById('coop-lists').style.display = isHost ? 'block' : 'none';
+
+            // Disable/enable all inputs and buttons in coop-lists
+            const elements = document.querySelectorAll('#coop-lists input, #coop-lists button');
+            elements.forEach(el => {
+                el.disabled = !isHost;
+            });
+
+            // Specifically handle the "Add to Blacklist/Whitelist" buttons
+            document.querySelectorAll('#coop-lists button[onclick^="add"]').forEach(btn => {
+                btn.disabled = !isHost;
+            });
+        }
+
+        function toggleCollapse(element) {
+            const content = element.nextElementSibling;
+            content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            element.textContent = element.textContent.includes('▼')
+                ? element.textContent.replace('▼', '▲')
+                : element.textContent.replace('▲', '▼');
+        }
+
+        // Update the add row functions to check Host mode
+        function addBlacklistRow() {
+            if (!document.getElementById('coop-host').checked) return;
+            const table = document.getElementById('blacklist-table').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td><input type="text" name="Config.Coop.Blacklist.SteamID"></td>
+                <td><input type="text" name="Config.Coop.Blacklist.Note"></td>
+                <td class="profileLink">---</td>
+                <td><button type="button" onclick="removeRow(this)">Remove</button></td>
+            `;
+        }
+
+        function addWhitelistRow() {
+            if (!document.getElementById('coop-host').checked) return;
+            const table = document.getElementById('whitelist-table').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td><input type="text" name="Config.Coop.Whitelist.SteamID"></td>
+                <td><input type="text" name="Config.Coop.Whitelist.Note"></td>
+                <td class="profileLink">---</td>
+                <td><button type="button" onclick="removeRow(this)">Remove</button></td>
+            `;
+        }
+
+        function removeRow(button) {
+            button.closest('tr').remove();
+        }
+    </script>
+
+    <div class="container">
+        <form action="/save-config" method="POST" autocomplete="off">
+            <h1>Configuration</h1>
+
+            <!-- Co-op Section -->
+            <div class="section">
+                <h2>Co-op</h2>
+                <div class="form-group">
+                    <label for="coop-host" class="checkbox-label">Host Mode</label>
+                        <input type="checkbox" id="coop-host" name="Config.Coop.Host"
+                            {{ if .Config.Coop.Host }}checked{{ end }}
+                            onchange="toggleHostSteamID()">
+                </div>
+                <div id="coop-host-SteamID" {{ if not .Config.Coop.Host }}style="display: none;"{{ end }}>
+                    <div class="form-group"  >
+                        <label for="coop-hostSteamID">Host Steam ID</label>
+                        <input type="text" id="coop-hostSteamID" name="Config.Coop.HostSteamID"
+                            value="{{ if ne .Config.Coop.HostSteamID 0 }}{{ .Config.Coop.HostSteamID }}{{ end }}"
+                            {{ if .Config.Coop.Host }}disabled{{ end }}
+                            oninput="validateSteamID(this)">
+                        <div class="error-message" id="hostSteamID-message" style="display: none;">Host SteamID is required</div>
+                    </div>
+                    <div class="comment table">{{ index .Examples "SteamID" }}</div>
+                    <div class="comment table">{{ index .Examples "SteamID2" }}</div>
+                    <div class="comment table">{{ index .Examples "SteamID3" }}</div>
+                </div>
+
+                <hr>
+
+                <div id="coop-lists" style="{{ if not .Config.Coop.Host }}display: none;{{ end }}">
+                    <div class="collapsible">
+                        <h3 onclick="toggleCollapse(this)">Blacklist ({{ len .Blacklist }}) ▼</h3>
+                        <div class="collapsible-content"  {{ if gt (len .Blacklist) 0 }}style="display:none;"{{ end }}>
+                            <div class="comment">{{ index .Examples "SteamID" }}</div>
+                            <div class="comment">{{ index .Examples "SteamID2" }}</div>
+                            <div class="comment">{{ index .Examples "SteamID3" }}</div>
+
+                            <table id="blacklist-table">
+                                <thead>
+                                    <tr>
+                                        <th>Steam ID</th>
+                                        <th>Note</th>
+                                        <th>Profile link</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{ range .Blacklist }}
+                                    <tr>
+                                        <td><input type="text" name="Config.Coop.Blacklist.SteamID" value="{{ .SteamID }}"></td>
+                                        <td><input type="text" name="Config.Coop.Blacklist.Note" value="{{ .Note }}"></td>
+                                        <td class="profileLink"><a href="https://steamcommunity.com/profiles/{{ .SteamID }}">Link</a></td>
+                                        <td><button type="button" onclick="removeRow(this)">Remove</button></td>
+                                    </tr>
+                                    {{ end }}
+                                </tbody>
+                            </table>
+                            <button type="button" onclick="addBlacklistRow()">Add</button>
+                        </div>
+                    </div>
+
+                <hr>
+                    <div class="collapsible">
+                        <h3 onclick="toggleCollapse(this)">Whitelist ({{ len .Whitelist }}) ▼</h3>
+                        <div class="collapsible-content"  {{ if gt (len .Whitelist) 0 }}style="display:none;"{{ end }}>
+                            <div class="comment">{{ index .Examples "SteamID" }}</div>
+                            <div class="comment">{{ index .Examples "SteamID2" }}</div>
+                            <div class="comment">{{ index .Examples "SteamID3" }}</div>
+                            <table id="whitelist-table">
+                                <thead>
+                                    <tr>
+                                        <th>Steam ID</th>
+                                        <th>Note</th>
+                                        <th>Profile link</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{ range .Whitelist }}
+                                    <tr>
+                                        <td><input type="text" name="Config.Coop.Whitelist.SteamID" value="{{ .SteamID }}"></td>
+                                        <td><input type="text" name="Config.Coop.Whitelist.Note" value="{{ .Note }}"></td>
+                                        <td class="profileLink"><a href="https://steamcommunity.com/profiles/{{ .SteamID }}">Link</a></td>
+                                        <td><button type="button" onclick="removeRow(this)">Remove</button></td>
+                                    </tr>
+                                    {{ end }}
+                                </tbody>
+                            </table>
+                            <button type="button" onclick="addWhitelistRow()">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- dynamite Section -->
+            <div class="section">
+                <h2>dynamite</h2>
+
+                <div class="form-group">
+                    <label for="dynamite-accountDir">Main account directory</label>
+                    <input type="text" id="dynamite-accountDir" name="Config.Dynamite.AccountDir"
+                        value="{{ .Config.Dynamite.AccountDir }}"
+                        class="{{ if not .Config.Dynamite.AccountDir }}error-field{{ end }}"
+                        oninput="validateAccountDir(this)">
+                    <div class="error-message" id="account-message" style="display: none;">Account directory is required</div>
+                </div>
+                <div class="comment table">{{ index .Examples "Account Directory" }}</div>
+                <div class="comment table">{{ index .Examples "Account Directory2" }}</div>
+
+                <div class="form-group">
+                    <label for="dynamite-uiAddress">Web UI address</label>
+                    <input type="text" id="dynamite-uiAddress" name="Config.Dynamite.UIAddress" value="{{ .Config.Dynamite.UIAddress }}">
+                </div>
+                <div class="comment table">{{ index .Examples "UI Address" }}</div>
+                <div class="comment table">{{ index .Examples "UI Address2" }}</div>
+
+                <div class="form-group">
+                    <label for="dynamite-masterKey">Master key</label>
+                    <select id="dynamite-masterKey" name="Config.Dynamite.MasterKey">
+                        {{ range $key, $_ := .Keys }}
+                        <option value="{{ $key }}" {{ if eq $key $.Config.Dynamite.MasterKey }}selected{{ end }}>
+                            {{ $key }}
+                        </option>
+                        {{ end }}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dynamite-reloadKey">Reload key</label>
+                    <select id="dynamite-reloadKey" name="Config.Dynamite.ReloadKey">
+                        {{ range $key, $_ := .Keys }}
+                        <option value="{{ $key }}" {{ if eq $key $.Config.Dynamite.ReloadKey }}selected{{ end }}>
+                            {{ $key }}
+                        </option>
+                        {{ end }}
+                    </select>
+                </div>
+                <div class="comment table">{{ index .Examples "Reload Key"}}</div>
+
+                <div class="form-group">
+                    <label for="dynamite-skipConfig" class="checkbox-label">Skip Web UI on start</label>
+                    <input type="checkbox" id="dynamite-skipConfig" name="Config.Dynamite.SkipConfig" {{ if .Config.Dynamite.SkipConfig }}checked{{ end }} >
+                </div>
+
+            </div>
+
+            <!-- Master Server Section -->
+             <div class="section" id="masterServerSection">
+                 <h2>Master server</h2>
+
+                 <div class="form-group">
+                      <label for="dynamite-useLocalMaster" class="checkbox-label">Use local master server</label>
+                         <input type="checkbox" id="dynamite-useLocalMaster" name="Config.Dynamite.UseLocalMasterServer"
+                             {{ if .Config.Dynamite.UseLocalMasterServer }}checked{{ end }}
+                             onchange="toggleMasterServer()">
+                 </div>
+
+                 <div id="masterServer-url-group"  {{ if .Config.Dynamite.UseLocalMasterServer }}style="display:none;"{{ end }}  >
+                     <div class="form-group">
+                         <label for="masterServer-url">URL</label>
+                         <input type="text" id="masterServer-url" name="Config.MasterServer.URL"
+                             value="{{ .Config.MasterServer.URL }}" style="width: 500px;"
+                             {{ if .Config.Dynamite.UseLocalMasterServer }}disabled{{ end }}>
+                     </div>
+                     <div class="comment table">{{ index .Examples "Master Server URL" }}</div>
+                     <div class="comment table">{{ index .Examples "Master Server URL2" }}</div>
+                </div>
+
+             </div>
+
+
+            <!-- Key Bindings Section -->
+            <div class="section">
+                <h2>Key bindings</h2>
+
+                <p>Hold &lt;master key&gt; and press key from table below to call corresponding function in game</p>
+                <table id="keys-table">
+                    <thead>
+                        <tr>
+                            <th>Module</th>
+                            <th>Function</th>
+                            <th>Key</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{ range $index, $key := .Config.Keys }}
+                        <tr>
+                            <td><input type="text" name="Config.Keys[{{ $index }}].Module" value="{{ $key.Module }}"></td>
+                            <td><input type="text" name="Config.Keys[{{ $index }}].Function" value="{{ $key.Function }}"></td>
+                            <td>
+                                <select name="Config.Keys[{{ $index }}].Name">
+                                    {{ range $availableKey, $_ := $.Keys }}
+                                    <option value="{{ $availableKey }}" {{ if eq $availableKey $key.Name }}selected{{ end }}>
+                                        {{ $availableKey }}
+                                    </option>
+                                    {{ end }}
+                                </select>
+                            </td>
+                            <td>
+                                <button type="button" onclick="deleteKeyRow(this)">Delete</button>
+                            </td>
+                        </tr>
+                        {{ end }}
+                    </tbody>
+                </table>
+                <button type="button" onclick="addKeyRow()">Add Key Binding</button>
+
+            </div>
+
+
+            <!-- Miscellaneous Section -->
+            <div class="section">
+                <h2>Miscellaneous</h2>
+
+                <div class="form-group">
+                     <label for="misc-playSound" class="checkbox-label">Play sound on function call</label>
+                    <input type="checkbox" id="misc-playSound" name="Config.Misc.PlaySound" {{ if .Config.Misc.PlaySound }}checked{{ end }}>
+                </div>
+
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+                <button type="submit" class="btn-submit">Save Configuration</button>
+            </div>
+        </form>
+    </div>
+
+{{ template "footer" . }}

@@ -1,0 +1,377 @@
+[#] Cave 1
+[*] Section: .tls       
+[*] Cave Size: 384 byte.
+[*] Start Address: 0x80006947
+[*] End Address: 0x80006ac7
+[*] File Ofset: 0xda06f48
+
+[#] Cave 2
+[*] Section: .tls       
+[*] Cave Size: 384 byte.
+[*] Start Address: 0x80003ff7
+[*] End Address: 0x80004177
+[*] File Ofset: 0xda045f8
+
+[#] Cave 3
+[*] Section: .tls       
+[*] Cave Size: 390 byte.
+[*] Start Address: 0x80001139
+[*] End Address: 0x800012bf
+[*] File Ofset: 0xda0173a
+
+[#] Cave 4
+[*] Section: .sbss      
+[*] Cave Size: 479 byte.
+[*] Start Address: 0x80003603
+[*] End Address: 0x800037e2
+[*] File Ofset: 0xda00404
+
+[#] Cave 5
+[*] Section: No Section.
+[*] Cave Size: 412 byte.
+[*] Start Address: 0xd9fcc64
+[*] End Address: 0xd9fce00
+[*] File Ofset: 0x0
+
+[#] Cave 6
+[*] Section: .reloc     
+[*] Cave Size: 304 byte.
+[*] Start Address: 0x800068cf
+[*] End Address: 0x800069ff
+[*] File Ofset: 0xd9fbed0
+
+[#] Cave 7
+[*] Section: .xdata     
+[*] Cave Size: 507 byte.
+[*] Start Address: 0x80000004
+[*] End Address: 0x800001ff
+[*] File Ofset: 0xd9f5405
+
+[#] Cave 8
+[*] Section: No Section.
+[*] Cave Size: 368 byte.
+[*] Start Address: 0xd9f5090
+[*] End Address: 0xd9f5200
+[*] File Ofset: 0x0
+
+[#] Cave 9
+[*] Section: .text      
+[*] Cave Size: 1029 byte.
+[*] Start Address: 0x814f27ba
+[*] End Address: 0x814f2bbf
+[*] File Ofset: 0x41efbbb
+
+[#] Cave 10
+[*] Section: .text      
+[*] Cave Size: 1029 byte.
+[*] Start Address: 0x814f238a
+[*] End Address: 0x814f278f
+[*] File Ofset: 0x41ef78b
+
+[#] Cave 11
+[*] Section: .text      
+[*] Cave Size: 1029 byte.
+[*] Start Address: 0x814f1f5a
+[*] End Address: 0x814f235f
+[*] File Ofset: 0x41ef35b
+
+[#] Cave 12
+[*] Section: .text      
+[*] Cave Size: 320 byte.
+[*] Start Address: 0x810522ab
+[*] End Address: 0x810523eb
+[*] File Ofset: 0x3d4f6ac
+
+[#] Cave 13
+[*] Section: .text      
+[*] Cave Size: 322 byte.
+[*] Start Address: 0x806f7848
+[*] End Address: 0x806f798a
+[*] File Ofset: 0x33f4c49
+
+[#] Cave 14
+[*] Section: .xtls      
+[*] Cave Size: 312 byte.
+[*] Start Address: 0x800082c7
+[*] End Address: 0x800083ff
+[*] File Ofset: 0x2cfd2c8
+
+[#] Cave 15
+[*] Section: .pdata     
+[*] Cave Size: 800 byte.
+[*] Start Address: 0x8019dedf
+[*] End Address: 0x8019e1ff
+[*] File Ofset: 0x2cf4ce0
+
+[#] Cave 16
+[*] Section: .rsrc      
+[*] Cave Size: 435 byte.
+[*] Start Address: 0x8016c6ac
+[*] End Address: 0x8016c85f
+[*] File Ofset: 0x2b4d4ad
+
+[#] Cave 17
+[*] Section: .rsrc      
+[*] Cave Size: 435 byte.
+[*] Start Address: 0x8016c1cc
+[*] End Address: 0x8016c37f
+[*] File Ofset: 0x2b4cfcd
+
+[#] Cave 18
+[*] Section: .rsrc      
+[*] Cave Size: 378 byte.
+[*] Start Address: 0x801541a5
+[*] End Address: 0x8015431f
+[*] File Ofset: 0x2b34fa6
+
+[#] Cave 19
+[*] Section: .rsrc      
+[*] Cave Size: 462 byte.
+[*] Start Address: 0x80132331
+[*] End Address: 0x801324ff
+[*] File Ofset: 0x2b13132
+
+[#] Cave 20
+[*] Section: .rsrc      
+[*] Cave Size: 463 byte.
+[*] Start Address: 0x80132120
+[*] End Address: 0x801322ef
+[*] File Ofset: 0x2b12f21
+
+[#] Cave 21
+[*] Section: .rsrc      
+[*] Cave Size: 439 byte.
+[*] Start Address: 0x80131f28
+[*] End Address: 0x801320df
+[*] File Ofset: 0x2b12d29
+
+[#] Cave 22
+[*] Section: .rsrc      
+[*] Cave Size: 318 byte.
+[*] Start Address: 0x80131971
+[*] End Address: 0x80131aaf
+[*] File Ofset: 0x2b12772
+
+[#] Cave 23
+[*] Section: .rsrc      
+[*] Cave Size: 367 byte.
+[*] Start Address: 0x80131100
+[*] End Address: 0x8013126f
+[*] File Ofset: 0x2b11f01
+
+[#] Cave 24
+[*] Section: .rsrc      
+[*] Cave Size: 38851 byte.
+[*] Start Address: 0x800a21d4
+[*] End Address: 0x800ab997
+[*] File Ofset: 0x2a82fd5
+
+[#] Cave 25
+[*] Section: .rsrc      
+[*] Cave Size: 3099 byte.
+[*] Start Address: 0x80093af4
+[*] End Address: 0x8009470f
+[*] File Ofset: 0x2a748f5
+
+[#] Cave 26
+[*] Section: .rsrc      
+[*] Cave Size: 3099 byte.
+[*] Start Address: 0x80092e94
+[*] End Address: 0x80093aaf
+[*] File Ofset: 0x2a73c95
+
+[#] Cave 27
+[*] Section: .rsrc      
+[*] Cave Size: 8283 byte.
+[*] Start Address: 0x8008e3e4
+[*] End Address: 0x8009043f
+[*] File Ofset: 0x2a6f1e5
+
+[#] Cave 28
+[*] Section: .rsrc      
+[*] Cave Size: 1307 byte.
+[*] Start Address: 0x8008d924
+[*] End Address: 0x8008de3f
+[*] File Ofset: 0x2a6e725
+
+[#] Cave 29
+[*] Section: .rsrc      
+[*] Cave Size: 795 byte.
+[*] Start Address: 0x8008b494
+[*] End Address: 0x8008b7af
+[*] File Ofset: 0x2a6c295
+
+[#] Cave 30
+[*] Section: .rsrc      
+[*] Cave Size: 4283 byte.
+[*] Start Address: 0x80088404
+[*] End Address: 0x800894bf
+[*] File Ofset: 0x2a69205
+
+[#] Cave 31
+[*] Section: .rsrc      
+[*] Cave Size: 435 byte.
+[*] Start Address: 0x80085244
+[*] End Address: 0x800853f7
+[*] File Ofset: 0x2a66045
+
+[#] Cave 32
+[*] Section: .rsrc      
+[*] Cave Size: 1387 byte.
+[*] Start Address: 0x8007a114
+[*] End Address: 0x8007a67f
+[*] File Ofset: 0x2a5af15
+
+[#] Cave 33
+[*] Section: .rsrc      
+[*] Cave Size: 368 byte.
+[*] Start Address: 0x80058b8f
+[*] End Address: 0x80058cff
+[*] File Ofset: 0x2a39990
+
+[#] Cave 34
+[*] Section: .rsrc      
+[*] Cave Size: 369 byte.
+[*] Start Address: 0x800589f6
+[*] End Address: 0x80058b67
+[*] File Ofset: 0x2a397f7
+
+[#] Cave 35
+[*] Section: .rsrc      
+[*] Cave Size: 12723 byte.
+[*] Start Address: 0x80037134
+[*] End Address: 0x8003a2e7
+[*] File Ofset: 0x2a17f35
+
+[#] Cave 36
+[*] Section: .rsrc      
+[*] Cave Size: 331 byte.
+[*] Start Address: 0x80034bb4
+[*] End Address: 0x80034cff
+[*] File Ofset: 0x2a159b5
+
+[#] Cave 37
+[*] Section: .rsrc      
+[*] Cave Size: 587 byte.
+[*] Start Address: 0x8002e9e4
+[*] End Address: 0x8002ec2f
+[*] File Ofset: 0x2a0f7e5
+
+[#] Cave 38
+[*] Section: .rsrc      
+[*] Cave Size: 4099 byte.
+[*] Start Address: 0x8002ab24
+[*] End Address: 0x8002bb27
+[*] File Ofset: 0x2a0b925
+
+[#] Cave 39
+[*] Section: .rsrc      
+[*] Cave Size: 98436 byte.
+[*] Start Address: 0x80003c6b
+[*] End Address: 0x8001bcef
+[*] File Ofset: 0x29e4a6c
+
+[#] Cave 40
+[*] Section: .trace     
+[*] Cave Size: 472 byte.
+[*] Start Address: 0x80125337
+[*] End Address: 0x8012550f
+[*] File Ofset: 0x21b0d38
+
+[#] Cave 41
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800be1fa
+[*] End Address: 0x800be460
+[*] File Ofset: 0x2149bfb
+
+[#] Cave 42
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800bd95f
+[*] End Address: 0x800bdbc5
+[*] File Ofset: 0x2149360
+
+[#] Cave 43
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800bd186
+[*] End Address: 0x800bd3ec
+[*] File Ofset: 0x2148b87
+
+[#] Cave 44
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800bc9be
+[*] End Address: 0x800bcc24
+[*] File Ofset: 0x21483bf
+
+[#] Cave 45
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800bc21d
+[*] End Address: 0x800bc483
+[*] File Ofset: 0x2147c1e
+
+[#] Cave 46
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800bb96d
+[*] End Address: 0x800bbbd3
+[*] File Ofset: 0x214736e
+
+[#] Cave 47
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800b9342
+[*] End Address: 0x800b95a8
+[*] File Ofset: 0x2144d43
+
+[#] Cave 48
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800b8a65
+[*] End Address: 0x800b8ccb
+[*] File Ofset: 0x2144466
+
+[#] Cave 49
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800b81d7
+[*] End Address: 0x800b843d
+[*] File Ofset: 0x2143bd8
+
+[#] Cave 50
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800b796d
+[*] End Address: 0x800b7bd3
+[*] File Ofset: 0x214336e
+
+[#] Cave 51
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800b7121
+[*] End Address: 0x800b7387
+[*] File Ofset: 0x2142b22
+
+[#] Cave 52
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800b6959
+[*] End Address: 0x800b6bbf
+[*] File Ofset: 0x214235a
+
+[#] Cave 53
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800b5a3e
+[*] End Address: 0x800b5ca4
+[*] File Ofset: 0x214143f
+
+[#] Cave 54
+[*] Section: .trace     
+[*] Cave Size: 614 byte.
+[*] Start Address: 0x800b5232
+[*] End Address: 0x800b5498
+[*] File Ofset: 0x2140c33

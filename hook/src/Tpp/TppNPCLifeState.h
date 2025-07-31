@@ -1,0 +1,12 @@
+#ifndef HOOK_TPPNPCLIFESTATE_H
+#define HOOK_TPPNPCLIFESTATE_H
+
+enum ENPCLifeState {
+    NORMAL = 0,
+    DEAD,
+    DYING,
+    SLEEP,
+    FAINT,
+};
+
+#endif //HOOK_TPPNPCLIFESTATE_H

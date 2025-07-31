@@ -1,0 +1,21 @@
+{{ define "header" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dynamite Web UI</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    {{ .MetaTag | rawHTML }}
+</head>
+
+<body>
+    <h1>dynamite, MGSV:TPP co-op mod</h1>
+    <header>
+      <nav>
+        <a href="/" style="font-weight: 600;">Configuration</a>
+        <a href="/docs" style="font-weight: 600;">Documentation</a>
+      </nav>
+    </header>
+    <main>
+{{ end }}

@@ -1,0 +1,11 @@
+#ifndef HOOK_MEMTAG_H
+#define HOOK_MEMTAG_H
+
+// https://mgsvmoddingwiki.github.io/Memory_Tags/
+
+#define MEMTAG_NULL 0x0
+#define MEMTAG_NETWORK 0x18
+#define MEMTAG_NETWORK_SYSTEM 0x10018
+#define MEMTAG_CORE_ENTITY 0x60004
+
+#endif //HOOK_MEMTAG_H

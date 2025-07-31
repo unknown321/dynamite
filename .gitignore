@@ -1,0 +1,9 @@
+*.swp
+.idea
+dynamite-*
+vendor
+*.fox2
+*.fpk
+*.fpkd
+*.json
+cache
