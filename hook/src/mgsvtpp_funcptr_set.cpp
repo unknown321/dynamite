@@ -63,6 +63,8 @@ namespace Dynamite {
         Marker2SystemImplPlacedUserMarkerFollow = (Marker2SystemImplPlacedUserMarkerFollowFunc *)addressSet["Marker2SystemImplPlacedUserMarkerFollow"];
         Marker2SystemImplRemovedAllUserMarker = (Marker2SystemImplRemovedAllUserMarkerFunc *)addressSet["Marker2SystemImplRemovedAllUserMarker"];
         SightManagerImplInitialize = (SightManagerImplInitializeFunc *)addressSet["SightManagerImplInitialize"];
+        UiControllerImplSetNoUseEquipId = (UiControllerImplSetNoUseEquipIdFunc *)addressSet["UiControllerImplSetNoUseEquipId"];
+        EquipCrossEvCallIsItemNoUse = (EquipCrossEvCallIsItemNoUseFunc *)addressSet["EquipCrossEvCallIsItemNoUse"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
     }

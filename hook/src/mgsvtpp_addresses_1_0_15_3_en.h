@@ -42,6 +42,8 @@ namespace Dynamite {
         {"Marker2SystemImplPlacedUserMarkerFollow", 0x144fe5920},
         {"Marker2SystemImplRemovedAllUserMarker", 0x1405c52f0},
         {"SightManagerImplInitialize", 0x149c63e20},
+        {"UiControllerImplSetNoUseEquipId", 0x1496b3b50},
+        {"EquipCrossEvCallIsItemNoUse", 0x145d0b630},
 
         {"HashMapFindKey", 0x142ed7be0},
         {"GetQuarkSystemTable", 0x140bff3f0},

@@ -132,7 +132,11 @@ typedef bool(__thiscall Marker2SystemImplPlacedUserMarkerFollowFunc)(void *thisP
 
 typedef void(__thiscall Marker2SystemImplRemovedAllUserMarkerFunc)(void *thisPtr);
 
-typedef void (__thiscall SightManagerImplInitializeFunc)(void *thisPtr, void *QuarkDesc);
+typedef void(__thiscall SightManagerImplInitializeFunc)(void *thisPtr, void *QuarkDesc);
+
+typedef void(__thiscall UiControllerImplSetNoUseEquipIdFunc)(void *thisPtr, bool param_1, unsigned int EquipID);
+
+typedef bool(__thiscall EquipCrossEvCallIsItemNoUseFunc)(void *thisPtr, unsigned int EquipID);
 
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
@@ -197,6 +201,8 @@ extern EquipHudSystemImplInitDataFunc *EquipHudSystemImplInitData;
 extern Marker2SystemImplRemovedUserMarkerFunc *Marker2SystemImplRemovedUserMarker;
 extern Marker2SystemImplPlacedUserMarkerFollowFunc *Marker2SystemImplPlacedUserMarkerFollow;
 extern Marker2SystemImplRemovedAllUserMarkerFunc *Marker2SystemImplRemovedAllUserMarker;
-extern SightManagerImplInitializeFunc* SightManagerImplInitialize;
+extern SightManagerImplInitializeFunc *SightManagerImplInitialize;
+extern UiControllerImplSetNoUseEquipIdFunc *UiControllerImplSetNoUseEquipId;
+extern EquipCrossEvCallIsItemNoUseFunc *EquipCrossEvCallIsItemNoUse;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

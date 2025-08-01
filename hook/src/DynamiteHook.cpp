@@ -352,4 +352,13 @@ namespace Dynamite {
         SightManagerImpl = thisPtr;
         SightManagerImplInitialize(thisPtr, QuarkDesc);
     }
+
+    void UiControllerImplSetNoUseEquipIdHook(void *thisPtr, bool param_1, unsigned int EquipID) {
+       EquipID = 9999;
+       UiControllerImplSetNoUseEquipId(thisPtr, param_1, EquipID);
+    }
+
+    bool EquipCrossEvCallIsItemNoUseHook(void* thisPtr,unsigned int EquipID) {
+        return false;
+    }
 }

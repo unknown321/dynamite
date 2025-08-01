@@ -323,6 +323,12 @@ namespace Dynamite {
         CREATE_HOOK(SightManagerImplInitialize)
         ENABLEHOOK(SightManagerImplInitialize)
 
+        CREATE_HOOK(UiControllerImplSetNoUseEquipId)
+        ENABLEHOOK(UiControllerImplSetNoUseEquipId)
+
+        CREATE_HOOK(EquipCrossEvCallIsItemNoUse)
+        ENABLEHOOK(EquipCrossEvCallIsItemNoUse)
+
         for (auto p : GetPatches()) {
             if (!p.Apply()) {
                 std::stringstream msg;

@@ -45,6 +45,8 @@ namespace Dynamite {
     void Marker2SystemImplPlacedUserMarkerFixedHook(void *thisPtr, Vector3 *pos);
     bool Marker2SystemImplPlacedUserMarkerFollowHook(void *thisPtr, Vector3 *pos, unsigned short objectID);
     void SightManagerImplInitializeHook(void *thisPtr, void *QuarkDesc);
+    void UiControllerImplSetNoUseEquipIdHook(void *thisPtr, bool param_1, unsigned int EquipID);
+    bool EquipCrossEvCallIsItemNoUseHook(void *thisPtr, unsigned int EquipID);
 }
 
 #endif // HOOK_DYNAMITEHOOK_H
