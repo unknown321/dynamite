@@ -75,6 +75,7 @@ namespace Dynamite {
         spdlog::info("{}: Connection request: {:d}", __FUNCTION__, clientSteamID);
 
         if ((cfg.whitelist.empty()) && (cfg.blacklist.empty())) {
+            spdlog::info("{}: Connection accepted", __FUNCTION__);
             return SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
         }
 

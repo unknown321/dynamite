@@ -4,7 +4,7 @@ go 1.24.5
 
 require (
 	github.com/unknown321/datfpk v0.1.3
-	github.com/unknown321/fuse v0.0.0-20250730143228-83f3a4f4061c
+	github.com/unknown321/fuse v0.0.0-20250801084223-f75b41d1aded
 	github.com/unknown321/hashing v0.0.0-20250606105117-13394d1540eb
 	github.com/unknown321/squib v1.0.3-0.20250714152036-3f2b3238d16c
 	github.com/yuin/goldmark v1.7.12

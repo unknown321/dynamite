@@ -148,7 +148,7 @@ Steps:
     5 - OVER THE FENCE - works, can be finished
     6 - WHERE DO THE BEES SLEEP? - works, but abort is broken, need to restore 00.dat
     8 - OCCUPATION FORCES - works
-    13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene
+    13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene. Mission may abort for host (out of mission area) if second partner connects too late.
     14 - LINGUA FRANCA - loads, works?
     15 - FOOTPRINTS OF PHANTOMS - loads, works?
     16 - TRAITORS’ CARAVAN - loads, works?

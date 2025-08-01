@@ -26,6 +26,8 @@ github.com/unknown321/fuse v0.0.0-20250719074710-ea184ee9e276 h1:fHlUxAeM69Y3xS2
 github.com/unknown321/fuse v0.0.0-20250719074710-ea184ee9e276/go.mod h1:NAYBxeuSLVUbbzgcoX1m9omb56SSgFm3lELYLtJaI+A=
 github.com/unknown321/fuse v0.0.0-20250730143228-83f3a4f4061c h1:fsneZg2vsVPzCUOaMIb9DfxSFt25j137UPXd+1RYPU4=
 github.com/unknown321/fuse v0.0.0-20250730143228-83f3a4f4061c/go.mod h1:NAYBxeuSLVUbbzgcoX1m9omb56SSgFm3lELYLtJaI+A=
+github.com/unknown321/fuse v0.0.0-20250801084223-f75b41d1aded h1:6BfpUFqz0C7ZMLUOxRxZesk8TuQMdedAJXSR0oXlAx4=
+github.com/unknown321/fuse v0.0.0-20250801084223-f75b41d1aded/go.mod h1:NAYBxeuSLVUbbzgcoX1m9omb56SSgFm3lELYLtJaI+A=
 github.com/unknown321/hashing v0.0.0-20250606105117-13394d1540eb h1:BQPCXmV47z8ZpPC+C6LZjgxe/tKaT6hBgg4rLUyu5ic=
 github.com/unknown321/hashing v0.0.0-20250606105117-13394d1540eb/go.mod h1:eU/88EXZMXhMg3mPY9JUu93xH4DKw5hIlJa7M6Z004E=
 github.com/unknown321/squib v1.0.3-0.20250714152036-3f2b3238d16c h1:3wtBic+Ok6eOiaTmkXKnNxUXkWJoYGnIqlFj+X6Ni8c=

@@ -497,6 +497,14 @@ namespace Dynamite {
                 .description = "Always start fob p2p resolver, ignore exists check (not needed?)"
                                "tpp::net::Daemon::StarFobP2pNameResolver",
             },
+            {
+                .address = 0x140da58e5,
+                .expected = {0x0f, 0x84, 0x41, 0x05, 0x00, 0x00}, // JZ LAB_140da5e2c
+                .patch = {0x66, 0x48, 0x90, 0x66, 0x48, 0x90}, // NOP NOP
+                .description = "Always run host damage controller implementation"
+                               "Fixes crash on shooting animals (like goats in PITCH BLACK after the village at {-711.90826416016, 5.1010074615479, 661.36602783203})"
+                               "tpp::gm::impl::`anonymous_namespace'::DamageControllerImpl::Update",
+            },
         };
     }
 
