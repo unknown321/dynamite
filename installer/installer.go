@@ -70,6 +70,9 @@ func backupVendor() error {
 		slog.Info("00.dat.vendor does not exist, creating")
 		if !vendorValid(plain00) {
 			slog.Error("00.dat is not valid. Verify integrity of data files using Steam and try again.")
+			slog.Error("Press Enter to exit.")
+			var a []byte
+			_, _ = fmt.Scanln(&a)
 			os.Exit(1)
 		}
 
@@ -239,6 +242,9 @@ func packVendor(baseDir string) error {
 	out, err := os.OpenFile(outname, os.O_CREATE|os.O_TRUNC|os.O_RDWR, 0666)
 	if err != nil {
 		slog.Error("open QAR file for writing", "error", err.Error())
+		slog.Error("Press Enter to exit.")
+		var a []byte
+		_, _ = fmt.Scanln(&a)
 		os.Exit(1)
 	}
 

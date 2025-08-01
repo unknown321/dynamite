@@ -42,6 +42,9 @@ func GetVersion() Version {
 	bf, ok := debug.ReadBuildInfo()
 	if !ok {
 		slog.Error("cannot read build info")
+		slog.Error("Press Enter to exit.")
+		var a []byte
+		_, _ = fmt.Scanln(&a)
 		os.Exit(1)
 	}
 

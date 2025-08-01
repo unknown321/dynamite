@@ -6,6 +6,7 @@ import (
 	"dynamite/webui/handlers"
 	"dynamite/webui/static"
 	"errors"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -41,6 +42,9 @@ func Run(address string, conf *config.Config) {
 	if err = srv.ListenAndServe(); err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
 			slog.Error("Web UI", "error", err.Error())
+			slog.Error("Press Enter to exit.")
+			var a []byte
+			_, _ = fmt.Scanln(&a)
 			os.Exit(1)
 		}
 	}
