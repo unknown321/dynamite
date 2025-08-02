@@ -582,3 +582,11 @@ https://github.com/user-attachments/assets/8be9f458-2741-4823-8d2f-d05dae30f17c
 <img src="https://images.steamusercontent.com/ugc/15547656986802779312/6914C2E821A6416E44420BB744F494105173F365/" width="49%">
 <figcaption>Mug floating in the air</figcaption>
 </figure>
+
+Some network bugs (fixed later):
+
+https://github.com/user-attachments/assets/a1259699-bff0-4d80-9b09-a7362bc8012c
+
+https://github.com/user-attachments/assets/6b4fb08e-c2c4-4c70-bf14-8e2948c1f695
+
+https://github.com/user-attachments/assets/daa8f8cd-253e-4920-b638-3b9f2fa83204
