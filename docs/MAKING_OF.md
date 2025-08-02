@@ -514,7 +514,17 @@ the past... 6 months? Where did the time go?
 
 Of course, the development won't stop completely, but the amount of time I can contribute to these projects (dynamite, 
 fuse, squib, wiki) will be severely reduced - job hunting these days is not easy, especially with two year unemployment gap 
-and LLM situation. Still, I believe that I've built a good foundation for a new generation of MGSV mods - co-op missions 
+and LLM situation. I'd be happy to continue my work in a more official way (read: hired by the company), there is a lot
+of work that could be done with access to the source code:
+  - proper co-op system
+  - Steam Workshop support for all those mods made by community for over 9 years
+  - FOB anti-cheat measures
+  - community bugfixes
+
+If you know someone from Konami, please let them know that there are people (me in particular) interested in improving 
+the game (which has a stable player count on Steam of 2k players daily by the way).
+
+Still, I believe that I've built a good foundation for a new generation of MGSV mods - co-op missions 
 focused on two (or more) players like in Peace Walker.
 
 ### Cool stuff to do
