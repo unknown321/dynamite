@@ -261,6 +261,25 @@ After that game will use your regular saves.
 
 ---
 
+### Executing custom lua code
+
+Create `example.lua` in `<game directory>/lua` directory. Contents:
+
+```lua
+local example = {}
+
+function example.test()
+	TppUiCommand.AnnounceLogView('IsSessionConnect: ' .. tostring(TppNetworkUtil.IsSessionConnect()))
+end
+
+return example
+```
+
+Now you can bind `test` function to a key combination using web UI. Put `example` as module and `test` as a function.
+Code is dynamically reloaded on `Master Key` + `Reload Key` press (`V + E` by default).
+
+---
+
 ### Supporting the mod
 
 Support the project monetarily [here](https://boosty.to/unknown321/donate).
