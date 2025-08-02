@@ -21,6 +21,7 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
       * [Mission not loading](#mission-not-loading)
       * [Providing crash info](#providing-crash-info)
     * [Uninstalling](#uninstalling)
+    * [Executing custom lua code](#executing-custom-lua-code)
     * [Supporting the mod](#supporting-the-mod)
     * [License](#license)
 <!-- TOC -->
