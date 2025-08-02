@@ -18,6 +18,7 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
       * [Host](#host)
       * [Client](#client)
     * [Issues](#issues)
+      * [Mission not loading](#mission-not-loading)
       * [Providing crash info](#providing-crash-info)
     * [Uninstalling](#uninstalling)
     * [Supporting the mod](#supporting-the-mod)
@@ -210,15 +211,12 @@ After that proceed as usual.
 ### Issues
 
 You can (and will) experience various issues such as:
-  - crashes on:
-    - shooting wildlife
-    - attacking decoys
-    - triggering mission triggers
+  - crashes on triggering mission triggers
   - invisible players
   - invisible hostages
   - players not respawning after death
   - broken animations
-  - wrong reticle color
+  - wrong reticle color (green on enemies)
   - enemies unexpectedly switching targets
   - teleporting enemies
   - support vehicle desynchronization
@@ -230,6 +228,10 @@ You can (and will) experience various issues such as:
 You can report these on [GitHub](https://github.com/unknown321/dynamite/issues) (recommended) or ask for help 
 in [Modders' Heaven Discord](https://discord.gg/3XwAsWV).
 
+#### Mission not loading
+
+If you've selected a broken mission (not in the mission list above), it may never load. Close the game, select another 
+mission from the list.
 
 #### Providing crash info
 
