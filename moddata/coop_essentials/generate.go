@@ -18,7 +18,7 @@ var files = []string{
 	"moddata/coop_essentials/coop_essentials_fpkd/Assets/tpp/level_asset/chara/player/game_object/player2_mtbs_motion_loader.fox2.xml",
 }
 
-func main() {
+func CoopEssentials() {
 	f := fpk.Fpk{}
 	f.SetType(true)
 	for _, file := range files {
@@ -62,5 +62,11 @@ func main() {
 		os.Exit(1)
 	}
 
+	f.Close()
+
 	slog.Info("generated coop_essentials.fpkd")
+}
+
+func main() {
+	CoopEssentials()
 }

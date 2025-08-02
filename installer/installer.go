@@ -163,12 +163,6 @@ func packVendor(baseDir string) error {
 			Compressed: true,
 		},
 	})
-	//qq.Entries = append(qq.Entries, qar.Entry{
-	//	Header: qar.EntryHeader{
-	//		FilePath:   "/Assets/tpp/pack/player/game_object/two_players_game_obj.fpkd",
-	//		Compressed: true,
-	//	},
-	//})
 
 	dict := hashing.Dictionary{}
 
@@ -293,21 +287,6 @@ func createEssentials(outdir string) error {
 	if _, err = outFile2.ReadFrom(bytes.NewReader(ff)); err != nil {
 		return err
 	}
-
-	//fp := filepath.Join(outdir, filepath.FromSlash("/Assets/tpp/pack/player/game_object/"))
-	//if err = os.MkdirAll(fp, 0700); err != nil {
-	//	return err
-	//}
-	//twopl := filepath.Join(fp, "two_players_game_obj.fpkd")
-	//
-	//if ff, err = moddata.ModData.ReadFile("two_players_game_obj/two_players_game_obj.fpkd"); err != nil {
-	//	return err
-	//}
-	//outFile3, err := os.OpenFile(twopl, os.O_CREATE|os.O_TRUNC|os.O_RDWR, 0666)
-	//if err != nil {
-	//	return err
-	//}
-	//defer outFile3.Close()
 
 	return nil
 }
