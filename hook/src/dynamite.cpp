@@ -476,10 +476,19 @@ namespace Dynamite {
                                "tpp::TrapCheckIsPlayerAndHostCallback",
             },
             {
-                .address = 0x14625fd1a,
-                .expected = {0x75, 0xd}, // JNZ 0x14625fd29
-                .patch = {0x48, 0x90},   // NOP
-                .description = "DoesFobGhostPlayer remove mission ID check"
+                .address = 0x14625fcee,
+                .expected = {0x83, 0xbb, 0x28, 0x02, 0x00, 0x00, 0x02}, // CMP dword ptr [RBX + 0x228],0x2
+                .patch =
+                    {
+                        0xeb,
+                        0x2c, // JMP 14625fd1c
+                        0x48,
+                        0x90, // NOP
+                        0x66,
+                        0x48,
+                        0x90, // NOP
+                    },
+                .description = "DoesFobGhostPlayer remove mission ID and player count check"
                                "tpp::gm::player::impl::Player2GameObjectImpl::DoesFobGhostPlayer"
                                "without it mission won't load (infinite loading)",
             },

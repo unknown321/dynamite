@@ -28,7 +28,7 @@
           <containerEntry>0x2D74CA0</containerEntry>
         </property>
         <property name="count" type="UInt32" container="StaticArray" arraySize="1">
-          <containerEntry>1</containerEntry>
+          <containerEntry>2</containerEntry>
         </property>
         <property name="size" type="UInt32" container="StaticArray" arraySize="1">
           <containerEntry>0</containerEntry>

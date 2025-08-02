@@ -8,6 +8,8 @@ import (
 )
 
 //go:embed coop_essentials/coop_essentials.fpkd
+//go:embed three_players_game_obj/three_players_game_obj.fpkd
+//go:embed three_players_game_obj/three_players_game_obj.fpk
 //go:embed init_fpkd/*
 //go:embed s*_area_fpkd/*
 //go:embed standalone/*

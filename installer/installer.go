@@ -163,6 +163,18 @@ func packVendor(baseDir string) error {
 			Compressed: true,
 		},
 	})
+	qq.Entries = append(qq.Entries, qar.Entry{
+		Header: qar.EntryHeader{
+			FilePath:   "/Assets/tpp/pack/player/game_object/three_players_game_obj.fpk",
+			Compressed: true,
+		},
+	})
+	qq.Entries = append(qq.Entries, qar.Entry{
+		Header: qar.EntryHeader{
+			FilePath:   "/Assets/tpp/pack/player/game_object/three_players_game_obj.fpkd",
+			Compressed: true,
+		},
+	})
 
 	dict := hashing.Dictionary{}
 
@@ -242,6 +254,52 @@ func packVendor(baseDir string) error {
 	qq.Close()
 
 	slog.Info("packed vendor", "filename", outname)
+
+	return nil
+}
+
+func createThreePlayers(outdir string) error {
+	var err error
+	var ff []byte
+	fp := filepath.Join(outdir, filepath.FromSlash("/Assets/tpp/pack/player/game_object/"))
+	if err = os.MkdirAll(fp, 0700); err != nil {
+		return err
+	}
+	threeFpkd := filepath.Join(fp, "three_players_game_obj.fpkd")
+
+	if ff, err = moddata.ModData.ReadFile("three_players_game_obj/three_players_game_obj.fpkd"); err != nil {
+		return err
+	}
+	outFile3, err := os.OpenFile(threeFpkd, os.O_CREATE|os.O_TRUNC|os.O_RDWR, 0666)
+	if err != nil {
+		return err
+	}
+	defer outFile3.Close()
+	_, err = outFile3.ReadFrom(bytes.NewReader(ff))
+	if err != nil {
+		return err
+	}
+
+	fpd := filepath.Join(outdir, filepath.FromSlash("/Assets/tpp/pack/player/game_object/"))
+	if err = os.MkdirAll(fpd, 0700); err != nil {
+		return err
+	}
+	threeFpk := filepath.Join(fp, "three_players_game_obj.fpk")
+
+	ff = nil
+	if ff, err = moddata.ModData.ReadFile("three_players_game_obj/three_players_game_obj.fpk"); err != nil {
+		return err
+	}
+	outFile4, err := os.OpenFile(threeFpk, os.O_CREATE|os.O_TRUNC|os.O_RDWR, 0666)
+	if err != nil {
+		return err
+	}
+	defer outFile4.Close()
+
+	_, err = outFile4.ReadFrom(bytes.NewReader(ff))
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -459,6 +517,10 @@ func Install(conf *config.Config) error {
 			return fmt.Errorf("read qar %s: %w", p, err)
 		}
 		qars[p] = &q
+	}
+
+	if err = createThreePlayers(outDir); err != nil {
+		return err
 	}
 
 	if err = createEssentials(outDir); err != nil {

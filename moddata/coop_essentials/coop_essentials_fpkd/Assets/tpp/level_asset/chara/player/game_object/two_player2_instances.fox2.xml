@@ -34,19 +34,19 @@
           <containerEntry>10485760</containerEntry>
         </property>
         <property name="configuration_additiveMotionBlockCount" type="UInt32" container="StaticArray" arraySize="1">
-          <containerEntry>1</containerEntry>
+          <containerEntry>2</containerEntry>
         </property>
         <property name="configuration_additiveMotionBlockSize" type="UInt32" container="StaticArray" arraySize="1">
           <containerEntry>3145728</containerEntry>
         </property>
         <property name="configuration_partsBlockCount" type="UInt32" container="StaticArray" arraySize="1">
-          <containerEntry>2</containerEntry>
+          <containerEntry>3</containerEntry>
         </property>
         <property name="configuration_partsBlockSize" type="UInt32" container="StaticArray" arraySize="1">
           <containerEntry>2097152</containerEntry>
         </property>
         <property name="instanceSettings_instancePackagePath" type="String" container="StaticArray" arraySize="1">
-          <containerEntry>/Assets/tpp/pack/player/game_object/two_players_game_obj.fpk</containerEntry>
+          <containerEntry>/Assets/tpp/pack/player/game_object/three_players_game_obj.fpk</containerEntry>
         </property>
         <property name="instanceSettings_instanceBlockSize" type="UInt32" container="StaticArray" arraySize="1">
           <containerEntry>1126400</containerEntry>
@@ -57,8 +57,10 @@
         <property name="instanceSettings_partsTypeNames" type="String" container="DynamicArray" arraySize="2">
           <containerEntry>PLTypeNormal</containerEntry>
           <containerEntry>PLTypeNormal</containerEntry>
+          <containerEntry>PLTypeNormal</containerEntry>
         </property>
         <property name="instanceSettings_partsTypeInitial" type="String" container="DynamicArray" arraySize="2">
+          <containerEntry>PLTypeNormal</containerEntry>
           <containerEntry>PLTypeNormal</containerEntry>
           <containerEntry>PLTypeNormal</containerEntry>
         </property>
