@@ -146,13 +146,12 @@ function e.IsCoop(missionCode)
 end
 
 function e.OnAllocate(n)
-	if e.IsCoop(vars.missionCode) then
-		-- If you are loading a mission from a checkpoint with already placed marker, game will attempt to restore
-		-- that marker through tpp::ui::menu::UiDepend::ActUserMarkerSaveLoad function (not lua).
-		-- Combined with co-op hacks, marker restoration will result in a hang.
-		-- Markers are accepted again at the end of TppMain.OnMissionCanStart.
-		Dynamite.IgnoreMarkerRequests()
-	end
+	-- If you are loading a mission from a checkpoint with already placed marker, game will attempt to restore
+	-- that marker through tpp::ui::menu::UiDepend::ActUserMarkerSaveLoad function (not lua).
+	-- Combined with co-op hacks, marker restoration will result in a hang.
+	-- Markers can be also be loaded during initial game loading, breaking the process.
+	-- Therefore, markers are accepted again at the end of TppMain.OnMissionCanStart for coop missions only.
+	Dynamite.IgnoreMarkerRequests()
 
 	TppWeather.OnEndMissionPrepareFunction()
 	e.DisableGameStatus()
