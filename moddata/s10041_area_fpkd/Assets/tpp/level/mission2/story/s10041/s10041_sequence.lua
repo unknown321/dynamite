@@ -1176,31 +1176,19 @@ this.Messages = function()
 
 	StrCode32Table {
 			Player = {
-
-
-
-
-
-
-
-
-
-
-
-
-			},
-			{
-				msg = "DeadInFOB",
-				func = function (deadPlayerIndex, AttackerId)
-					TppUiCommand.AnnounceLogView("Player " .. tostring(deadPlayerIndex) .. " died")
-					if deadPlayerIndex == PlayerInfo.GetLocalPlayerIndex() then
-						TppUiCommand.AnnounceLogView("Respawn in 10 seconds")
-						GkEventTimerManager.Start("RespawnPlayer", 10 )
+				{
+					msg = "DeadInFOB",
+					func = function (deadPlayerIndex, AttackerId)
+						TppUiCommand.AnnounceLogView("Player " .. tostring(deadPlayerIndex) .. " died")
+						if deadPlayerIndex == PlayerInfo.GetLocalPlayerIndex() then
+							TppUiCommand.AnnounceLogView("Respawn in 10 seconds")
+							GkEventTimerManager.Start("RespawnPlayer", 10 )
+						end
 					end
-				end
+				},
 			},
 
-			
+
 			Weather = {
 				{
 					msg = "Clock",	sender = "OnMorning",
