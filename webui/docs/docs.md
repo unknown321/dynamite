@@ -147,9 +147,11 @@ Steps:
 <summary>Mission list (click me)</summary>
 
     1 - PHANTOM LIMBS - loads, partners cannot see each other unless on horse
+    4 - C2W - works
     5 - OVER THE FENCE - works, can be finished
-    6 - WHERE DO THE BEES SLEEP? - works, but abort is broken, need to restore 00.dat
+    6 - WHERE DO THE BEES SLEEP? - works
     8 - OCCUPATION FORCES - works
+    10 - ANGEL WITH BROKEN WINGS - works
     13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene. Mission may abort for host (out of mission area) if second partner connects too late.
     14 - LINGUA FRANCA - loads, works?
     15 - FOOTPRINTS OF PHANTOMS - loads, works?

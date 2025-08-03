@@ -1,15 +1,15 @@
     +10020 : 1 - PHANTOM LIMBS - loads, partners cannot see each other unless on horse
     -10036 : 3 - A HERO’S WAY - broken, no target spawned, no partner visible, but enemy notice is shared, animals work
-    -10043 : 4 - C2W - broken, infinite loading / crash
+    +10043 : 4 - C2W - works
     +10033 : 5 - OVER THE FENCE - works
-    +10040 : 6 - WHERE DO THE BEES SLEEP? - works, but abort is broken, need to restore 00.dat
+    +10040 : 6 - WHERE DO THE BEES SLEEP? - works
     -10041 : 7 - RED BRASS - broken, infinite loading
     +10044 : 8 - OCCUPATION FORCES - works
     -10054 : 9 - BACKUP, BACK DOWN - may crash on host, abort is broken, no vehicles in sight?
-    -10052 : 10 - ANGEL WITH BROKEN WINGS - broken, host always crashes on loading
+    +10052 : 10 - ANGEL WITH BROKEN WINGS - works
     -10050 : 11 - CLOAKED IN SILENCE - loads, partners cannot see each other, quiet is local and deals no damage (see damage tables)
     -10070 : 12 - HELLBOUND - crash after cutscene, lua gc
-    +10080 : 13 - PITCH DARK - loads, partner invisible after landing cutscene
+    +10080 : 13 - PITCH DARK - loads
     +10086 : 14 - LINGUA FRANCA - loads, works?
     +10082 : 15 - FOOTPRINTS OF PHANTOMS - loads, works?
     +10090 : 16 - TRAITORS’ CARAVAN - loads, works?

@@ -527,7 +527,7 @@ function e.OnInitialize(n)
 			e.OnRestoreSVars()
 		end
 	end
-	TppMission.RestoreShowMissionObjective()
+	--TppMission.RestoreShowMissionObjective()
 	TppRevenge.SetUpRevengeMine()
 	if TppPickable.StartToCreateFromLocators then
 		TppPickable.StartToCreateFromLocators()
