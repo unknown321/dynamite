@@ -3,12 +3,12 @@
     +10043 : 4 - C2W - works
     +10033 : 5 - OVER THE FENCE - works
     +10040 : 6 - WHERE DO THE BEES SLEEP? - works
-    -10041 : 7 - RED BRASS - broken, infinite loading
+    +10041 : 7 - RED BRASS - loads
     +10044 : 8 - OCCUPATION FORCES - works
-    -10054 : 9 - BACKUP, BACK DOWN - may crash on host, abort is broken, no vehicles in sight?
+    -10054 : 9 - BACKUP, BACK DOWN - no vehicles in sight?
     +10052 : 10 - ANGEL WITH BROKEN WINGS - works
-    -10050 : 11 - CLOAKED IN SILENCE - loads, partners cannot see each other, quiet is local and deals no damage (see damage tables)
-    -10070 : 12 - HELLBOUND - crash after cutscene, lua gc
+    +10050 : 11 - CLOAKED IN SILENCE - loads, partners cannot see each other, quiet is local
+    -10070 : 12 - HELLBOUND - infinite loading after first cutscene, works after restarting the game
     +10080 : 13 - PITCH DARK - loads
     +10086 : 14 - LINGUA FRANCA - loads, works?
     +10082 : 15 - FOOTPRINTS OF PHANTOMS - loads, works?

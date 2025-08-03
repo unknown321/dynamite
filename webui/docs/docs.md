@@ -146,10 +146,11 @@ Steps:
 <details>
 <summary>Mission list (click me)</summary>
 
-    1 - PHANTOM LIMBS - loads, partners cannot see each other unless on horse
+    1 - PHANTOM LIMBS - loads
     4 - C2W - works
-    5 - OVER THE FENCE - works, can be finished
+    ✔ 5 - OVER THE FENCE
     6 - WHERE DO THE BEES SLEEP? - works
+    7 - RED BRASS - loads
     8 - OCCUPATION FORCES - works
     10 - ANGEL WITH BROKEN WINGS - works
     13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene. Mission may abort for host (out of mission area) if second partner connects too late.
@@ -174,12 +175,51 @@ Steps:
     35 - CURSED LEGACY - loads, players don't see each other
     38 - EXTRAORDINARY - loads, players don't see each other
     41 - PROXY WAR WITHOUT END - loads, enemy vehicles work
-    43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility
     45 - A QUIET EXIT - loads, works?
 
 </details>
 
-A good (read: tested) choice is Mission 5, OVER THE FENCE.
+A good (read: tested) choice is Mission 5, OVER THE FENCE. Checkmark indicates that mission can be finished in co-op.
+
+EXTREME versions, tutorial missions and script-heavy missions are not included:
+
+<details>
+<summary>Click me</summary>
+
+```
+    PROLOGUE: AWAKENING
+    2 - DIAMOND DOGS - skipped, tutorial mission
+    22 - RETAKE THE PLATFORM
+    33 - [SUBSISTENCE] C2W
+    34 - [EXTREME] BACKUP, BACK DOWN
+    36 - [TOTAL STEALTH] FOOTPRINTS OF PHANTOMS
+    37 - [EXTREME] TRAITORS’ CARAVAN
+    39 - [TOTAL STEALTH] OVER THE FENCE
+    40 - [EXTREME] CLOAKED IN SILENCE
+    42 - [EXTREME] METALLIC ARCHAEA
+    44 - [TOTAL STEALTH] PITCH DARK
+    47 - [TOTAL STEALTH] THE WAR ECONOMY
+    48 - [EXTREME] CODE TALKER
+    49 - [SUBSISTENCE] OCCUPATION FORCES
+    50 - [EXTREME] SAHELANTHROPUS
+    46 - TRUTH: THE MAN WHO SOLD THE WORLD
+```
+
+</details>
+
+These missions are broken in one way or another:
+
+<details>
+<summary>Click me</summary>
+
+```
+    3 - A HERO’S WAY - no target spawned
+    9 - BACKUP, BACK DOWN - no enemy vehicles spawned
+    12 - HELLBOUND - infinite loading after first cutscene
+    43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility
+```
+
+</details>
 
 #### Host
 
