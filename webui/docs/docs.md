@@ -143,43 +143,88 @@ Steps:
 3. Launch the game
 4. Choose working mission from list below and tell it to all session participants
 
+Missions that are playable from start to finish with minor bugs (not impacting gameplay in a meaningful way):
+
 <details>
 <summary>Mission list (click me)</summary>
 
-    1 - PHANTOM LIMBS - loads
-    4 - C2W - works
-    ✔ 5 - OVER THE FENCE
-    6 - WHERE DO THE BEES SLEEP? - works
-    7 - RED BRASS - loads
-    8 - OCCUPATION FORCES - works
-    10 - ANGEL WITH BROKEN WINGS - works
-    13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene. Mission may abort for host (out of mission area) if second partner connects too late.
-    14 - LINGUA FRANCA - loads, works?
-    15 - FOOTPRINTS OF PHANTOMS - loads, works?
-    16 - TRAITORS’ CARAVAN - loads, works?
-    17 - RESCUE THE INTEL AGENTS - loads, landing zone is slightly off for each player? spawned in some distance from host
+```
+    5 - OVER THE FENCE - prisoner repeats his lines over and over for host
+    8 - OCCUPATION FORCES - works, third tank spawn only for host (#19)
+    26 - HUNTING DOWN - client loads into mission again (#12)
+    27 - ROOT CAUSE - client stucks on black screen after finishing the mission (#11)
+    14 - LINGUA FRANCA - prisoners must be extracted by each party (#14)
+    15 - FOOTPRINTS OF PHANTOMS - walker gears are not fultonable (#21)
+    17 - RESCUE THE INTEL AGENTS - there may be some confusion with prisoner extraction order
+```
+
+
+</details>
+
+A good (read: tested) choice is Mission 5, OVER THE FENCE.
+
+Missions that can be played from start to finish but there will be issues impacting gameplay:
+
+<details>
+<summary>Click me</summary>
+
+```
+    4 - C2W - player position issues, partner falls through the ground (#17)
+    6 - WHERE DO THE BEES SLEEP? - player position issues, partner falls through the ground (#17)
+    7 - RED BRASS - player position issues, partner falls through the ground (#17)
+    10 - ANGEL WITH BROKEN WINGS - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
+    24 - CLOSE CONTACT - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
+    25 - AIM TRUE, YE VENGEFUL - players don't see each other (#13), client loads into mission again (#12)
+    45 - A QUIET EXIT - partner falls through the ground (#17)
+```
+
+</details>
+
+These missions are broken in one way or another:
+
+<details>
+<summary>Click me</summary>
+
+```
+    1 - PHANTOM LIMBS - infinite loading after rescuing Miller and watching ending movies
+    3 - A HERO’S WAY - no target spawned
+    9 - BACKUP, BACK DOWN - no enemy vehicles spawned
+    11 - CLOAKED IN SILENCE - loads, partners cannot see each other (#13), quiet is local
+    12 - HELLBOUND - infinite loading after first cutscene (#7)
+    13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene (#13). 
+        Mission may abort for host (out of mission area) if second partner connects too late.
+        Infinite loading for both client and host after blowing up water tank.
+    28 - CODE TALKER - loads, players don't see each other (#13), client cannot pick up Code Talker (#15)
+    31 - SAHELANTHROPUS - loads, sahelan is local. Host may experience infinite loading after finishing the mission.
+    43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility
+```
+
+</details>
+
+Untested missions:
+
+<details>
+<summary>Click me</summary>
+
+```
+untested:
     18 - BLOOD RUNS DEEP - loads, works?
     19 - ON THE TRAIL - loads, works?
     20 - VOICES - loads, players don't see each other
     21 - THE WAR ECONOMY - loads, works?
     23 - THE WHITE MAMBA - loads, works?
-    24 - CLOSE CONTACT - loads, players don't see each other
-    25 - AIM TRUE, YE VENGEFUL - loads, players don't see each other
-    26 - HUNTING DOWN - loads, animals work
-    27 - ROOT CAUSE - loads, works?
-    28 - CODE TALKER - loads, players don't see each other
-    29 - METALLIC ARCHAEA - host loads, unable to test
     30 - SKULL FACE - loads, players don't see each other
-    31 - SAHELANTHROPUS - loads, sahelan has local health bar
     32 - TO KNOW TOO MUCH - loads, players don't see each other
     35 - CURSED LEGACY - loads, players don't see each other
     38 - EXTRAORDINARY - loads, players don't see each other
     41 - PROXY WAR WITHOUT END - loads, enemy vehicles work
-    45 - A QUIET EXIT - loads, works?
+
+untested, too much action:
+    16 - TRAITORS’ CARAVAN
+    29 - METALLIC ARCHAEA
+```
 
 </details>
-
-A good (read: tested) choice is Mission 5, OVER THE FENCE. Checkmark indicates that mission can be finished in co-op.
 
 EXTREME versions, tutorial missions and script-heavy missions are not included:
 
@@ -207,17 +252,7 @@ EXTREME versions, tutorial missions and script-heavy missions are not included:
 
 </details>
 
-These missions are broken in one way or another:
 
-<details>
-<summary>Click me</summary>
-
-```
-    3 - A HERO’S WAY - no target spawned
-    9 - BACKUP, BACK DOWN - no enemy vehicles spawned
-    12 - HELLBOUND - infinite loading after first cutscene
-    43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility
-```
 
 </details>
 
