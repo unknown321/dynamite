@@ -153,6 +153,7 @@ Missions that are playable from start to finish with minor bugs (not impacting g
 ```
     5 - OVER THE FENCE - prisoner repeats his lines over and over for host
     8 - OCCUPATION FORCES - works, third tank spawn only for host (#19)
+    21 - THE WAR ECONOMY - stucks on black screen after finishing the mission (#11)
     26 - HUNTING DOWN - client loads into mission again (#12)
     27 - ROOT CAUSE - client stucks on black screen after finishing the mission (#11)
     14 - LINGUA FRANCA - prisoners must be extracted by each party (#14)
@@ -175,8 +176,12 @@ Missions that can be played from start to finish but there will be issues impact
     6 - WHERE DO THE BEES SLEEP? - player position issues, partner falls through the ground (#17)
     7 - RED BRASS - player position issues, partner falls through the ground (#17)
     10 - ANGEL WITH BROKEN WINGS - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
+    18 - BLOOD RUNS DEEP - partner falls through the ground (#17)
+    19 - ON THE TRAIL - partner falls through the ground (#17)
+    23 - THE WHITE MAMBA - client loads into mission again (#12), Eli is local
     24 - CLOSE CONTACT - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
     25 - AIM TRUE, YE VENGEFUL - players don't see each other (#13), client loads into mission again (#12)
+    41 - PROXY WAR WITHOUT END - loads, enemy vehicles work (#17)
     45 - A QUIET EXIT - partner falls through the ground (#17)
 ```
 
@@ -196,8 +201,13 @@ These missions are broken in one way or another:
     13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene (#13). 
         Mission may abort for host (out of mission area) if second partner connects too late.
         Infinite loading for both client and host after blowing up water tank.
+    20 - VOICES - players don't see each other (#13)
     28 - CODE TALKER - loads, players don't see each other (#13), client cannot pick up Code Talker (#15)
+    30 - SKULL FACE - loads, players don't see each other (#13)
     31 - SAHELANTHROPUS - loads, sahelan is local. Host may experience infinite loading after finishing the mission.
+    32 - TO KNOW TOO MUCH - loads, players don't see each other (#13)
+    35 - CURSED LEGACY - loads, players don't see each other (#13)
+    38 - EXTRAORDINARY - loads, players don't see each other (#13)
     43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility
 ```
 
@@ -209,19 +219,7 @@ Untested missions:
 <summary>Click me</summary>
 
 ```
-untested:
-    18 - BLOOD RUNS DEEP - loads, works?
-    19 - ON THE TRAIL - loads, works?
-    20 - VOICES - loads, players don't see each other
-    21 - THE WAR ECONOMY - loads, works?
-    23 - THE WHITE MAMBA - loads, works?
-    30 - SKULL FACE - loads, players don't see each other
-    32 - TO KNOW TOO MUCH - loads, players don't see each other
-    35 - CURSED LEGACY - loads, players don't see each other
-    38 - EXTRAORDINARY - loads, players don't see each other
-    41 - PROXY WAR WITHOUT END - loads, enemy vehicles work
-
-untested, too much action:
+too much action:
     16 - TRAITORS’ CARAVAN
     29 - METALLIC ARCHAEA
 ```
