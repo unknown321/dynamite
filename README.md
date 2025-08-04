@@ -11,7 +11,7 @@ https://github.com/user-attachments/assets/e82c43c7-eace-4084-b1fd-c4fb8ef3abe2
 
 ### Requirements
 
-1. Unmodified Steam version of MGSV:TPP
+1. Unmodified Steam version of MGSV:TPP (regular version, JP is not supported)
 2. Online connection
 3. Some free space
 4. A friend to play with

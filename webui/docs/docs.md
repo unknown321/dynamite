@@ -30,8 +30,8 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
 
   - OS
     - Windows 10 or later
-    - Linux kernel 3.2 or later
-  - Legitimate and unmodified Steam copy of the game
+    - Linux kernel 3.2 or later / Steam OS
+  - Legitimate and unmodified Steam copy of the game (JP version is not supported)
   - Connection to Steam network
   - At least 1GB free space on system partition and game location drive
   - A friend to play with
@@ -115,6 +115,8 @@ disable it.
 2. Put dynamite executable into the game directory
 3. Launch dynamite executable
 4. Browser window will open
+5. Linux / SteamOS only: you must set custom launch options before starting the game: Steam --> MGSV:TPP
+--> Game properties --> Set Launch Options: `WINEDLLOVERRIDES="dinput8.dll=n,b" %command%`
 
 Fill in required fields in `Configuration` tab, press `Save configuration`. Your config and game files will be updated.
 You can track installation status in console window or wait for the information on status page. After installation 
@@ -249,10 +251,6 @@ EXTREME versions, tutorial missions and script-heavy missions are not included:
     50 - [EXTREME] SAHELANTHROPUS
     46 - TRUTH: THE MAN WHO SOLD THE WORLD
 ```
-
-</details>
-
-
 
 </details>
 
