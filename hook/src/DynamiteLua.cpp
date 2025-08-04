@@ -53,6 +53,14 @@ namespace Dynamite {
     // called manually by client
     int l_CreateClientSession(lua_State *L) {
         spdlog::info(__FUNCTION__);
+        if (cfg.Host) {
+            auto text = "Attempting client connection as a host, you are not supposed to do that!\0";
+            spdlog::warn(text);
+            lua_pushstring(L, text);
+            l_AnnounceLogView(L);
+            return 1;
+        }
+
         if (sessionCreated) {
             return 0;
         }

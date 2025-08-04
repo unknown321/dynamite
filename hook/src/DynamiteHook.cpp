@@ -74,6 +74,10 @@ namespace Dynamite {
         auto clientSteamID = *(uint64_t *)(request);
         spdlog::info("{}: Connection request: {:d}", __FUNCTION__, clientSteamID);
 
+        if (!cfg.Host)  {
+            spdlog::warn("client, but there was a connection attempt?");
+        }
+
         if ((cfg.whitelist.empty()) && (cfg.blacklist.empty())) {
             spdlog::info("{}: Connection accepted", __FUNCTION__);
             return SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
