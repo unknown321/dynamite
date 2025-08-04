@@ -181,7 +181,7 @@ Missions that can be played from start to finish but there will be issues impact
     19 - ON THE TRAIL - partner falls through the ground (#17)
     24 - CLOSE CONTACT - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
     25 - AIM TRUE, YE VENGEFUL - players don't see each other (#13), client loads into mission again (#12)
-    41 - PROXY WAR WITHOUT END - loads, enemy vehicles work (#17)
+    41 - PROXY WAR WITHOUT END - partner falls through the ground (#17)
     45 - A QUIET EXIT - partner falls through the ground (#17)
 ```
 
