@@ -153,12 +153,13 @@ Missions that are playable from start to finish with minor bugs (not impacting g
 ```
     5 - OVER THE FENCE - prisoner repeats his lines over and over for host
     8 - OCCUPATION FORCES - works, third tank spawn only for host (#19)
-    21 - THE WAR ECONOMY - stucks on black screen after finishing the mission (#11)
-    26 - HUNTING DOWN - client loads into mission again (#12)
-    27 - ROOT CAUSE - client stucks on black screen after finishing the mission (#11)
     14 - LINGUA FRANCA - prisoners must be extracted by each party (#14)
     15 - FOOTPRINTS OF PHANTOMS - walker gears are not fultonable (#21)
     17 - RESCUE THE INTEL AGENTS - there may be some confusion with prisoner extraction order
+    21 - THE WAR ECONOMY - stucks on black screen after finishing the mission (#11)
+    26 - HUNTING DOWN - client loads into mission again (#12)
+    27 - ROOT CAUSE - client stucks on black screen after finishing the mission (#11)
+    23 - THE WHITE MAMBA - client loads into mission again (#12), Eli is local
 ```
 
 
@@ -178,7 +179,6 @@ Missions that can be played from start to finish but there will be issues impact
     10 - ANGEL WITH BROKEN WINGS - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
     18 - BLOOD RUNS DEEP - partner falls through the ground (#17)
     19 - ON THE TRAIL - partner falls through the ground (#17)
-    23 - THE WHITE MAMBA - client loads into mission again (#12), Eli is local
     24 - CLOSE CONTACT - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
     25 - AIM TRUE, YE VENGEFUL - players don't see each other (#13), client loads into mission again (#12)
     41 - PROXY WAR WITHOUT END - loads, enemy vehicles work (#17)
