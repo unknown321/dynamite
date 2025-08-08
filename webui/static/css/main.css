@@ -179,3 +179,20 @@ td.profileLink {
     margin-left: 220px;
     margin-top: 5px;
 }
+
+.color-changing-text {
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff0000, #ff7700, #ffdd00, #00ff00, #0000ff, #ff00ff);
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow 5s linear infinite;
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    display: inline;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}

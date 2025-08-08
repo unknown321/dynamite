@@ -21,7 +21,7 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
       * [Mission not loading](#mission-not-loading)
       * [Providing crash info](#providing-crash-info)
     * [Uninstalling](#uninstalling)
-    * [Executing custom lua code](#executing-custom-lua-code)
+    * [Executing custom lua code (info for modders)](#executing-custom-lua-code-info-for-modders)
     * [Supporting the mod](#supporting-the-mod)
     * [License](#license)
 <!-- TOC -->
@@ -122,6 +122,8 @@ Fill in required fields in `Configuration` tab, press `Save configuration`. Your
 You can track installation status in console window or wait for the information on status page. After installation 
 keep console window open - master server is running in there.
 
+---
+
 ### Updating
 
 Download latest release from [GitHub](https://github.com/unknown321/dynamite/releases/latest) and launch the executable.
@@ -167,22 +169,33 @@ Missions that are playable from start to finish with minor bugs (not impacting g
 
 A good (read: tested) choice is Mission 5, OVER THE FENCE.
 
-Missions that can be played from start to finish but there will be issues impacting gameplay:
+<p class="color-changing-text">NEW:</p> Missions that were recently updated and need testing. Report if they are 
+working on [GitHub](https://github.com/unknown321/dynamite/issues/32) or 
+[Modders' Heaven Discord](https://discord.gg/3XwAsWV), `modding-showcase` channel, `dynamite` thread:
 
 <details>
 <summary>Click me</summary>
 
 ```
-    4 - C2W - player position issues, partner falls through the ground (#17)
-    6 - WHERE DO THE BEES SLEEP? - player position issues, partner falls through the ground (#17)
-    7 - RED BRASS - player position issues, partner falls through the ground (#17)
-    10 - ANGEL WITH BROKEN WINGS - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
-    18 - BLOOD RUNS DEEP - partner falls through the ground (#17)
-    19 - ON THE TRAIL - partner falls through the ground (#17)
-    24 - CLOSE CONTACT - players don't see each other (#13), client loads into mission again (#12), prisoners must be extracted by each party (#14)
-    25 - AIM TRUE, YE VENGEFUL - players don't see each other (#13), client loads into mission again (#12)
-    41 - PROXY WAR WITHOUT END - partner falls through the ground (#17)
-    45 - A QUIET EXIT - partner falls through the ground (#17)
+    1 - PHANTOM LIMBS
+    4 - C2W 
+    6 - WHERE DO THE BEES SLEEP?
+    7 - RED BRASS
+    8 - OCCUPATION FORCES
+    10 - ANGEL WITH BROKEN WINGS - client loads into mission again (#12), prisoners must be extracted by each party (#14)
+    11 - CLOAKED IN SILENCE - quiet is local
+    18 - BLOOD RUNS DEEP
+    19 - ON THE TRAIL
+    20 - VOICES
+    24 - CLOSE CONTACT - client loads into mission again (#12), prisoners must be extracted by each party (#14)
+    25 - AIM TRUE, YE VENGEFUL - client loads into mission again (#12)
+    28 - CODE TALKER - client cannot pick up Code Talker (#15)
+    30 - SKULL FACE
+    32 - TO KNOW TOO MUCH
+    35 - CURSED LEGACY
+    38 - EXTRAORDINARY
+    41 - PROXY WAR WITHOUT END
+    45 - A QUIET EXIT
 ```
 
 </details>
@@ -196,18 +209,11 @@ These missions are broken in one way or another:
     1 - PHANTOM LIMBS - infinite loading after rescuing Miller and watching ending movies
     3 - A HERO’S WAY - no target spawned
     9 - BACKUP, BACK DOWN - no enemy vehicles spawned
-    11 - CLOAKED IN SILENCE - loads, partners cannot see each other (#13), quiet is local
     12 - HELLBOUND - infinite loading after first cutscene (#7)
     13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene (#13). 
         Mission may abort for host (out of mission area) if second partner connects too late.
         Infinite loading for both client and host after blowing up water tank.
-    20 - VOICES - players don't see each other (#13)
-    28 - CODE TALKER - loads, players don't see each other (#13), client cannot pick up Code Talker (#15)
-    30 - SKULL FACE - loads, players don't see each other (#13)
     31 - SAHELANTHROPUS - loads, sahelan is local. Host may experience infinite loading after finishing the mission.
-    32 - TO KNOW TOO MUCH - loads, players don't see each other (#13)
-    35 - CURSED LEGACY - loads, players don't see each other (#13)
-    38 - EXTRAORDINARY - loads, players don't see each other (#13)
     43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility
 ```
 
@@ -252,6 +258,8 @@ EXTREME versions, tutorial missions and script-heavy missions are not included:
 
 </details>
 
+---
+
 #### Host
 
 Start the mission as usual. When you see your character (past mission splash screen), tell your partner to connect. Wait 
@@ -259,6 +267,8 @@ for partner at the landing zone.
 
 **Warning**: By default (empty blacklist/whitelist), anyone can join your session if they know your SteamID and the fact that you 
 are in mission. After establishing connection clients know your IP address. Use black/whitelists accordingly.
+
+---
 
 #### Client
 
@@ -271,6 +281,8 @@ the same mission.
 An indication of success is broken camera in the intro sequence - it will fly around host's position instead of yours.
 
 After that proceed as usual.
+
+---
 
 **Notes:**
 
@@ -309,8 +321,12 @@ mission from the list.
 
 #### Providing crash info
 
-Important information: mission id/name, your role (host/client), what did you do (shot tree with non-lethal gun at x.y.z),
-video if possible (Steam Recording / NVIDIA Shadowplay).
+Important information: 
+  - mission id/name
+  - your role (host/client)
+  - what did you do (shot tree with non-lethal gun) 
+  - where did you do it (at x.y.z, iDroid screenshot fully zoomed out)
+  - video if possible (Steam Recording / NVIDIA ShadowPlay)
 
 You can also collect a crash dump on Windows by following [this guide](https://learn.microsoft.com/en-us/windows/win32/wer/collecting-user-mode-dumps).
 Set dump type to `Mini dump` (1).
@@ -331,11 +347,7 @@ After that game will use your regular saves.
 
 ---
 
-<a href="/" class="btn-to-config">Proceed to configuration</a>
-
----
-
-### Executing custom lua code
+### Executing custom lua code (info for modders)
 
 Create `example.lua` in `<game directory>/lua` directory. Contents:
 
@@ -351,6 +363,10 @@ return example
 
 Now you can bind `test` function to a key combination using web UI. Put `example` as module and `test` as a function.
 Code is dynamically reloaded on `Master Key` + `Reload Key` press (`V + E` by default).
+
+---
+
+<a href="/" class="btn-to-config">Proceed to configuration</a>
 
 ---
 
