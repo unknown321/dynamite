@@ -1951,6 +1951,7 @@ sequences.Seq_Game_ParasiteBattle = {
 
 	OnEnter = function()
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			TppCoder.SetWorldCenter(Vector3(2283.6484, 142.16449, -1768.9397))
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
 		end

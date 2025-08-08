@@ -1305,6 +1305,7 @@ sequences.Seq_Game_MeetSkullFace = {
 
 	OnEnter = function()
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			TppCoder.SetWorldCenter(Vector3(-1129.8071, 550.9086, -1992.7622))
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
 		end

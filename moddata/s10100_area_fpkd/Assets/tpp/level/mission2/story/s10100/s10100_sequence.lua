@@ -5318,6 +5318,7 @@ sequences.Seq_Game_BeforeRescueBoy = {
 
 	OnEnter = function()
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			TppCoder.SetWorldCenter(Vector3(1120.6532, 141.28583, -1303.0184))
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
 		end
