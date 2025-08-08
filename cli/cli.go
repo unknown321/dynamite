@@ -4,6 +4,7 @@ import (
 	"dynamite/config"
 	"dynamite/installer"
 	"dynamite/masterserver"
+	"dynamite/updatecheck"
 	"dynamite/util"
 	"dynamite/webui"
 	"dynamite/webui/handlers"
@@ -37,7 +38,7 @@ func Run() {
 
 	flag.Parse()
 
-	slog.Info("dynamite, MGSV:TPP co-op mod", "version", vers.Commit, "build time", vers.Date, "dirty", vers.Dirty)
+	slog.Info("dynamite, MGSV:TPP co-op mod", "version", vers.Tag, "commit", vers.Commit, "build time", vers.Date, "dirty", vers.Dirty)
 
 	if _, err = os.Stat("mgsvtpp.exe"); err != nil {
 		slog.Error("mgsvtpp.exe not found. Press Enter to exit.")
@@ -65,6 +66,19 @@ func Run() {
 		var a []byte
 		_, _ = fmt.Scanln(&a)
 		os.Exit(1)
+	}
+
+	slog.Info("Checking for updates")
+	hasUpdate, tag, err := updatecheck.Check()
+	if err != nil {
+		slog.Warn("Update check failed", "error", err.Error())
+	} else {
+		if hasUpdate {
+			slog.Info("New update found", "new version", tag, "old version", vers.Tag)
+			handlers.HasUpdate = true
+		} else {
+			slog.Info("No updates found")
+		}
 	}
 
 	var StartLocalServer = make(chan bool, 1)

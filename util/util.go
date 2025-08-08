@@ -36,6 +36,7 @@ type Version struct {
 	Commit string
 	Date   string
 	Dirty  bool
+	Tag    string
 }
 
 func GetVersion() Version {
@@ -51,6 +52,7 @@ func GetVersion() Version {
 	commit := ""
 	commitDate := ""
 	dirty := false
+	tag := ""
 
 	for _, k := range bf.Settings {
 		switch k.Key {
@@ -64,10 +66,13 @@ func GetVersion() Version {
 		}
 	}
 
+	tag = strings.Split(bf.Main.Version, "-")[0]
+
 	return Version{
 		Commit: commit,
 		Date:   commitDate,
 		Dirty:  dirty,
+		Tag:    tag,
 	}
 }
 

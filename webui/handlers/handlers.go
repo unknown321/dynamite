@@ -27,11 +27,14 @@ var StartInstallChan = make(chan bool, 1)
 
 var InstallStat InstallStatus
 
+var HasUpdate bool
+
 type InstallStatus struct {
-	Error   string
-	Done    bool
-	MetaTag string
-	Version *util.Version
+	Error     string
+	Done      bool
+	MetaTag   string
+	HasUpdate bool
+	Version   *util.Version
 }
 
 func Init() {
@@ -53,6 +56,7 @@ type pageData struct {
 	Keys      map[string]bool
 	Examples  map[string]string
 	MetaTag   string
+	HasUpdate bool
 	Blacklist []config.LimitListEntry
 	Whitelist []config.LimitListEntry
 }
@@ -64,10 +68,11 @@ func Start(w http.ResponseWriter, r *http.Request) {
 	}
 
 	d := pageData{
-		Config:   Config,
-		Version:  &Version,
-		Keys:     config.PlayerPadKeys,
-		Examples: make(map[string]string),
+		Config:    Config,
+		Version:   &Version,
+		Keys:      config.PlayerPadKeys,
+		Examples:  make(map[string]string),
+		HasUpdate: HasUpdate,
 	}
 
 	d.Examples["SteamID"] = "Example: 76561197960287930"
@@ -116,6 +121,7 @@ func Stop(w http.ResponseWriter, r *http.Request) {
 type SaveData struct {
 	Installed bool
 	MetaTag   string
+	HasUpdate bool
 	Version   *util.Version
 }
 
@@ -271,6 +277,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }
 
 func Status(w http.ResponseWriter, r *http.Request) {
+	InstallStat.HasUpdate = HasUpdate
 	InstallStat.Version = &Version
 	InstallStat.MetaTag = ""
 
@@ -286,11 +293,12 @@ func Status(w http.ResponseWriter, r *http.Request) {
 
 func Docs(w http.ResponseWriter, r *http.Request) {
 	p := pageData{
-		Config:   nil,
-		Version:  &Version,
-		Keys:     nil,
-		Examples: nil,
-		MetaTag:  "",
+		Config:    nil,
+		Version:   &Version,
+		Keys:      nil,
+		Examples:  nil,
+		MetaTag:   "",
+		HasUpdate: HasUpdate,
 	}
 
 	Config.Dynamite.DocsRead = true
@@ -307,11 +315,12 @@ func Docs(w http.ResponseWriter, r *http.Request) {
 
 func License(w http.ResponseWriter, r *http.Request) {
 	p := pageData{
-		Config:   nil,
-		Version:  &Version,
-		Keys:     nil,
-		Examples: nil,
-		MetaTag:  "",
+		Config:    nil,
+		Version:   &Version,
+		Keys:      nil,
+		Examples:  nil,
+		MetaTag:   "",
+		HasUpdate: HasUpdate,
 	}
 
 	if err := tmpl.ExecuteTemplate(w, "license.tmpl", p); err != nil {
