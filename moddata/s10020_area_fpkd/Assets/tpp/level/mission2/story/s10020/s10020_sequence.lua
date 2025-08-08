@@ -1424,6 +1424,7 @@ sequences.Seq_Demo_ArrivalInAfghanistan = {
 
 	OnEnter = function()
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			TppCoder.SetWorldCenter(Vector3(629.3156, 337.89716, 713.4539))
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
 		end
