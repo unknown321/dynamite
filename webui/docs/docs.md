@@ -169,8 +169,9 @@ Missions that are playable from start to finish with minor bugs (not impacting g
 
 A good (read: tested) choice is Mission 5, OVER THE FENCE.
 
-<p class="color-changing-text">NEW:</p> Missions that were recently updated and need testing. Report if they are 
-working on [GitHub](https://github.com/unknown321/dynamite/issues/32) or 
+<p class="color-changing-text">NEW:</p> Missions that were recently updated and need testing.
+
+Report if they are working on [GitHub](https://github.com/unknown321/dynamite/issues/32) or 
 [Modders' Heaven Discord](https://discord.gg/3XwAsWV), `modding-showcase` channel, `dynamite` thread:
 
 <details>
