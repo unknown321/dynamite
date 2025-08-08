@@ -21,6 +21,7 @@ namespace Dynamite {
     extern void *SightManagerImpl;
     extern void *EquipHudSystemImpl;
     extern bool ignoreMarkerRequests;
+    extern Vector3 GetPlayerPosition(int index);
 
     extern bool AddLocalDamageHook(void *thisPtr, uint32_t playerIndex, PlayerDamage *Damage);
     extern ENPCLifeState GetSoldierLifeStatus(int objectID);

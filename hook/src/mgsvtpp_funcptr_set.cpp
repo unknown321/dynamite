@@ -55,11 +55,11 @@ namespace Dynamite {
         DamageControllerImplInitialize = (DamageControllerImplInitializeFunc *)addressSet["DamageControllerImplInitialize"];
         SynchronizerImplGetDamage = (SynchronizerImplGetDamageFunc *)addressSet["SynchronizerImplGetDamage"];
         Marker2SystemImpl = (Marker2SystemImplFunc *)addressSet["Marker2SystemImpl"];
-        Marker2SystemImplPlacedUserMarkerFixed = (Marker2SystemImplPlacedUserMarkerFixedFunc*) addressSet["Marker2SystemImplPlacedUserMarkerFixed"];
+        Marker2SystemImplPlacedUserMarkerFixed = (Marker2SystemImplPlacedUserMarkerFixedFunc *)addressSet["Marker2SystemImplPlacedUserMarkerFixed"];
         GetLocalPlayerId = (GetLocalPlayerIDFunc *)addressSet["GetLocalPlayerID"];
         RemoveUserMarker = (RemoveUserMarkerFunc *)addressSet["RemoveUserMarker"];
         EquipHudSystemImplInitData = (EquipHudSystemImplInitDataFunc *)addressSet["EquipHudSystemImplInitData"];
-        Marker2SystemImplRemovedUserMarker = (Marker2SystemImplRemovedUserMarkerFunc*)addressSet["Marker2SystemImplRemovedUserMarker"];
+        Marker2SystemImplRemovedUserMarker = (Marker2SystemImplRemovedUserMarkerFunc *)addressSet["Marker2SystemImplRemovedUserMarker"];
         Marker2SystemImplPlacedUserMarkerFollow = (Marker2SystemImplPlacedUserMarkerFollowFunc *)addressSet["Marker2SystemImplPlacedUserMarkerFollow"];
         Marker2SystemImplRemovedAllUserMarker = (Marker2SystemImplRemovedAllUserMarkerFunc *)addressSet["Marker2SystemImplRemovedAllUserMarker"];
         SightManagerImplInitialize = (SightManagerImplInitializeFunc *)addressSet["SightManagerImplInitialize"];
@@ -67,5 +67,6 @@ namespace Dynamite {
         EquipCrossEvCallIsItemNoUse = (EquipCrossEvCallIsItemNoUseFunc *)addressSet["EquipCrossEvCallIsItemNoUse"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
+        FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];
     }
 }

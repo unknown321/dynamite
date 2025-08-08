@@ -233,6 +233,20 @@ namespace Dynamite {
         return 0;
     }
 
+    int l_GetPlayerPosition(lua_State *L) {
+        auto i = luaL_checkinteger(L, 1);
+        auto res = Dynamite::GetPlayerPosition(i);
+        auto rr = Vector4 {
+            .x = res.x,
+            .y = res.y,
+            .z = res.z,
+            .w = 0,
+        };
+        spdlog::info("{}: {} {} {}", i, res.x, res.y, res.z);
+        FoxLuaPushVector3(L, &rr);
+        return 1;
+    }
+
     void CreateLibs(lua_State *L) {
         luaL_Reg libFuncs[] = {
             {"CreateHostSession", l_CreateHostSession},
@@ -253,6 +267,7 @@ namespace Dynamite {
             {"IgnoreMarkerRequests", l_IgnoreMarkerRequests},
             {"AcceptMarkerRequests", l_AcceptMarkerRequests},
             {"IsHost", l_IsHost},
+            {"GetPlayerPosition", l_GetPlayerPosition},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);

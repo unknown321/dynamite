@@ -60,6 +60,8 @@ namespace Dynamite {
         {"GetMainSession", 0x143e60970},
         {"GetSessionMemberCount", 0x143e60ef0},
 
+        {"FoxLuaPushVector3", 0x143257590},
+
         {"l_AnnounceLogView", 0x145d5ded0},
 
         {"lua_pushinteger", 0x14c1e6ef0},

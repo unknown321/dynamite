@@ -138,6 +138,8 @@ typedef void(__thiscall UiControllerImplSetNoUseEquipIdFunc)(void *thisPtr, bool
 
 typedef bool(__thiscall EquipCrossEvCallIsItemNoUseFunc)(void *thisPtr, unsigned int EquipID);
 
+typedef void(__cdecl FoxLuaPushVector3Func)(lua_State *param_1, Vector4 *param_2);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -152,6 +154,7 @@ extern luaL_checknumberFunc *luaL_checknumber;
 
 // tpp lua functions (TppUiCommand.AnnounceLogView)
 extern lua_CFunction l_AnnounceLogView;
+extern FoxLuaPushVector3Func *FoxLuaPushVector3;
 
 // tpp C++ functions
 extern IsDefenseTeamByOnlineFobLocalFunc *IsDefenseTeamByOnlineFobLocal;

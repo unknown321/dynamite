@@ -63,3 +63,4 @@ UiControllerImplSetNoUseEquipIdFunc *UiControllerImplSetNoUseEquipId;
 EquipCrossEvCallIsItemNoUseFunc *EquipCrossEvCallIsItemNoUse;
 
 lua_CFunction l_AnnounceLogView;
+FoxLuaPushVector3Func *FoxLuaPushVector3;
