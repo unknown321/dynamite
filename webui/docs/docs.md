@@ -153,15 +153,19 @@ Missions that are playable from start to finish with minor bugs (not impacting g
 <summary>Mission list (click me)</summary>
 
 ```
+    1 - PHANTOM LIMBS - client loads into mission again (#12)
     5 - OVER THE FENCE - prisoner repeats his lines over and over for host
-    8 - OCCUPATION FORCES - works, third tank spawn only for host (#19)
+    7 - RED BRASS - commanders don't move from their spawn points (#40)
+    8 - OCCUPATION FORCES - third tank spawn only for host (#19)
     14 - LINGUA FRANCA - prisoners must be extracted by each party (#14)
     15 - FOOTPRINTS OF PHANTOMS - walker gears are not fultonable (#21)
+    16 - TRAITORS’ CARAVAN - skulls spawn only for one player (#41), no armored vehicle (#42)
     17 - RESCUE THE INTEL AGENTS - there may be some confusion with prisoner extraction order
+    20 - VOICES - infinite loading after last cutscene (#37)
     21 - THE WAR ECONOMY - stucks on black screen after finishing the mission (#11)
+    23 - THE WHITE MAMBA - client loads into mission again (#12), Eli is local
     26 - HUNTING DOWN - client loads into mission again (#12)
     27 - ROOT CAUSE - client stucks on black screen after finishing the mission (#11)
-    23 - THE WHITE MAMBA - client loads into mission again (#12), Eli is local
 ```
 
 
@@ -178,16 +182,12 @@ Report if they are working on [GitHub](https://github.com/unknown321/dynamite/is
 <summary>Click me</summary>
 
 ```
-    1 - PHANTOM LIMBS
-    4 - C2W 
     6 - WHERE DO THE BEES SLEEP?
-    7 - RED BRASS
     8 - OCCUPATION FORCES
     10 - ANGEL WITH BROKEN WINGS - client loads into mission again (#12), prisoners must be extracted by each party (#14)
     11 - CLOAKED IN SILENCE - quiet is local
     18 - BLOOD RUNS DEEP
     19 - ON THE TRAIL
-    20 - VOICES
     24 - CLOSE CONTACT - client loads into mission again (#12), prisoners must be extracted by each party (#14)
     25 - AIM TRUE, YE VENGEFUL - client loads into mission again (#12)
     28 - CODE TALKER - client cannot pick up Code Talker (#15)
@@ -207,8 +207,8 @@ These missions are broken in one way or another:
 <summary>Click me</summary>
 
 ```
-    1 - PHANTOM LIMBS - infinite loading after rescuing Miller and watching ending movies
     3 - A HERO’S WAY - no target spawned
+    4 - C2W  - cannot progress past "identify equipment" goal (#39)
     9 - BACKUP, BACK DOWN - no enemy vehicles spawned
     12 - HELLBOUND - infinite loading after first cutscene (#7)
     13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene (#13). 
@@ -227,7 +227,6 @@ Untested missions:
 
 ```
 too much action:
-    16 - TRAITORS’ CARAVAN
     29 - METALLIC ARCHAEA
 ```
 
