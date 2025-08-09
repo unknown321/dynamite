@@ -27,3 +27,9 @@ https://github.com/user-attachments/assets/e82c43c7-eace-4084-b1fd-c4fb8ef3abe2
 ### Support the project
 
 https://boosty.to/unknown321/donate
+
+### Gameplay
+
+https://www.youtube.com/watch?v=JJQbVnNBghE
+
+https://www.youtube.com/watch?v=dja6IPYZ_p4
