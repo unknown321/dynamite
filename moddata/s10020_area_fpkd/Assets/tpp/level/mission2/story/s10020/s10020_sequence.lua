@@ -3982,6 +3982,13 @@ sequences.Seq_Demo_EscapeWithMillerOnHeli = {
 
 sequences.Seq_Demo_MissionClearMovie = {
 	OnEnter = function()
+		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			TppGameStatus.Reset("Mission", "S_IS_ONLINE")
+			TppNetworkUtil.SessionDisconnectPreparingMembers()
+			TppNetworkUtil.CloseSession()
+			Dynamite.ResetClientSessionState()
+			Dynamite.StopNearestEnemyThread()
+		end
 		TppMovie.Play{
 			videoName = "p31_010055_movie",	
 			onEnd = function()
