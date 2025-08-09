@@ -126,28 +126,6 @@ td.profileLink {
     text-align: center;
 }
 
-.btn-to-config {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    margin: 10px 0;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s;
-}
-
-.btn-to-config:hover {
-    background-color: #45a049;
-}
-.btn-to-config:active {
-    background-color: #fe8e41;
-}
-
 .disabled-section {
     opacity: 0.6;
     pointer-events: none;
@@ -166,6 +144,14 @@ td.profileLink {
 
 .btn-submit:hover {
     background-color: #2980b9;
+}
+
+.btn-save {
+    background-color: #4CAF50;
+}
+
+.btn-save:hover {
+    background-color: #45a049;
 }
 
 .error-field {

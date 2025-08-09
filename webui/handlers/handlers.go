@@ -137,6 +137,10 @@ func Save(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if r.FormValue("reinstall") == "on" {
+		Config.Dynamite.Installed = false
+	}
+
 	Config.Coop.Host = r.FormValue("Config.Coop.Host") == "on"
 	if Config.Coop.Host {
 		Config.Coop.Blacklist = make([]string, 0, len(r.Form["Config.Coop.Blacklist.SteamID"]))
