@@ -1,3 +1,5 @@
+THIS LIST IS OUTDATED
+
     +10020 : 1 - PHANTOM LIMBS - loads, partners cannot see each other unless on horse
     -10036 : 3 - A HERO’S WAY - broken, no target spawned, no partner visible, but enemy notice is shared, animals work
     +10043 : 4 - C2W - works

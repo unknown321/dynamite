@@ -268,6 +268,8 @@ for partner at the landing zone.
 **Warning**: By default (empty blacklist/whitelist), anyone can join your session if they know your SteamID and the fact that you 
 are in mission. After establishing connection clients know your IP address. Use black/whitelists accordingly.
 
+Video: https://youtu.be/ei4CW0x1CfY
+
 ---
 
 #### Client
@@ -281,6 +283,8 @@ the same mission.
 An indication of success is broken camera in the intro sequence - it will fly around host's position instead of yours.
 
 After that proceed as usual.
+
+Video: https://youtu.be/rJOufW-rp9g
 
 ---
 
