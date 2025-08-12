@@ -5,6 +5,8 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
 
 <!-- TOC -->
 * [Usage](#usage)
+* [I WANT TO PLAY NOW HOW DO I PLAY](#i-want-to-play-now-how-do-i-play)
+* [I am capable of reading](#i-am-capable-of-reading)
     * [Requirements](#requirements)
     * [Configuration](#configuration)
       * [Co-op](#co-op)
@@ -25,6 +27,12 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
     * [Supporting the mod](#supporting-the-mod)
     * [License](#license)
 <!-- TOC -->
+
+# I WANT TO PLAY NOW HOW DO I PLAY
+
+Follow this guide: https://www.youtube.com/watch?v=SvePtu07XVY
+
+# I am capable of reading
 
 ### Requirements
 
