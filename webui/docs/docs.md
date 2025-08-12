@@ -30,7 +30,7 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
 
 # I WANT TO PLAY NOW HOW DO I PLAY
 
-Follow this guide: https://www.youtube.com/watch?v=SvePtu07XVY
+Follow this guide: <a href="https://www.youtube.com/watch?v=SvePtu07XVY" target="_blank">link</a>
 
 # I am capable of reading
 
@@ -55,7 +55,7 @@ choose `Properties`; then go to the `Local Files` tab and click on `Verify integ
 
 Connection to Steam network is required to create initial connection between host and client. Co-op won't work during 
 Steam weekly maintenance period. If there is no connection to Steam, you can check 
-[Unofficial Steam Status website](https://steamstat.us/).
+<a href="https://steamstat.us/" target="_blank">Unofficial Steam Status website</a>.
 
 ---
 
@@ -95,7 +95,7 @@ Master server holds records about your online resources; game requires working c
 Usually, after a mission some data is sent to original master server, including your records. Co-op sessions differ 
 from regular single-player missions in variety of ways; wrong or broken data might be sent to the server. Wrong data *may* 
 result in online ban from original server. To protect your account, dynamite comes with bundled master server 
-implementation ([fuse](https://github.com/unknown321/fuse)), which runs locally.
+implementation <a href="https://github.com/unknown321/fuse" target="_blank">fuse</a>, which runs locally.
 
 `Use Local Master Server` will start a local server on port 6667. If you want to connect to another public master server
 instance (**not recommended**), uncheck it and enter address in the `URL` field.
@@ -134,8 +134,8 @@ keep console window open - master server is running in there.
 
 ### Updating
 
-Download latest release from [GitHub](https://github.com/unknown321/dynamite/releases/latest) and launch the executable.
-This mod is **not** available on Nexus Mods or Discord and distributed only through GitHub.
+Download latest release from <a href="https://github.com/unknown321/dynamite/releases/latest" target="_blank">GitHub</a>
+and launch the executable. This mod is **not** available on Nexus Mods or Discord and distributed only through GitHub.
 
 ---
 
@@ -183,8 +183,9 @@ A good (read: tested) choice is Mission 5, OVER THE FENCE.
 
 <p class="color-changing-text">NEW:</p> Missions that were recently updated and need testing.
 
-Report if they are working on [GitHub](https://github.com/unknown321/dynamite/issues/32) or 
-[Modders' Heaven Discord](https://discord.gg/3XwAsWV), `modding-showcase` channel, `dynamite` thread:
+Report if they are working on <a href="https://github.com/unknown321/dynamite/issues/32" target="_blank">GitHub</a> or 
+<a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>, `modding-showcase`
+channel, `dynamite` thread:
 
 <details>
 <summary>Click me</summary>
@@ -276,7 +277,7 @@ for partner at the landing zone.
 **Warning**: By default (empty blacklist/whitelist), anyone can join your session if they know your SteamID and the fact that you 
 are in mission. After establishing connection clients know your IP address. Use black/whitelists accordingly.
 
-Video: https://youtu.be/ei4CW0x1CfY
+Video: <a href="https://youtu.be/ei4CW0x1CfY" target="_blank">Link</a>
 
 ---
 
@@ -292,7 +293,7 @@ An indication of success is broken camera in the intro sequence - it will fly ar
 
 After that proceed as usual.
 
-Video: https://youtu.be/rJOufW-rp9g
+Video: <a href="https://youtu.be/rJOufW-rp9g" target="_blank">Link</a>
 
 ---
 
@@ -323,8 +324,8 @@ You can (and will) experience various issues such as:
   - broken mission scripts preventing you from finishing the mission
   - everything else
 
-You can report these on [GitHub](https://github.com/unknown321/dynamite/issues) (recommended) or ask for help 
-in [Modders' Heaven Discord](https://discord.gg/3XwAsWV).
+You can report these on <a href="https://github.com/unknown321/dynamite/issues" target="_blank">GitHub</a> (recommended)
+or ask for help in <a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>.
 
 #### Mission not loading
 
@@ -340,7 +341,8 @@ Important information:
   - where did you do it (at x.y.z, iDroid screenshot fully zoomed out)
   - video if possible (Steam Recording / NVIDIA ShadowPlay)
 
-You can also collect a crash dump on Windows by following [this guide](https://learn.microsoft.com/en-us/windows/win32/wer/collecting-user-mode-dumps).
+You can also collect a crash dump on Windows by following 
+<a href="https://learn.microsoft.com/en-us/windows/win32/wer/collecting-user-mode-dumps" target="_blank">this guide</a>.
 Set dump type to `Mini dump` (1).
 
 ---
@@ -384,7 +386,7 @@ Code is dynamically reloaded on `Master Key` + `Reload Key` press (`V + E` by de
 
 ### Supporting the mod
 
-Support the project monetarily [here](https://boosty.to/unknown321/donate).
+Support the project monetarily <a href="https://boosty.to/unknown321/donate" target="_blank">here</a>
 
 ---
 
