@@ -2717,6 +2717,7 @@ sequences.Seq_Game_SearchTarget = {
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
+			TppCoder.SetWorldCenter(Vector3(-139.4411, -3.350814, 47.33446))
 		end
 		
 		TppTelop.StartCastTelop()

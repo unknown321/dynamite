@@ -889,6 +889,7 @@ sequences.Seq_Game_MainGame = {
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
+			TppCoder.SetWorldCenter(Vector3(849.619, -11.972534, 1152.3777))
 		end
 
 		this.SetMeshForRustyTank()

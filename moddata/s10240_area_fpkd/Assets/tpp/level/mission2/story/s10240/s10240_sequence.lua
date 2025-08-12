@@ -2096,6 +2096,7 @@ sequences.Seq_Game_GoToInQuarantineFacility = {
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
+			TppCoder.SetWorldCenter(Vector3(-171.80687, 9.861679, -2062.7605))
 		end
 
 		TppScriptBlock.LoadDemoBlock( "Demo_GoToInside" )

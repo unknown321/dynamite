@@ -1176,6 +1176,7 @@ sequences.Seq_Game_RescueTarget = {
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
+			TppCoder.SetWorldCenter(Vector3(1029.3385, 67.354385, -1005.48193))
 		end
 		
 		if not svars.isKnowSpy then

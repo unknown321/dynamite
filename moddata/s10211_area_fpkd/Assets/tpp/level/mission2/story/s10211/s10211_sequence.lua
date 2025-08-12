@@ -2392,6 +2392,7 @@ sequences.Seq_Game_BeforeGetDocument = {
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
+			TppCoder.SetWorldCenter(Vector3(472.65738, -3.6367188, -29.446014))
 		end
 
 		Fox.Log("######## Seq_Game_BeforeGetDocument.OnEnter  ########")

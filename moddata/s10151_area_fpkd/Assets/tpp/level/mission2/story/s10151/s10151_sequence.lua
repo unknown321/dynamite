@@ -1118,6 +1118,7 @@ sequences.Seq_Game_BattleSahelan = {
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
+			TppCoder.SetWorldCenter(Vector3(-455.89664, 505.80142, -1012.0719))
 		end
 
 		mvars.SupportPos = SUPPORT_BULLET_POS.trap_supportPos_AREA03	

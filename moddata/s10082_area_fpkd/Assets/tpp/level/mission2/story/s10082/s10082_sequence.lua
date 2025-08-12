@@ -967,6 +967,7 @@ sequences.Seq_Game_MainGame = {
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
 			TppNetworkUtil.SessionEnableAccept( true )
 			Dynamite.StartNearestEnemyThread()
+			TppCoder.SetWorldCenter(Vector3(826.1266, 2.253296, -70.4859))
 		end
 
 		TppRadio.SetOptionalRadio( "Set_s0082_oprg0010" )	
