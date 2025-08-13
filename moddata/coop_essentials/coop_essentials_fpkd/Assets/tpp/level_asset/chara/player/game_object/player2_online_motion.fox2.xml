@@ -1,6 +1,6 @@
 <fox formatVersion="2" fileVersion="0">
   <entities>
-    <entity class="DataSet" classVersion="0" addr="0x42154F0" unknown1="232" unknown2="125841">
+    <entity class="DataSet" classVersion="0" classID="0xE8" addr="0x42154F0" id="0x1EB91">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <containerEntry hash="0xB8A0BF169F98"></containerEntry>
@@ -19,7 +19,7 @@
       </staticProperties>
       <dynamicProperties></dynamicProperties>
     </entity>
-    <entity class="TppPlayer2AdditionalMtarData" classVersion="1" addr="0x4215560" unknown1="80" unknown2="125843">
+    <entity class="TppPlayer2AdditionalMtarData" classVersion="1" classID="0x50" addr="0x4215560" id="0x1EB93">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <containerEntry>TppPlayer2AdditionalMtarData0000</containerEntry>
@@ -33,7 +33,7 @@
       </staticProperties>
       <dynamicProperties></dynamicProperties>
     </entity>
-    <entity class="TexturePackLoadConditioner" classVersion="0" addr="0x48C0B70" unknown1="72">
+    <entity class="TexturePackLoadConditioner" classVersion="0" classID="0x48" addr="0x48C0B70" id="0x0">
       <staticProperties>
         <property name="name" type="String" container="StaticArray" arraySize="1">
           <containerEntry>TexturePackLoadConditioner0000</containerEntry>

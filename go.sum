@@ -22,6 +22,8 @@ github.com/unknown321/cityhash v0.0.0-20250414150752-0134dcb10139 h1:d5ceFvXPy1r
 github.com/unknown321/cityhash v0.0.0-20250414150752-0134dcb10139/go.mod h1:QVJK+yrAaYDX48UdKKhG6TU1M1L1V6KJvciTADO68qg=
 github.com/unknown321/datfpk v0.1.3 h1:lkHhsElGHDB5kfr/klqc2mAA7jz1ROg7/x8nrI/rZoQ=
 github.com/unknown321/datfpk v0.1.3/go.mod h1:r7THUnghCALjAt23ZVZ8vP7i8W3tbUO6/lOpzDBuLZk=
+github.com/unknown321/datfpk v0.1.4-0.20250813210815-446dbb5c9cef h1:qAMb0fzCXTFuM6m5nhugRDKqNYcWHm4bsAZsQyqRs/Y=
+github.com/unknown321/datfpk v0.1.4-0.20250813210815-446dbb5c9cef/go.mod h1:r7THUnghCALjAt23ZVZ8vP7i8W3tbUO6/lOpzDBuLZk=
 github.com/unknown321/fuse v0.0.0-20250719074710-ea184ee9e276 h1:fHlUxAeM69Y3xS2HsI6KIAQslv5XOeBchGrxNmjtcXg=
 github.com/unknown321/fuse v0.0.0-20250719074710-ea184ee9e276/go.mod h1:NAYBxeuSLVUbbzgcoX1m9omb56SSgFm3lELYLtJaI+A=
 github.com/unknown321/fuse v0.0.0-20250730143228-83f3a4f4061c h1:fsneZg2vsVPzCUOaMIb9DfxSFt25j137UPXd+1RYPU4=
