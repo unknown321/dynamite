@@ -59,6 +59,7 @@ type pageData struct {
 	HasUpdate bool
 	Blacklist []config.LimitListEntry
 	Whitelist []config.LimitListEntry
+	Done      bool
 }
 
 func Start(w http.ResponseWriter, r *http.Request) {
@@ -123,6 +124,7 @@ type SaveData struct {
 	MetaTag   string
 	HasUpdate bool
 	Version   *util.Version
+	Done      bool
 }
 
 func Save(w http.ResponseWriter, r *http.Request) {

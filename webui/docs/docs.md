@@ -36,7 +36,7 @@ Follow this guide: <a href="https://www.youtube.com/watch?v=SvePtu07XVY" target=
 
 ### Requirements
 
-  - OS
+  - OS:
     - Windows 10 or later
     - Linux kernel 3.2 or later / Steam OS
   - Legitimate and unmodified Steam copy of the game (JP version is not supported)
@@ -220,8 +220,7 @@ These missions are broken in one way or another:
     4 - C2W  - cannot progress past "identify equipment" goal (#39)
     9 - BACKUP, BACK DOWN - no enemy vehicles spawned
     12 - HELLBOUND - infinite loading after first cutscene (#7)
-    13 - PITCH DARK - loads, partner may be invisible for a while after landing cutscene (#13). 
-        Mission may abort for host (out of mission area) if second partner connects too late.
+    13 - PITCH DARK - mission may abort for host (out of mission area) if second partner connects too late.
         Infinite loading for both client and host after blowing up water tank.
     31 - SAHELANTHROPUS - loads, sahelan is local. Host may experience infinite loading after finishing the mission.
     43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility
@@ -380,7 +379,7 @@ Code is dynamically reloaded on `Master Key` + `Reload Key` press (`V + E` by de
 
 ---
 
-<a href="/" class="btn-to-config">Proceed to configuration</a>
+<a href="/" class="btn-launch">Proceed to configuration</a>
 
 ---
 
