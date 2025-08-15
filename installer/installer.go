@@ -151,18 +151,25 @@ func packVendor(baseDir string) error {
 		return fmt.Errorf("unmarshal qar definition: %w", err)
 	}
 
-	qq.Entries = append(qq.Entries, qar.Entry{
-		Header: qar.EntryHeader{
-			FilePath:   "/Assets/tpp/pack/coop/coop_essentials.fpk",
-			Compressed: true,
+	appends := []qar.Entry{
+		{
+			Header: qar.EntryHeader{
+				FilePath:   "/Assets/tpp/pack/coop/coop_essentials.fpk",
+				Compressed: true,
+			},
 		},
-	})
-	qq.Entries = append(qq.Entries, qar.Entry{
-		Header: qar.EntryHeader{
-			FilePath:   "/Assets/tpp/pack/coop/coop_essentials.fpkd",
-			Compressed: true,
+		{
+			Header: qar.EntryHeader{
+				FilePath:   "/Assets/tpp/pack/coop/coop_essentials.fpkd",
+				Compressed: true,
+			},
 		},
-	})
+	}
+
+	for _, v := range appends {
+		qq.Entries = append(qq.Entries, v)
+		slog.Info("appended", "file", v.Header.FilePath)
+	}
 
 	dict := hashing.Dictionary{}
 
@@ -318,13 +325,23 @@ func replaceFiles(outdir string) error {
 		// TODO less loops?
 	Start:
 		for i, e := range sourceFpk.Entries {
-			for _, d := range f.Delete {
+			for k, d := range f.Delete {
 				if e.FilePath.Data == d {
 					sourceFpk.Entries = slices.Delete(sourceFpk.Entries, i, i+1)
+					f.Delete = slices.Delete(f.Delete, k, k+1)
 					slog.Info("deleted", "name", d, "fpk", f.Source.NameInQar)
 					goto Start
 				}
 			}
+		}
+
+		if len(f.Delete) != 0 {
+			ff := ""
+			for _, v := range f.Delete {
+				ff += v + ","
+			}
+			ff = strings.TrimSuffix(ff, ",")
+			return fmt.Errorf("failed to delete from %s: %s", f.Source, ff)
 		}
 
 		outPath := filepath.Join(outdir, f.Source.NameInQar)
