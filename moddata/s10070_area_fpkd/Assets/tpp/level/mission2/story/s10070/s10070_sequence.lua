@@ -2442,6 +2442,10 @@ sequences.Seq_Demo_MissionTitle = {
 		TppUI.StartMissionTelop()
 	end,
 
+	OnReload = function()
+		TppNetworkUtil.SessionEnableAccept( true )
+	end,
+
 	OnLeave = function ()
 		
 		TppMission.UpdateCheckPoint("CHK_AfterSahelanTestDemo")
@@ -2954,7 +2958,9 @@ sequences.Seq_Game_GoToSovietBase = {
 
 	OnEnter = function()
 
-		
+		-- post-reload
+		TppNetworkUtil.SessionEnableAccept( true )
+
 		Gimmick.SetEventDoorLock( EVENT_DOOR_NAME , EVENT_DOOR_PATH , false, 0 )	
 
 		

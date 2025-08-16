@@ -17,6 +17,10 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
     * [Installing](#installing)
     * [Updating](#updating)
     * [Playing](#playing)
+      * [Missions that are playable from start to finish with minor bugs (not impacting gameplay in a meaningful way):](#missions-that-are-playable-from-start-to-finish-with-minor-bugs-not-impacting-gameplay-in-a-meaningful-way)
+      * [Missions that were recently updated and need testing:](#missions-that-were-recently-updated-and-need-testing)
+      * [These missions are broken in one way or another:](#these-missions-are-broken-in-one-way-or-another)
+      * [Untested missions:](#untested-missions)
       * [Host](#host)
       * [Client](#client)
     * [Issues](#issues)
@@ -72,6 +76,8 @@ host's Steam profile, right-clicking the page and selecting `Copy Page URL`.
 As a host, add unwanted persons to `Blacklist` or limit your co-op session to a close circle of friends
 by adding them to `Whitelist`. If whitelist has entries in it, blacklist is ignored.
 
+---
+
 #### dynamite
 
 Before installation dynamite creates backup of your save files in a zip file, creates a copy of them and uses that copy.
@@ -89,6 +95,8 @@ for a second together; in case of success `Keys bound` will be printed in game l
 Check `Skip Web UI on start` if you are fine with current settings; on the next launch Web UI won't open in browser, 
 no installation will be performed, you can start the game right after launching dynamite executable.
 
+---
+
 #### Master server
 
 Master server holds records about your online resources; game requires working connection to it to play co-op.
@@ -100,6 +108,8 @@ implementation <a href="https://github.com/unknown321/fuse" target="_blank">fuse
 `Use Local Master Server` will start a local server on port 6667. If you want to connect to another public master server
 instance (**not recommended**), uncheck it and enter address in the `URL` field.
 
+---
+
 #### Key bindings
 
 You can add and change key combinations to run dynamite functions (see [Playing](#Playing)) or external lua scripts.
@@ -109,6 +119,8 @@ To use them, hold `Master Key` for a second and press key from the table to call
 `Dynamite.CreateClientSession` entry is required to connect to the host; 
 `Dynamite.ResetClientSessionStateWithNotification` is required to reset session state in case of connection issues. You 
 should keep these entries; feel free to change default keys (`UP` and `LEFT` arrow buttons).
+
+---
 
 #### Miscellaneous
 
@@ -155,7 +167,9 @@ Steps:
 3. Launch the game
 4. Choose working mission from list below and tell it to all session participants
 
-Missions that are playable from start to finish with minor bugs (not impacting gameplay in a meaningful way):
+---
+
+#### Missions that are playable from start to finish with minor bugs (not impacting gameplay in a meaningful way):
 
 <details>
 <summary>Mission list (click me)</summary>
@@ -181,7 +195,11 @@ Missions that are playable from start to finish with minor bugs (not impacting g
 
 A good (read: tested) choice is Mission 5, OVER THE FENCE.
 
-<p class="color-changing-text">NEW:</p> Missions that were recently updated and need testing.
+---
+
+<p class="color-changing-text">NEW:</p> 
+
+#### Missions that were recently updated and need testing:
 
 Report if they are working on <a href="https://github.com/unknown321/dynamite/issues/32" target="_blank">GitHub</a> or 
 <a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>, `modding-showcase`
@@ -195,11 +213,13 @@ channel, `dynamite` thread:
     8 - OCCUPATION FORCES
     10 - ANGEL WITH BROKEN WINGS - client loads into mission again (#12), prisoners must be extracted by each party (#14)
     11 - CLOAKED IN SILENCE - quiet is local
+    12 - HELLBOUND
     18 - BLOOD RUNS DEEP
     19 - ON THE TRAIL
     24 - CLOSE CONTACT - client loads into mission again (#12), prisoners must be extracted by each party (#14)
     25 - AIM TRUE, YE VENGEFUL - client loads into mission again (#12)
     28 - CODE TALKER - client cannot pick up Code Talker (#15)
+    29 - METALLIC ARCHAEA
     30 - SKULL FACE
     32 - TO KNOW TOO MUCH
     35 - CURSED LEGACY
@@ -210,7 +230,9 @@ channel, `dynamite` thread:
 
 </details>
 
-These missions are broken in one way or another:
+---
+
+#### These missions are broken in one way or another:
 
 <details>
 <summary>Click me</summary>
@@ -219,7 +241,6 @@ These missions are broken in one way or another:
     3 - A HERO’S WAY - no target spawned
     4 - C2W  - cannot progress past "identify equipment" goal (#39)
     9 - BACKUP, BACK DOWN - no enemy vehicles spawned
-    12 - HELLBOUND - infinite loading after first cutscene (#7)
     13 - PITCH DARK - mission may abort for host (out of mission area) if second partner connects too late.
         Infinite loading for both client and host after blowing up water tank.
     31 - SAHELANTHROPUS - loads, sahelan is local. Host may experience infinite loading after finishing the mission.
@@ -228,19 +249,22 @@ These missions are broken in one way or another:
 
 </details>
 
-Untested missions:
+---
+
+#### Untested missions:
 
 <details>
 <summary>Click me</summary>
 
 ```
-too much action:
-    29 - METALLIC ARCHAEA
+none?
 ```
 
 </details>
 
-EXTREME versions, tutorial missions and script-heavy missions are not included:
+---
+
+#### EXTREME versions, tutorial missions and script-heavy missions are not included:
 
 <details>
 <summary>Click me</summary>
@@ -283,14 +307,15 @@ Video: <a href="https://youtu.be/ei4CW0x1CfY" target="_blank">Link</a>
 #### Client
 
 **IMPORTANT STEP**: Wait for host to load the mission, then press `Master Key` + `UP` arrow to connect 
-(`Dynamite.CreateClientSession` key bind). It must be done every time by client before starting the mission
+(`Dynamite.CreateClientSession` key bind). It must be done every time by client before starting the mission.
 
 Read the notifications in the game log; if the connection fails, try again. After `Connection established` message start
-the same mission.
+the same mission. If you are getting "You have been disconnected" popup, press `Master Key` + `LEFT` arrow to reset 
+session state and try again.
 
 An indication of success is broken camera in the intro sequence - it will fly around host's position instead of yours.
 
-After that proceed as usual.
+After that play the game.
 
 Video: <a href="https://youtu.be/rJOufW-rp9g" target="_blank">Link</a>
 
@@ -326,10 +351,13 @@ You can (and will) experience various issues such as:
 You can report these on <a href="https://github.com/unknown321/dynamite/issues" target="_blank">GitHub</a> (recommended)
 or ask for help in <a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>.
 
+---
+
 #### Mission not loading
 
-If you've selected a broken mission (not in the mission list above), it may never load. Close the game, select another 
-mission from the list.
+If you've selected a broken mission, it may never load. Close the game, select another mission from the list.
+
+---
 
 #### Providing crash info
 

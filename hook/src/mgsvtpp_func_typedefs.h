@@ -76,6 +76,20 @@ typedef void *(__fastcall FoxGetEntityPropertyFunc)(void *entityPtr, void *prope
 
 typedef uint32_t(__cdecl ValueGetAsUInt32Func)(void *value);
 
+typedef double(__thiscall FoxBlockProcessFunc)(void *Block, void *TaskContext, void *BlockProcessState);
+
+typedef int32_t *(__thiscall FoxBlockUnloadFunc)(void *Block, int32_t *param_2);
+
+typedef int32_t *(__thiscall FoxBlockReloadFunc)(void *Block, int32_t *param_2);
+
+typedef int32_t *(__thiscall FoxBlockActivateFunc)(void *Block, int32_t *param_2);
+
+typedef int32_t *(__thiscall FoxBlockDeactivateFunc)(void *Block, int32_t *param_2);
+
+typedef int *(FoxBlockLoadFunc)(void *thisPtr, int *errorCode, uint64_t *pathID, uint32_t param_4);
+
+typedef int (lua_tobooleanFunc)(lua_State *L,int idx);
+
 /*
 enum fox::PropertyInfo::Type,
 class fox::String const & __ptr64,
@@ -140,6 +154,18 @@ typedef bool(__thiscall EquipCrossEvCallIsItemNoUseFunc)(void *thisPtr, unsigned
 
 typedef void(__cdecl FoxLuaPushVector3Func)(lua_State *param_1, Vector4 *param_2);
 
+typedef void *(FoxGenerateUniqueNameFunc)(void *sharedString, unsigned long long param_2, void *string);
+
+typedef void *(FoxBlockFunc)(void *p);
+
+typedef void *(GetCurrentBlockMemoryFunc)();
+
+typedef void *(__thiscall BlockMemoryAllocTailFunc)(void *memBlock, uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
+
+typedef void *(__thiscall BlockMemoryAllocHeapFunc)(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
+
+typedef void* (CloseSessionFunc)(void);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -151,6 +177,7 @@ extern lua_pcallFunc *lua_pcall;
 extern luaL_checkintegerFunc *luaL_checkinteger;
 extern lua_pushbooleanFunc *lua_pushboolean;
 extern luaL_checknumberFunc *luaL_checknumber;
+extern lua_tobooleanFunc *lua_toboolean;
 
 // tpp lua functions (TppUiCommand.AnnounceLogView)
 extern lua_CFunction l_AnnounceLogView;
@@ -207,5 +234,17 @@ extern Marker2SystemImplRemovedAllUserMarkerFunc *Marker2SystemImplRemovedAllUse
 extern SightManagerImplInitializeFunc *SightManagerImplInitialize;
 extern UiControllerImplSetNoUseEquipIdFunc *UiControllerImplSetNoUseEquipId;
 extern EquipCrossEvCallIsItemNoUseFunc *EquipCrossEvCallIsItemNoUse;
+extern FoxBlockProcessFunc *FoxBlockProcess;
+extern FoxBlockUnloadFunc *FoxBlockUnload;
+extern FoxBlockReloadFunc *FoxBlockReload;
+extern FoxGenerateUniqueNameFunc *FoxGenerateUniqueName;
+extern FoxBlockFunc *FoxBlock;
+extern GetCurrentBlockMemoryFunc *GetCurrentBlockMemory;
+extern BlockMemoryAllocTailFunc *BlockMemoryAllocTail;
+extern BlockMemoryAllocHeapFunc *BlockMemoryAllocHeap;
+extern FoxBlockActivateFunc *FoxBlockActivate;
+extern FoxBlockDeactivateFunc *FoxBlockDeactivate;
+extern FoxBlockLoadFunc *FoxBlockLoad;
+extern CloseSessionFunc *CloseSession;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

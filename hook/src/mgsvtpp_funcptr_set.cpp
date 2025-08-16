@@ -14,6 +14,7 @@ namespace Dynamite {
         luaL_checkinteger = (luaL_checkintegerFunc *)addressSet["luaL_checkinteger"];
         lua_pushboolean = (lua_pushbooleanFunc *)addressSet["lua_pushboolean"];
         luaL_checknumber = (luaL_checknumberFunc *)addressSet["luaL_checknumber"];
+        lua_toboolean = (lua_tobooleanFunc *)addressSet["lua_toboolean"];
 
         IsDefenseTeamByOnlineFobLocal = (IsDefenseTeamByOnlineFobLocalFunc *)addressSet["IsDefenseTeamByOnlineFobLocal"];
         IsOffenseTeamByOnlineFobLocal = (IsOffenseTeamByOnlineFobLocalFunc *)addressSet["IsOffenseTeamByOnlineFobLocal"];
@@ -65,6 +66,18 @@ namespace Dynamite {
         SightManagerImplInitialize = (SightManagerImplInitializeFunc *)addressSet["SightManagerImplInitialize"];
         UiControllerImplSetNoUseEquipId = (UiControllerImplSetNoUseEquipIdFunc *)addressSet["UiControllerImplSetNoUseEquipId"];
         EquipCrossEvCallIsItemNoUse = (EquipCrossEvCallIsItemNoUseFunc *)addressSet["EquipCrossEvCallIsItemNoUse"];
+        FoxBlockProcess = (FoxBlockProcessFunc *)addressSet["FoxBlockProcess"];
+        FoxBlockUnload = (FoxBlockUnloadFunc *)addressSet["FoxBlockUnload"];
+        FoxBlockReload = (FoxBlockReloadFunc *)addressSet["FoxBlockReload"];
+        FoxGenerateUniqueName = (FoxGenerateUniqueNameFunc *)addressSet["FoxGenerateUniqueName"];
+        FoxBlock = (FoxBlockFunc *)addressSet["FoxBlock"];
+        GetCurrentBlockMemory = (GetCurrentBlockMemoryFunc *)addressSet["GetCurrentBlockMemory"];
+        BlockMemoryAllocTail = (BlockMemoryAllocTailFunc*)addressSet["BlockMemoryAllocTail"];
+        BlockMemoryAllocHeap = (BlockMemoryAllocHeapFunc*)addressSet["BlockMemoryAllocHeap"];
+        FoxBlockActivate = (FoxBlockActivateFunc *)addressSet["FoxBlockActivate"];
+        FoxBlockDeactivate = (FoxBlockDeactivateFunc *)addressSet["FoxBlockDeactivate"];
+        FoxBlockLoad = (FoxBlockLoadFunc *)addressSet["FoxBlockLoad"];
+        CloseSession = (CloseSessionFunc *)addressSet["CloseSession"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];

@@ -43,6 +43,7 @@ namespace Dynamite {
     void *EquipHudSystemImpl = nullptr;
 
     std::map<uint32_t, std::string> messageDict{};
+    std::map<uint64_t, std::string> pathDict{};
 
     void AbortHandler(int signal_number) {
         auto l = spdlog::get(logName);
@@ -87,10 +88,15 @@ namespace Dynamite {
     int GetMemberCount() {
         auto session = GetMainSession();
         if (session == nullptr) {
+            spdlog::error("{} Main session is null", __FUNCTION__);
             return 1;
         }
 
         auto session2impl = (void *)((char *)session + 0x20);
+        if (session2impl == nullptr) {
+            spdlog::error("{} Session2Impl is null", __FUNCTION__);
+            return 1;
+        }
 
         return GetSessionMemberCount(session2impl);
     }
@@ -257,6 +263,35 @@ namespace Dynamite {
         }
     }
 
+    void Dynamite::CreateDebugHooks() {
+        CREATE_HOOK(FoxBlockUnload)
+        ENABLEHOOK(FoxBlockUnload)
+
+        CREATE_HOOK(FoxBlockReload)
+        ENABLEHOOK(FoxBlockReload)
+
+        CREATE_HOOK(FoxBlock)
+        ENABLEHOOK(FoxBlock)
+
+        CREATE_HOOK(FoxGenerateUniqueName)
+        ENABLEHOOK(FoxGenerateUniqueName)
+
+        CREATE_HOOK(FoxBlockProcess)
+        ENABLEHOOK(FoxBlockProcess)
+
+        CREATE_HOOK(FoxBlockActivate)
+        ENABLEHOOK(FoxBlockActivate)
+
+        CREATE_HOOK(FoxBlockDeactivate)
+        ENABLEHOOK(FoxBlockDeactivate)
+
+        CREATE_HOOK(FoxBlockLoad)
+        ENABLEHOOK(FoxBlockLoad)
+
+        CREATE_HOOK(BlockMemoryAllocTail)
+        ENABLEHOOK(BlockMemoryAllocTail)
+    }
+
     void Dynamite::CreateHooks() {
         ReadConfig();
 
@@ -328,6 +363,18 @@ namespace Dynamite {
 
         CREATE_HOOK(EquipCrossEvCallIsItemNoUse)
         ENABLEHOOK(EquipCrossEvCallIsItemNoUse)
+
+        CREATE_HOOK(CreateHostSession)
+        ENABLEHOOK(CreateHostSession)
+
+        CREATE_HOOK(CloseSession)
+        ENABLEHOOK(CloseSession)
+
+        CREATE_HOOK(BlockHeapAlloc)
+        ENABLEHOOK(BlockHeapAlloc)
+
+        CREATE_HOOK(FobTargetCtor)
+        ENABLEHOOK(FobTargetCtor)
 
         for (auto p : GetPatches()) {
             if (!p.Apply()) {
@@ -511,6 +558,13 @@ namespace Dynamite {
                     "Always run host damage controller implementation"
                     "Fixes crash on shooting animals (like goats in PITCH BLACK after the village at {-711.90826416016, 5.1010074615479, 661.36602783203})"
                     "tpp::gm::impl::`anonymous_namespace'::DamageControllerImpl::Update",
+            },
+            {
+                .address = 0x146457b68,
+                .expected = {0x75, 0x13}, // JNZ LAB_146457b7d
+                .patch = {0x48, 0x90},    // NOP
+                .description = "always run full CloseSession code, ignore mission code check"
+                               "tpp::gm::tool::`anonymous_namespace'::CloseSession",
             },
         };
     }

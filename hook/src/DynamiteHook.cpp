@@ -2,12 +2,15 @@
 #include "DamageProtocol.h"
 #include "Tpp/TppFOB.h"
 #include "Tpp/TppMarkerType.h"
+#include "memtag.h"
 #include "mgsvtpp_func_typedefs.h"
 #include "spdlog/spdlog.h"
 #include "util.h"
 #include <filesystem>
 
 namespace Dynamite {
+    void *fobTargetCtor = nullptr;
+
     // entry point
     void __fastcall luaL_openlibsHook(lua_State *L) {
         int Version = 1;
@@ -20,6 +23,7 @@ namespace Dynamite {
         luaState = L;
 
         messageDict = readMessageDictionary("messageDict.txt");
+        pathDict = readPathCodeDictionary("pathDict.txt");
 
         auto luaLog = "dynamite/luaLog.txt";
         if (std::filesystem::exists(luaLog)) {
@@ -74,7 +78,7 @@ namespace Dynamite {
         auto clientSteamID = *(uint64_t *)(request);
         spdlog::info("{}: Connection request: {:d}", __FUNCTION__, clientSteamID);
 
-        if (!cfg.Host)  {
+        if (!cfg.Host) {
             spdlog::warn("client, but there was a connection attempt?");
         }
 
@@ -170,7 +174,7 @@ namespace Dynamite {
 
     bool AddLocalDamageHook(void *thisPtr, uint32_t playerIndex, PlayerDamage *Damage) {
         if (Damage != nullptr) {
-//            DumpDamage(Damage, playerIndex);
+            //            DumpDamage(Damage, playerIndex);
         }
         return AddLocalDamage(thisPtr, playerIndex, Damage);
     }
@@ -229,7 +233,7 @@ namespace Dynamite {
                     .z = damage->v1.z,
                 };
 
-//                DumpDamage(damage, 1);
+                //                DumpDamage(damage, 1);
                 unsigned short objectIDMarker = damage->damage_type_flags;
                 spdlog::info("adding follow network marker at {} {} {}, object id {} ({})", vv.x, vv.y, vv.z, objectIDMarker, damage->damage_type_flags);
                 auto ok = Marker2SystemImplPlacedUserMarkerFollow(MarkerSystemImpl, &vv, objectIDMarker);
@@ -347,7 +351,7 @@ namespace Dynamite {
 
         auto resDmg = AddLocalDamageHook(DamageControllerImpl, playerID, &d);
         spdlog::info("network add follow marker request: {}", resDmg);
-//        DumpDamage(&d, 0);
+        //        DumpDamage(&d, 0);
 
         return res;
     }
@@ -358,11 +362,178 @@ namespace Dynamite {
     }
 
     void UiControllerImplSetNoUseEquipIdHook(void *thisPtr, bool param_1, unsigned int EquipID) {
-       EquipID = 9999;
-       UiControllerImplSetNoUseEquipId(thisPtr, param_1, EquipID);
+        EquipID = 9999;
+        UiControllerImplSetNoUseEquipId(thisPtr, param_1, EquipID);
     }
 
-    bool EquipCrossEvCallIsItemNoUseHook(void* thisPtr,unsigned int EquipID) {
-        return false;
+    bool EquipCrossEvCallIsItemNoUseHook(void *thisPtr, unsigned int EquipID) { return false; }
+
+    std::map<void *, uint32_t> processCount{};
+    std::map<void *, std::string> blockNames{};
+
+    // used for debugging, see docs/issue_7.md
+    double FoxBlockProcessHook(void *Block, void *TaskContext, void *BlockProcessState) {
+        DWORD tid = GetCurrentThreadId();
+        if (processCount.contains(Block)) {
+            processCount[Block]++;
+        } else {
+            processCount[Block] = 0;
+        }
+        if (processCount[Block] % 500 == 0) {
+            auto blockName = blockNames[Block];
+            uint32_t mem1 = *(int *)((char *)Block + 0x60);
+            int32_t mem2 = *(int *)((char *)Block + 0x18);
+            int32_t mem3 = *(int *)((char *)Block + 0x40);
+            int32_t mem4 = *(int *)((char *)Block + 0x10);
+            uint32_t mem5 = *(int *)((char *)Block + 0x148);
+            spdlog::info("tid {}, process {} ({}), mem {} {} {} {} {}", tid, blockName, Block, mem1, mem2, mem3, mem4, mem5);
+        }
+
+        //        if ((uint)((*(int *)(param_1 + 0x60) - *(int *)(param_1 + 0x18)) + *(int *)(param_1 + 0x40) +
+        //                   *(int *)(param_1 + 0x10)) <= *(uint *)(param_1 + 0x148)) {
+
+        return FoxBlockProcess(Block, TaskContext, BlockProcessState);
+    }
+
+    // used for debugging, see docs/issue_7.md
+    int32_t *FoxBlockReloadHook(void *Block, int32_t *param_2) {
+        DWORD tid = GetCurrentThreadId();
+        processCount[Block] = 0;
+        auto blockName = blockNames[Block];
+        spdlog::info("tid {}, reload {} ({})", tid, blockName, Block);
+        return FoxBlockReload(Block, param_2);
+    }
+
+    // used for debugging, see docs/issue_7.md
+    int32_t *FoxBlockUnloadHook(void *Block, int32_t *param_2) {
+        DWORD tid = GetCurrentThreadId();
+        processCount[Block] = 0;
+        auto blockName = blockNames[Block];
+        auto res = FoxBlockUnload(Block, param_2);
+        spdlog::info("tid {}, unload {} ({}), res {}", tid, blockName, Block, *res);
+        return res;
+    }
+
+    std::string latestGeneratedName;
+
+    // used for debugging, see docs/issue_7.md
+    void *FoxGenerateUniqueNameHook(void *sharedString, unsigned long long param_2, void *string) {
+        DWORD tid = GetCurrentThreadId();
+        spdlog::info("tid {}, generate name: {}", tid, *(char **)*(void **)(string));
+        latestGeneratedName = std::string(*(char **)*(void **)(string));
+
+        return FoxGenerateUniqueName(sharedString, param_2, string);
+    }
+
+    // used for debugging, see docs/issue_7.md
+    void *FoxBlockHook(void *p1) {
+        DWORD tid = GetCurrentThreadId();
+        spdlog::info("tid {}, block: {} ({})", tid, latestGeneratedName, p1);
+        blockNames[p1] = latestGeneratedName;
+
+        return FoxBlock(p1);
+    }
+
+    // used for debugging, see docs/issue_7.md
+    int32_t blockStatus(void *block) { return *(int32_t *)((char *)block + 0x80); }
+
+    // used for debugging, see docs/issue_7.md
+    int32_t blockStatus2(void *block) { return *(int32_t *)((char *)block + 0x84); }
+
+    // used for debugging, see docs/issue_7.md
+    int32_t *FoxBlockActivateHook(void *Block, int32_t *param_2) {
+        DWORD tid = GetCurrentThreadId();
+        auto blockName = blockNames[Block];
+        auto q = FoxBlockActivate(Block, param_2);
+        spdlog::info("tid {}, activate {} ({}), res {}", tid, blockName, Block, *q);
+        spdlog::info("activate block status {} {}", blockStatus(Block), blockStatus2(Block));
+        return q;
+    }
+
+    // used for debugging, see docs/issue_7.md
+    int32_t *FoxBlockDeactivateHook(void *Block, int32_t *param_2) {
+        spdlog::info("deactivating {}", Block);
+        auto q = FoxBlockDeactivate(Block, param_2);
+        DWORD tid = GetCurrentThreadId();
+        auto blockName = blockNames[Block];
+        spdlog::info("tid {}, deactivate {} ({}), res {}", tid, blockName, Block, *q);
+        spdlog::info("deactivate block status {} {}", blockStatus(Block), blockStatus2(Block));
+        return q;
+    }
+
+    // used for debugging, see docs/issue_7.md
+    int *FoxBlockLoadHook(void *thisPtr, int *errorCode, uint64_t *pathID, uint32_t count) {
+        DWORD tid = GetCurrentThreadId();
+        auto pp = pathID;
+        auto blockName = blockNames[thisPtr];
+        if (pathDict.empty()) {
+            spdlog::info("tid {}, block {} ({}), loading {:x} ({:d})", tid, blockName, thisPtr, *pp, count);
+            return FoxBlockLoad(thisPtr, errorCode, pathID, count);
+        }
+
+        for (int i = 0; i < count; i++) {
+            auto name = pathDict[*pp];
+            if (name.empty()) {
+                spdlog::info("tid {}, block {} ({}), loading {:x} ({:d}/{:d})", tid, blockName, thisPtr, *pp, i + 1, count);
+            } else {
+                spdlog::info("tid {}, block {} ({}), loading {} ({:d}/{})", tid, blockName, thisPtr, name, i + 1, count);
+            }
+            pp++;
+        }
+        auto q = FoxBlockLoad(thisPtr, errorCode, pathID, count);
+        return q;
+    }
+
+    // used for debugging, see docs/issue_7.md
+    void *(BlockMemoryAllocTailHook)(void *memBlock, uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag) {
+        auto name = blockNames[memBlock];
+        spdlog::info("alloc tail: {} ({}), size {}, align {}, category 0x{:x}", name, memBlock, sizeInBytes, alignment, categoryTag);
+        return BlockMemoryAllocTail(memBlock, sizeInBytes, alignment, categoryTag);
+    }
+
+    // used for debugging, see docs/issue_7.md
+    int64_t(__fastcall CreateHostSessionHook)(FobTarget *param) {
+        spdlog::info("create host session {}", (void *)param);
+        return CreateHostSession(param);
+    }
+
+    // issue #7, reuse FobTarget instance created by the game
+    FobTarget *FobTargetCtorHook(FobTarget *p) {
+//        spdlog::info("fob target ctor: {}", (void *)p);
+        fobTargetCtor = FobTargetCtor(p);
+        return (FobTarget *)fobTargetCtor;
+    }
+
+    bool blockHeapAllocLoginUtilityCalled = false;
+
+    // issue #7 workaround, force network allocations on heap when called from lua instead of current block
+    // see docs/issue_7.md
+    void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag) {
+        if (!cfg.Host) {
+            return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
+        }
+
+        if (categoryTag != MEMTAG_TPP_NETWORK) {
+            return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
+        }
+
+        spdlog::info("alloc MEMTAG_TPP_NETWORK");
+        if (blockHeapAllocLoginUtilityCalled) {
+            spdlog::info("{}, alloc MEMTAG_TPP_NETWORK force on heap", __FUNCTION__);
+            return BlockMemoryAllocHeap(sizeInBytes, alignment, categoryTag);
+        }
+
+        blockHeapAllocLoginUtilityCalled = true;
+        spdlog::info("{}, alloc MEMTAG_TPP_NETWORK run as is", __FUNCTION__);
+
+        return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
+    }
+
+    void *CloseSessionHook() {
+        spdlog::info("{}, closing session", __FUNCTION__);
+        if (cfg.Host) {
+            hostSessionCreated = false;
+        }
+        return CloseSession();
     }
 }

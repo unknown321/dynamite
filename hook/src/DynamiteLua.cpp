@@ -1,5 +1,6 @@
 #include "DynamiteLua.h"
 #include "DamageProtocol.h"
+#include "DynamiteHook.h"
 #include "lua/lauxlib.h"
 #include "lua/lua.h"
 #include "memtag.h"
@@ -7,13 +8,37 @@
 #include "util.h"
 
 namespace Dynamite {
+
+    bool hostSessionCreated = false;
+
     // TppMain.lua, called automatically on mission start
     __cdecl int l_CreateHostSession(lua_State *L) {
         spdlog::info(__FUNCTION__);
-        auto ft = (FobTarget *)BlockHeapAlloc(8, 8, MEMTAG_NULL);
-        ft = FobTargetCtor(ft);
-        CreateHostSession(ft);
-        BlockHeapFree(ft);
+        if (!cfg.Host) {
+            spdlog::info("{}, client, refusing to create host session", __FUNCTION__);
+            return 0;
+        }
+
+        if (fobTargetCtor == nullptr) {
+            spdlog::info("{}, fob target ctor is null", __FUNCTION__);
+            return 0;
+        }
+
+        if (hostSessionCreated) {
+            lua_getglobal(luaState, "TppUiCommand");
+            lua_getfield(luaState, -1, "AnnounceLogView");
+            auto text = "Created host session\0";
+            lua_pushstring(luaState, text);
+            lua_pcall(luaState, 1, 0, 0);
+
+            spdlog::info("{}, host session already created", __FUNCTION__);
+            return 0;
+        }
+
+        auto res = CreateHostSession((FobTarget *)fobTargetCtor);
+        spdlog::info("{}, host session res: {}", __FUNCTION__, res);
+
+        hostSessionCreated = res > 0;
 
         lua_getglobal(luaState, "TppUiCommand");
         lua_getfield(luaState, -1, "AnnounceLogView");
@@ -62,6 +87,7 @@ namespace Dynamite {
         }
 
         if (sessionCreated) {
+            spdlog::info("{}, session already created", __FUNCTION__);
             return 0;
         }
 
@@ -69,6 +95,11 @@ namespace Dynamite {
         // targetIPCString must be set to anything > 0, crash otherwise
         // 3 just works
         // real target ip is retrieved later by Steam
+
+        // WARNING: TODO: these allocations will be made on current block
+        // it works only because client clears that memory by disconnecting on mission end
+        // see issue_7.md for details
+
         auto ff = (FobTarget *)BlockHeapAlloc(sizeof(FobTarget), 8, MEMTAG_NULL);
         auto ci = (SessionConnectInfo *)BlockHeapAlloc(sizeof(SessionConnectInfo), 8, MEMTAG_NULL);
         char test = 3;
@@ -241,7 +272,7 @@ namespace Dynamite {
     int l_GetPlayerPosition(lua_State *L) {
         auto i = luaL_checkinteger(L, 1);
         auto res = Dynamite::GetPlayerPosition(i);
-        auto rr = Vector4 {
+        auto rr = Vector4{
             .x = res.x,
             .y = res.y,
             .z = res.z,

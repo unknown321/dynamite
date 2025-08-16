@@ -12,6 +12,7 @@ namespace Dynamite {
     extern Config cfg;
     extern lua_State *luaState;
     extern std::map<uint32_t, std::string> messageDict;
+    extern std::map<uint64_t, std::string> pathDict;
     extern bool sessionConnected;
     extern void *DamageControllerImpl;
     extern void *MarkerSystemImpl;
@@ -20,7 +21,7 @@ namespace Dynamite {
     extern bool ignoreMarkerRequests;
     extern unsigned int offensePlayerID;
     extern unsigned int defensePlayerID;
-
+    extern bool hostSessionCreated;
     extern void CreateLibs(lua_State *L);
 
     void __fastcall luaL_openlibsHook(lua_State *L);
@@ -47,6 +48,22 @@ namespace Dynamite {
     void SightManagerImplInitializeHook(void *thisPtr, void *QuarkDesc);
     void UiControllerImplSetNoUseEquipIdHook(void *thisPtr, bool param_1, unsigned int EquipID);
     bool EquipCrossEvCallIsItemNoUseHook(void *thisPtr, unsigned int EquipID);
+    double FoxBlockProcessHook(void *Block, void *TaskContext, void *BlockProcessState);
+    int32_t *FoxBlockReloadHook(void *Block, int32_t *param_2);
+    int32_t *FoxBlockUnloadHook(void *Block, int32_t *param_2);
+    void *FoxGenerateUniqueNameHook(void *sharedString, unsigned long long param_2, void *string);
+    void *FoxBlockHook(void *p1);
+    int32_t *FoxBlockActivateHook(void *Block, int32_t *param_2);
+    int32_t *FoxBlockDeactivateHook(void *Block, int32_t *param_2);
+    int *FoxBlockLoadHook(void *thisPtr, int *errorCode, uint64_t *pathID, uint32_t count);
+    void *(BlockMemoryAllocTailHook)(void *memBlock, uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
+    int64_t(__fastcall CreateHostSessionHook)(FobTarget *param);
+    FobTarget *FobTargetCtorHook(FobTarget *p);
+    void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
+    void * CloseSessionHook();
+
+    int32_t blockStatus(void *block);
+    int32_t blockStatus2(void *block);
 }
 
 #endif // HOOK_DYNAMITEHOOK_H

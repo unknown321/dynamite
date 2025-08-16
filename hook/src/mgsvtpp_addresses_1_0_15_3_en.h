@@ -8,8 +8,6 @@
 
 namespace Dynamite {
     std::map<std::string, uint64_t> mgsvtpp_adresses_1_0_15_3_en{
-        {"BlockHeapAlloc", 0x143264660},
-        {"BlockHeapFree", 0x1432651b0},
         {"IsDefenseTeamByOnlineFobLocal", 0x14d9ba3b0},
         {"IsOffenseTeamByOnlineFobLocal", 0x141e02e40},
         {"CreateHostSession", 0x1459f3e20},
@@ -59,9 +57,23 @@ namespace Dynamite {
         {"PlayerInfoServiceGetPositionAtIndex", 0x14d9b7770},
         {"GetMainSession", 0x143e60970},
         {"GetSessionMemberCount", 0x143e60ef0},
+        {"CloseSession", 0x146457b20},
+
+        {"BlockHeapAlloc", 0x143264660},
+        {"BlockHeapFree", 0x1432651b0},
+        {"FoxBlockProcess", 0x14006df80},
+        {"FoxBlockUnload", 0x143154a00},
+        {"FoxBlockReload", 0x1431533b0},
+        {"FoxBlockActivate", 0x14006cb20},
+        {"FoxBlockDeactivate", 0x14314a000},
+        {"FoxGenerateUniqueName", 0x1400e0210},
+        {"FoxBlock", 0x143145960},
+        {"FoxBlockLoad", 0x143151e80},
+        {"BlockMemoryAllocTail", 0x1400dbb30},
+        {"BlockMemoryAllocHeap", 0x143261bf0},
+        {"GetCurrentBlockMemory", 0x14328e410},
 
         {"FoxLuaPushVector3", 0x143257590},
-
         {"l_AnnounceLogView", 0x145d5ded0},
 
         {"lua_pushinteger", 0x14c1e6ef0},
@@ -74,6 +86,7 @@ namespace Dynamite {
         {"luaL_checkinteger", 0x14c1ff430},
         {"luaL_openlibs", 0x14c1fd0c0},
         {"luaL_checknumber", 0x14c1ffb30},
+        {"lua_toboolean", 0x14c1ebe40},
 
         /*
                         {"StrCode64", 0x14c1bd730},
