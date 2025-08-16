@@ -167,6 +167,7 @@ function e.OnAllocate(n)
 		TppMission.SetFOBMissionFlag() -- crashes 10033
 		TppGameStatus.Set("Mission", "S_IS_ONLINE")
 	elseif e.IsCoop(vars.missionCode) then
+		TppNetworkUtil.SetTimeOut(10);
 		if Dynamite.IsHost() then
 			Dynamite.CreateHostSession()
 		else
