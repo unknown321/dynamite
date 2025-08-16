@@ -939,7 +939,7 @@ function e.OnTerminate(e)
 		TppNetworkUtil.SessionDisconnectPreparingMembers()
 		TppNetworkUtil.CloseSession()
 		Dynamite.StopNearestEnemyThread()
-		Dynamite.ResetClientSessionState();
+		Dynamite.ResetClientSessionState()
 	end
 end
 return e
