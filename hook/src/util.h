@@ -10,6 +10,8 @@ float calculateDistance(Vector3 v1, Vector3 v2);
 
 std::map<uint32_t, std::string> readMessageDictionary(const std::string& filename);
 
+std::map<uint64_t, std::string> readPathCodeDictionary(const std::string &filename);
+
 PlayerDamage NewNetworkDamage();
 
 void DumpArgs(void *messageArgs, int len);

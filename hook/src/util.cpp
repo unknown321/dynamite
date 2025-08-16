@@ -60,6 +60,52 @@ std::map<uint32_t, std::string> readMessageDictionary(const std::string &filenam
     return result;
 }
 
+// file format is `string,pathcode64`
+std::map<uint64_t, std::string> readPathCodeDictionary(const std::string &filename) {
+    std::map<uint64_t, std::string> result;
+    if (!std::filesystem::exists(filename)) {
+        spdlog::info("Message dictionary {} doesn't exist, message names/values will not be resolved", filename);
+        return result;
+    }
+
+    std::ifstream inputFile(filename);
+
+    if (!inputFile.is_open()) {
+        spdlog::error("Error opening file!");
+        return result;
+    }
+
+    spdlog::info("Reading message dict...");
+
+    inputFile.unsetf(std::ios_base::skipws);
+
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        std::stringstream ss(line);
+        std::string value;
+        std::string hexStr;
+        uint64_t key;
+
+        if (std::getline(ss, value, ',') && std::getline(ss, hexStr)) {
+            std::stringstream hexStream;
+            hexStream << std::hex << hexStr;
+            if (hexStream >> key) {
+                if (key < 1000) {
+                    continue;
+                }
+                result[key] = value;
+            }
+        } else {
+            spdlog::error("Message dict, invalid line format: {}", line);
+        }
+    }
+
+    inputFile.close();
+    spdlog::info("Message dict size: {:d}", result.size());
+
+    return result;
+}
+
 PlayerDamage NewNetworkDamage() {
     auto d = PlayerDamage();
     d.damage_category = 16386;
