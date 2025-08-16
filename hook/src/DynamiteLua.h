@@ -37,6 +37,7 @@ namespace Dynamite {
     int l_GetOffensePlayerIndex(lua_State *L);
     int l_GetDefensePlayerIndex(lua_State *L);
     int l_GetSoldierLifeStatus(lua_State *L);
+    int l_IsClient(lua_State *L);
     int l_IsHost(lua_State *L);
     int l_AddDamage(lua_State *L);
     int l_AddFixedMarkerNetwork(lua_State *L);

@@ -146,6 +146,11 @@ namespace Dynamite {
         return 1;
     }
 
+    int l_IsClient(lua_State *L) {
+        lua_pushboolean(L, !cfg.Host);
+        return 1;
+    }
+
     int l_AddDamage(lua_State *L) {
         int playerID = luaL_checkinteger(L, 1);
         unsigned short damageID = luaL_checkinteger(L, 2);
@@ -266,6 +271,7 @@ namespace Dynamite {
             {"RemoveAllUserMarkers", l_RemoveAllUserMarkers},
             {"IgnoreMarkerRequests", l_IgnoreMarkerRequests},
             {"AcceptMarkerRequests", l_AcceptMarkerRequests},
+            {"IsClient", l_IsClient},
             {"IsHost", l_IsHost},
             {"GetPlayerPosition", l_GetPlayerPosition},
             {nullptr, nullptr},
