@@ -7,3 +7,4 @@ vendor
 *.fpkd
 *.json
 cache
+moddata/test
