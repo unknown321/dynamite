@@ -26,12 +26,12 @@ https://github.com/user-attachments/assets/e82c43c7-eace-4084-b1fd-c4fb8ef3abe2
 
 ### Support the project
 
-https://boosty.to/unknown321/donate
+<a href="https://boosty.to/unknown321/donate" target="_blank">Boosty</a>
 
 ### Gameplay
 
-https://www.youtube.com/watch?v=JJQbVnNBghE
+<a href="https://www.youtube.com/watch?v=dja6IPYZ_p4" target="_blank">Mission 5 OVER THE FENCE (41:06)</a>
 
-https://www.youtube.com/watch?v=dja6IPYZ_p4
+<a href="https://www.youtube.com/watch?v=4xIB7_qEVwI" target="_blank">Mission 15 FOOTPRINTS OF PHANTOMS (07:25)</a>
 
-https://www.youtube.com/watch?v=4xIB7_qEVwI
+<a href="https://www.youtube.com/watch?v=JJQbVnNBghE" taget="_blank">General gameplay, funny cuts (13:59)</a>
