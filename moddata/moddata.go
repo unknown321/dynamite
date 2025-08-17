@@ -831,4 +831,10 @@ var ReplaceInQAR = []AddToQar{
 		SourceFile: "standalone/script_loader.lua",
 		FileName:   "/Assets/tpp/script/lib/script_loader.lua",
 	},
+	{
+		// 00.dat
+		// player cbox delivery, animations
+		SourceFile: "standalone/TppPlayer.lua",
+		FileName:   "/Assets/tpp/script/lib/TppPlayer.lua",
+	},
 }
