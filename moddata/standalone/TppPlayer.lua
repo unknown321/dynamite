@@ -2827,7 +2827,14 @@ function e.WarpByCboxDelivery()
 	end
 	mvars.ply_deliveryWarpState = e.DELIVERY_WARP_STATE.START_WARP
 	o("Timer_DeliveryWarpSoundCannotCancel", a)
-	local a = { type = "TppPlayer2", index = PlayerInfo.GetLocalPlayerIndex() }
+
+	-- cbox delivery point selection is time dependent for host
+	-- apparently, PlayerInfo.GetLocalPlayerIndex() is too slow to execute on host
+	local plIndex = 0
+	if Dynamite.IsClient() then
+		plIndex = PlayerInfo.GetLocalPlayerIndex()
+	end
+	local a = { type = "TppPlayer2", index = plIndex }
 	local e = { id = "WarpToStation", stationId = mvars.ply_selectedCboxDeliveryUniqueId }
 	GameObject.SendCommand(a, e)
 end
