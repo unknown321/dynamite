@@ -176,8 +176,8 @@ function e.OnAllocate(n)
 
 		TppGameStatus.Set("Mission", "S_IS_ONLINE")
 	else
-		TppGameStatus.Reset("Mission", "S_IS_ONLINE")
 		Dynamite.StopNearestEnemyThread()
+		TppGameStatus.Reset("Mission", "S_IS_ONLINE")
 		Dynamite.ResetClientSessionState();
 
 		--TppNetworkUtil.SessionDisconnectPreparingMembers() --breaks fob if uncommented
@@ -936,10 +936,10 @@ function e.OnTerminate(e)
 	end
 
 	if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") and e.IsCoop(vars.missionCode) then
+		Dynamite.StopNearestEnemyThread()
 		TppGameStatus.Reset("Mission", "S_IS_ONLINE")
 		TppNetworkUtil.SessionDisconnectPreparingMembers()
 		TppNetworkUtil.CloseSession()
-		Dynamite.StopNearestEnemyThread()
 		Dynamite.ResetClientSessionState()
 	end
 end

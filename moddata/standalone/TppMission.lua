@@ -714,11 +714,11 @@ function e.AbortMission(n)
 	if not m then
 		if TppMain.IsCoop(vars.missionCode) then
 			if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+				Dynamite.StopNearestEnemyThread()
 				TppGameStatus.Reset("Mission", "S_IS_ONLINE")
 				TppNetworkUtil.SessionDisconnectPreparingMembers()
 				TppNetworkUtil.CloseSession()
 				Dynamite.ResetClientSessionState()
-				Dynamite.StopNearestEnemyThread()
 			end
 		end
 
@@ -730,11 +730,11 @@ end
 function e.ExecuteMissionAbort()
 	if TppMain.IsCoop(vars.missionCode) then
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			Dynamite.StopNearestEnemyThread()
 			TppGameStatus.Reset("Mission", "S_IS_ONLINE")
 			TppNetworkUtil.SessionDisconnectPreparingMembers()
 			TppNetworkUtil.CloseSession()
 			Dynamite.ResetClientSessionState()
-			Dynamite.StopNearestEnemyThread()
 		end
 	end
 
@@ -1088,11 +1088,11 @@ function e.MissionGameEnd(n)
 
 	if TppMain.IsCoop(vars.missionCode) then
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			Dynamite.StopNearestEnemyThread()
 			TppGameStatus.Reset("Mission", "S_IS_ONLINE")
 			TppNetworkUtil.SessionDisconnectPreparingMembers()
 			TppNetworkUtil.CloseSession()
 			Dynamite.ResetClientSessionState()
-			Dynamite.StopNearestEnemyThread()
 		end
 	end
 end
@@ -1278,11 +1278,11 @@ function e.MissionFinalize(n)
 
 	if TppMain.IsCoop(vars.missionCode) then
 		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			Dynamite.StopNearestEnemyThread()
 			TppGameStatus.Reset("Mission", "S_IS_ONLINE")
 			TppNetworkUtil.SessionDisconnectPreparingMembers()
 			TppNetworkUtil.CloseSession()
 			Dynamite.ResetClientSessionState()
-			Dynamite.StopNearestEnemyThread()
 		end
 	end
 end
