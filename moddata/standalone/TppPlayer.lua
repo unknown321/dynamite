@@ -2827,7 +2827,7 @@ function e.WarpByCboxDelivery()
 	end
 	mvars.ply_deliveryWarpState = e.DELIVERY_WARP_STATE.START_WARP
 	o("Timer_DeliveryWarpSoundCannotCancel", a)
-	local a = { type = "TppPlayer2", index = 0 }
+	local a = { type = "TppPlayer2", index = PlayerInfo.GetLocalPlayerIndex() }
 	local e = { id = "WarpToStation", stationId = mvars.ply_selectedCboxDeliveryUniqueId }
 	GameObject.SendCommand(a, e)
 end
