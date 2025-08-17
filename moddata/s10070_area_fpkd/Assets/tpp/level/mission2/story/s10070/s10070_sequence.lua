@@ -2958,10 +2958,13 @@ sequences.Seq_Game_GoToSovietBase = {
 
 	OnEnter = function()
 
-		-- post-reload
-		TppNetworkUtil.SessionEnableAccept( true )
+		if TppGameStatus.IsSet("Mission", "S_IS_ONLINE") then
+			TppCoder.SetWorldCenter(Vector3(-1626.0468, 485.41876, -1495.6141))
+			TppNetworkUtil.SessionEnableAccept( true )
+			Dynamite.StartNearestEnemyThread()
+		end
 
-		Gimmick.SetEventDoorLock( EVENT_DOOR_NAME , EVENT_DOOR_PATH , false, 0 )	
+		Gimmick.SetEventDoorLock( EVENT_DOOR_NAME , EVENT_DOOR_PATH , false, 0 )
 
 		
 		for index, targetName in pairs(this.MISSION_TASK_TARGET) do
