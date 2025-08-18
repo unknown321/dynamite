@@ -85,6 +85,7 @@ namespace Dynamite {
         cfg.Log();
     }
 
+    // essentially tpp::gm::tool::`anonymous_namespace'::GetSessionMemberCount
     int GetMemberCount() {
         auto session = GetMainSession();
         if (session == nullptr) {
@@ -232,8 +233,14 @@ namespace Dynamite {
     }
 
     void StartNearestEnemyThread() {
-        spdlog::info(__FUNCTION__);
+        spdlog::info("{}, starting", __FUNCTION__);
         if (!cfg.Host) {
+            spdlog::info("{}, not starting for client", __FUNCTION__);
+            return;
+        }
+
+        if (nearestEnemyThreadRunning) {
+            spdlog::info("{}, nearest enemy thread already running", __FUNCTION__);
             return;
         }
 
@@ -242,6 +249,7 @@ namespace Dynamite {
                 if (*stop) {
                     *stop = false;
                     *nearestEnemyThreadStatus = false;
+                    spdlog::info("StartNearestEnemyThread(), stopped");
                     return;
                 }
 

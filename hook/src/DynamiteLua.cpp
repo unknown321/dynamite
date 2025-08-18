@@ -264,7 +264,7 @@ namespace Dynamite {
     }
 
     int l_AcceptMarkerRequests(lua_State *L) {
-        spdlog::info("accepting marker requests");
+        spdlog::info("{}, accepting marker requests", __FUNCTION__);
         ignoreMarkerRequests = false;
         return 0;
     }
