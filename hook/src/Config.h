@@ -9,6 +9,12 @@ struct ConfigValidateResult {
     std::string Message;
 };
 
+struct debug {
+    bool foxBlock;
+    bool foxBlockProcess;
+    bool memoryAllocTail;
+};
+
 class Config {
   public:
     bool Host = false;
@@ -16,6 +22,7 @@ class Config {
     std::string MasterServerURL = "http://127.0.0.1:6667/tppstm/gate";
     std::vector<uint64_t> blacklist = {};
     std::vector<uint64_t> whitelist = {};
+    debug debug = {};
 
 
     bool Read(ConfigValidateResult*);

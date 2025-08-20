@@ -113,11 +113,18 @@ type MasterServer struct {
 	URL string
 }
 
+type Debug struct {
+	FoxBlock        bool
+	FoxBlockProcess bool
+	MemoryAllocTail bool
+}
+
 type Config struct {
 	Coop         Coop
 	Misc         Misc
 	Dynamite     Dynamite
 	MasterServer MasterServer
+	Debug        Debug
 	Keys         []Key `ini:"-"`
 }
 

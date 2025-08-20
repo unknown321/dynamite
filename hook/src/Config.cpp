@@ -3,6 +3,7 @@
 #include "mini/ini.h"
 #include <ranges>
 
+// important keys
 bool Config::ValidateKeys(const mINI::INIStructure &ini, ConfigValidateResult *result) {
     if (!ini.has("Coop")) {
         result->Message = "Missing [Coop] section.";
@@ -127,6 +128,18 @@ bool Config::Read(ConfigValidateResult *r) {
         }
     }
 
+    auto dbg = ini.has("Debug");
+    if (dbg) {
+        auto fb = ini.get("Debug").get("FoxBlock");
+        this->debug.foxBlock = fb == "true";
+
+        auto fbp = ini.get("Debug").get("FoxBlockProcess");
+        this->debug.foxBlockProcess = fbp == "true";
+
+        auto ml = ini.get("Debug").get("MemoryAllocTail");
+        this->debug.memoryAllocTail = ml == "true";
+    }
+
     return true;
 }
 
@@ -141,4 +154,8 @@ void Config::Log() {
     for (const auto &steamID: this->blacklist) {
         spdlog::info("Blacklist entry: {0:d}", steamID);
     }
+
+    spdlog::info("debug.FoxBlock: {}", this->debug.foxBlock);
+    spdlog::info("debug.FoxBlockProcess: {}", this->debug.foxBlockProcess);
+    spdlog::info("debug.MemoryAllocTail: {}", this->debug.memoryAllocTail);
 }

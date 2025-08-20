@@ -272,36 +272,44 @@ namespace Dynamite {
     }
 
     void Dynamite::CreateDebugHooks() {
-        CREATE_HOOK(FoxBlockUnload)
-        ENABLEHOOK(FoxBlockUnload)
+        if (cfg.debug.foxBlock) {
+            CREATE_HOOK(FoxBlockUnload)
+            ENABLEHOOK(FoxBlockUnload)
 
-        CREATE_HOOK(FoxBlockReload)
-        ENABLEHOOK(FoxBlockReload)
+            CREATE_HOOK(FoxBlock)
+            ENABLEHOOK(FoxBlock)
 
-        CREATE_HOOK(FoxBlock)
-        ENABLEHOOK(FoxBlock)
+            CREATE_HOOK(FoxBlockReload)
+            ENABLEHOOK(FoxBlockReload)
 
-        CREATE_HOOK(FoxGenerateUniqueName)
-        ENABLEHOOK(FoxGenerateUniqueName)
+            CREATE_HOOK(FoxGenerateUniqueName)
+            ENABLEHOOK(FoxGenerateUniqueName)
 
-        CREATE_HOOK(FoxBlockProcess)
-        ENABLEHOOK(FoxBlockProcess)
+            CREATE_HOOK(FoxBlockActivate)
+            ENABLEHOOK(FoxBlockActivate)
 
-        CREATE_HOOK(FoxBlockActivate)
-        ENABLEHOOK(FoxBlockActivate)
+            CREATE_HOOK(FoxBlockDeactivate)
+            ENABLEHOOK(FoxBlockDeactivate)
 
-        CREATE_HOOK(FoxBlockDeactivate)
-        ENABLEHOOK(FoxBlockDeactivate)
+            CREATE_HOOK(FoxBlockLoad)
+            ENABLEHOOK(FoxBlockLoad)
+        }
 
-        CREATE_HOOK(FoxBlockLoad)
-        ENABLEHOOK(FoxBlockLoad)
+        if (cfg.debug.foxBlockProcess) {
+            CREATE_HOOK(FoxBlockProcess)
+            ENABLEHOOK(FoxBlockProcess)
+        }
 
-        CREATE_HOOK(BlockMemoryAllocTail)
-        ENABLEHOOK(BlockMemoryAllocTail)
+        if (cfg.debug.memoryAllocTail) {
+            CREATE_HOOK(BlockMemoryAllocTail)
+            ENABLEHOOK(BlockMemoryAllocTail)
+        }
     }
 
     void Dynamite::CreateHooks() {
         ReadConfig();
+
+        CreateDebugHooks();
 
         CREATE_HOOK(luaL_openlibs)
         ENABLEHOOK(luaL_openlibs)

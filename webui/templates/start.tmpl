@@ -388,10 +388,35 @@
                 <h2>Miscellaneous</h2>
 
                 <div class="form-group">
-                     <label for="misc-playSound" class="checkbox-label">Play sound on function call</label>
+                    <label for="misc-playSound" class="checkbox-label">Play sound on function call</label>
                     <input type="checkbox" id="misc-playSound" name="Config.Misc.PlaySound" {{ if .Config.Misc.PlaySound }}checked{{ end }}>
                 </div>
 
+            </div>
+
+
+            <div class="section">
+                <h2>Debug</h2>
+                <p>Don't use unless asked</p>
+                <div class="collapsible">
+                    <h3 onclick="toggleCollapse(this)">Options ▼</h3>
+                    <div class="collapsible-content" style="display:none;">
+                        <div class="form-group">
+                            <label for="debug-foxBlock" class="checkbox-label">FoxBlock</label>
+                            <input type="checkbox" id="debug-foxBlock" name="Config.Debug.FoxBlock" {{ if .Config.Debug.FoxBlock }}checked{{ end }}>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="debug-foxBlockProcess" class="checkbox-label">FoxBlockProcess</label>
+                            <input type="checkbox" id="debug-foxBlockProcess" name="Config.Debug.FoxBlockProcess" {{ if .Config.Debug.FoxBlockProcess }}checked{{ end }}>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="debug-memoryAllocTail" class="checkbox-label">MemoryAllocTail</label>
+                            <input type="checkbox" id="debug-memoryAllocTail" name="Config.Debug.MemoryAllocTail" {{ if .Config.Debug.MemoryAllocTail }}checked{{ end }}>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
