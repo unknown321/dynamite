@@ -217,7 +217,7 @@ namespace Dynamite {
                     .z = damage->v1.z,
                 };
 
-                spdlog::info("setting fixed network marker at {} {} {}", vv.x, vv.y, vv.z);
+                spdlog::info("setting fixed network marker at {}, {}, {}", vv.x, vv.y, vv.z);
                 Marker2SystemImplPlacedUserMarkerFixed(MarkerSystemImpl, &vv);
             }
 
@@ -235,7 +235,7 @@ namespace Dynamite {
 
                 //                DumpDamage(damage, 1);
                 unsigned short objectIDMarker = damage->damage_type_flags;
-                spdlog::info("adding follow network marker at {} {} {}, object id {} ({})", vv.x, vv.y, vv.z, objectIDMarker, damage->damage_type_flags);
+                spdlog::info("adding follow network marker at {}, {}, {}, object id {} ({})", vv.x, vv.y, vv.z, objectIDMarker, damage->damage_type_flags);
                 auto ok = Marker2SystemImplPlacedUserMarkerFollow(MarkerSystemImpl, &vv, objectIDMarker);
                 spdlog::info("follow network marker: {}", ok);
             }
@@ -298,7 +298,7 @@ namespace Dynamite {
     }
 
     void Marker2SystemImplPlacedUserMarkerFixedHook(void *thisPtr, Vector3 *pos) {
-        spdlog::info("placing fixed local user marker at {} {} {}", pos->x, pos->y, pos->z);
+        spdlog::info("placing fixed local user marker at {}, {}, {}", pos->x, pos->y, pos->z);
         if (ignoreMarkerRequests) {
             spdlog::info("ignored fixed local marker request");
             return;
@@ -330,7 +330,7 @@ namespace Dynamite {
     }
 
     bool Marker2SystemImplPlacedUserMarkerFollowHook(void *thisPtr, Vector3 *pos, unsigned short objectID) {
-        spdlog::info("placing follow local user marker at {} {} {}, objectID {}", pos->x, pos->y, pos->z, objectID);
+        spdlog::info("placing follow local user marker at {}, {}, {}, objectID {}", pos->x, pos->y, pos->z, objectID);
         if (ignoreMarkerRequests) {
             spdlog::info("ignored follow local marker request");
             return true;
