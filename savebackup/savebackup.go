@@ -286,7 +286,7 @@ func Run(accountDir string) (needUser bool, err error) {
 
 	saveDir := filepath.Join(accDir, "311340", "remote")
 	if err = ConvertToDynamiteSaves(saveDir); err != nil {
-		return false, fmt.Errorf("covert to dynamite saves: %w", err)
+		return false, fmt.Errorf("convert to dynamite saves: %w", err)
 	}
 
 	localSaveDir := filepath.Join(accDir, "287700", "local")
