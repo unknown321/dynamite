@@ -2336,7 +2336,18 @@ function e.DeclareSVars()
 end
 function e.OnAllocate(e)
 	if (e and e.sequence) and e.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE then
-		mvars.ply_equipMissionBlockGroupSize = e.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE
+		-- + dual revolver fix
+		-- affected missions:
+		-- 10030
+		-- 10054
+		-- 10151
+		-- 10211
+		-- 10070
+		-- 10040
+		-- 10080
+		-- 10090
+		-- heli
+		mvars.ply_equipMissionBlockGroupSize = e.sequence.EQUIP_MISSION_BLOCK_GROUP_SIZE + 100000
 	else
 		mvars.ply_equipMissionBlockGroupSize = TppDefine.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE
 	end

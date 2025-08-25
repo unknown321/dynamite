@@ -17,7 +17,10 @@ _.MAX_32BIT_UINT = 4294967295
 _.EXCEPTION_QUEUE_MAX = 255
 _.PICKABLE_MAX = 16
 _.PLACED_MAX = 8
-_.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1677721
+-- changed after dual wielding revolvers patch
+-- mission 13 PITCH DARK goes over some graphics limit and refuses to render client for host (and not the other way around)
+-- this number is arbitrary and it works
+_.DEFAULT_EQUIP_MISSION_BLOCK_GROUP_SIZE = 1777721
 _.MISSION_COUNT_MAX = 64
 _.DEFAULT_SOLDIER_STATE_COUNT = 160
 _.DEFAULT_SOLDIER_OPTION_VARS_COUNT = 160
