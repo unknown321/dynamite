@@ -91,6 +91,7 @@ func GetVersionTime() int64 {
 
 type SteamProfileXML struct {
 	SteamID64 uint64 `xml:"steamID64"`
+	SteamID   string `xml:"steamID"`
 }
 
 func GetSteamID(steamID string) (uint64, error) {
@@ -142,6 +143,34 @@ func GetSteamID(steamID string) (uint64, error) {
 	}
 
 	return 0, fmt.Errorf("unrecognized input: %s", steamID)
+}
+
+func GetSteamName(steam3ID uint64) (string, error) {
+	result := fmt.Sprintf("unresolved (%d)", steam3ID)
+	u := fmt.Sprintf("https://steamcommunity.com/profiles/[U:1:%d]?xml=1", steam3ID)
+	resp, err := http.DefaultClient.Get(u)
+	if err != nil {
+		return result, err
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return result, fmt.Errorf("get %s, http code %d", u, resp.StatusCode)
+	}
+
+	prof := SteamProfileXML{}
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return result, fmt.Errorf("get %s, error %w", u, err)
+	}
+
+	if err = xml.Unmarshal(body, &prof); err != nil {
+		return result, fmt.Errorf("unmarshal %s, error %w", u, err)
+	}
+
+	result = prof.SteamID
+	return result, nil
 }
 
 func OpenURL(url string) error {

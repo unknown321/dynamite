@@ -9,6 +9,7 @@ import (
 	handlers "dynamite/webui/templates"
 	"fmt"
 	"html/template"
+	"log/slog"
 	"net/http"
 	"net/url"
 	"os"
@@ -50,6 +51,11 @@ func Init() {
 	}
 }
 
+type Account struct {
+	Name  string
+	Value string
+}
+
 type pageData struct {
 	Config    *config.Config
 	Version   *util.Version
@@ -59,6 +65,7 @@ type pageData struct {
 	HasUpdate bool
 	Blacklist []config.LimitListEntry
 	Whitelist []config.LimitListEntry
+	Accounts  []Account
 	Done      bool
 }
 
@@ -68,12 +75,45 @@ func Start(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	accs, err := savebackup.GetValidAccounts()
+	if err != nil {
+		slog.Error("Unable to find valid Steam account", "error", err.Error())
+	}
+
+	if accs == nil {
+		accs = make([]string, 0)
+	}
+
+	aa := []Account{}
+	if len(accs) == 1 {
+		Config.Dynamite.AccountDir = accs[0]
+	} else {
+		for _, v := range accs {
+			sid := filepath.Base(v)
+			sid64, err := strconv.ParseUint(sid, 10, 64)
+			if err != nil {
+				slog.Warn("invalid account name", "name", sid, "error", err.Error())
+				continue
+			}
+
+			name, err := util.GetSteamName(sid64)
+			if err != nil {
+				slog.Warn("Resolve account name", "error", err.Error())
+			}
+			aa = append(aa, Account{
+				Name:  name,
+				Value: v,
+			})
+		}
+	}
+
 	d := pageData{
 		Config:    Config,
 		Version:   &Version,
 		Keys:      config.PlayerPadKeys,
 		Examples:  make(map[string]string),
 		HasUpdate: HasUpdate,
+		Accounts:  aa,
 	}
 
 	d.Examples["SteamID"] = "Example: 76561197960287930"

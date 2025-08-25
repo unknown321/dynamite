@@ -41,16 +41,17 @@ func GetAccountDirectory() (string, error) {
 	return steamPath, nil
 }
 
-func GetSteamPath() (string, bool, error) {
+// GetValidAccounts returns a list of directories with accounts that own TPP
+func GetValidAccounts() ([]string, error) {
 	steamPath, err := GetAccountDirectory()
 	if err != nil {
-		return "", false, err
+		return []string{}, err
 	}
 
 	var steamUsers []string
 	dirs, err := os.ReadDir(steamPath)
 	if err != nil {
-		return "", false, fmt.Errorf("list userdata, directory %s: %w", steamPath, err)
+		return []string{}, fmt.Errorf("list userdata, directory %s: %w", steamPath, err)
 	}
 
 	for _, d := range dirs {
@@ -63,13 +64,21 @@ func GetSteamPath() (string, bool, error) {
 		}
 	}
 
-	if len(steamUsers) != 1 {
-		return "", true, fmt.Errorf("provide steam account path")
+	var validUsers []string
+	for _, u := range steamUsers {
+		tppDir := filepath.Join(steamPath, u, "287700")
+		dd, err := os.Stat(tppDir)
+		if err != nil {
+			continue
+		}
+
+		if dd.IsDir() {
+			p := filepath.Join(steamPath, u)
+			validUsers = append(validUsers, p)
+		}
 	}
 
-	steamPath = filepath.Join(steamPath, steamUsers[0])
-
-	return steamPath, false, nil
+	return validUsers, nil
 }
 
 func BackupExists(userdataPath string) (bool, error) {
@@ -248,22 +257,19 @@ func CreateLocalSaves(saveDir string, localSaveDir string) error {
 	return nil
 }
 
-func Run(accountDir string) (needUser bool, err error) {
+func Run(accountDir string) (err error) {
 	accDir := accountDir
 	if accountDir == "" {
-		accDir, needUser, err = GetSteamPath()
-		if needUser {
-			return needUser, nil
-		}
+		return fmt.Errorf("no account dir provided to backup")
 	}
 
 	if err != nil {
-		return false, fmt.Errorf("get steam path: %w", err)
+		return fmt.Errorf("get steam path: %w", err)
 	}
 
 	exists, err := BackupExists(accDir)
 	if err != nil {
-		return false, fmt.Errorf("check for backup: %w", err)
+		return fmt.Errorf("check for backup: %w", err)
 	}
 
 	if exists {
@@ -273,26 +279,26 @@ func Run(accountDir string) (needUser bool, err error) {
 
 		zipPath := filepath.Join(accDir, fmt.Sprintf("%d.dynamite.%d.zip", 287700, time.Now().Unix()))
 		if err = ZipDirectory(filepath.Join(accDir, "287700"), zipPath); err != nil {
-			return false, fmt.Errorf("TPP backup: %w", err)
+			return fmt.Errorf("TPP backup: %w", err)
 		}
 		slog.Info("created TPP backup", "filename", zipPath)
 
 		zipPath = filepath.Join(accDir, fmt.Sprintf("%d.dynamite.%d.zip", 311340, time.Now().Unix()))
 		if err = ZipDirectory(filepath.Join(accDir, "311340"), zipPath); err != nil {
-			return false, fmt.Errorf("GZ backup: %w", err)
+			return fmt.Errorf("GZ backup: %w", err)
 		}
 		slog.Info("created GZ backup", "filename", zipPath)
 	}
 
 	saveDir := filepath.Join(accDir, "311340", "remote")
 	if err = ConvertToDynamiteSaves(saveDir); err != nil {
-		return false, fmt.Errorf("convert to dynamite saves: %w", err)
+		return fmt.Errorf("convert to dynamite saves: %w", err)
 	}
 
 	localSaveDir := filepath.Join(accDir, "287700", "local")
 	if err = CreateLocalSaves(saveDir, localSaveDir); err != nil {
-		return false, fmt.Errorf("create local files: %w", err)
+		return fmt.Errorf("create local files: %w", err)
 	}
 
-	return false, nil
+	return nil
 }

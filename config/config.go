@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/unknown321/fuse/steamid"
 	"gopkg.in/ini.v1"
+	"log/slog"
 	"os"
 	"strings"
 )
@@ -160,7 +161,18 @@ func (c *Config) Default() error {
 	c.Dynamite.ReloadKey = "ACTION"      // E
 	c.Dynamite.MasterKey = "ZOOM_CHANGE" // V
 
-	c.Dynamite.AccountDir, _, _ = savebackup.GetSteamPath()
+	accs, err := savebackup.GetValidAccounts()
+	if err != nil {
+		slog.Info("Get valid accounts", "message", err.Error())
+	}
+
+	if len(accs) == 1 {
+		c.Dynamite.AccountDir = accs[0]
+	} else {
+		for _, v := range accs {
+			slog.Info("Valid Steam account found", "path", v)
+		}
+	}
 	c.Dynamite.Version = util.GetVersionTime()
 	c.Coop.Blacklist = make([]string, 0)
 	c.Coop.Whitelist = make([]string, 0)

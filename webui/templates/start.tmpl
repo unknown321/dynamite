@@ -14,6 +14,15 @@
              validateSteamID(coopSteamID);
         });
 
+        function selectAccount() {
+            const accountDirSelect = document.getElementById('dynamite-accountDirSelect');
+            if (accountDirSelect.value) {
+                const accountDirInput = document.getElementById('dynamite-accountDir');
+                accountDirInput.value = accountDirSelect.value;
+                validateAccountDir(accountDirInput);
+            }
+        }
+
         function toggleHostSteamID() {
             const hostMode = document.getElementById('coop-host').checked;
             steamID = document.getElementById('coop-host-SteamID')
@@ -270,14 +279,36 @@
             <div class="section">
                 <h2>dynamite</h2>
 
-                <div class="form-group">
-                    <label for="dynamite-accountDir">Main account directory</label>
-                    <input type="text" id="dynamite-accountDir" name="Config.Dynamite.AccountDir"
-                        value="{{ .Config.Dynamite.AccountDir }}"
-                        class="{{ if not .Config.Dynamite.AccountDir }}error-field{{ end }}"
-                        oninput="validateAccountDir(this)">
-                    <div class="error-message" id="account-message" style="display: none;">Account directory is required</div>
-                </div>
+                {{ if lt (len .Accounts) 2 }}
+                    <div class="form-group">
+                        <label for="dynamite-accountDir">Main account directory</label>
+                        <input type="text" id="dynamite-accountDir" name="Config.Dynamite.AccountDir"
+                            value="{{ .Config.Dynamite.AccountDir }}"
+                            class="{{ if not .Config.Dynamite.AccountDir }}error-field{{ end }}"
+                            oninput="validateAccountDir(this)">
+                        <div class="error-message" id="account-message" style="display: none;">Account directory is required</div>
+                    </div>
+                {{ else }}
+                    <div class="form-group">
+                        <label for="dynamite-accountDirSelect">Select Steam account</label>
+                        <select id="dynamite-accountDirSelect" onchange="selectAccount()" >
+                            <option value="" selected>--- Select ---</option>
+                            {{ range $key, $v := .Accounts }}
+                            <option value="{{ $v.Value }}" {{ if eq $v.Value $.Config.Dynamite.AccountDir }}selected{{ end }}>
+                                {{ $v.Name }}
+                            </option>
+                            {{ end }}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dynamite-accountDir" style="font-weight:unset">or provide account directory manually</label>
+                         <input type="text" id="dynamite-accountDir" name="Config.Dynamite.AccountDir"
+                             value="{{ .Config.Dynamite.AccountDir }}"
+                             oninput="validateAccountDir(this)">
+                         <div class="error-message" id="account-message" style="display: none;">Account directory is required</div>
+                    </div>
+                {{ end }}
                 <div class="comment table">{{ index .Examples "Account Directory" }}</div>
                 <div class="comment table">{{ index .Examples "Account Directory2" }}</div>
 
