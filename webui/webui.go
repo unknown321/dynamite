@@ -12,6 +12,13 @@ import (
 	"os"
 )
 
+func withFlavor(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		handlers.GetFlavor()
+		next.ServeHTTP(w, r)
+	})
+}
+
 func Run(address string, conf *config.Config) {
 	var err error
 	if address == "" {
@@ -21,7 +28,8 @@ func Run(address string, conf *config.Config) {
 	handlers.Init()
 
 	mux := http.NewServeMux()
-	srv := &http.Server{Addr: address, Handler: mux}
+	hm := withFlavor(mux)
+	srv := &http.Server{Addr: address, Handler: hm}
 	handlers.Server = srv
 	handlers.Config = conf
 	handlers.Version = util.GetVersion()

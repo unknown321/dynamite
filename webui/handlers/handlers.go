@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"html/template"
 	"log/slog"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -36,6 +37,7 @@ type InstallStatus struct {
 	MetaTag   string
 	HasUpdate bool
 	Version   *util.Version
+	Flavor    string
 }
 
 func Init() {
@@ -49,6 +51,8 @@ func Init() {
 	if err != nil {
 		panic(err)
 	}
+
+	rand.Shuffle(len(Flavors), func(i, j int) { Flavors[i], Flavors[j] = Flavors[j], Flavors[i] })
 }
 
 type Account struct {
@@ -67,7 +71,24 @@ type pageData struct {
 	Whitelist []config.LimitListEntry
 	Accounts  []Account
 	Done      bool
+	Flavor    string
 }
+
+var Flavors = []string{
+	"Support the project",
+	"Buy me a hamburger",
+	"Motherbase is in red, send GMP",
+	"Miller needs your help",
+	"Send GMP for wolbachia dose",
+	"Help me expand Motherbase",
+	"Send me a supply drop",
+	"Be my buddy",
+	"Requesting supplies",
+}
+
+var currentFlavorIDX = 0
+var currentFlavorShown = 0
+var currentFlavor = Flavors[currentFlavorIDX]
 
 func Start(w http.ResponseWriter, r *http.Request) {
 	if err := Config.Load(); err != nil {
@@ -114,6 +135,7 @@ func Start(w http.ResponseWriter, r *http.Request) {
 		Examples:  make(map[string]string),
 		HasUpdate: HasUpdate,
 		Accounts:  aa,
+		Flavor:    currentFlavor,
 	}
 
 	d.Examples["SteamID"] = "Example: 76561197960287930"
@@ -165,6 +187,7 @@ type SaveData struct {
 	HasUpdate bool
 	Version   *util.Version
 	Done      bool
+	Flavor    string
 }
 
 func Save(w http.ResponseWriter, r *http.Request) {
@@ -317,6 +340,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 		Installed: Config.Dynamite.Installed,
 		MetaTag:   `<meta http-equiv="refresh" content="5;URL='/status'" />`,
 		Version:   &Version,
+		Flavor:    currentFlavor,
 	}
 	if err := tmpl.ExecuteTemplate(w, "save.tmpl", ss); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -330,6 +354,7 @@ func Status(w http.ResponseWriter, r *http.Request) {
 	InstallStat.HasUpdate = HasUpdate
 	InstallStat.Version = &Version
 	InstallStat.MetaTag = ""
+	InstallStat.Flavor = currentFlavor
 
 	if !InstallStat.Done {
 		InstallStat.MetaTag = `<meta http-equiv="refresh" content="2;" />`
@@ -349,6 +374,7 @@ func Docs(w http.ResponseWriter, r *http.Request) {
 		Examples:  nil,
 		MetaTag:   "",
 		HasUpdate: HasUpdate,
+		Flavor:    currentFlavor,
 	}
 
 	Config.Dynamite.DocsRead = true
@@ -371,10 +397,25 @@ func License(w http.ResponseWriter, r *http.Request) {
 		Examples:  nil,
 		MetaTag:   "",
 		HasUpdate: HasUpdate,
+		Flavor:    currentFlavor,
 	}
 
 	if err := tmpl.ExecuteTemplate(w, "license.tmpl", p); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func GetFlavor() {
+	if currentFlavorShown > 5 {
+		currentFlavorShown = 0
+		currentFlavorIDX++
+		if currentFlavorIDX > len(Flavors)-1 {
+			currentFlavorIDX = 0
+		}
+	} else {
+		currentFlavorShown++
+	}
+
+	currentFlavor = Flavors[currentFlavorIDX]
 }
