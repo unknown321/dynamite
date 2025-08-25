@@ -178,16 +178,21 @@ Steps:
 
 ```
     1 - PHANTOM LIMBS - client loads into mission again (#12)
+    3 - A HERO’S WAY - host cannot finish the mission, black screen after exfiltrating. Restart the game. (#11)
     5 - OVER THE FENCE - prisoner repeats his lines over and over for host
     7 - RED BRASS - commanders don't move from their spawn points (#40)
     8 - OCCUPATION FORCES - third tank spawn only for host (#19)
-    14 - LINGUA FRANCA - prisoners must be extracted by each party (#14)
+    10 - ANGEL WITH BROKEN WINGS - client loads into mission again (#12)
+    13 - PITCH DARK - mission may abort on start (out of mission area) if second partner connects too late (#3)
+    14 - LINGUA FRANCA
     15 - FOOTPRINTS OF PHANTOMS - walker gears are not fultonable (#21)
     16 - TRAITORS’ CARAVAN - skulls spawn only for one player (#41), no armored vehicle (#42)
     17 - RESCUE THE INTEL AGENTS - there may be some confusion with prisoner extraction order
     20 - VOICES - infinite loading after last cutscene (#37)
     21 - THE WAR ECONOMY - stucks on black screen after finishing the mission (#11)
     23 - THE WHITE MAMBA - client loads into mission again (#12), Eli is local
+    24 - CLOSE CONTACT - client loads into mission again (#12)
+    25 - AIM TRUE, YE VENGEFUL - client loads into mission again (#12)
     26 - HUNTING DOWN - client loads into mission again (#12)
     27 - ROOT CAUSE - client stucks on black screen after finishing the mission (#11)
 ```
@@ -203,7 +208,7 @@ A good (read: tested) choice is Mission 5, OVER THE FENCE.
 
 #### Missions that were recently updated and need testing:
 
-Report if they are working on <a href="https://github.com/unknown321/dynamite/issues/32" target="_blank">GitHub</a> or 
+Report if they are working on <a href="https://github.com/unknown321/dynamite/issues" target="_blank">GitHub</a> or 
 <a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>, `modding-showcase`
 channel, `dynamite` thread:
 
@@ -211,18 +216,15 @@ channel, `dynamite` thread:
 <summary>Click me</summary>
 
 ```
-    6 - WHERE DO THE BEES SLEEP?
-    8 - OCCUPATION FORCES
-    10 - ANGEL WITH BROKEN WINGS - client loads into mission again (#12), prisoners must be extracted by each party (#14)
-    11 - CLOAKED IN SILENCE - quiet is local
-    12 - HELLBOUND
+    8 - OCCUPATION FORCES - third tank may not spawn for client (#19)
+    11 - CLOAKED IN SILENCE - Quiet is local
+    12 - HELLBOUND - possible black screen after finishing the mission (#70)
     18 - BLOOD RUNS DEEP
     19 - ON THE TRAIL
-    24 - CLOSE CONTACT - client loads into mission again (#12), prisoners must be extracted by each party (#14)
-    25 - AIM TRUE, YE VENGEFUL - client loads into mission again (#12)
     28 - CODE TALKER - client cannot pick up Code Talker (#15)
     29 - METALLIC ARCHAEA
     30 - SKULL FACE
+    31 - SAHELANTHROPUS - loads, boss is local. Host may experience infinite loading after finishing the mission (#11)
     32 - TO KNOW TOO MUCH
     35 - CURSED LEGACY
     38 - EXTRAORDINARY
@@ -240,13 +242,10 @@ channel, `dynamite` thread:
 <summary>Click me</summary>
 
 ```
-    3 - A HERO’S WAY - no target spawned
     4 - C2W  - cannot progress past "identify equipment" goal (#39)
-    9 - BACKUP, BACK DOWN - no enemy vehicles spawned
-    13 - PITCH DARK - mission may abort for host (out of mission area) if second partner connects too late.
-        Infinite loading for both client and host after blowing up water tank.
-    31 - SAHELANTHROPUS - loads, sahelan is local. Host may experience infinite loading after finishing the mission.
-    43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility
+    6 - WHERE DO THE BEES SLEEP? - skulls don't spawn (#55), client cannot pick up honey bee (#71)
+    9 - BACKUP, BACK DOWN - no enemy vehicles spawned (#9)
+    43 - SHINING LIGHTS, EVEN IN DEATH - loads, host crash after entering the facility (#16)
 ```
 
 </details>
