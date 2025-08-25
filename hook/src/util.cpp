@@ -64,7 +64,7 @@ std::map<uint32_t, std::string> readMessageDictionary(const std::string &filenam
 std::map<uint64_t, std::string> readPathCodeDictionary(const std::string &filename) {
     std::map<uint64_t, std::string> result;
     if (!std::filesystem::exists(filename)) {
-        spdlog::info("Message dictionary {} doesn't exist, message names/values will not be resolved", filename);
+        spdlog::info("Path dictionary {} doesn't exist, message names/values will not be resolved", filename);
         return result;
     }
 
@@ -75,7 +75,7 @@ std::map<uint64_t, std::string> readPathCodeDictionary(const std::string &filena
         return result;
     }
 
-    spdlog::info("Reading message dict...");
+    spdlog::info("Reading path dict...");
 
     inputFile.unsetf(std::ios_base::skipws);
 
@@ -96,12 +96,12 @@ std::map<uint64_t, std::string> readPathCodeDictionary(const std::string &filena
                 result[key] = value;
             }
         } else {
-            spdlog::error("Message dict, invalid line format: {}", line);
+            spdlog::error("Path dict, invalid line format: {}", line);
         }
     }
 
     inputFile.close();
-    spdlog::info("Message dict size: {:d}", result.size());
+    spdlog::info("Path dict size: {:d}", result.size());
 
     return result;
 }
