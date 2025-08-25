@@ -21,12 +21,14 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
       * [Missions that were recently updated and need testing:](#missions-that-were-recently-updated-and-need-testing)
       * [These missions are broken in one way or another:](#these-missions-are-broken-in-one-way-or-another)
       * [Untested missions:](#untested-missions)
+      * [EXTREME versions, tutorial missions and script-heavy missions are not included:](#extreme-versions-tutorial-missions-and-script-heavy-missions-are-not-included)
       * [Host](#host)
       * [Client](#client)
     * [Issues](#issues)
       * [Mission not loading](#mission-not-loading)
       * [Providing crash info](#providing-crash-info)
     * [Uninstalling](#uninstalling)
+    * [Restoring or replacing dynamite save files](#restoring-or-replacing-dynamite-save-files)
     * [Executing custom lua code (info for modders)](#executing-custom-lua-code-info-for-modders)
     * [Supporting the mod](#supporting-the-mod)
     * [License](#license)
@@ -385,6 +387,24 @@ Remove manually from game directory:
   - `dinput8.dll`
 
 After that game will use your regular saves.
+
+---
+
+### Restoring or replacing dynamite save files
+
+1. Disable Steam Cloud sync for TPP and GZ (yes, both of them).
+2. Turn off Steam.
+3. Navigate to:
+```
+    <Steam-folder>\userdata\<user-id>\287700\local\
+    <Steam-folder>\userdata\<user-id>\311340\remote\
+```
+4. Delete all files named `DYNAMITE_*` in both directories (and keep everything else).
+5. Start Steam
+6. Remove dynamite directory from game directory
+7. Reinstall dynamite
+8. Start the game, let it save somewhere, close the game
+9. Enable Steam cloud sync, select "local" when cloud warning pops up.
 
 ---
 
