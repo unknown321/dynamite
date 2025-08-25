@@ -582,6 +582,29 @@ namespace Dynamite {
                 .description = "always run full CloseSession code, ignore mission code check"
                                "tpp::gm::tool::`anonymous_namespace'::CloseSession",
             },
+            {
+                .address = 0x14163fcda,
+                .expected = {0x0f, 0x84, 0xa2, 0x01, 0x00, 0x00}, // JZ LAB_14163fe82
+                .patch = {0x66, 0x48, 0x90, 0x66, 0x48, 0x90},    // NOP NOP
+                .description =
+                    "add Quiet and Ocelot to staff list in sortie by ignoring tpp::ui::menu::impl::MissionPreparationSystemImpl::IsFobMissionMode check result"
+                    "tpp::ui::menu::impl::CharacterSelectorCallbackImpl::SetupStaffList",
+
+            },
+            {
+                .address = 0x1409cc6c0,
+                .expected = {0x0f, 0x85, 0x9c, 0x07, 0x00, 0x00}, // JNZ LAB_1409cce62
+                .patch = {0x48, 0xe9, 0x9c, 0x07, 0x00, 0x00},    // JMP LAB_1409cce62
+                .description = "skip some check that resets player to Snake from Quiet/Ocelot"
+                               "tpp::gm::player::impl::Player2GameObjectImpl::UpdatePartsStatus",
+            },
+            {
+                .address = 0x149cfba54,
+                .expected = {0x74, 0x10}, // JZ LAB_149cfba66
+                .patch = {0x48, 0x90},    // NOP
+                .description = "skip check and call FUN_1411b4350 that sets up dual revolvers for Ocelot"
+                               "tpp::gm::player::impl::UnrealUpdaterImpl::PreUpdate",
+            },
         };
     }
 

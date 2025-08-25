@@ -376,7 +376,7 @@ function e.OnAllocate(n)
 		mvars.mis_baseList = n.sequence.baseList
 		TppCheckPoint.RegisterCheckPointList(n.sequence.checkPointList)
 	end
-	if not TppMission.IsFOBMission(vars.missionCode) then
+	if not TppMission.IsFOBMission(vars.missionCode) and not e.IsCoop(vars.missionCode) then
 		TppPlayer.ForceChangePlayerFromOcelot()
 	end
 end
