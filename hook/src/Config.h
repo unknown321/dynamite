@@ -13,6 +13,8 @@ struct debug {
     bool foxBlock;
     bool foxBlockProcess;
     bool memoryAllocTail;
+    bool playerTarget;
+    bool luaLog;
 };
 
 class Config {
@@ -24,9 +26,8 @@ class Config {
     std::vector<uint64_t> whitelist = {};
     debug debug = {};
 
-
-    bool Read(ConfigValidateResult*);
-    static bool ValidateKeys(const mINI::INIStructure&, ConfigValidateResult *);
+    bool Read(ConfigValidateResult *);
+    static bool ValidateKeys(const mINI::INIStructure &, ConfigValidateResult *);
     void Log();
 };
 

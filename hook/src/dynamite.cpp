@@ -117,6 +117,9 @@ namespace Dynamite {
 
     int GetNearestPlayer() {
         if (GetMemberCount() == 1) {
+            if (cfg.debug.playerTarget) {
+                spdlog::info("{}, one player", __FUNCTION__);
+            }
             return 0;
         }
 
@@ -153,12 +156,16 @@ namespace Dynamite {
 
             for (int p = 0; p < playerPositions.size(); p++) {
                 auto ppos = playerPositions[p];
-                auto distance = calculateDistance(ppos, soldierPos);
+                auto distance = static_cast<int>(calculateDistance(ppos, soldierPos));
                 if (distance < minDistance) {
                     minDistance = distance;
                     minDistancePlayer = p;
                 }
             }
+        }
+
+        if (cfg.debug.playerTarget) {
+            spdlog::info("{}, nearest player: {:d}, distance: {:d}", __FUNCTION__, minDistancePlayer, minDistance);
         }
 
         return minDistancePlayer;
@@ -254,7 +261,13 @@ namespace Dynamite {
                 }
 
                 *nearestEnemyThreadStatus = true;
-                offensePlayerID = GetNearestPlayer();
+                auto opID = GetNearestPlayer();
+                if (cfg.debug.playerTarget) {
+                    if (opID != offensePlayerID) {
+                        spdlog::info("changing offense player ID from %d to %d", offensePlayerID, opID);
+                    }
+                }
+                offensePlayerID = opID;
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
         };

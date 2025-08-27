@@ -138,6 +138,12 @@ bool Config::Read(ConfigValidateResult *r) {
 
         auto ml = ini.get("Debug").get("MemoryAllocTail");
         this->debug.memoryAllocTail = ml == "true";
+
+        auto pl = ini.get("Debug").get("PlayerTarget");
+        this->debug.playerTarget = pl == "true";
+
+        auto ll = ini.get("Debug").get("LuaLog");
+        this->debug.luaLog = ll == "true";
     }
 
     return true;
@@ -158,4 +164,6 @@ void Config::Log() {
     spdlog::info("debug.FoxBlock: {}", this->debug.foxBlock);
     spdlog::info("debug.FoxBlockProcess: {}", this->debug.foxBlockProcess);
     spdlog::info("debug.MemoryAllocTail: {}", this->debug.memoryAllocTail);
+    spdlog::info("debug.PlayerTarget: {}", this->debug.playerTarget);
+    spdlog::info("debug.LuaLog: {}", this->debug.luaLog);
 }

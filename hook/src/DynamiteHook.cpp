@@ -26,9 +26,17 @@ namespace Dynamite {
         pathDict = readPathCodeDictionary("pathDict.txt");
 
         auto luaLog = "dynamite/luaLog.txt";
-        if (std::filesystem::exists(luaLog)) {
-            std::ofstream ofs(luaLog, std::ios::trunc);
-            ofs.close();
+        if (cfg.debug.luaLog) {
+            if (std::filesystem::exists(luaLog)) {
+                std::ofstream ofs(luaLog, std::ios::trunc);
+                ofs.close();
+            } else {
+                std::fstream f;
+                f.open(luaLog, std::ios::binary);
+                f.close();
+            }
+        } else {
+            std::filesystem::remove(luaLog);
         }
     }
 

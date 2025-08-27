@@ -118,6 +118,8 @@ type Debug struct {
 	FoxBlock        bool
 	FoxBlockProcess bool
 	MemoryAllocTail bool
+	PlayerTarget    bool
+	LuaLog          bool
 }
 
 type Config struct {

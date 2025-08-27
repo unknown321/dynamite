@@ -446,6 +446,16 @@
                             <label for="debug-memoryAllocTail" class="checkbox-label">MemoryAllocTail</label>
                             <input type="checkbox" id="debug-memoryAllocTail" name="Config.Debug.MemoryAllocTail" {{ if .Config.Debug.MemoryAllocTail }}checked{{ end }}>
                         </div>
+
+                         <div class="form-group">
+                             <label for="debug-playerTarget" class="checkbox-label">PlayerTarget</label>
+                             <input type="checkbox" id="debug-playerTarget" name="Config.Debug.PlayerTarget" {{ if .Config.Debug.PlayerTarget }}checked{{ end }}>
+                         </div>
+
+                         <div class="form-group">
+                             <label for="debug-luaLog" class="checkbox-label">LuaLog</label>
+                             <input type="checkbox" id="debug-luaLog" name="Config.Debug.LuaLog" {{ if .Config.Debug.LuaLog }}checked{{ end }}>
+                         </div>
                     </div>
                 </div>
             </div>
