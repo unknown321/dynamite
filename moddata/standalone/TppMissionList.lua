@@ -128,7 +128,7 @@ s[10020] = function(p)
 	end
 
 	vars.missionCode = 10020
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10030] = function(p)
@@ -154,7 +154,7 @@ s[10033] = function(p)
 	end
 
 	vars.missionCode = 10033
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10036] = function(p)
@@ -169,7 +169,7 @@ s[10036] = function(p)
 	end
 
 	vars.missionCode = 10036
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10040] = function(p)
@@ -191,7 +191,7 @@ s[10040] = function(p)
 	end
 
 	vars.missionCode = 10040
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10041] = function(p)
@@ -213,7 +213,7 @@ s[10041] = function(p)
 	end
 
 	vars.missionCode = 10041
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10043] = function(p)
@@ -225,7 +225,7 @@ s[10043] = function(p)
 	TppPackList.AddDefaultMissionAreaPack(p)
 
 	vars.missionCode = 10043
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10044] = function(p)
@@ -244,7 +244,7 @@ s[10044] = function(p)
 	end
 
 	vars.missionCode = 10044
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10052] = function(p)
@@ -267,7 +267,7 @@ s[10052] = function(p)
 	end
 
 	vars.missionCode = 10052
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10054] = function(p)
@@ -295,7 +295,7 @@ s[10054] = function(p)
 	end
 
 	vars.missionCode = 10054
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10070] = function(p)
@@ -328,7 +328,7 @@ s[10070] = function(p)
 	end
 
 	vars.missionCode = 10070
-	vars.locationCode = 10
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10080] = function(p)
@@ -342,7 +342,7 @@ s[10080] = function(p)
 	end
 
 	vars.missionCode = 10080
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10086] = function(p)
@@ -370,7 +370,7 @@ s[10086] = function(p)
 	end
 
 	vars.missionCode = 10086
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10082] = function(p)
@@ -383,7 +383,7 @@ s[10082] = function(p)
 	TppPackList.AddDefaultMissionAreaPack(p)
 
 	vars.missionCode = 10082
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10090] = function(p)
@@ -397,7 +397,7 @@ s[10090] = function(p)
 	TppPackList.AddDefaultMissionAreaPack(p)
 
 	vars.missionCode = 10090
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10121] = function(p)
@@ -420,7 +420,7 @@ s[10121] = function(p)
 	end
 
 	vars.missionCode = 10121
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10091] = function(p)
@@ -442,7 +442,7 @@ s[10091] = function(p)
 	end
 
 	vars.missionCode = 10091
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10100] = function(p)
@@ -475,7 +475,7 @@ s[10100] = function(p)
 	TppHostage2.SetHostageType({ gameObjectType = "TppHostageUnique", hostageType = "MovingChild" })
 
 	vars.missionCode = 10100
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10110] = function(p)
@@ -524,7 +524,7 @@ s[10110] = function(p)
 	end
 
 	vars.missionCode = 10110
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10195] = function(p)
@@ -547,7 +547,7 @@ s[10195] = function(p)
 	end
 
 	vars.missionCode = 10195
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10115] = function(p)
@@ -588,7 +588,7 @@ s[10120] = function(p)
 	end
 
 	vars.missionCode = 10120
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10085] = function(p)
@@ -608,7 +608,7 @@ s[10085] = function(p)
 	end
 
 	vars.missionCode = 10085
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10211] = function(p)
@@ -624,7 +624,7 @@ s[10211] = function(p)
 	end
 
 	vars.missionCode = 10211
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10200] = function(p)
@@ -643,7 +643,7 @@ s[10200] = function(p)
 	end
 
 	vars.missionCode = 10200
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10081] = function(p)
@@ -661,7 +661,7 @@ s[10081] = function(p)
 	end
 
 	vars.missionCode = 10081
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10130] = function(p)
@@ -684,7 +684,7 @@ s[10130] = function(p)
 	end
 
 	vars.missionCode = 10130
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10140] = function(p)
@@ -709,7 +709,7 @@ s[10140] = function(p)
 	end
 
 	vars.missionCode = 10140
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10150] = function(p)
@@ -730,7 +730,7 @@ s[10150] = function(p)
 	end
 
 	vars.missionCode = 10150
-	vars.locationCode = 10
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10151] = function(p)
@@ -745,7 +745,7 @@ s[10151] = function(p)
 	TppEneFova.AddUniquePackage({ type = "hostage", body = p })
 
 	vars.missionCode = 10151
-	vars.locationCode = 10
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10045] = function(p)
@@ -763,7 +763,7 @@ s[10045] = function(p)
 	end
 
 	vars.missionCode = 10045
-	vars.locationCode = 10
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10156] = function(p)
@@ -775,7 +775,7 @@ s[10156] = function(p)
 	TppPackList.AddDefaultMissionAreaPack(p)
 
 	vars.missionCode = 10156
-	vars.locationCode = 10
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10093] = function(p)
@@ -791,7 +791,7 @@ s[10093] = function(p)
 	end
 
 	vars.missionCode = 10093
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10171] = function(p)
@@ -811,7 +811,7 @@ s[10171] = function(p)
 	end
 
 	vars.missionCode = 10171
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.MAFR
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10230] = function(p)
@@ -829,7 +829,7 @@ s[10240] = function(p)
 	end
 
 	vars.missionCode = 10240
-	vars.locationCode = 55 -- mbqf
+	vars.locationCode = TppDefine.LOCATION_ID.MBQF
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10050] = function(p)
@@ -844,7 +844,7 @@ s[10050] = function(p)
 	end
 
 	vars.missionCode = 10050
-	vars.locationCode = 20
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10260] = function(p)
@@ -857,7 +857,7 @@ s[10260] = function(p)
 	TppPackList.AddDefaultMissionAreaPack(p)
 
 	vars.missionCode = 10260
-	vars.locationCode = 10
+	vars.locationCode = TppDefine.LOCATION_ID.AFGH
 	TppPackList.AddMissionPack("/Assets/tpp/pack/coop/coop_essentials.fpk")
 end
 s[10280] = s[10010]
