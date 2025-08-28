@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <map>
 #include <memory>
+#include "Version.h"
 
 namespace Dynamite {
     extern std::map<std::string, uint64_t> addressSet;

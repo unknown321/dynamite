@@ -37,7 +37,27 @@ include_directories(
 
 SET(LUA_COMPAT_OPENLIB 1)
 
-add_library(dinput8 SHARED
+
+if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/__header.h)
+    message(FATAL_ERROR "File \"${CMAKE_CURRENT_BINARY_DIR}/__header.h\" found, \
+    this should never be created, remove!")
+endif()
+
+add_custom_command(
+        OUTPUT
+        ${CMAKE_CURRENT_BINARY_DIR}/__header.h  # fake! ensure we run!
+        COMMAND true
+)
+
+add_custom_target(version
+        COMMAND rm -fv ${CMAKE_SOURCE_DIR}/src/Version.h
+        COMMAND ${CMAKE_COMMAND} -D SRC=${CMAKE_SOURCE_DIR}/src/Version.h.in
+        -D DST=${CMAKE_SOURCE_DIR}/src/Version.h
+        -P ${CMAKE_SOURCE_DIR}/GenerateVersion.cmake
+        ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/__header.h
+)
+
+add_library(${PROJECT_NAME} SHARED
         src/mgsvtpp_funcptr_defs.cpp
         src/mgsvtpp_funcptr_set.cpp
         src/Tpp/GameObject.cpp
@@ -55,6 +75,8 @@ add_library(dinput8 SHARED
         src/DInputProxy.cpp
 )
 
-target_compile_options(dinput8 PUBLIC -fpermissive)
-target_link_options(dinput8 PUBLIC -static)
-target_link_libraries(dinput8 minhook mINI spdlog::spdlog_header_only)
+add_dependencies(${PROJECT_NAME} version)
+
+target_compile_options(${PROJECT_NAME} PUBLIC -fpermissive)
+target_link_options(${PROJECT_NAME} PUBLIC -static)
+target_link_libraries(${PROJECT_NAME} minhook mINI spdlog::spdlog_header_only)

@@ -1,3 +1,4 @@
 *.swp
 .idea
 cmake-build-*
+src/Version.h

@@ -446,6 +446,7 @@ namespace Dynamite {
         // using `flush_every` with multithreaded logger will result in application hang during DLL_PROCESS_DETACH
         spdlog::flush_on(spdlog::level::info);
         log->info("starting");
+        log->info("dynamite {}", SOFTWARE_VERSION);
     }
 
     Dynamite::Dynamite() : thisModule{GetModuleHandle(nullptr)} {
