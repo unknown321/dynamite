@@ -25,17 +25,20 @@ namespace Dynamite {
         messageDict = readMessageDictionary("messageDict.txt");
         pathDict = readPathCodeDictionary("pathDict.txt");
 
-        auto luaLog = "dynamite/luaLog.txt";
+        auto luaLog = "dynamite/lualog.txt";
         if (cfg.debug.luaLog) {
             if (std::filesystem::exists(luaLog)) {
+                spdlog::info("truncating lualog.txt");
                 std::ofstream ofs(luaLog, std::ios::trunc);
                 ofs.close();
             } else {
-                std::fstream f;
-                f.open(luaLog, std::ios::binary);
+                spdlog::info("creating lualog.txt");
+                std::ofstream f (luaLog);
+                f << "";
                 f.close();
             }
         } else {
+            spdlog::info("removed lualog.txt");
             std::filesystem::remove(luaLog);
         }
     }
