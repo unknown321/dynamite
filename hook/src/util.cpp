@@ -7,11 +7,29 @@
 #include <filesystem>
 #include <fstream>
 
+
 float calculateDistance(Vector3 v1, Vector3 v2) {
     float dx = v2.x - v1.x;
     float dy = v2.y - v2.y;
     float dz = v2.z - v1.z;
     return std::sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+// checks if vector is out of the map
+bool positionValid(Vector3 v) {
+    if ((v.x > MAP_MAX_X) || (v.x < -MAP_MAX_X)) {
+        return false;
+    }
+
+    if ((v.y > MAP_MAX_Y) || (v.y < -MAP_MAX_Y)) {
+        return false;
+    }
+
+    if ((v.z > MAP_MAX_Z) || (v.z < -MAP_MAX_Z)) {
+        return false;
+    }
+
+    return true;
 }
 
 // file format is `string,strcode32`

@@ -130,7 +130,14 @@ namespace Dynamite {
         for (int i = 0; i < GetMemberCount(); i++) {
             auto pos = GetPlayerPosition(i);
             if (!pos.Valid()) {
+                if (cfg.debug.playerTarget) {
+                    spdlog::info("{}, player {}, invalid position {} {} {}", __FUNCTION__, i, pos.x, pos.y, pos.z);
+                }
                 break;
+            }
+
+            if (cfg.debug.playerTarget) {
+                spdlog::info("{}, player {}, valid position {} {} {}", __FUNCTION__, i, pos.x, pos.y, pos.z);
             }
             playerPositions.push_back(pos);
         }
@@ -151,15 +158,25 @@ namespace Dynamite {
 
             auto soldierPos = GetSoldierPosition(i);
             if (!soldierPos.Valid()) {
-                break;
+                continue;
+            }
+
+            if (!positionValid(soldierPos)) {
+                continue;
+            }
+
+            if (cfg.debug.playerTarget) {
+                spdlog::info("{}, soldier {}, valid pos {:03.2f} {:03.2f} {:03.2f}", __FUNCTION__, i, soldierPos.x, soldierPos.y, soldierPos.z);
             }
 
             for (int p = 0; p < playerPositions.size(); p++) {
                 auto ppos = playerPositions[p];
                 auto distance = static_cast<int>(calculateDistance(ppos, soldierPos));
                 if (distance < minDistance) {
-                    minDistance = distance;
-                    minDistancePlayer = p;
+                    if ((distance > -1000) && (distance < 1000)) {
+                        minDistance = distance;
+                        minDistancePlayer = p;
+                    }
                 }
             }
         }
@@ -264,7 +281,7 @@ namespace Dynamite {
                 auto opID = GetNearestPlayer();
                 if (cfg.debug.playerTarget) {
                     if (opID != offensePlayerID) {
-                        spdlog::info("changing offense player ID from %d to %d", offensePlayerID, opID);
+                        spdlog::info("changing offense player ID from {:d} to {:d}", offensePlayerID, opID);
                     }
                 }
                 offensePlayerID = opID;

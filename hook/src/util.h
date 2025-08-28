@@ -6,7 +6,13 @@
 #include <map>
 #include <string>
 
+#define MAP_MAX_X 7000
+#define MAP_MAX_Y 7000
+#define MAP_MAX_Z 7000
+
 float calculateDistance(Vector3 v1, Vector3 v2);
+
+bool positionValid(Vector3 v);
 
 std::map<uint32_t, std::string> readMessageDictionary(const std::string& filename);
 
