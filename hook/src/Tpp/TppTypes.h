@@ -49,6 +49,7 @@ struct Vector3 {
     float x = 0;
     float y = 0;
     float z = 0;
+    float w = 0;
 
     bool Valid();
 };
@@ -64,6 +65,15 @@ struct Vector3Double {
 
 #pragma pack(push, 1)
 struct Vector4 {
+    float x = 0;
+    float y = 0;
+    float z = 0;
+    float w = 0;
+};
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+struct Quat {
     float x = 0;
     float y = 0;
     float z = 0;

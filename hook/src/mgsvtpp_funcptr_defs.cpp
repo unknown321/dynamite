@@ -11,6 +11,9 @@ luaL_checkintegerFunc *luaL_checkinteger;
 lua_pushbooleanFunc *lua_pushboolean;
 luaL_checknumberFunc *luaL_checknumber;
 lua_tobooleanFunc *lua_toboolean;
+lua_createtableFunc* lua_createtable;
+lua_pushvalueFunc *lua_pushvalue;
+lua_removeFunc *lua_remove;
 
 IsDefenseTeamByOnlineFobLocalFunc *IsDefenseTeamByOnlineFobLocal;
 IsOffenseTeamByOnlineFobLocalFunc *IsOffenseTeamByOnlineFobLocal;
@@ -74,6 +77,8 @@ FoxBlockActivateFunc *FoxBlockActivate;
 FoxBlockDeactivateFunc *FoxBlockDeactivate;
 FoxBlockLoadFunc *FoxBlockLoad;
 CloseSessionFunc *CloseSession;
+Player2GameObjectImplWarpFunc *Player2GameObjectImplWarp;
 
 lua_CFunction l_AnnounceLogView;
 FoxLuaPushVector3Func *FoxLuaPushVector3;
+FoxLuaPushQuatFunc *FoxLuaPushQuat;

@@ -1,6 +1,7 @@
 #include "DynamiteLua.h"
 #include "DamageProtocol.h"
 #include "DynamiteHook.h"
+#include "dynamite.h"
 #include "lua/lauxlib.h"
 #include "lua/lua.h"
 #include "memtag.h"
@@ -271,7 +272,7 @@ namespace Dynamite {
 
     int l_GetPlayerPosition(lua_State *L) {
         auto i = luaL_checkinteger(L, 1);
-        auto res = Dynamite::GetPlayerPosition(i);
+        auto res = GetPlayerPosition(i);
         auto rr = Vector4{
             .x = res.x,
             .y = res.y,
@@ -281,6 +282,56 @@ namespace Dynamite {
         spdlog::info("{}: {} {} {}", i, res.x, res.y, res.z);
         FoxLuaPushVector3(L, &rr);
         return 1;
+    }
+
+    int l_WarpToPartner(lua_State *L) {
+        spdlog::info("{}", __FUNCTION__);
+        auto c = GetMemberCount();
+        if (c < 2) {
+            spdlog::info("{}, no player to warp to", __FUNCTION__);
+
+            lua_getglobal(luaState, "TppUiCommand");
+            lua_getfield(luaState, -1, "AnnounceLogView");
+            auto text = "No player to warp to\0";
+            lua_pushstring(luaState, text);
+            lua_pcall(luaState, 1, 0, 0);
+
+            return 0;
+        }
+
+        uint16_t partnerID = 0;
+        if (cfg.Host) {
+            partnerID = 1;
+        }
+
+        auto partnerPos = GetPlayerPosition(partnerID);
+
+        Quat rot = {
+            .x = 0,
+            .y = -0.1f,
+            .z = 0,
+            .w = 7.0f,
+        };
+
+
+        auto playerID = 1;
+        if (cfg.Host) {
+            playerID = 0;
+        }
+
+        auto gameObject = FindGameObjectWithID(playerID);
+        if (gameObject == nullptr) {
+            spdlog::info("{}, cannot find game object to warp", __FUNCTION__);
+            return 0;
+        }
+
+        gameObject = (char*)gameObject + 0x20;
+
+        spdlog::info("player {} warping to partner {}, position {}, {}, {}", playerID, partnerID, partnerPos.x, partnerPos.y, partnerPos.z);
+
+        Player2GameObjectImplWarp(gameObject, playerID, &partnerPos, &rot, true);
+
+        return 0;
     }
 
     void CreateLibs(lua_State *L) {
@@ -305,6 +356,7 @@ namespace Dynamite {
             {"IsClient", l_IsClient},
             {"IsHost", l_IsHost},
             {"GetPlayerPosition", l_GetPlayerPosition},
+            {"WarpToPartner", l_WarpToPartner},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);

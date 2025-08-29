@@ -52,12 +52,13 @@ namespace Dynamite {
         {"FoxCreatePropertyInfo", 0x1400926a0},
         {"ValueGetAsUInt32", 0x140065480},
         {"FoxString", 0x142eaf970},
-        {"FindGameObjectWithID", 0x140bf4160},
+        {"FindGameObjectWithID", 0x146c95580},
         {"Soldier2ImplGetInterface", 0x149f2f3d0},
         {"PlayerInfoServiceGetPositionAtIndex", 0x14d9b7770},
         {"GetMainSession", 0x143e60970},
         {"GetSessionMemberCount", 0x143e60ef0},
         {"CloseSession", 0x146457b20},
+        {"Player2GameObjectImplWarp", 0x14627c6f0},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},
@@ -74,6 +75,7 @@ namespace Dynamite {
         {"GetCurrentBlockMemory", 0x14328e410},
 
         {"FoxLuaPushVector3", 0x143257590},
+        {"FoxLuaPushQuat", 0x143256e30},
         {"l_AnnounceLogView", 0x145d5ded0},
 
         {"lua_pushinteger", 0x14c1e6ef0},
@@ -87,6 +89,9 @@ namespace Dynamite {
         {"luaL_openlibs", 0x14c1fd0c0},
         {"luaL_checknumber", 0x14c1ffb30},
         {"lua_toboolean", 0x14c1ebe40},
+        {"lua_createtable", 0x14c1d6320},
+        {"lua_pushvalue", 0x14c1e87e0},
+        {"lua_remove", 0x14c1ea0c0},
 
         /*
                         {"StrCode64", 0x14c1bd730},
@@ -137,8 +142,6 @@ namespace Dynamite {
                         {"lua_atpanic", 0x14c1d5120},
                         //{"lua_gettop", USING_CODE},
                         {"lua_settop", 0x14c1ebbe0},
-                        {"lua_pushvalue", 0x14c1e87e0},
-                        {"lua_remove", 0x14c1ea0c0},
                         {"lua_insert", 0x14c1d8150},
                         {"lua_replace", 0x14c1ea370},
                         {"lua_checkstack", 0x14c1d5900},
@@ -173,7 +176,6 @@ namespace Dynamite {
                         {"lua_gettable", 0x14c1d7c10},
                         {"lua_rawget", 0x14c1e9190},
                         {"lua_rawgeti", 0x14c1e9320},//via MACRO lua_getref
-                        {"lua_createtable", 0x14c1d6320},
                         {"lua_newuserdata", 0x14c1d9f80},
                         {"lua_getmetatable", 0x14c1d79b0},
                         {"lua_getfenv", 0x14c1d7160},

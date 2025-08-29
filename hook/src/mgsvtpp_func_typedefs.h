@@ -88,7 +88,13 @@ typedef int32_t *(__thiscall FoxBlockDeactivateFunc)(void *Block, int32_t *param
 
 typedef int *(FoxBlockLoadFunc)(void *thisPtr, int *errorCode, uint64_t *pathID, uint32_t param_4);
 
-typedef int (lua_tobooleanFunc)(lua_State *L,int idx);
+typedef int(lua_tobooleanFunc)(lua_State *L, int idx);
+
+typedef void(lua_createtableFunc)(lua_State *L, int narray, int nrec);
+
+typedef void(lua_pushvalueFunc)(lua_State *L, int index);
+
+typedef void(lua_removeFunc)(lua_State *L, int index);
 
 /*
 enum fox::PropertyInfo::Type,
@@ -154,6 +160,8 @@ typedef bool(__thiscall EquipCrossEvCallIsItemNoUseFunc)(void *thisPtr, unsigned
 
 typedef void(__cdecl FoxLuaPushVector3Func)(lua_State *param_1, Vector4 *param_2);
 
+typedef void(__cdecl FoxLuaPushQuatFunc)(lua_State *L, Quat *param_2);
+
 typedef void *(FoxGenerateUniqueNameFunc)(void *sharedString, unsigned long long param_2, void *string);
 
 typedef void *(FoxBlockFunc)(void *p);
@@ -164,7 +172,9 @@ typedef void *(__thiscall BlockMemoryAllocTailFunc)(void *memBlock, uint64_t siz
 
 typedef void *(__thiscall BlockMemoryAllocHeapFunc)(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
 
-typedef void* (CloseSessionFunc)(void);
+typedef void *(CloseSessionFunc)(void);
+
+typedef void(__cdecl Player2GameObjectImplWarpFunc)(void *thisPtr, uint32_t objectID, Vector3 *pos, Quat *rot, bool param_5);
 
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
@@ -178,10 +188,14 @@ extern luaL_checkintegerFunc *luaL_checkinteger;
 extern lua_pushbooleanFunc *lua_pushboolean;
 extern luaL_checknumberFunc *luaL_checknumber;
 extern lua_tobooleanFunc *lua_toboolean;
+extern lua_createtableFunc *lua_createtable;
+extern lua_pushvalueFunc *lua_pushvalue;
+extern lua_removeFunc *lua_remove;
 
 // tpp lua functions (TppUiCommand.AnnounceLogView)
 extern lua_CFunction l_AnnounceLogView;
 extern FoxLuaPushVector3Func *FoxLuaPushVector3;
+extern FoxLuaPushQuatFunc *FoxLuaPushQuat;
 
 // tpp C++ functions
 extern IsDefenseTeamByOnlineFobLocalFunc *IsDefenseTeamByOnlineFobLocal;
@@ -246,5 +260,6 @@ extern FoxBlockActivateFunc *FoxBlockActivate;
 extern FoxBlockDeactivateFunc *FoxBlockDeactivate;
 extern FoxBlockLoadFunc *FoxBlockLoad;
 extern CloseSessionFunc *CloseSession;
+extern Player2GameObjectImplWarpFunc *Player2GameObjectImplWarp;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

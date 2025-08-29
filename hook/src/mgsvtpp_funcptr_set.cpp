@@ -15,6 +15,8 @@ namespace Dynamite {
         lua_pushboolean = (lua_pushbooleanFunc *)addressSet["lua_pushboolean"];
         luaL_checknumber = (luaL_checknumberFunc *)addressSet["luaL_checknumber"];
         lua_toboolean = (lua_tobooleanFunc *)addressSet["lua_toboolean"];
+        lua_createtable = (lua_createtableFunc*)addressSet["lua_createtable"];
+        lua_pushvalue = (lua_pushvalueFunc*)addressSet["lua_pushvalue"];
 
         IsDefenseTeamByOnlineFobLocal = (IsDefenseTeamByOnlineFobLocalFunc *)addressSet["IsDefenseTeamByOnlineFobLocal"];
         IsOffenseTeamByOnlineFobLocal = (IsOffenseTeamByOnlineFobLocalFunc *)addressSet["IsOffenseTeamByOnlineFobLocal"];
@@ -78,8 +80,10 @@ namespace Dynamite {
         FoxBlockDeactivate = (FoxBlockDeactivateFunc *)addressSet["FoxBlockDeactivate"];
         FoxBlockLoad = (FoxBlockLoadFunc *)addressSet["FoxBlockLoad"];
         CloseSession = (CloseSessionFunc *)addressSet["CloseSession"];
+        Player2GameObjectImplWarp = (Player2GameObjectImplWarpFunc *)addressSet["Player2GameObjectImplWarp"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];
+        FoxLuaPushQuat = (FoxLuaPushQuatFunc *)addressSet["FoxLuaPushQuat"];
     }
 }

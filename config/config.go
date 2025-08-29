@@ -190,6 +190,11 @@ func (c *Config) Default() error {
 			Module:   "Dynamite",
 			Function: "ResetClientSessionStateWithNotification",
 		},
+		{
+			Name:     "DOWN",
+			Module:   "Dynamite",
+			Function: "WarpToPartner",
+		},
 	}
 
 	c.Keys = keys
