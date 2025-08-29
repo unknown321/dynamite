@@ -17,10 +17,7 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
     * [Installing](#installing)
     * [Updating](#updating)
     * [Playing](#playing)
-      * [Missions that are playable from start to finish with minor bugs (not impacting gameplay in a meaningful way):](#missions-that-are-playable-from-start-to-finish-with-minor-bugs-not-impacting-gameplay-in-a-meaningful-way)
-      * [Missions that were recently updated and need testing:](#missions-that-were-recently-updated-and-need-testing)
-      * [These missions are broken in one way or another:](#these-missions-are-broken-in-one-way-or-another)
-      * [Untested missions:](#untested-missions)
+      * [Mission list](#mission-list)
       * [EXTREME versions, tutorial missions and script-heavy missions are not included:](#extreme-versions-tutorial-missions-and-script-heavy-missions-are-not-included)
       * [Host](#host)
       * [Client](#client)
@@ -42,13 +39,13 @@ Follow this guide: <a href="https://www.youtube.com/watch?v=SvePtu07XVY" target=
 
 ### Requirements
 
-  - OS:
+- OS:
     - Windows 10 or later
     - Linux kernel 3.2 or later / Steam OS
-  - Legitimate and unmodified Steam copy of the game (JP version is not supported)
-  - Connection to Steam network
-  - At least 1GB free space on system partition and game location drive
-  - A friend to play with
+- Legitimate and unmodified Steam copy of the game (JP version is not supported)
+- Connection to Steam network
+- At least 1GB free space on system partition and game location drive
+- A friend to play with
 
 It is also heavily recommended to have 100% save to access all working missions.
 
@@ -56,11 +53,11 @@ If you are seeing this text in your browser after launching the mod executable, 
 
 Non-Steam versions are not supported for variety of reasons not mentioned here.
 
-To restore your game files and remove previously installed mods right-click on the game in your Library and 
+To restore your game files and remove previously installed mods right-click on the game in your Library and
 choose `Properties`; then go to the `Local Files` tab and click on `Verify integrity of game cache…`.
 
-Connection to Steam network is required to create initial connection between host and client. Co-op won't work during 
-Steam weekly maintenance period. If there is no connection to Steam, you can check 
+Connection to Steam network is required to create initial connection between host and client. Co-op won't work during
+Steam weekly maintenance period. If there is no connection to Steam, you can check
 <a href="https://steamstat.us/" target="_blank">Unofficial Steam Status website</a>.
 
 ---
@@ -69,10 +66,10 @@ Steam weekly maintenance period. If there is no connection to Steam, you can che
 
 #### Co-op
 
-Check `Host mode` to host the co-op session. See [Playing](#Playing) section for differences between hosting and 
+Check `Host mode` to host the co-op session. See [Playing](#Playing) section for differences between hosting and
 joining as a client.
 
-Otherwise, paste your host's Steam profile url to `Host Steam ID`. You can get it from Steam client by navigating to 
+Otherwise, paste your host's Steam profile url to `Host Steam ID`. You can get it from Steam client by navigating to
 host's Steam profile, right-clicking the page and selecting `Copy Page URL`.
 
 As a host, add unwanted persons to `Blacklist` or limit your co-op session to a close circle of friends
@@ -88,13 +85,13 @@ this field will be filled automatically.
 
 If you need to change `Web UI address/port` to avoid port conflicts/listening interface, change the corresponding field.
 
-`Master Key` is the key that will be used in combination with other keys during gameplay to invoke various dynamite 
+`Master Key` is the key that will be used in combination with other keys during gameplay to invoke various dynamite
 features. Default value is `V` (`ZOOM_CHANGE`).
 
-`Reload Key` is the key to reload configuration and loaded lua scripts in game. Hold `Master Key` and `Reload Key` 
+`Reload Key` is the key to reload configuration and loaded lua scripts in game. Hold `Master Key` and `Reload Key`
 for a second together; in case of success `Keys bound` will be printed in game log. Default value is `E` (`ACTION`).
 
-Check `Skip Web UI on start` if you are fine with current settings; on the next launch Web UI won't open in browser, 
+Check `Skip Web UI on start` if you are fine with current settings; on the next launch Web UI won't open in browser,
 no installation will be performed, you can start the game right after launching dynamite executable.
 
 ---
@@ -102,9 +99,10 @@ no installation will be performed, you can start the game right after launching 
 #### Master server
 
 Master server holds records about your online resources; game requires working connection to it to play co-op.
-Usually, after a mission some data is sent to original master server, including your records. Co-op sessions differ 
-from regular single-player missions in variety of ways; wrong or broken data might be sent to the server. Wrong data *may* 
-result in online ban from original server. To protect your account, dynamite comes with bundled master server 
+Usually, after a mission some data is sent to original master server, including your records. Co-op sessions differ
+from regular single-player missions in variety of ways; wrong or broken data might be sent to the server. Wrong data
+*may*
+result in online ban from original server. To protect your account, dynamite comes with bundled master server
 implementation <a href="https://github.com/unknown321/fuse" target="_blank">fuse</a>, which runs locally.
 
 `Use Local Master Server` will start a local server on port 6667. If you want to connect to another public master server
@@ -118,30 +116,31 @@ You can add and change key combinations to run dynamite functions (see [Playing]
 
 To use them, hold `Master Key` for a second and press key from the table to call corresponding function in game.
 
-`Dynamite.CreateClientSession` entry is required to connect to the host; 
-`Dynamite.ResetClientSessionStateWithNotification` is required to reset session state in case of connection issues. You 
+`Dynamite.CreateClientSession` entry is required to connect to the host;
+`Dynamite.ResetClientSessionStateWithNotification` is required to reset session state in case of connection issues. You
 should keep these entries; feel free to change default keys (`UP` and `LEFT` arrow buttons).
 
 ---
 
 #### Miscellaneous
 
-To indicate that function was executed, game will play a clicking sound. Uncheck `Play sound on function call` to 
+To indicate that function was executed, game will play a clicking sound. Uncheck `Play sound on function call` to
 disable it.
 
 ---
 
 ### Installing
 
-1. Right-click the game in the Steam library and choose `Properties`, then go to the `Local files` tab and click `Browse local files`
+1. Right-click the game in the Steam library and choose `Properties`, then go to the `Local files` tab and
+   click `Browse local files`
 2. Put dynamite executable into the game directory
 3. Launch dynamite executable
 4. Browser window will open
 5. Linux / SteamOS only: you must set custom launch options before starting the game: Steam --> MGSV:TPP
---> Game properties --> Set Launch Options: `WINEDLLOVERRIDES="dinput8.dll=n,b" %command%`
+   --> Game properties --> Set Launch Options: `WINEDLLOVERRIDES="dinput8.dll=n,b" %command%`
 
 Fill in required fields in `Configuration` tab, press `Save configuration`. Your config and game files will be updated.
-You can track installation status in console window or wait for the information on status page. After installation 
+You can track installation status in console window or wait for the information on status page. After installation
 keep console window open - master server is running in there.
 
 ---
@@ -167,103 +166,59 @@ Steps:
 1. Agree on roles (host/client)
 2. Configure dynamite
 3. Launch the game
-4. Choose working mission from list below and tell it to all session participants
+4. Choose working mission from list below and tell it to your partner
 
 ---
 
-#### Missions that are playable from start to finish with minor bugs (not impacting gameplay in a meaningful way):
+#### Mission list
 
-<details>
-<summary>Mission list (click me)</summary>
-
-```
-    1 - PHANTOM LIMBS - client loads into mission again (#12)
-    3 - A HERO’S WAY
-    5 - OVER THE FENCE - prisoner repeats his lines over and over for host
-    7 - RED BRASS - commanders don't move from their spawn points (#40)
-    8 - OCCUPATION FORCES - third tank spawn only for host (#19)
-    10 - ANGEL WITH BROKEN WINGS - client loads into mission again (#12)
-    13 - PITCH DARK - mission may abort on start (out of mission area) if second partner connects too late (#3)
-    14 - LINGUA FRANCA
-    15 - FOOTPRINTS OF PHANTOMS - walker gears are not fultonable (#21)
-    16 - TRAITORS’ CARAVAN - skulls spawn only for one player (#41), no armored vehicle (#42)
-    17 - RESCUE THE INTEL AGENTS - there may be some confusion with prisoner extraction order
-    20 - VOICES - infinite loading after last cutscene (#37)
-    21 - THE WAR ECONOMY
-    23 - THE WHITE MAMBA - client loads into mission again (#12), Eli is local
-    24 - CLOSE CONTACT - client loads into mission again (#12)
-    25 - AIM TRUE, YE VENGEFUL - client loads into mission again (#12)
-    26 - HUNTING DOWN - client loads into mission again (#12)
-    27 - ROOT CAUSE
-    43 - SHINING LIGHTS, EVEN IN DEATH - crash if you skip any of post-landing cutscenes (#16), NPCs have default poses sometimes (#78)
-```
-
-
-</details>
+<table class="table-missions">
+<thead>
+<th>#</th><th>Name</th><th>Can be finished?</th><th>Issues</th>
+</thead>
+<tr><td>1</td><td>PHANTOM LIMBS</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
+<tr><td>3</td><td>A HERO’S WAY</td><td>✔</td><td></td></tr>
+<tr><td>4</td><td>C2W</td><td>✔</td><td>mission must be finished by player who completed 3/3 objectives (<a href="https://github.com/unknown321/dynamite/issues/80" target="_blank">#80</a>)</td></tr>
+<tr><td>5</td><td>OVER THE FENCE</td><td>✔</td><td>prisoner repeats his lines over and over for host</td>
+<tr class="error-row"><td>6</td><td>WHERE DO THE BEES SLEEP?</td><td>❌</td><td>skulls don't spawn (<a href="https://github.com/unknown321/dynamite/issues/55" target="_blank">#55</a>), client cannot pick up honey bee (<a href="https://github.com/unknown321/dynamite/issues/71" target="_blank">#71</a>)</td></tr>
+<tr><td>7</td><td>RED BRASS</td><td>✔</td><td>commanders don't move from their spawn points (<a href="https://github.com/unknown321/dynamite/issues/40" target="_blank">#40</a>)</td></tr>
+<tr><td>8</td><td>OCCUPATION FORCES</td><td>✔</td><td>third tank spawn only for host (<a href="https://github.com/unknown321/dynamite/issues/19" target="_blank">#19</a>)</td></tr>
+<tr><td>9</td><td>BACKUP, BACK DOWN</td><td>✔</td><td>no enemy vehicles spawned (<a href="https://github.com/unknown321/dynamite/issues/9" target="_blank">#9</a>)</td></tr>
+<tr><td>10</td><td>ANGEL WITH BROKEN WINGS</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
+<tr class="warning-row"><td>11</td><td>CLOAKED IN SILENCE</td><td>?</td><td>boss is local</td></tr>
+<tr><td>12</td><td>HELLBOUND</td><td>✔</td><td>possible black screen after finishing the mission (<a href="https://github.com/unknown321/dynamite/issues/70" target="_blank">#70</a>)</td>
+<tr><td>13</td><td>PITCH DARK</td><td>✔</td><td>mission may abort on start (out of mission area) if partner connects too late (<a href="https://github.com/unknown321/dynamite/issues/3" target="_blank">#3</a>)</td></tr>
+<tr class="warning-row"><td>14</td><td>LINGUA FRANCA</td><td>?</td><td></td></tr>
+<tr><td>15</td><td>FOOTPRINTS OF PHANTOMS</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
+<tr class="warning-row"><td>16</td><td>TRAITORS’ CARAVAN</td><td>?</td><td>skulls spawn only for one player (<a href="https://github.com/unknown321/dynamite/issues/41" target="_blank">#41</a>), no armored vehicle (<a href="https://github.com/unknown321/dynamite/issues/42" target="_blank">#42</a>)</td></tr>
+<tr><td>17</td><td>RESCUE THE INTEL AGENTS</td><td>✔</td><td>there may be some confusion with prisoner extraction order</td></tr>
+<tr class="warning-row"><td>18</td><td>BLOOD RUNS DEEP</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>19</td><td>ON THE TRAIL</td><td>?</td><td></td></tr>
+<tr><td>20</td><td>VOICES</td><td>✔</td><td>infinite loading after last cutscene (<a href="https://github.com/unknown321/dynamite/issues/37" target="_blank">#37</a>)</td></tr>
+<tr><td>21</td><td>THE WAR ECONOMY</td><td>✔</td><td></td></tr>
+<tr><td>23</td><td>THE WHITE MAMBA</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), boss is local</td></tr>
+<tr><td>24</td><td>CLOSE CONTACT</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
+<tr><td>25</td><td>AIM TRUE, YE VENGEFUL</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
+<tr><td>26</td><td>HUNTING DOWN</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
+<tr><td>27</td><td>ROOT CAUSE</td><td>✔</td><td></td></tr>
+<tr class="warning-row"><td>28</td><td>CODE TALKER</td><td>?</td><td>client cannot pick up Code Talker (<a href="https://github.com/unknown321/dynamite/issues/15" target="_blank">#15</a>)</td>
+<tr class="warning-row"><td>29</td><td>METALLIC ARCHAEA</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>30</td><td>SKULL FACE</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>31</td><td>SAHELANTHROPUS</td><td>?</td><td>boss is local</td></tr>
+<tr class="warning-row"><td>32</td><td>TO KNOW TOO MUCH</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>35</td><td>CURSED LEGACY</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>38</td><td>EXTRAORDINARY</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>41</td><td>PROXY WAR WITHOUT END</td><td>?</td><td></td></tr>
+<tr><td>43</td><td>SHINING LIGHTS, EVEN IN DEATH</td><td>✔</td><td>crash if you skip any of post-landing cutscenes (<a href="https://github.com/unknown321/dynamite/issues/16" target="_blank">#16</a>), NPCs have default poses sometimes (<a href="https://github.com/unknown321/dynamite/issues/78" target="_blank">#78</a>)</td></tr>
+<tr class="warning-row"><td>45</td><td>A QUIET EXIT</td><td>?</td><td></td></tr>
+</table>
 
 A good (read: tested) choice is Mission 5, OVER THE FENCE.
 
----
-
-<p class="color-changing-text">NEW:</p> 
-
-#### Missions that were recently updated and need testing:
-
-Report if they are working on <a href="https://github.com/unknown321/dynamite/issues" target="_blank">GitHub</a> or 
+Missions marked with `?` are not confirmed to be playable to the end. Report if they are working on 
+<a href="https://github.com/unknown321/dynamite/issues" target="_blank">GitHub</a> or
 <a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>, `modding-showcase`
-channel, `dynamite` thread:
-
-<details>
-<summary>Click me</summary>
-
-```
-    8 - OCCUPATION FORCES - third tank may not spawn for client (#19)
-    11 - CLOAKED IN SILENCE - boss is local
-    12 - HELLBOUND - possible black screen after finishing the mission (#70)
-    18 - BLOOD RUNS DEEP
-    19 - ON THE TRAIL
-    28 - CODE TALKER - client cannot pick up Code Talker (#15)
-    29 - METALLIC ARCHAEA
-    30 - SKULL FACE
-    31 - SAHELANTHROPUS - boss is local
-    32 - TO KNOW TOO MUCH
-    35 - CURSED LEGACY
-    38 - EXTRAORDINARY
-    41 - PROXY WAR WITHOUT END
-    45 - A QUIET EXIT
-```
-
-</details>
-
----
-
-#### These missions are broken in one way or another:
-
-<details>
-<summary>Click me</summary>
-
-```
-    4 - C2W  - cannot progress past "identify equipment" goal (#39)
-    6 - WHERE DO THE BEES SLEEP? - skulls don't spawn (#55), client cannot pick up honey bee (#71)
-    9 - BACKUP, BACK DOWN - no enemy vehicles spawned (#9)
-```
-
-</details>
-
----
-
-#### Untested missions:
-
-<details>
-<summary>Click me</summary>
-
-```
-none?
-```
-
-</details>
-
----
+channel, `dynamite` thread.
 
 #### EXTREME versions, tutorial missions and script-heavy missions are not included:
 
@@ -272,7 +227,7 @@ none?
 
 ```
     PROLOGUE: AWAKENING
-    2 - DIAMOND DOGS - skipped, tutorial mission
+    2 - DIAMOND DOGS
     22 - RETAKE THE PLATFORM
     33 - [SUBSISTENCE] C2W
     34 - [EXTREME] BACKUP, BACK DOWN
@@ -295,10 +250,11 @@ none?
 
 #### Host
 
-Start the mission as usual. When you see your character (past mission splash screen), tell your partner to connect. Wait 
+Start the mission as usual. When you see your character (past mission splash screen), tell your partner to connect. Wait
 for partner at the landing zone.
 
-**Warning**: By default (empty blacklist/whitelist), anyone can join your session if they know your SteamID and the fact that you 
+**Warning**: By default (empty blacklist/whitelist), anyone can join your session if they know your SteamID and the fact
+that you
 are in mission. After establishing connection clients know your IP address. Use black/whitelists accordingly.
 
 Video: <a href="https://youtu.be/ei4CW0x1CfY" target="_blank">Link</a>
@@ -307,11 +263,11 @@ Video: <a href="https://youtu.be/ei4CW0x1CfY" target="_blank">Link</a>
 
 #### Client
 
-**IMPORTANT STEP**: Wait for host to load the mission, then press `Master Key` + `UP` arrow to connect 
+**IMPORTANT STEP**: Wait for host to load the mission, then press `Master Key` + `UP` arrow to connect
 (`Dynamite.CreateClientSession` key bind). It must be done every time by client before starting the mission.
 
 Read the notifications in the game log; if the connection fails, try again. After `Connection established` message start
-the same mission. If you are getting "You have been disconnected" popup, press `Master Key` + `LEFT` arrow to reset 
+the same mission. If you are getting "You have been disconnected" popup, press `Master Key` + `LEFT` arrow to reset
 session state and try again.
 
 An indication of success is broken camera in the intro sequence - it will fly around host's position instead of yours.
@@ -324,30 +280,31 @@ Video: <a href="https://youtu.be/rJOufW-rp9g" target="_blank">Link</a>
 
 **Notes:**
 
-  - Due to various issues (see below) players respawn 10 seconds after death instead of failing the mission
-  - To finish the mission, all players must exfiltrate the hot zone
-  - Fultoning other players results in mission failure
-  - Restarting mission from pause menu results in infinite loading
-  - Host may have to wait up to 30 seconds to reach the results menu
+- Due to various issues (see below) players respawn 10 seconds after death instead of failing the mission
+- To finish the mission, all players must exfiltrate the hot zone
+- Fultoning other players results in mission failure
+- Restarting mission from pause menu results in infinite loading
+- Host may have to wait up to 30 seconds to reach the results menu
 
 ---
 
 ### Issues
 
 You can (and will) experience various issues such as:
-  - crashes on triggering mission triggers
-  - invisible players
-  - invisible hostages
-  - players not respawning after death
-  - broken animations
-  - wrong reticle color (green on enemies)
-  - enemies unexpectedly switching targets
-  - teleporting enemies
-  - support vehicle desynchronization
-  - D-Horse desynchronization
-  - missing mission targets (soldiers, vehicles etc.)
-  - broken mission scripts preventing you from finishing the mission
-  - everything else
+
+- crashes on triggering mission triggers
+- invisible players
+- invisible hostages
+- players not respawning after death
+- broken animations
+- wrong reticle color (green on enemies)
+- enemies unexpectedly switching targets
+- teleporting enemies
+- support vehicle desynchronization
+- D-Horse desynchronization
+- missing mission targets (soldiers, vehicles etc.)
+- broken mission scripts preventing you from finishing the mission
+- everything else
 
 You can report these on <a href="https://github.com/unknown321/dynamite/issues" target="_blank">GitHub</a> (recommended)
 or ask for help in <a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>.
@@ -362,14 +319,15 @@ If you've selected a broken mission, it may never load. Close the game, select a
 
 #### Providing crash info
 
-Important information: 
-  - mission id/name
-  - your role (host/client)
-  - what did you do (shot tree with non-lethal gun) 
-  - where did you do it (at x.y.z, iDroid screenshot fully zoomed out)
-  - video if possible (Steam Recording / NVIDIA ShadowPlay)
+Important information:
 
-You can also collect a crash dump on Windows by following 
+- mission id/name
+- your role (host/client)
+- what did you do (shot tree with non-lethal gun)
+- where did you do it (at x.y.z, iDroid screenshot fully zoomed out)
+- video if possible (Steam Recording / NVIDIA ShadowPlay)
+
+You can also collect a crash dump on Windows by following
 <a href="https://learn.microsoft.com/en-us/windows/win32/wer/collecting-user-mode-dumps" target="_blank">this guide</a>.
 Set dump type to `Mini dump` (1).
 
@@ -381,9 +339,10 @@ To restore your game files right-click on the game in your Library and
 choose `Properties`; then go to the `Local Files` tab and click on `Verify integrity of game cache…`.
 
 Remove manually from game directory:
-  - dynamite executable
-  - dynamite directory
-  - `dinput8.dll`
+
+- dynamite executable
+- dynamite directory
+- `dinput8.dll`
 
 After that game will use your regular saves.
 
@@ -394,10 +353,12 @@ After that game will use your regular saves.
 1. Disable Steam Cloud sync for TPP and GZ (yes, both of them).
 2. Turn off Steam.
 3. Navigate to:
+
 ```
     <Steam-folder>\userdata\<user-id>\287700\local\
     <Steam-folder>\userdata\<user-id>\311340\remote\
 ```
+
 4. Delete all files named `DYNAMITE_*` in both directories (and keep everything else).
 5. Start Steam
 6. Remove dynamite directory from game directory
@@ -415,7 +376,7 @@ Create `example.lua` in `<game directory>/lua` directory. Contents:
 local example = {}
 
 function example.test()
-	TppUiCommand.AnnounceLogView('IsSessionConnect: ' .. tostring(TppNetworkUtil.IsSessionConnect()))
+    TppUiCommand.AnnounceLogView('IsSessionConnect: ' .. tostring(TppNetworkUtil.IsSessionConnect()))
 end
 
 return example

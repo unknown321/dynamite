@@ -197,3 +197,44 @@ td.profileLink {
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
 }
+
+.table-missions th {
+    background: #b3b3b3;
+    color: white;
+    padding: 12px;
+    font-weight: 600;
+    border-bottom: 2px solid #1e3e1e;
+    text-align: center;
+}
+
+.table-missions tr {
+    text-align: center;
+}
+
+.table-missions tr:nth-child(even) {
+    background: #f8fff8;
+}
+
+.table-missions tr:nth-child(odd) {
+    background: #f0f8f0;
+}
+
+.table-missions tr.warning-row {
+    background: #fff8e1;
+}
+
+.table-missions tr.warning-row:hover {
+    background: #ffecb3;
+}
+
+.table-missions tr.error-row {
+    background: #ffebee;
+}
+
+.table-missions tr.error-row:hover {
+    background: #ffcdd2;
+}
+
+.table-missions tr:hover:not(.warning-row):not(.error-row) {
+    background: #e8f5e8;
+}
