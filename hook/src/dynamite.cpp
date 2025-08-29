@@ -87,6 +87,11 @@ namespace Dynamite {
 
     // essentially tpp::gm::tool::`anonymous_namespace'::GetSessionMemberCount
     int GetMemberCount() {
+        if ((!sessionCreated) && (!hostSessionCreated)) {
+//            spdlog::info("{}, no session created, member count 1", __FUNCTION__);
+            return 1;
+        }
+
         auto session = GetMainSession();
         if (session == nullptr) {
             spdlog::error("{} Main session is null", __FUNCTION__);
