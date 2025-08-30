@@ -183,7 +183,7 @@ Steps:
 <tr class="error-row"><td>6</td><td>WHERE DO THE BEES SLEEP?</td><td>❌</td><td>skulls don't spawn (<a href="https://github.com/unknown321/dynamite/issues/55" target="_blank">#55</a>), client cannot pick up honey bee (<a href="https://github.com/unknown321/dynamite/issues/71" target="_blank">#71</a>)</td></tr>
 <tr><td>7</td><td>RED BRASS</td><td>✔</td><td>commanders don't move from their spawn points (<a href="https://github.com/unknown321/dynamite/issues/40" target="_blank">#40</a>)</td></tr>
 <tr><td>8</td><td>OCCUPATION FORCES</td><td>✔</td><td>third tank spawn only for host (<a href="https://github.com/unknown321/dynamite/issues/19" target="_blank">#19</a>)</td></tr>
-<tr><td>9</td><td>BACKUP, BACK DOWN</td><td>✔</td><td>no enemy vehicles spawned (<a href="https://github.com/unknown321/dynamite/issues/9" target="_blank">#9</a>)</td></tr>
+<tr><td>9</td><td>BACKUP, BACK DOWN</td><td>✔</td><td></td></tr>
 <tr><td>10</td><td>ANGEL WITH BROKEN WINGS</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
 <tr class="warning-row"><td>11</td><td>CLOAKED IN SILENCE</td><td>?</td><td>boss is local</td></tr>
 <tr><td>12</td><td>HELLBOUND</td><td>✔</td><td>possible black screen after finishing the mission (<a href="https://github.com/unknown321/dynamite/issues/70" target="_blank">#70</a>)</td>
