@@ -188,7 +188,7 @@ Steps:
 <tr class="warning-row"><td>11</td><td>CLOAKED IN SILENCE</td><td>?</td><td>boss is local</td></tr>
 <tr><td>12</td><td>HELLBOUND</td><td>✔</td><td>possible black screen after finishing the mission (<a href="https://github.com/unknown321/dynamite/issues/70" target="_blank">#70</a>)</td>
 <tr><td>13</td><td>PITCH DARK</td><td>✔</td><td>mission may abort on start (out of mission area) if partner connects too late (<a href="https://github.com/unknown321/dynamite/issues/3" target="_blank">#3</a>)</td></tr>
-<tr class="warning-row"><td>14</td><td>LINGUA FRANCA</td><td>?</td><td></td></tr>
+<tr><td>14</td><td>LINGUA FRANCA</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
 <tr><td>15</td><td>FOOTPRINTS OF PHANTOMS</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
 <tr class="warning-row"><td>16</td><td>TRAITORS’ CARAVAN</td><td>?</td><td>skulls spawn only for one player (<a href="https://github.com/unknown321/dynamite/issues/41" target="_blank">#41</a>), no armored vehicle (<a href="https://github.com/unknown321/dynamite/issues/42" target="_blank">#42</a>)</td></tr>
 <tr><td>17</td><td>RESCUE THE INTEL AGENTS</td><td>✔</td><td>there may be some confusion with prisoner extraction order</td></tr>
@@ -205,7 +205,7 @@ Steps:
 <tr class="warning-row"><td>29</td><td>METALLIC ARCHAEA</td><td>?</td><td></td></tr>
 <tr class="warning-row"><td>30</td><td>SKULL FACE</td><td>?</td><td></td></tr>
 <tr class="warning-row"><td>31</td><td>SAHELANTHROPUS</td><td>?</td><td>boss is local</td></tr>
-<tr class="warning-row"><td>32</td><td>TO KNOW TOO MUCH</td><td>?</td><td></td></tr>
+<tr><td>32</td><td>TO KNOW TOO MUCH</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
 <tr class="warning-row"><td>35</td><td>CURSED LEGACY</td><td>?</td><td></td></tr>
 <tr class="warning-row"><td>38</td><td>EXTRAORDINARY</td><td>?</td><td></td></tr>
 <tr class="warning-row"><td>41</td><td>PROXY WAR WITHOUT END</td><td>?</td><td></td></tr>
