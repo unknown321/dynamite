@@ -194,7 +194,7 @@ Steps:
 <tr><td>17</td><td>RESCUE THE INTEL AGENTS</td><td>✔</td><td>there may be some confusion with prisoner extraction order</td></tr>
 <tr class="warning-row"><td>18</td><td>BLOOD RUNS DEEP</td><td>?</td><td></td></tr>
 <tr class="warning-row"><td>19</td><td>ON THE TRAIL</td><td>?</td><td></td></tr>
-<tr><td>20</td><td>VOICES</td><td>✔</td><td>infinite loading after last cutscene (<a href="https://github.com/unknown321/dynamite/issues/37" target="_blank">#37</a>)</td></tr>
+<tr><td>20</td><td>VOICES</td><td>✔</td><td></td></tr>
 <tr><td>21</td><td>THE WAR ECONOMY</td><td>✔</td><td></td></tr>
 <tr><td>23</td><td>THE WHITE MAMBA</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), boss is local</td></tr>
 <tr><td>24</td><td>CLOSE CONTACT</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
