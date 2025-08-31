@@ -192,7 +192,7 @@ Steps:
 <tr><td>15</td><td>FOOTPRINTS OF PHANTOMS</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
 <tr class="warning-row"><td>16</td><td>TRAITORS’ CARAVAN</td><td>?</td><td>skulls spawn only for one player (<a href="https://github.com/unknown321/dynamite/issues/41" target="_blank">#41</a>), no armored vehicle (<a href="https://github.com/unknown321/dynamite/issues/42" target="_blank">#42</a>)</td></tr>
 <tr><td>17</td><td>RESCUE THE INTEL AGENTS</td><td>✔</td><td>there may be some confusion with prisoner extraction order</td></tr>
-<tr class="warning-row"><td>18</td><td>BLOOD RUNS DEEP</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>18</td><td>BLOOD RUNS DEEP</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), various kid sync issues</td></tr>
 <tr class="warning-row"><td>19</td><td>ON THE TRAIL</td><td>?</td><td></td></tr>
 <tr><td>20</td><td>VOICES</td><td>✔</td><td></td></tr>
 <tr><td>21</td><td>THE WAR ECONOMY</td><td>✔</td><td></td></tr>
