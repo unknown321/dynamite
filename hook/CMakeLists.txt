@@ -11,8 +11,8 @@ set(CMAKE_SHARED_LIBRARY_PREFIX "")
 include(FetchContent)
 FetchContent_Declare(
         minhook
-        GIT_REPOSITORY https://github.com/TsudaKageyu/minhook.git
-        GIT_TAG 565968b28583221751cc2810e09ea621745fc3a3
+        GIT_REPOSITORY https://github.com/unknown321/minhook.git
+        GIT_TAG bd826f3090f665fa90500f7a860706286458a69b
 )
 FetchContent_MakeAvailable(minhook)
 
