@@ -120,6 +120,7 @@ type Debug struct {
 	MemoryAllocTail bool
 	PlayerTarget    bool
 	LuaLog          bool
+	SetScriptVars   bool
 }
 
 type Config struct {

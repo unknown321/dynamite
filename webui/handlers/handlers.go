@@ -316,6 +316,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 	Config.Debug.MemoryAllocTail = r.FormValue("Config.Debug.MemoryAllocTail") == "on"
 	Config.Debug.PlayerTarget = r.FormValue("Config.Debug.PlayerTarget") == "on"
 	Config.Debug.LuaLog = r.FormValue("Config.Debug.LuaLog") == "on"
+	Config.Debug.SetScriptVars = r.FormValue("Config.Debug.SetScriptVars") == "on"
 
 	if Config.Dynamite.AccountDir == "" {
 		http.Error(w, "Account directory is required", http.StatusBadRequest)
