@@ -176,6 +176,8 @@ typedef void *(CloseSessionFunc)(void);
 
 typedef void(__cdecl Player2GameObjectImplWarpFunc)(void *thisPtr, uint32_t objectID, Vector3 *pos, Quat *rot, bool param_5);
 
+typedef void(__cdecl ScriptDeclVarsImplSetVarValueFunc)(void *thisPtr, uint64_t param_1, uint32_t param_2, bool param_3, ScriptVarValue value);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -261,5 +263,6 @@ extern FoxBlockDeactivateFunc *FoxBlockDeactivate;
 extern FoxBlockLoadFunc *FoxBlockLoad;
 extern CloseSessionFunc *CloseSession;
 extern Player2GameObjectImplWarpFunc *Player2GameObjectImplWarp;
+extern ScriptDeclVarsImplSetVarValueFunc *ScriptDeclVarsImplSetVarValue;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

@@ -144,6 +144,8 @@ bool Config::Read(ConfigValidateResult *r) {
 
         auto ll = ini.get("Debug").get("LuaLog");
         this->debug.luaLog = ll == "true";
+
+        this->debug.setScriptVars = ini.get("Debug").get("SetScriptVars") == "true";
     }
 
     return true;
@@ -166,4 +168,5 @@ void Config::Log() {
     spdlog::info("debug.MemoryAllocTail: {}", this->debug.memoryAllocTail);
     spdlog::info("debug.PlayerTarget: {}", this->debug.playerTarget);
     spdlog::info("debug.LuaLog: {}", this->debug.luaLog);
+    spdlog::info("debug.SetScriptVars: {}", this->debug.setScriptVars);
 }

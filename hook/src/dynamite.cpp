@@ -339,6 +339,12 @@ namespace Dynamite {
             CREATE_HOOK(BlockMemoryAllocTail)
             ENABLEHOOK(BlockMemoryAllocTail)
         }
+
+        if (cfg.debug.setScriptVars) {
+            CREATE_HOOK(ScriptDeclVarsImplSetVarValue)
+            ENABLEHOOK(ScriptDeclVarsImplSetVarValue)
+        }
+
     }
 
     void Dynamite::CreateHooks() {

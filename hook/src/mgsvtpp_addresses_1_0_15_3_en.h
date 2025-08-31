@@ -59,6 +59,7 @@ namespace Dynamite {
         {"GetSessionMemberCount", 0x143e60ef0},
         {"CloseSession", 0x146457b20},
         {"Player2GameObjectImplWarp", 0x14627c6f0},
+        {"ScriptDeclVarsImplSetVarValue", 0x140ae2090},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},

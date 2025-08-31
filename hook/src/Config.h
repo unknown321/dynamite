@@ -15,6 +15,7 @@ struct debug {
     bool memoryAllocTail;
     bool playerTarget;
     bool luaLog;
+    bool setScriptVars;
 };
 
 class Config {

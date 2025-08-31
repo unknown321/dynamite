@@ -78,6 +78,7 @@ FoxBlockDeactivateFunc *FoxBlockDeactivate;
 FoxBlockLoadFunc *FoxBlockLoad;
 CloseSessionFunc *CloseSession;
 Player2GameObjectImplWarpFunc *Player2GameObjectImplWarp;
+ScriptDeclVarsImplSetVarValueFunc *ScriptDeclVarsImplSetVarValue;
 
 lua_CFunction l_AnnounceLogView;
 FoxLuaPushVector3Func *FoxLuaPushVector3;

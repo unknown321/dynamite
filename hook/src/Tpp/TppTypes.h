@@ -81,5 +81,10 @@ struct Quat {
 };
 #pragma pack(pop)
 
+#pragma pack(push, 1)
+struct ScriptVarValue {
+    float value;
+};
+#pragma pack(pop)
 
 #endif // HOOK_TPPTYPES_H

@@ -61,6 +61,7 @@ namespace Dynamite {
     FobTarget *FobTargetCtorHook(FobTarget *p);
     void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
     void * CloseSessionHook();
+    void ScriptDeclVarsImplSetVarValueHook(void *thisPtr, uint32_t param_1, uint32_t param_2, bool param_3, ScriptVarValue value);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

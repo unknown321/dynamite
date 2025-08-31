@@ -33,7 +33,7 @@ namespace Dynamite {
                 ofs.close();
             } else {
                 spdlog::info("creating lualog.txt");
-                std::ofstream f (luaLog);
+                std::ofstream f(luaLog);
                 f << "";
                 f.close();
             }
@@ -510,7 +510,7 @@ namespace Dynamite {
 
     // issue #7, reuse FobTarget instance created by the game
     FobTarget *FobTargetCtorHook(FobTarget *p) {
-//        spdlog::info("fob target ctor: {}", (void *)p);
+        //        spdlog::info("fob target ctor: {}", (void *)p);
         fobTargetCtor = FobTargetCtor(p);
         return (FobTarget *)fobTargetCtor;
     }
@@ -546,5 +546,12 @@ namespace Dynamite {
             hostSessionCreated = false;
         }
         return CloseSession();
+    }
+
+    void ScriptDeclVarsImplSetVarValueHook(void *thisPtr, uint32_t param_1, uint32_t param_2, bool param_3, ScriptVarValue value) {
+        auto nameStr32 = *(uint32_t *)((char *)thisPtr + 0x18 + param_2 * 0x18);
+        auto name = messageDict[nameStr32];
+        spdlog::info("set var {} (0x{:x}) = {:f}, 0x{:x}, 0x{:x}, 0x{:x}", name, nameStr32, value.value, param_1, param_2, param_3);
+        ScriptDeclVarsImplSetVarValue(thisPtr, param_1, param_2, param_3, value);
     }
 }

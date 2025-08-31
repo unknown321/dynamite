@@ -81,6 +81,7 @@ namespace Dynamite {
         FoxBlockLoad = (FoxBlockLoadFunc *)addressSet["FoxBlockLoad"];
         CloseSession = (CloseSessionFunc *)addressSet["CloseSession"];
         Player2GameObjectImplWarp = (Player2GameObjectImplWarpFunc *)addressSet["Player2GameObjectImplWarp"];
+        ScriptDeclVarsImplSetVarValue = (ScriptDeclVarsImplSetVarValueFunc *)addressSet["ScriptDeclVarsImplSetVarValue"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];
