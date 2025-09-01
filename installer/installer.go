@@ -310,15 +310,19 @@ func replaceFiles(outdir string) error {
 			return err
 		}
 
-		for i, e := range sourceFpk.Entries {
-			if e.FilePath.Data == f.FileName {
-				slog.Info("replacing", "name", f.FileName, "fpk", f.Source.NameInQar)
-				sourceFpk.Entries[i].Data, err = moddata.ModData.ReadFile(f.SourceFile)
-				if err != nil {
-					return fmt.Errorf("source file not found: %w", err)
-				}
+		for _, add := range f.Add {
+			for i, e := range sourceFpk.Entries {
+				if e.FilePath.Data == add.FileName {
+					slog.Info("replacing", "name", add.FileName, "fpk", f.Source.NameInQar)
+					sourceFpk.Entries[i].Data, err = moddata.ModData.ReadFile(add.SourceFile)
+					if err != nil {
+						return fmt.Errorf("source file not found: %w", err)
+					}
 
-				break
+					slog.Info("replaced", "file", add.FileName, "fpk", f.Source.NameInQar, "source dat", f.Source.SourceQar)
+					break
+
+				}
 			}
 		}
 
@@ -360,7 +364,7 @@ func replaceFiles(outdir string) error {
 		if err = outfile.Close(); err != nil {
 			return fmt.Errorf("close fpk: %w", err)
 		}
-		slog.Info("replaced", "file", f.FileName, "fpk", f.Source.NameInQar, "source dat", f.Source.SourceQar)
+		slog.Info("replaced in", "fpk", f.Source.NameInQar, "source dat", f.Source.SourceQar)
 	}
 
 	return nil

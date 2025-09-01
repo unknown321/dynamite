@@ -34,13 +34,16 @@ func (f *FileFromQar) Unpack(qars map[string]*qar.Qar) ([]byte, error) {
 	return data, nil
 }
 
+type FileToAdd struct {
+	SourceFile string
+	FileName   string
+}
+
 type UpdateInFpk struct {
-	Source         FileFromQar
-	SourceFile     string
-	FileName       string
-	FileNameAsHash string
-	Compressed     bool
-	Delete         []string
+	Source     FileFromQar
+	Add        []FileToAdd
+	Compressed bool
+	Delete     []string
 }
 
 type FpkFromSource struct {
@@ -62,8 +65,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/init/init.fpkd",
 		},
-		SourceFile: "init_fpkd/Assets/tpp/level/mission2/init/init_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/init/init_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "init_fpkd/Assets/tpp/level/mission2/init/init_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/init/init_sequence.lua",
+			},
+		},
 	},
 	{
 		// mission 1, PHANTOM LIMBS, area 02
@@ -71,8 +78,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10020/s10020_area02.fpkd",
 		},
-		SourceFile: "s10020_area_fpkd/Assets/tpp/level/mission2/story/s10020/s10020_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10020/s10020_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10020_area_fpkd/Assets/tpp/level/mission2/story/s10020/s10020_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10020/s10020_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -84,8 +95,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10020/s10020_area.fpkd",
 		},
-		SourceFile: "s10020_area_fpkd/Assets/tpp/level/mission2/story/s10020/s10020_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10020/s10020_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10020_area_fpkd/Assets/tpp/level/mission2/story/s10020/s10020_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10020/s10020_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -97,8 +112,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10036/s10036_area.fpkd",
 		},
-		SourceFile: "s10036_area_fpkd/Assets/tpp/level/mission2/story/s10036/s10036_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10036/s10036_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10036_area_fpkd/Assets/tpp/level/mission2/story/s10036/s10036_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10036/s10036_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -110,8 +129,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10043/s10043_area.fpkd",
 		},
-		SourceFile: "s10043_area_fpkd/Assets/tpp/level/mission2/story/s10043/s10043_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10043/s10043_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10043_area_fpkd/Assets/tpp/level/mission2/story/s10043/s10043_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10043/s10043_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -123,8 +146,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10033/s10033_area.fpkd",
 		},
-		SourceFile: "s10033_area_fpkd/Assets/tpp/level/mission2/story/s10033/s10033_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10033/s10033_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10033_area_fpkd/Assets/tpp/level/mission2/story/s10033/s10033_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10033/s10033_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -136,8 +163,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10040/s10040_area.fpkd",
 		},
-		SourceFile: "s10040_area_fpkd/Assets/tpp/level/mission2/story/s10040/s10040_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10040/s10040_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10040_area_fpkd/Assets/tpp/level/mission2/story/s10040/s10040_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10040/s10040_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -149,8 +180,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10041/s10041_area.fpkd",
 		},
-		SourceFile: "s10041_area_fpkd/Assets/tpp/level/mission2/story/s10041/s10041_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10041/s10041_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10041_area_fpkd/Assets/tpp/level/mission2/story/s10041/s10041_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10041/s10041_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -162,8 +197,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10044/s10044_area.fpkd",
 		},
-		SourceFile: "s10044_area_fpkd/Assets/tpp/level/mission2/story/s10044/s10044_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10044/s10044_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10044_area_fpkd/Assets/tpp/level/mission2/story/s10044/s10044_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10044/s10044_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -175,8 +214,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10054/s10054_area.fpkd",
 		},
-		SourceFile: "s10054_area_fpkd/Assets/tpp/level/mission2/story/s10054/s10054_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10054/s10054_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10054_area_fpkd/Assets/tpp/level/mission2/story/s10054/s10054_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10054/s10054_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -188,8 +231,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10052/s10052_area.fpkd",
 		},
-		SourceFile: "s10052_area_fpkd/Assets/tpp/level/mission2/story/s10052/s10052_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10052/s10052_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10052_area_fpkd/Assets/tpp/level/mission2/story/s10052/s10052_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10052/s10052_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -201,8 +248,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10050/s10050_area.fpkd",
 		},
-		SourceFile: "s10050_area_fpkd/Assets/tpp/level/mission2/story/s10050/s10050_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10050/s10050_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10050_area_fpkd/Assets/tpp/level/mission2/story/s10050/s10050_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10050/s10050_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -215,8 +266,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10050/s10050_area01.fpkd",
 		},
-		SourceFile: "s10050_area_fpkd/Assets/tpp/level/mission2/story/s10050/s10050_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10050/s10050_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10050_area_fpkd/Assets/tpp/level/mission2/story/s10050/s10050_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10050/s10050_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -229,8 +284,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10070/s10070_area01.fpkd",
 		},
-		SourceFile: "s10070_area_fpkd/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10070_area_fpkd/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -243,8 +302,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10070/s10070_area02.fpkd",
 		},
-		SourceFile: "s10070_area_fpkd/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10070_area_fpkd/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -257,8 +320,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10070/s10070_area03.fpkd",
 		},
-		SourceFile: "s10070_area_fpkd/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10070_area_fpkd/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -271,8 +338,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10070/s10070_area04.fpkd",
 		},
-		SourceFile: "s10070_area_fpkd/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10070_area_fpkd/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10070/s10070_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -285,8 +356,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10080/s10080_area.fpkd",
 		},
-		SourceFile: "s10080_area_fpkd/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10080_area_fpkd/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -299,8 +374,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10080/s10080_area01.fpkd",
 		},
-		SourceFile: "s10080_area_fpkd/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10080_area_fpkd/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -313,8 +392,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10080/s10080_area02.fpkd",
 		},
-		SourceFile: "s10080_area_fpkd/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10080_area_fpkd/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10080/s10080_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -326,8 +409,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10086/s10086_area.fpkd",
 		},
-		SourceFile: "s10086_area_fpkd/Assets/tpp/level/mission2/story/s10086/s10086_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10086/s10086_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10086_area_fpkd/Assets/tpp/level/mission2/story/s10086/s10086_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10086/s10086_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -339,8 +426,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10082/s10082_area.fpkd",
 		},
-		SourceFile: "s10082_area_fpkd/Assets/tpp/level/mission2/story/s10082/s10082_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10082/s10082_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10082_area_fpkd/Assets/tpp/level/mission2/story/s10082/s10082_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10082/s10082_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -352,8 +443,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10090/s10090_area.fpkd",
 		},
-		SourceFile: "s10090_area_fpkd/Assets/tpp/level/mission2/story/s10090/s10090_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10090/s10090_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10090_area_fpkd/Assets/tpp/level/mission2/story/s10090/s10090_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10090/s10090_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -365,8 +460,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10091/s10091_area.fpkd",
 		},
-		SourceFile: "s10091_area_fpkd/Assets/tpp/level/mission2/story/s10091/s10091_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10091/s10091_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10091_area_fpkd/Assets/tpp/level/mission2/story/s10091/s10091_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10091/s10091_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -378,8 +477,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10100/s10100_area.fpkd",
 		},
-		SourceFile: "s10100_area_fpkd/Assets/tpp/level/mission2/story/s10100/s10100_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10100/s10100_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10100_area_fpkd/Assets/tpp/level/mission2/story/s10100/s10100_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10100/s10100_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -392,8 +495,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10100/s10100_area02.fpkd",
 		},
-		SourceFile: "s10100_area_fpkd/Assets/tpp/level/mission2/story/s10100/s10100_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10100/s10100_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10100_area_fpkd/Assets/tpp/level/mission2/story/s10100/s10100_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10100/s10100_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -405,8 +512,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10195/s10195_area.fpkd",
 		},
-		SourceFile: "s10195_area_fpkd/Assets/tpp/level/mission2/story/s10195/s10195_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10195/s10195_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10195_area_fpkd/Assets/tpp/level/mission2/story/s10195/s10195_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10195/s10195_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -418,8 +529,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10110/s10110_area.fpkd",
 		},
-		SourceFile: "s10110_area_fpkd/Assets/tpp/level/mission2/story/s10110/s10110_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10110/s10110_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10110_area_fpkd/Assets/tpp/level/mission2/story/s10110/s10110_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10110/s10110_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -431,8 +546,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10110/s10110_area02.fpkd",
 		},
-		SourceFile: "s10110_area_fpkd/Assets/tpp/level/mission2/story/s10110/s10110_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10110/s10110_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10110_area_fpkd/Assets/tpp/level/mission2/story/s10110/s10110_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10110/s10110_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -444,8 +563,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10121/s10121_area.fpkd",
 		},
-		SourceFile: "s10121_area_fpkd/Assets/tpp/level/mission2/story/s10121/s10121_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10121/s10121_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10121_area_fpkd/Assets/tpp/level/mission2/story/s10121/s10121_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10121/s10121_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -457,8 +580,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10120/s10120_area.fpkd",
 		},
-		SourceFile: "s10120_area_fpkd/Assets/tpp/level/mission2/story/s10120/s10120_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10120/s10120_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10120_area_fpkd/Assets/tpp/level/mission2/story/s10120/s10120_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10120/s10120_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -470,8 +597,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10085/s10085_area.fpkd",
 		},
-		SourceFile: "s10085_area_fpkd/Assets/tpp/level/mission2/story/s10085/s10085_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10085/s10085_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10085_area_fpkd/Assets/tpp/level/mission2/story/s10085/s10085_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10085/s10085_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -483,8 +614,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10200/s10200_area.fpkd",
 		},
-		SourceFile: "s10200_area_fpkd/Assets/tpp/level/mission2/story/s10200/s10200_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10200/s10200_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10200_area_fpkd/Assets/tpp/level/mission2/story/s10200/s10200_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10200/s10200_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -496,8 +631,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10211/s10211_area.fpkd",
 		},
-		SourceFile: "s10211_area_fpkd/Assets/tpp/level/mission2/story/s10211/s10211_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10211/s10211_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10211_area_fpkd/Assets/tpp/level/mission2/story/s10211/s10211_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10211/s10211_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -509,8 +648,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10081/s10081_area.fpkd",
 		},
-		SourceFile: "s10081_area_fpkd/Assets/tpp/level/mission2/story/s10081/s10081_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10081/s10081_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10081_area_fpkd/Assets/tpp/level/mission2/story/s10081/s10081_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10081/s10081_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -522,8 +665,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10130/s10130_area.fpkd",
 		},
-		SourceFile: "s10130_area_fpkd/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10130_area_fpkd/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -536,8 +683,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10130/s10130_area02.fpkd",
 		},
-		SourceFile: "s10130_area_fpkd/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10130_area_fpkd/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -550,8 +701,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10130/s10130_area03.fpkd",
 		},
-		SourceFile: "s10130_area_fpkd/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10130_area_fpkd/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10130/s10130_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -564,8 +719,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10140/s10140_area.fpkd",
 		},
-		SourceFile: "s10140_area_fpkd/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10140_area_fpkd/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -578,8 +737,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10140/s10140_area00.fpkd",
 		},
-		SourceFile: "s10140_area_fpkd/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10140_area_fpkd/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -592,8 +755,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10140/s10140_area01.fpkd",
 		},
-		SourceFile: "s10140_area_fpkd/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10140_area_fpkd/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10140/s10140_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -606,8 +773,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10150/s10150_area01.fpkd",
 		},
-		SourceFile: "s10150_area_fpkd/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10150_area_fpkd/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -620,8 +791,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10150/s10150_area02.fpkd",
 		},
-		SourceFile: "s10150_area_fpkd/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10150_area_fpkd/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -634,8 +809,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10150/s10150_area03.fpkd",
 		},
-		SourceFile: "s10150_area_fpkd/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10150_area_fpkd/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10150/s10150_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -648,8 +827,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10151/s10151_area01.fpkd",
 		},
-		SourceFile: "s10151_area_fpkd/Assets/tpp/level/mission2/story/s10151/s10151_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10151/s10151_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10151_area_fpkd/Assets/tpp/level/mission2/story/s10151/s10151_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10151/s10151_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -662,8 +845,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10151/s10151_area02.fpkd",
 		},
-		SourceFile: "s10151_area_fpkd/Assets/tpp/level/mission2/story/s10151/s10151_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10151/s10151_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10151_area_fpkd/Assets/tpp/level/mission2/story/s10151/s10151_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10151/s10151_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -675,8 +862,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10045/s10045_area.fpkd",
 		},
-		SourceFile: "s10045_area_fpkd/Assets/tpp/level/mission2/story/s10045/s10045_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10045/s10045_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10045_area_fpkd/Assets/tpp/level/mission2/story/s10045/s10045_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10045/s10045_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -688,8 +879,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10093/s10093_area.fpkd",
 		},
-		SourceFile: "s10093_area_fpkd/Assets/tpp/level/mission2/story/s10093/s10093_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10093/s10093_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10093_area_fpkd/Assets/tpp/level/mission2/story/s10093/s10093_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10093/s10093_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -701,8 +896,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10156/s10156_area.fpkd",
 		},
-		SourceFile: "s10156_area_fpkd/Assets/tpp/level/mission2/story/s10156/s10156_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10156/s10156_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10156_area_fpkd/Assets/tpp/level/mission2/story/s10156/s10156_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10156/s10156_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -714,8 +913,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk4.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10171/s10171_area.fpkd",
 		},
-		SourceFile: "s10171_area_fpkd/Assets/tpp/level/mission2/story/s10171/s10171_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10171/s10171_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10171_area_fpkd/Assets/tpp/level/mission2/story/s10171/s10171_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10171/s10171_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_player2_instance.fox2",
@@ -727,8 +930,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk3.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10240/s10240_area.fpkd",
 		},
-		SourceFile: "s10240_area_fpkd/Assets/tpp/level/mission2/story/s10240/s10240_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10240/s10240_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10240_area_fpkd/Assets/tpp/level/mission2/story/s10240/s10240_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10240/s10240_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -740,8 +947,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk3.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10240/s10240_area02.fpkd",
 		},
-		SourceFile: "s10240_area_fpkd/Assets/tpp/level/mission2/story/s10240/s10240_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10240/s10240_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10240_area_fpkd/Assets/tpp/level/mission2/story/s10240/s10240_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10240/s10240_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -753,8 +964,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			SourceQar: filepath.Join("master", "chunk2.dat"),
 			NameInQar: "/Assets/tpp/pack/mission2/story/s10260/s10260_area.fpkd",
 		},
-		SourceFile: "s10260_area_fpkd/Assets/tpp/level/mission2/story/s10260/s10260_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/story/s10260/s10260_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "s10260_area_fpkd/Assets/tpp/level/mission2/story/s10260/s10260_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/story/s10260/s10260_sequence.lua",
+			},
+		},
 		Compressed: true,
 		Delete: []string{
 			"/Assets/tpp/level_asset/chara/player/game_object/single_pl2_instance_scarf.fox2",
@@ -778,8 +993,12 @@ var ReplaceInFPK = []UpdateInFpk{
 			NameInQar: "/Assets/tpp/pack/mission2/online/o50050/o50050_additional.fpkd",
 		},
 		Compressed: true,
-		SourceFile: "o50050_additional_fpkd/Assets/tpp/level/mission2/online/o50050/o50050_sequence.lua",
-		FileName:   "/Assets/tpp/level/mission2/online/o50050/o50050_sequence.lua",
+		Add: []FileToAdd{
+			{
+				SourceFile: "o50050_additional_fpkd/Assets/tpp/level/mission2/online/o50050/o50050_sequence.lua",
+				FileName:   "/Assets/tpp/level/mission2/online/o50050/o50050_sequence.lua",
+			},
+		},
 	},
 }
 
