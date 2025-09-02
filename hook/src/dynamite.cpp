@@ -647,6 +647,13 @@ namespace Dynamite {
                 .description = "skip check and call FUN_1411b4350 that sets up dual revolvers for Ocelot"
                                "tpp::gm::player::impl::UnrealUpdaterImpl::PreUpdate",
             },
+            {
+                .address = 0x149f4f17b,
+                .expected = {0x74, 0x07}, // JZ LAB_149f4f184
+                .patch = {0xeb, 0x07},    // JMP LAB_149f4f184
+                .description = "always use non-fob function to update cp member status"
+                               "tpp::gm::soldier::impl::Soldier2Impl::UpdateCpMemberStatus",
+            },
         };
     }
 
