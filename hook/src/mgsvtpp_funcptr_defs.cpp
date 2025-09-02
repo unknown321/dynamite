@@ -83,6 +83,8 @@ SoldierRouteAiImplPreUpdateFunc *SoldierRouteAiImplPreUpdate;
 RouteGroupImplGetEventIdFunc *RouteGroupImplGetEventId;
 FoxCreateQuarkFunc *FoxCreateQuark;
 AiControllerImplAddNodeFunc *AiControllerImplAddNode;
+AiControllerImplSleepNodeFunc *AiControllerImplSleepNode;
+AiControllerImplWakeNodeFunc *AiControllerImplWakeNode;
 
 lua_CFunction l_AnnounceLogView;
 FoxLuaPushVector3Func *FoxLuaPushVector3;

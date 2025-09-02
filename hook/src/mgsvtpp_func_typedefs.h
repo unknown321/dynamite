@@ -182,9 +182,13 @@ typedef void(__thiscall SoldierRouteAiImplPreUpdateFunc)(void *thisPtr, uint32_t
 
 typedef uint32_t(__thiscall RouteGroupImplGetEventIdFunc)(void *RouteGroupImpl, unsigned short param_1, unsigned short param_2, unsigned short param_3);
 
-typedef fox::QuarkHandle (__cdecl FoxCreateQuarkFunc)(uint64_t param_1, fox::QuarkDesc *qd, uint64_t p3);
+typedef fox::QuarkHandle(__cdecl FoxCreateQuarkFunc)(uint64_t param_1, fox::QuarkDesc *qd, uint64_t p3);
 
-typedef void (AiControllerImplAddNodeFunc)(void *thisPtr, uint32_t param_2, uint64_t quarkHandle, uint32_t param_4);
+typedef void(AiControllerImplAddNodeFunc)(void *thisPtr, uint32_t param_2, uint64_t quarkHandle, uint32_t param_4);
+
+typedef void(__thiscall AiControllerImplSleepNodeFunc)(void *AiControllerImpl, uint32_t param_1, int param_2, int32_t SleepCause);
+
+typedef void(__thiscall AiControllerImplWakeNodeFunc)(void *AiControllerImpl, uint32_t param_1, int param_2, uint32_t param_3);
 
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
@@ -276,5 +280,7 @@ extern SoldierRouteAiImplPreUpdateFunc *SoldierRouteAiImplPreUpdate;
 extern RouteGroupImplGetEventIdFunc *RouteGroupImplGetEventId;
 extern FoxCreateQuarkFunc *FoxCreateQuark;
 extern AiControllerImplAddNodeFunc *AiControllerImplAddNode;
+extern AiControllerImplSleepNodeFunc *AiControllerImplSleepNode;
+extern AiControllerImplWakeNodeFunc *AiControllerImplWakeNode;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

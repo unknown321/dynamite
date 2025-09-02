@@ -357,6 +357,12 @@ namespace Dynamite {
         CREATE_HOOK(AiControllerImplAddNode)
         ENABLEHOOK(AiControllerImplAddNode)
 
+        CREATE_HOOK(AiControllerImplSleepNode)
+        ENABLEHOOK(AiControllerImplSleepNode)
+
+        CREATE_HOOK(AiControllerImplWakeNode)
+        ENABLEHOOK(AiControllerImplWakeNode)
+
         //        CREATE_HOOK(SoldierRouteAiImplPreUpdate)
         //        ENABLEHOOK(SoldierRouteAiImplPreUpdate)
     }

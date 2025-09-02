@@ -86,6 +86,8 @@ namespace Dynamite {
         RouteGroupImplGetEventId = (RouteGroupImplGetEventIdFunc *)addressSet["RouteGroupImplGetEventId"];
         FoxCreateQuark = (FoxCreateQuarkFunc *)addressSet["FoxCreateQuark"];
         AiControllerImplAddNode = (AiControllerImplAddNodeFunc *)addressSet["AiControllerImplAddNode"];
+        AiControllerImplSleepNode = (AiControllerImplSleepNodeFunc *)addressSet["AiControllerImplSleepNode"];
+        AiControllerImplWakeNode = (AiControllerImplWakeNodeFunc *)addressSet["AiControllerImplWakeNode"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];

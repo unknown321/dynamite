@@ -589,4 +589,14 @@ namespace Dynamite {
         spdlog::info("{}, p2: {:x}, handle {} (0x{:x}), p4: {:x}", __FUNCTION__, param_2, quarkHandles[quarkHandle], quarkHandle, param_4);
         AiControllerImplAddNode(thisPtr, param_2, quarkHandle, param_4);
     }
+
+    void AiControllerImplSleepNodeHook(void *AiControllerImpl, uint32_t param_1, int param_2, int32_t SleepCause) {
+        spdlog::info("{}, {:x}, {:x}, cause: {:x}", __FUNCTION__, param_1, param_2, SleepCause);
+        AiControllerImplSleepNode(AiControllerImpl, param_1, param_2, SleepCause);
+    }
+
+    void AiControllerImplWakeNodeHook(void *AiControllerImpl, uint32_t param_1, int param_2, uint32_t param_3) {
+        spdlog::info("{}, {:x}, {:x}, {:x}", __FUNCTION__, param_1, param_2, param_3);
+        AiControllerImplWakeNode(AiControllerImpl, param_1, param_2, param_3);
+    }
 }

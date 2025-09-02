@@ -63,6 +63,8 @@ namespace Dynamite {
         {"SoldierRouteAiImplPreUpdate", 0x141572270},
         {"RouteGroupImplGetEventId", 0x144b8d070},
         {"AiControllerImplAddNode", 0x140c0f230},
+        {"AiControllerImplSleepNode", 0x146d1bf60},
+        {"AiControllerImplWakeNode", 0x146d1c6c0},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},
