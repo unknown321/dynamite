@@ -207,7 +207,7 @@ Steps:
 <tr class="warning-row"><td>31</td><td>SAHELANTHROPUS</td><td>?</td><td>boss is local</td></tr>
 <tr><td>32</td><td>TO KNOW TOO MUCH</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
 <tr class="warning-row"><td>35</td><td>CURSED LEGACY</td><td>?</td><td></td></tr>
-<tr class="warning-row"><td>38</td><td>EXTRAORDINARY</td><td>?</td><td></td></tr>
+<tr><td>38</td><td>EXTRAORDINARY</td><td>✔</td><td>film canister unable to be picked up by client</td></tr>
 <tr class="warning-row"><td>41</td><td>PROXY WAR WITHOUT END</td><td>?</td><td></td></tr>
 <tr><td>43</td><td>SHINING LIGHTS, EVEN IN DEATH</td><td>✔</td><td>crash if you skip any of post-landing cutscenes (<a href="https://github.com/unknown321/dynamite/issues/16" target="_blank">#16</a>), NPCs have default poses sometimes (<a href="https://github.com/unknown321/dynamite/issues/78" target="_blank">#78</a>)</td></tr>
 <tr class="warning-row"><td>45</td><td>A QUIET EXIT</td><td>?</td><td></td></tr>
