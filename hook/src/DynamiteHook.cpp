@@ -554,4 +554,39 @@ namespace Dynamite {
         spdlog::info("set var {} (0x{:x}) = {:f}, 0x{:x}, 0x{:x}, 0x{:x}", name, nameStr32, value.value, param_1, param_2, param_3);
         ScriptDeclVarsImplSetVarValue(thisPtr, param_1, param_2, param_3, value);
     }
+
+    void SoldierRouteAiImplPreUpdateHook(void *thisPtr, uint32_t param_1, void *AiNodeUpdateContext) {
+        auto qq = *((char *)AiNodeUpdateContext + 0x26);
+        byte v = (byte)qq;
+        spdlog::info("{}, {} {:x} {:d}", __FUNCTION__, AiNodeUpdateContext, qq, v);
+        SoldierRouteAiImplPreUpdate(thisPtr, param_1, AiNodeUpdateContext);
+    }
+
+    uint32_t RouteGroupImplGetEventIdHook(void *RouteGroupImpl, unsigned short param_1, unsigned short param_2, unsigned short param_3) {
+        auto res = RouteGroupImplGetEventId(RouteGroupImpl, param_1, param_2, param_3);
+        auto name = messageDict[res];
+        switch (res) {
+        case 0xef94dd47:
+        case 0xd90e0e31:
+        case 0xeafe50df:
+        case 0x596c1d5a:
+        case 0x57c44b72:
+        case 0xa6f6bf5c:
+            return res;
+        }
+        spdlog::info("{}: {} (0x{:x}), {:d}, {:d}, {:d}", __FUNCTION__, name, res, param_1, param_2, param_3);
+        return res;
+    }
+
+    fox::QuarkHandle FoxCreateQuarkHook(uint64_t param_1, fox::QuarkDesc *quarkDesc, uint64_t p3) {
+        spdlog::info("{} {} (0x{:x})", __FUNCTION__, pathDict[(uint64_t)quarkDesc], (uint64_t)quarkDesc);
+        auto res = FoxCreateQuark(param_1, quarkDesc, p3);
+        quarkHandles[res.value] = pathDict[(uint64_t)quarkDesc];
+        return res;
+    }
+
+    void AiControllerImplAddNodeHook(void *thisPtr, uint32_t param_2, uint64_t quarkHandle, uint32_t param_4) {
+        spdlog::info("{}, p2: {:x}, handle {} (0x{:x}), p4: {:x}", __FUNCTION__, param_2, quarkHandles[quarkHandle], quarkHandle, param_4);
+        AiControllerImplAddNode(thisPtr, param_2, quarkHandle, param_4);
+    }
 }

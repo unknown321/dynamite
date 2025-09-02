@@ -44,6 +44,7 @@ namespace Dynamite {
 
     std::map<uint32_t, std::string> messageDict{};
     std::map<uint64_t, std::string> pathDict{};
+    std::map<uint64_t, std::string> quarkHandles{};
 
     void AbortHandler(int signal_number) {
         auto l = spdlog::get(logName);
@@ -88,7 +89,7 @@ namespace Dynamite {
     // essentially tpp::gm::tool::`anonymous_namespace'::GetSessionMemberCount
     int GetMemberCount() {
         if ((!sessionCreated) && (!hostSessionCreated)) {
-//            spdlog::info("{}, no session created, member count 1", __FUNCTION__);
+            //            spdlog::info("{}, no session created, member count 1", __FUNCTION__);
             return 1;
         }
 
@@ -345,6 +346,17 @@ namespace Dynamite {
             ENABLEHOOK(ScriptDeclVarsImplSetVarValue)
         }
 
+        CREATE_HOOK(RouteGroupImplGetEventId)
+        ENABLEHOOK(RouteGroupImplGetEventId)
+
+        CREATE_HOOK(FoxCreateQuark)
+        ENABLEHOOK(FoxCreateQuark)
+
+        CREATE_HOOK(AiControllerImplAddNode)
+        ENABLEHOOK(AiControllerImplAddNode)
+
+        //        CREATE_HOOK(SoldierRouteAiImplPreUpdate)
+        //        ENABLEHOOK(SoldierRouteAiImplPreUpdate)
     }
 
     void Dynamite::CreateHooks() {

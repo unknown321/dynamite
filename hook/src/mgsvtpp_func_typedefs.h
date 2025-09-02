@@ -178,6 +178,14 @@ typedef void(__cdecl Player2GameObjectImplWarpFunc)(void *thisPtr, uint32_t obje
 
 typedef void(__cdecl ScriptDeclVarsImplSetVarValueFunc)(void *thisPtr, uint64_t param_1, uint32_t param_2, bool param_3, ScriptVarValue value);
 
+typedef void(__thiscall SoldierRouteAiImplPreUpdateFunc)(void *thisPtr, uint32_t param_1, void *AiNodeUpdateContext);
+
+typedef uint32_t(__thiscall RouteGroupImplGetEventIdFunc)(void *RouteGroupImpl, unsigned short param_1, unsigned short param_2, unsigned short param_3);
+
+typedef fox::QuarkHandle (__cdecl FoxCreateQuarkFunc)(uint64_t param_1, fox::QuarkDesc *qd, uint64_t p3);
+
+typedef void (AiControllerImplAddNodeFunc)(void *thisPtr, uint32_t param_2, uint64_t quarkHandle, uint32_t param_4);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -264,5 +272,9 @@ extern FoxBlockLoadFunc *FoxBlockLoad;
 extern CloseSessionFunc *CloseSession;
 extern Player2GameObjectImplWarpFunc *Player2GameObjectImplWarp;
 extern ScriptDeclVarsImplSetVarValueFunc *ScriptDeclVarsImplSetVarValue;
+extern SoldierRouteAiImplPreUpdateFunc *SoldierRouteAiImplPreUpdate;
+extern RouteGroupImplGetEventIdFunc *RouteGroupImplGetEventId;
+extern FoxCreateQuarkFunc *FoxCreateQuark;
+extern AiControllerImplAddNodeFunc *AiControllerImplAddNode;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

@@ -60,6 +60,9 @@ namespace Dynamite {
         {"CloseSession", 0x146457b20},
         {"Player2GameObjectImplWarp", 0x14627c6f0},
         {"ScriptDeclVarsImplSetVarValue", 0x140ae2090},
+        {"SoldierRouteAiImplPreUpdate", 0x141572270},
+        {"RouteGroupImplGetEventId", 0x144b8d070},
+        {"AiControllerImplAddNode", 0x140c0f230},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},
@@ -74,6 +77,7 @@ namespace Dynamite {
         {"BlockMemoryAllocTail", 0x1400dbb30},
         {"BlockMemoryAllocHeap", 0x143261bf0},
         {"GetCurrentBlockMemory", 0x14328e410},
+        {"FoxCreateQuark", 0x146c6a650},
 
         {"FoxLuaPushVector3", 0x143257590},
         {"FoxLuaPushQuat", 0x143256e30},

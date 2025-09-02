@@ -11,7 +11,7 @@ luaL_checkintegerFunc *luaL_checkinteger;
 lua_pushbooleanFunc *lua_pushboolean;
 luaL_checknumberFunc *luaL_checknumber;
 lua_tobooleanFunc *lua_toboolean;
-lua_createtableFunc* lua_createtable;
+lua_createtableFunc *lua_createtable;
 lua_pushvalueFunc *lua_pushvalue;
 lua_removeFunc *lua_remove;
 
@@ -79,6 +79,10 @@ FoxBlockLoadFunc *FoxBlockLoad;
 CloseSessionFunc *CloseSession;
 Player2GameObjectImplWarpFunc *Player2GameObjectImplWarp;
 ScriptDeclVarsImplSetVarValueFunc *ScriptDeclVarsImplSetVarValue;
+SoldierRouteAiImplPreUpdateFunc *SoldierRouteAiImplPreUpdate;
+RouteGroupImplGetEventIdFunc *RouteGroupImplGetEventId;
+FoxCreateQuarkFunc *FoxCreateQuark;
+AiControllerImplAddNodeFunc *AiControllerImplAddNode;
 
 lua_CFunction l_AnnounceLogView;
 FoxLuaPushVector3Func *FoxLuaPushVector3;

@@ -87,4 +87,16 @@ struct ScriptVarValue {
 };
 #pragma pack(pop)
 
+namespace fox {
+    class QuarkDesc {
+      public:
+        uint64_t value;
+    };
+
+    class QuarkHandle {
+      public:
+        uint64_t value;
+    };
+}
+
 #endif // HOOK_TPPTYPES_H

@@ -13,6 +13,7 @@ namespace Dynamite {
     extern lua_State *luaState;
     extern std::map<uint32_t, std::string> messageDict;
     extern std::map<uint64_t, std::string> pathDict;
+    extern std::map<uint64_t, std::string> quarkHandles;
     extern bool sessionConnected;
     extern void *DamageControllerImpl;
     extern void *MarkerSystemImpl;
@@ -60,8 +61,12 @@ namespace Dynamite {
     int64_t(__fastcall CreateHostSessionHook)(FobTarget *param);
     FobTarget *FobTargetCtorHook(FobTarget *p);
     void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
-    void * CloseSessionHook();
+    void *CloseSessionHook();
     void ScriptDeclVarsImplSetVarValueHook(void *thisPtr, uint32_t param_1, uint32_t param_2, bool param_3, ScriptVarValue value);
+    void SoldierRouteAiImplPreUpdateHook(void *thisPtr, uint32_t param_1, void *AiNodeUpdateContext);
+    uint32_t RouteGroupImplGetEventIdHook(void *RouteGroupImpl, unsigned short param_1, unsigned short param_2, unsigned short param_3);
+    fox::QuarkHandle FoxCreateQuarkHook(uint64_t param_1, fox::QuarkDesc *quarkDesc, uint64_t p3);
+    void AiControllerImplAddNodeHook(void *thisPtr, uint32_t param_2, uint64_t quarkHandle, uint32_t param_4);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

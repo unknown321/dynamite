@@ -82,6 +82,10 @@ namespace Dynamite {
         CloseSession = (CloseSessionFunc *)addressSet["CloseSession"];
         Player2GameObjectImplWarp = (Player2GameObjectImplWarpFunc *)addressSet["Player2GameObjectImplWarp"];
         ScriptDeclVarsImplSetVarValue = (ScriptDeclVarsImplSetVarValueFunc *)addressSet["ScriptDeclVarsImplSetVarValue"];
+        SoldierRouteAiImplPreUpdate = (SoldierRouteAiImplPreUpdateFunc*)addressSet["SoldierRouteAiImplPreUpdate"];
+        RouteGroupImplGetEventId = (RouteGroupImplGetEventIdFunc *)addressSet["RouteGroupImplGetEventId"];
+        FoxCreateQuark = (FoxCreateQuarkFunc *)addressSet["FoxCreateQuark"];
+        AiControllerImplAddNode = (AiControllerImplAddNodeFunc *)addressSet["AiControllerImplAddNode"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];
