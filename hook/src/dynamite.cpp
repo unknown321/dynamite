@@ -346,8 +346,10 @@ namespace Dynamite {
             ENABLEHOOK(ScriptDeclVarsImplSetVarValue)
         }
 
-        CREATE_HOOK(RouteGroupImplGetEventId)
-        ENABLEHOOK(RouteGroupImplGetEventId)
+        if (cfg.debug.routeGroupGetEventID) {
+            CREATE_HOOK(RouteGroupImplGetEventId)
+            ENABLEHOOK(RouteGroupImplGetEventId)
+        }
 
         CREATE_HOOK(FoxCreateQuark)
         ENABLEHOOK(FoxCreateQuark)

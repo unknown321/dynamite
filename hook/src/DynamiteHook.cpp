@@ -579,8 +579,8 @@ namespace Dynamite {
     }
 
     fox::QuarkHandle FoxCreateQuarkHook(uint64_t param_1, fox::QuarkDesc *quarkDesc, uint64_t p3) {
-        spdlog::info("{} {} (0x{:x})", __FUNCTION__, pathDict[(uint64_t)quarkDesc], (uint64_t)quarkDesc);
         auto res = FoxCreateQuark(param_1, quarkDesc, p3);
+        spdlog::info("{} {} (0x{:x}), handle 0x{:x}", __FUNCTION__, pathDict[(uint64_t)quarkDesc], (uint64_t)quarkDesc, res.value);
         quarkHandles[res.value] = pathDict[(uint64_t)quarkDesc];
         return res;
     }

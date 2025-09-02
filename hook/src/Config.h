@@ -16,6 +16,7 @@ struct debug {
     bool playerTarget;
     bool luaLog;
     bool setScriptVars;
+    bool routeGroupGetEventID;
 };
 
 class Config {

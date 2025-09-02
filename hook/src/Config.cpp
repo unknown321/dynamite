@@ -146,6 +146,8 @@ bool Config::Read(ConfigValidateResult *r) {
         this->debug.luaLog = ll == "true";
 
         this->debug.setScriptVars = ini.get("Debug").get("SetScriptVars") == "true";
+
+        this->debug.routeGroupGetEventID = ini.get("Debug").get("RouteGroupGetEventID") == "true";
     }
 
     return true;
