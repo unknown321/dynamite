@@ -375,8 +375,8 @@ namespace Dynamite {
         CREATE_HOOK(SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep)
         ENABLEHOOK(SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep)
 
-        CREATE_HOOK(StatusControllerImplIsSet)
-        ENABLEHOOK(StatusControllerImplIsSet)
+        //        CREATE_HOOK(StatusControllerImplIsSet)
+        //        ENABLEHOOK(StatusControllerImplIsSet)
 
         //        CREATE_HOOK(SoldierRouteAiImplPreUpdate)
         //        ENABLEHOOK(SoldierRouteAiImplPreUpdate)
