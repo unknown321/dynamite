@@ -65,6 +65,10 @@ namespace Dynamite {
         {"AiControllerImplAddNode", 0x140c0f230},
         {"AiControllerImplSleepNode", 0x146d1bf60},
         {"AiControllerImplWakeNode", 0x146d1c6c0},
+        {"CoreAiImplGetVehicleId", 0x149170560},
+        {"CoreAiImplGetVehicleRideState", 0x14a0a2ab0},
+        {"CoreAiImplIsVehicleRetain", 0x14a0a3f30},
+        {"SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep", 0x14156d590},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},

@@ -363,6 +363,18 @@ namespace Dynamite {
         CREATE_HOOK(AiControllerImplWakeNode)
         ENABLEHOOK(AiControllerImplWakeNode)
 
+        CREATE_HOOK(CoreAiImplGetVehicleId)
+        ENABLEHOOK(CoreAiImplGetVehicleId)
+
+        CREATE_HOOK(CoreAiImplGetVehicleRideState)
+        ENABLEHOOK(CoreAiImplGetVehicleRideState)
+
+        CREATE_HOOK(CoreAiImplIsVehicleRetain)
+        ENABLEHOOK(CoreAiImplIsVehicleRetain)
+
+        CREATE_HOOK(SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep)
+        ENABLEHOOK(SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep)
+
         //        CREATE_HOOK(SoldierRouteAiImplPreUpdate)
         //        ENABLEHOOK(SoldierRouteAiImplPreUpdate)
     }

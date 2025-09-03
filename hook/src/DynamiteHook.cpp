@@ -595,4 +595,33 @@ namespace Dynamite {
         spdlog::info("{}, {:x}, {:x}, {:x}", __FUNCTION__, param_1, param_2, param_3);
         AiControllerImplWakeNode(AiControllerImpl, param_1, param_2, param_3);
     }
+
+    unsigned short CoreAiImplGetVehicleIdHook(void *thisPtr, unsigned short *param_2, uint32_t param_3) {
+        auto res = CoreAiImplGetVehicleId(thisPtr, param_2, param_3);
+        if (*param_2 == 65535) {
+            return res;
+        }
+
+        spdlog::info("{}: {} {} -> {}", __FUNCTION__, *param_2, param_3, res);
+        return res;
+    }
+
+    unsigned char CoreAiImplGetVehicleRideStateHook(void *thisPtr, uint32_t param_1) {
+        auto res = CoreAiImplGetVehicleRideState(thisPtr, param_1);
+        spdlog::info("{}, {} -> {}", __FUNCTION__, param_1, static_cast<uint32_t>(res));
+        return res;
+    }
+
+    bool CoreAiImplIsVehicleRetainHook(void *thisPtr, uint32_t param_1) {
+        auto res = CoreAiImplIsVehicleRetain(thisPtr, param_1);
+        spdlog::info("{}, {} -> {}", __FUNCTION__, param_1, res);
+        return res;
+    }
+
+    bool SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepHook(
+        void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6) {
+        auto res = SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep(RouteAiImpl, param_1, RouteAiKnowledge, param_3, param_4, param_5, param_6);
+        spdlog::info("{}, p1: {}, p3: {}, p4: {}, p5: {}, p6: {}, res: {}", __FUNCTION__, param_1, param_3, param_4, param_5, param_6, res);
+        return res;
+    }
 }

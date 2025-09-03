@@ -190,6 +190,15 @@ typedef void(__thiscall AiControllerImplSleepNodeFunc)(void *AiControllerImpl, u
 
 typedef void(__thiscall AiControllerImplWakeNodeFunc)(void *AiControllerImpl, uint32_t param_1, int param_2, uint32_t param_3);
 
+typedef unsigned short(__thiscall CoreAiImplGetVehicleIdFunc)(void *thisPtr, unsigned short *param_2, uint32_t param_3);
+
+typedef unsigned char(__thiscall CoreAiImplGetVehicleRideStateFunc)(void *thisPtr, uint32_t param_1);
+
+typedef bool(__thiscall CoreAiImplIsVehicleRetainFunc)(void *thisPtr, uint32_t param_1);
+
+typedef bool(__thiscall SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc)(
+    void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -282,5 +291,9 @@ extern FoxCreateQuarkFunc *FoxCreateQuark;
 extern AiControllerImplAddNodeFunc *AiControllerImplAddNode;
 extern AiControllerImplSleepNodeFunc *AiControllerImplSleepNode;
 extern AiControllerImplWakeNodeFunc *AiControllerImplWakeNode;
+extern CoreAiImplGetVehicleIdFunc *CoreAiImplGetVehicleId;
+extern CoreAiImplGetVehicleRideStateFunc *CoreAiImplGetVehicleRideState;
+extern CoreAiImplIsVehicleRetainFunc *CoreAiImplIsVehicleRetain;
+extern SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

@@ -85,6 +85,10 @@ FoxCreateQuarkFunc *FoxCreateQuark;
 AiControllerImplAddNodeFunc *AiControllerImplAddNode;
 AiControllerImplSleepNodeFunc *AiControllerImplSleepNode;
 AiControllerImplWakeNodeFunc *AiControllerImplWakeNode;
+CoreAiImplGetVehicleIdFunc *CoreAiImplGetVehicleId;
+CoreAiImplGetVehicleRideStateFunc *CoreAiImplGetVehicleRideState;
+CoreAiImplIsVehicleRetainFunc *CoreAiImplIsVehicleRetain;
+SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep;
 
 lua_CFunction l_AnnounceLogView;
 FoxLuaPushVector3Func *FoxLuaPushVector3;

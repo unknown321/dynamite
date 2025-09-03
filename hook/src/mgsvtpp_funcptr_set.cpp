@@ -15,8 +15,8 @@ namespace Dynamite {
         lua_pushboolean = (lua_pushbooleanFunc *)addressSet["lua_pushboolean"];
         luaL_checknumber = (luaL_checknumberFunc *)addressSet["luaL_checknumber"];
         lua_toboolean = (lua_tobooleanFunc *)addressSet["lua_toboolean"];
-        lua_createtable = (lua_createtableFunc*)addressSet["lua_createtable"];
-        lua_pushvalue = (lua_pushvalueFunc*)addressSet["lua_pushvalue"];
+        lua_createtable = (lua_createtableFunc *)addressSet["lua_createtable"];
+        lua_pushvalue = (lua_pushvalueFunc *)addressSet["lua_pushvalue"];
 
         IsDefenseTeamByOnlineFobLocal = (IsDefenseTeamByOnlineFobLocalFunc *)addressSet["IsDefenseTeamByOnlineFobLocal"];
         IsOffenseTeamByOnlineFobLocal = (IsOffenseTeamByOnlineFobLocalFunc *)addressSet["IsOffenseTeamByOnlineFobLocal"];
@@ -74,20 +74,25 @@ namespace Dynamite {
         FoxGenerateUniqueName = (FoxGenerateUniqueNameFunc *)addressSet["FoxGenerateUniqueName"];
         FoxBlock = (FoxBlockFunc *)addressSet["FoxBlock"];
         GetCurrentBlockMemory = (GetCurrentBlockMemoryFunc *)addressSet["GetCurrentBlockMemory"];
-        BlockMemoryAllocTail = (BlockMemoryAllocTailFunc*)addressSet["BlockMemoryAllocTail"];
-        BlockMemoryAllocHeap = (BlockMemoryAllocHeapFunc*)addressSet["BlockMemoryAllocHeap"];
+        BlockMemoryAllocTail = (BlockMemoryAllocTailFunc *)addressSet["BlockMemoryAllocTail"];
+        BlockMemoryAllocHeap = (BlockMemoryAllocHeapFunc *)addressSet["BlockMemoryAllocHeap"];
         FoxBlockActivate = (FoxBlockActivateFunc *)addressSet["FoxBlockActivate"];
         FoxBlockDeactivate = (FoxBlockDeactivateFunc *)addressSet["FoxBlockDeactivate"];
         FoxBlockLoad = (FoxBlockLoadFunc *)addressSet["FoxBlockLoad"];
         CloseSession = (CloseSessionFunc *)addressSet["CloseSession"];
         Player2GameObjectImplWarp = (Player2GameObjectImplWarpFunc *)addressSet["Player2GameObjectImplWarp"];
         ScriptDeclVarsImplSetVarValue = (ScriptDeclVarsImplSetVarValueFunc *)addressSet["ScriptDeclVarsImplSetVarValue"];
-        SoldierRouteAiImplPreUpdate = (SoldierRouteAiImplPreUpdateFunc*)addressSet["SoldierRouteAiImplPreUpdate"];
+        SoldierRouteAiImplPreUpdate = (SoldierRouteAiImplPreUpdateFunc *)addressSet["SoldierRouteAiImplPreUpdate"];
         RouteGroupImplGetEventId = (RouteGroupImplGetEventIdFunc *)addressSet["RouteGroupImplGetEventId"];
         FoxCreateQuark = (FoxCreateQuarkFunc *)addressSet["FoxCreateQuark"];
         AiControllerImplAddNode = (AiControllerImplAddNodeFunc *)addressSet["AiControllerImplAddNode"];
         AiControllerImplSleepNode = (AiControllerImplSleepNodeFunc *)addressSet["AiControllerImplSleepNode"];
         AiControllerImplWakeNode = (AiControllerImplWakeNodeFunc *)addressSet["AiControllerImplWakeNode"];
+        CoreAiImplGetVehicleId = (CoreAiImplGetVehicleIdFunc *)addressSet["CoreAiImplGetVehicleId"];
+        CoreAiImplGetVehicleRideState = (CoreAiImplGetVehicleRideStateFunc *)addressSet["CoreAiImplGetVehicleRideState"];
+        CoreAiImplIsVehicleRetain = (CoreAiImplIsVehicleRetainFunc *)addressSet["CoreAiImplIsVehicleRetain"];
+        SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep =
+            (SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *)addressSet["SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];

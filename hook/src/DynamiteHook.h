@@ -69,6 +69,11 @@ namespace Dynamite {
     void AiControllerImplAddNodeHook(void *thisPtr, uint32_t param_2, uint64_t quarkHandle, uint32_t param_4);
     void AiControllerImplSleepNodeHook(void *AiControllerImpl, uint32_t param_1, int param_2, int32_t SleepCause);
     void AiControllerImplWakeNodeHook(void *AiControllerImpl, uint32_t param_1, int param_2, uint32_t param_3);
+    unsigned short CoreAiImplGetVehicleIdHook(void *thisPtr, unsigned short *param_2, uint32_t param_3);
+    unsigned char CoreAiImplGetVehicleRideStateHook(void *thisPtr, uint32_t param_1);
+    bool CoreAiImplIsVehicleRetainHook(void *thisPtr, uint32_t param_1);
+    bool SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepHook(
+        void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);
