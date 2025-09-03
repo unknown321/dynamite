@@ -2,6 +2,7 @@
 #include "DamageProtocol.h"
 #include "Tpp/TppFOB.h"
 #include "Tpp/TppMarkerType.h"
+#include "Tpp/TppGameStatusFlag.h"
 #include "memtag.h"
 #include "mgsvtpp_func_typedefs.h"
 #include "spdlog/spdlog.h"
@@ -622,6 +623,14 @@ namespace Dynamite {
         void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6) {
         auto res = SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep(RouteAiImpl, param_1, RouteAiKnowledge, param_3, param_4, param_5, param_6);
         spdlog::info("{}, p1: {}, p3: {}, p4: {}, p5: {}, p6: {}, res: {}", __FUNCTION__, param_1, param_3, param_4, param_5, param_6, res);
+        return res;
+    }
+
+    bool StatusControllerImplIsSetHook(void *StatusControllerImpl, unsigned char param_1) {
+        auto res = StatusControllerImplIsSet(StatusControllerImpl, param_1);
+        if (param_1 == TppGameStatusFlag::S_IS_ONLINE) {
+            spdlog::info("{}, {} -> {}", __FUNCTION__, "S_IS_ONLINE", res);
+        }
         return res;
     }
 }

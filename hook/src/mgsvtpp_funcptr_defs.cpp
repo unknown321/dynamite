@@ -89,6 +89,7 @@ CoreAiImplGetVehicleIdFunc *CoreAiImplGetVehicleId;
 CoreAiImplGetVehicleRideStateFunc *CoreAiImplGetVehicleRideState;
 CoreAiImplIsVehicleRetainFunc *CoreAiImplIsVehicleRetain;
 SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep;
+StatusControllerImplIsSetFunc *StatusControllerImplIsSet;
 
 lua_CFunction l_AnnounceLogView;
 FoxLuaPushVector3Func *FoxLuaPushVector3;

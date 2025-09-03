@@ -93,6 +93,7 @@ namespace Dynamite {
         CoreAiImplIsVehicleRetain = (CoreAiImplIsVehicleRetainFunc *)addressSet["CoreAiImplIsVehicleRetain"];
         SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep =
             (SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *)addressSet["SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep"];
+        StatusControllerImplIsSet = (StatusControllerImplIsSetFunc *)addressSet["StatusControllerImplIsSet"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];

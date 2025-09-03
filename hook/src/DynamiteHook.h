@@ -74,6 +74,7 @@ namespace Dynamite {
     bool CoreAiImplIsVehicleRetainHook(void *thisPtr, uint32_t param_1);
     bool SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepHook(
         void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6);
+    bool StatusControllerImplIsSetHook(void *StatusControllerImpl, unsigned char param_1);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

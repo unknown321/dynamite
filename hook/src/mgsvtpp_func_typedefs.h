@@ -199,6 +199,8 @@ typedef bool(__thiscall CoreAiImplIsVehicleRetainFunc)(void *thisPtr, uint32_t p
 typedef bool(__thiscall SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc)(
     void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6);
 
+typedef bool(__thiscall StatusControllerImplIsSetFunc)(void *StatusControllerImpl, unsigned char param_1);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -295,5 +297,6 @@ extern CoreAiImplGetVehicleIdFunc *CoreAiImplGetVehicleId;
 extern CoreAiImplGetVehicleRideStateFunc *CoreAiImplGetVehicleRideState;
 extern CoreAiImplIsVehicleRetainFunc *CoreAiImplIsVehicleRetain;
 extern SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep;
+extern StatusControllerImplIsSetFunc *StatusControllerImplIsSet;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H
