@@ -149,10 +149,6 @@ namespace Dynamite {
 
     void *MessageBufferAddMessageHook(
         void *thisPtr, void *errCodePtr, uint32_t messageID, uint32_t param_2, uint32_t receiver, uint32_t param_4, void *messageArgs, uint32_t param_6) {
-        // RouteEventFaild
-        if (messageID == 0x666b8ab8) {
-            return MessageBufferAddMessage(thisPtr, errCodePtr, messageID, param_2, receiver, param_4, messageArgs, param_6);
-        }
 
         if (messageDict.size() > 0) {
             spdlog::info("Message: {} ({:x}), from: {} ({:x}), to: {} ({:x}), {} ({:x}), {} ({:x})",
