@@ -689,6 +689,28 @@ namespace Dynamite {
                 .description = "always use non-fob function to update cp member status"
                                "tpp::gm::soldier::impl::Soldier2Impl::UpdateCpMemberStatus",
             },
+
+            {
+                .address = 0x1413536b6,
+                // clang-format off
+                .expected = {
+                    0x8b, 0xc1,          // MOV        EAX,ECX
+                    0xd1, 0xe8,          // SHR        EAX,0x1
+                    0xf7, 0xd0,          // NOT        EAX
+                    0x33, 0xc1,          // XOR        EAX,ECX
+                    0x83, 0xe0, 0x02,    // AND        EAX,0x2
+                    0x33, 0xc1,          // XOR        EAX,ECX
+                },
+                .patch = {
+                    0xb8, 0x02, 0x00, 0x00, 0x00, // MOV        EAX,0x2
+                    0x66, 0x48, 0x90 ,            // NOP
+                    0x66, 0x48, 0x90,             // NOP
+                    0x48, 0x90,                   // NOP
+                },
+                // clang-format on
+                .description = "ignore IS_ONLINE check at 1409e6f18, always set flag based on that check to 2 instead of calculated 4"
+                               "tpp::gm::soldier::impl::Soldier2Impl::Initialize",
+            },
         };
     }
 
