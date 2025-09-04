@@ -392,6 +392,11 @@ namespace Dynamite {
             CREATE_HOOK(SoldierRouteAiImplPreUpdate)
             ENABLEHOOK(SoldierRouteAiImplPreUpdate)
         }
+
+        if (cfg.debug.messages) {
+            CREATE_HOOK(MessageBufferAddMessage)
+            ENABLEHOOK(MessageBufferAddMessage)
+        }
     }
 
     void Dynamite::CreateHooks() {
@@ -431,9 +436,6 @@ namespace Dynamite {
 
         CREATE_HOOK(SteamUdpSocketImplOnP2PSessionRequest)
         ENABLEHOOK(SteamUdpSocketImplOnP2PSessionRequest)
-
-        CREATE_HOOK(MessageBufferAddMessage)
-        ENABLEHOOK(MessageBufferAddMessage)
 
         CREATE_HOOK(AddLocalDamage)
         ENABLEHOOK(AddLocalDamage)

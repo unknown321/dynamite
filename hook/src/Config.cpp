@@ -148,6 +148,7 @@ bool Config::Read(ConfigValidateResult *r) {
         this->debug.setScriptVars = ini.get("Debug").get("SetScriptVars") == "true";
 
         this->debug.routeGroupGetEventID = ini.get("Debug").get("RouteGroupGetEventID") == "true";
+        this->debug.messages = ini.get("Debug").get("Messages") == "true";
 
         this->debug.foxCreateQuark = ini.get("Debug").get("FoxCreateQuark") == "true";
         this->debug.aiControllerNode = ini.get("Debug").get("AiControllerNode") == "true";
@@ -185,4 +186,5 @@ void Config::Log() {
     spdlog::info("debug.SoldierRouteVehicleGetInStep: {}", this->debug.soldierRouteVehicleGetInStep);
     spdlog::info("debug.StatusControllerIsOnline: {}", this->debug.statusControllerIsOnline);
     spdlog::info("debug.SoldierRouteAiImplPreUpdate: {}", this->debug.soldierRouteAiImplPreUpdate);
+    spdlog::info("debug.Messages: {}", this->debug.messages);
 }

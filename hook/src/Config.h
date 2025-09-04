@@ -16,6 +16,7 @@ struct debug {
     bool playerTarget;
     bool luaLog;
     bool setScriptVars;
+    bool messages;
     bool routeGroupGetEventID;
     bool foxCreateQuark;
     bool aiControllerNode;
