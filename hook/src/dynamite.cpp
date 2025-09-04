@@ -351,35 +351,47 @@ namespace Dynamite {
             ENABLEHOOK(RouteGroupImplGetEventId)
         }
 
-        CREATE_HOOK(FoxCreateQuark)
-        ENABLEHOOK(FoxCreateQuark)
+        if (cfg.debug.foxCreateQuark) {
+            CREATE_HOOK(FoxCreateQuark)
+            ENABLEHOOK(FoxCreateQuark)
+        }
 
-        CREATE_HOOK(AiControllerImplAddNode)
-        ENABLEHOOK(AiControllerImplAddNode)
+        if (cfg.debug.aiControllerNode) {
+            CREATE_HOOK(AiControllerImplAddNode)
+            ENABLEHOOK(AiControllerImplAddNode)
 
-        CREATE_HOOK(AiControllerImplSleepNode)
-        ENABLEHOOK(AiControllerImplSleepNode)
+            CREATE_HOOK(AiControllerImplSleepNode)
+            ENABLEHOOK(AiControllerImplSleepNode)
 
-        CREATE_HOOK(AiControllerImplWakeNode)
-        ENABLEHOOK(AiControllerImplWakeNode)
+            CREATE_HOOK(AiControllerImplWakeNode)
+            ENABLEHOOK(AiControllerImplWakeNode)
+        }
 
-        CREATE_HOOK(CoreAiImplGetVehicleId)
-        ENABLEHOOK(CoreAiImplGetVehicleId)
+        if (cfg.debug.coreAiVehicle) {
+            CREATE_HOOK(CoreAiImplGetVehicleId)
+            ENABLEHOOK(CoreAiImplGetVehicleId)
 
-        CREATE_HOOK(CoreAiImplGetVehicleRideState)
-        ENABLEHOOK(CoreAiImplGetVehicleRideState)
+            CREATE_HOOK(CoreAiImplGetVehicleRideState)
+            ENABLEHOOK(CoreAiImplGetVehicleRideState)
 
-        CREATE_HOOK(CoreAiImplIsVehicleRetain)
-        ENABLEHOOK(CoreAiImplIsVehicleRetain)
+            CREATE_HOOK(CoreAiImplIsVehicleRetain)
+            ENABLEHOOK(CoreAiImplIsVehicleRetain)
+        }
 
-        CREATE_HOOK(SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep)
-        ENABLEHOOK(SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep)
+        if (cfg.debug.soldierRouteVehicleGetInStep) {
+            CREATE_HOOK(SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep)
+            ENABLEHOOK(SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep)
+        }
 
-        //        CREATE_HOOK(StatusControllerImplIsSet)
-        //        ENABLEHOOK(StatusControllerImplIsSet)
+        if (cfg.debug.statusControllerIsOnline) {
+            CREATE_HOOK(StatusControllerImplIsSet)
+            ENABLEHOOK(StatusControllerImplIsSet)
+        }
 
-        //        CREATE_HOOK(SoldierRouteAiImplPreUpdate)
-        //        ENABLEHOOK(SoldierRouteAiImplPreUpdate)
+        if (cfg.debug.soldierRouteAiImplPreUpdate) {
+            CREATE_HOOK(SoldierRouteAiImplPreUpdate)
+            ENABLEHOOK(SoldierRouteAiImplPreUpdate)
+        }
     }
 
     void Dynamite::CreateHooks() {

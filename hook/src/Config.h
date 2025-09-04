@@ -17,6 +17,12 @@ struct debug {
     bool luaLog;
     bool setScriptVars;
     bool routeGroupGetEventID;
+    bool foxCreateQuark;
+    bool aiControllerNode;
+    bool coreAiVehicle;
+    bool soldierRouteVehicleGetInStep;
+    bool statusControllerIsOnline;
+    bool soldierRouteAiImplPreUpdate;
 };
 
 class Config {

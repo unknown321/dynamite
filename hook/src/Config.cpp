@@ -148,6 +148,13 @@ bool Config::Read(ConfigValidateResult *r) {
         this->debug.setScriptVars = ini.get("Debug").get("SetScriptVars") == "true";
 
         this->debug.routeGroupGetEventID = ini.get("Debug").get("RouteGroupGetEventID") == "true";
+
+        this->debug.foxCreateQuark = ini.get("Debug").get("FoxCreateQuark") == "true";
+        this->debug.aiControllerNode = ini.get("Debug").get("AiControllerNode") == "true";
+        this->debug.coreAiVehicle = ini.get("Debug").get("CoreAiVehicle") == "true";
+        this->debug.soldierRouteVehicleGetInStep = ini.get("Debug").get("SoldierRouteVehicleGetInStep") == "true";
+        this->debug.statusControllerIsOnline = ini.get("Debug").get("StatusControllerIsOnline") == "true";
+        this->debug.soldierRouteAiImplPreUpdate = ini.get("Debug").get("SoldierRouteAiImplPreUpdate") == "true";
     }
 
     return true;
@@ -171,4 +178,11 @@ void Config::Log() {
     spdlog::info("debug.PlayerTarget: {}", this->debug.playerTarget);
     spdlog::info("debug.LuaLog: {}", this->debug.luaLog);
     spdlog::info("debug.SetScriptVars: {}", this->debug.setScriptVars);
+    spdlog::info("debug.RouteGroupGetEventID: {}", this->debug.routeGroupGetEventID);
+    spdlog::info("debug.FoxCreateQuark: {}", this->debug.foxCreateQuark);
+    spdlog::info("debug.AiControllerNode: {}", this->debug.aiControllerNode);
+    spdlog::info("debug.CoreAiVehicle: {}", this->debug.coreAiVehicle);
+    spdlog::info("debug.SoldierRouteVehicleGetInStep: {}", this->debug.soldierRouteVehicleGetInStep);
+    spdlog::info("debug.StatusControllerIsOnline: {}", this->debug.statusControllerIsOnline);
+    spdlog::info("debug.SoldierRouteAiImplPreUpdate: {}", this->debug.soldierRouteAiImplPreUpdate);
 }
