@@ -115,12 +115,20 @@ type MasterServer struct {
 }
 
 type Debug struct {
-	FoxBlock        bool
-	FoxBlockProcess bool
-	MemoryAllocTail bool
-	PlayerTarget    bool
-	LuaLog          bool
-	SetScriptVars   bool
+	FoxBlock                     bool
+	FoxBlockProcess              bool
+	MemoryAllocTail              bool
+	PlayerTarget                 bool
+	LuaLog                       bool
+	SetScriptVars                bool
+	Messages                     bool
+	RouteGroupGetEventID         bool
+	FoxCreateQuark               bool
+	AiControllerNode             bool
+	CoreAiVehicle                bool
+	SoldierRouteVehicleGetInStep bool
+	StatusControllerIsOnline     bool
+	SoldierRouteAiImplPreUpdate  bool
 }
 
 type Config struct {

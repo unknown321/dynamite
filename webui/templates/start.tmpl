@@ -458,9 +458,50 @@
                          </div>
 
                           <div class="form-group">
-                              <label for="debug-luaLog" class="checkbox-label">SetScriptVars</label>
-                              <input type="checkbox" id="debug-luaLog" name="Config.Debug.SetScriptVars" {{ if .Config.Debug.SetScriptVars }}checked{{ end }}>
+                              <label for="debug-setScriptVars" class="checkbox-label">SetScriptVars</label>
+                              <input type="checkbox" id="debug-setScriptVars" name="Config.Debug.SetScriptVars" {{ if .Config.Debug.SetScriptVars }}checked{{ end }}>
                           </div>
+
+                          <div class="form-group">
+                              <label for="debug-messages" class="checkbox-label">Messages</label>
+                              <input type="checkbox" id="debug-messages" name="Config.Debug.Messages" {{ if .Config.Debug.Messages }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="debug-routeGroupGetEventID" class="checkbox-label">RouteGroupGetEventID</label>
+                              <input type="checkbox" id="debug-routeGroupGetEventID" name="Config.Debug.RouteGroupGetEventID" {{ if .Config.Debug.RouteGroupGetEventID }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="debug-foxCreateQuark" class="checkbox-label">FoxCreateQuark</label>
+                              <input type="checkbox" id="debug-foxCreateQuark" name="Config.Debug.FoxCreateQuark" {{ if .Config.Debug.FoxCreateQuark }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="debug-aiControllerNode" class="checkbox-label">AiControllerNode</label>
+                              <input type="checkbox" id="debug-aiControllerNode" name="Config.Debug.AiControllerNode" {{ if .Config.Debug.AiControllerNode }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="debug-coreAiVehicle" class="checkbox-label">CoreAiVehicle</label>
+                              <input type="checkbox" id="debug-coreAiVehicle" name="Config.Debug.CoreAiVehicle" {{ if .Config.Debug.CoreAiVehicle }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="debug-soldierRouteVehicleGetInStep" class="checkbox-label">SoldierRouteVehicleGetInStep</label>
+                              <input type="checkbox" id="debug-soldierRouteVehicleGetInStep" name="Config.Debug.SoldierRouteVehicleGetInStep" {{ if .Config.Debug.SoldierRouteVehicleGetInStep }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="debug-statusControllerIsOnline" class="checkbox-label">StatusControllerIsOnline</label>
+                              <input type="checkbox" id="debug-statusControllerIsOnline" name="Config.Debug.StatusControllerIsOnline" {{ if .Config.Debug.StatusControllerIsOnline }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="debug-soldierRouteAiImplPreUpdate" class="checkbox-label">SoldierRouteAiImplPreUpdate</label>
+                              <input type="checkbox" id="debug-soldierRouteAiImplPreUpdate" name="Config.Debug.SoldierRouteAiImplPreUpdate" {{ if .Config.Debug.SoldierRouteAiImplPreUpdate }}checked{{ end }}>
+                          </div>
+
                     </div>
                 </div>
             </div>

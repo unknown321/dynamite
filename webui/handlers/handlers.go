@@ -317,6 +317,14 @@ func Save(w http.ResponseWriter, r *http.Request) {
 	Config.Debug.PlayerTarget = r.FormValue("Config.Debug.PlayerTarget") == "on"
 	Config.Debug.LuaLog = r.FormValue("Config.Debug.LuaLog") == "on"
 	Config.Debug.SetScriptVars = r.FormValue("Config.Debug.SetScriptVars") == "on"
+	Config.Debug.Messages = r.FormValue("Config.Debug.Messages") == "on"
+	Config.Debug.RouteGroupGetEventID = r.FormValue("Config.Debug.RouteGroupGetEventID") == "on"
+	Config.Debug.FoxCreateQuark = r.FormValue("Config.Debug.FoxCreateQuark") == "on"
+	Config.Debug.AiControllerNode = r.FormValue("Config.Debug.AiControllerNode") == "on"
+	Config.Debug.CoreAiVehicle = r.FormValue("Config.Debug.CoreAiVehicle") == "on"
+	Config.Debug.SoldierRouteVehicleGetInStep = r.FormValue("Config.Debug.SoldierRouteVehicleGetInStep") == "on"
+	Config.Debug.StatusControllerIsOnline = r.FormValue("Config.Debug.StatusControllerIsOnline") == "on"
+	Config.Debug.SoldierRouteAiImplPreUpdate = r.FormValue("  boolConfig.Debug.SoldierRouteAiImplPreUpdate") == "on"
 
 	if Config.Dynamite.AccountDir == "" {
 		http.Error(w, "Account directory is required", http.StatusBadRequest)
