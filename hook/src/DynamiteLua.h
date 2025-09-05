@@ -49,6 +49,7 @@ namespace Dynamite {
     int l_IgnoreMarkerRequests(lua_State *L);
     int l_AcceptMarkerRequests(lua_State *L);
     int l_WarpToPartner(lua_State *L);
+    int l_CustomCommand(lua_State *L);
 }
 
 #endif // HOOK_DYNAMITELUA_H

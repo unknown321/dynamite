@@ -1,8 +1,8 @@
 #include "DynamiteHook.h"
 #include "DamageProtocol.h"
 #include "Tpp/TppFOB.h"
-#include "Tpp/TppMarkerType.h"
 #include "Tpp/TppGameStatusFlag.h"
+#include "Tpp/TppMarkerType.h"
 #include "memtag.h"
 #include "mgsvtpp_func_typedefs.h"
 #include "spdlog/spdlog.h"
@@ -11,6 +11,7 @@
 
 namespace Dynamite {
     void *fobTargetCtor = nullptr;
+    void *messageBuffer = nullptr;
 
     // entry point
     void __fastcall luaL_openlibsHook(lua_State *L) {
@@ -149,14 +150,15 @@ namespace Dynamite {
     }
 
     void *MessageBufferAddMessageHook(
-        void *thisPtr, void *errCodePtr, uint32_t messageID, uint32_t param_2, uint32_t receiver, uint32_t param_4, void *messageArgs, uint32_t param_6) {
+        void *thisPtr, void *errCodePtr, uint32_t messageID, uint32_t sender, uint32_t receiver, uint32_t param_4, void *messageArgs, uint32_t param_6) {
+        messageBuffer = thisPtr;
 
         if (messageDict.size() > 0) {
             spdlog::info("Message: {} ({:x}), from: {} ({:x}), to: {} ({:x}), {} ({:x}), {} ({:x})",
                 messageDict[messageID],
                 messageID,
-                messageDict[param_2],
-                param_2,
+                messageDict[sender],
+                sender,
                 messageDict[receiver],
                 receiver,
                 messageDict[param_4],
@@ -177,7 +179,7 @@ namespace Dynamite {
         if ((messageID == 0x96544450) && (receiver == 0)) {
         }
 
-        return MessageBufferAddMessage(thisPtr, errCodePtr, messageID, param_2, receiver, param_4, messageArgs, param_6);
+        return MessageBufferAddMessage(thisPtr, errCodePtr, messageID, sender, receiver, param_4, messageArgs, param_6);
     }
 
     bool AddLocalDamageHook(void *thisPtr, uint32_t playerIndex, PlayerDamage *Damage) {
@@ -270,6 +272,19 @@ namespace Dynamite {
                 spdlog::info("adding sight marker from network, objectID {}, duration {}", objectIDMarker, duration);
                 auto ok = SightManagerImplSetMarker(SightManagerImpl, objectIDMarker, duration);
                 spdlog::info("sight marker from network: {}", ok);
+            }
+
+            if (damage->b2 == DamageProtocolCommand::CMD_CustomCommand1) {
+                spdlog::info("custom command 1");
+
+                uint32_t errorCode = 0;
+                uint32_t messageArgs = 0;
+
+                auto DynamiteStr32 = static_cast<uint32_t>(FoxStrHash32("Dynamite", strlen("Dynamite")) & 0xffffffff);
+                auto CustomCommand1Str32 = static_cast<uint32_t>(FoxStrHash32("CustomCommand1", strlen("CustomCommand1")) & 0xffffffff);
+                auto MissionStr32 = static_cast<uint32_t>(FoxStrHash32("Mission", strlen("Mission")) & 0xffffffff);
+
+                MessageBufferAddMessageHook(messageBuffer, &errorCode, CustomCommand1Str32, DynamiteStr32, MissionStr32, 0, &messageArgs, 0);
             }
         }
 

@@ -334,6 +334,17 @@ namespace Dynamite {
         return 0;
     }
 
+    int l_CustomCommand(lua_State *L) {
+        auto d = NewNetworkDamage();
+        d.b2 = DamageProtocolCommand::CMD_CustomCommand1;
+
+        uint32_t playerID;
+        GetLocalPlayerId(&playerID);
+        auto dmgAdd = AddLocalDamageHook(DamageControllerImpl, playerID, &d);
+        spdlog::info("custom command: {}", dmgAdd);
+        return 0;
+    }
+
     void CreateLibs(lua_State *L) {
         luaL_Reg libFuncs[] = {
             {"CreateHostSession", l_CreateHostSession},
@@ -357,6 +368,7 @@ namespace Dynamite {
             {"IsHost", l_IsHost},
             {"GetPlayerPosition", l_GetPlayerPosition},
             {"WarpToPartner", l_WarpToPartner},
+            {"CustomCommand", l_CustomCommand},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);

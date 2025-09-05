@@ -37,7 +37,7 @@ namespace Dynamite {
     bool IsConnectReadyHook(void *param);
     void UpdateClientEstablishedHook(void *param);
     void *MessageBufferAddMessageHook(
-        void *thisPtr, void *errCodePtr, uint32_t messageID, uint32_t param_2, uint32_t receiver, uint32_t param_4, void *messageArgs, uint32_t param_6);
+        void *thisPtr, void *errCodePtr, uint32_t messageID, uint32_t sender, uint32_t receiver, uint32_t param_4, void *messageArgs, uint32_t param_6);
     bool AddLocalDamageHook(void *thisPtr, uint32_t playerIndex, PlayerDamage *Damage);
     void DamageControllerImplInitializeHook(void *thisPtr, void *QuarkDesc);
     uint32_t SynchronizerImplGetDamageHook(void *thisPtr, uint32_t objectID, PlayerDamage *damage);
