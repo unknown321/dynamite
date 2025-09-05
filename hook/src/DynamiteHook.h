@@ -62,7 +62,7 @@ namespace Dynamite {
     FobTarget *FobTargetCtorHook(FobTarget *p);
     void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
     void *CloseSessionHook();
-    void ScriptDeclVarsImplSetVarValueHook(void *thisPtr, uint32_t param_1, uint32_t param_2, bool param_3, ScriptVarValue value);
+    void ScriptDeclVarsImplSetVarValueHook(void *thisPtr, uint64_t index, uint32_t param_2, uint32_t param_3, uint32_t value);
     void SoldierRouteAiImplPreUpdateHook(void *thisPtr, uint32_t param_1, void *AiNodeUpdateContext);
     uint32_t RouteGroupImplGetEventIdHook(void *RouteGroupImpl, unsigned short param_1, unsigned short param_2, unsigned short param_3);
     fox::QuarkHandle FoxCreateQuarkHook(uint64_t param_1, fox::QuarkDesc *quarkDesc, uint64_t p3);
@@ -75,6 +75,7 @@ namespace Dynamite {
     bool SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepHook(
         void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6);
     bool StatusControllerImplIsSetHook(void *StatusControllerImpl, unsigned char param_1);
+    void *ScriptDeclVarsImplGetVarHandleWithVarIndexHook(void *ScriptDeclVarsImpl, void* param_1, uint32_t param_2);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

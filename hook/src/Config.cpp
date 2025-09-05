@@ -156,6 +156,7 @@ bool Config::Read(ConfigValidateResult *r) {
         this->debug.soldierRouteVehicleGetInStep = ini.get("Debug").get("SoldierRouteVehicleGetInStep") == "true";
         this->debug.statusControllerIsOnline = ini.get("Debug").get("StatusControllerIsOnline") == "true";
         this->debug.soldierRouteAiImplPreUpdate = ini.get("Debug").get("SoldierRouteAiImplPreUpdate") == "true";
+        this->debug.getSVarHandle = ini.get("Debug").get("GetSVarHandle") == "true";
     }
 
     return true;
@@ -187,4 +188,5 @@ void Config::Log() {
     spdlog::info("debug.StatusControllerIsOnline: {}", this->debug.statusControllerIsOnline);
     spdlog::info("debug.SoldierRouteAiImplPreUpdate: {}", this->debug.soldierRouteAiImplPreUpdate);
     spdlog::info("debug.Messages: {}", this->debug.messages);
+    spdlog::info("debug.GetSVarHandle :{}", this->debug.getSVarHandle);
 }

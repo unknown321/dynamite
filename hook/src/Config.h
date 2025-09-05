@@ -24,6 +24,7 @@ struct debug {
     bool soldierRouteVehicleGetInStep;
     bool statusControllerIsOnline;
     bool soldierRouteAiImplPreUpdate;
+    bool getSVarHandle;
 };
 
 class Config {

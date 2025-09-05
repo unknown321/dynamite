@@ -176,7 +176,7 @@ typedef void *(CloseSessionFunc)(void);
 
 typedef void(__cdecl Player2GameObjectImplWarpFunc)(void *thisPtr, uint32_t objectID, Vector3 *pos, Quat *rot, bool param_5);
 
-typedef void(__cdecl ScriptDeclVarsImplSetVarValueFunc)(void *thisPtr, uint64_t param_1, uint32_t param_2, bool param_3, ScriptVarValue value);
+typedef void(__cdecl ScriptDeclVarsImplSetVarValueFunc)(void *thisPtr, uint64_t param_1, uint32_t param_2, uint32_t param_3, uint32_t param_4);
 
 typedef void(__thiscall SoldierRouteAiImplPreUpdateFunc)(void *thisPtr, uint32_t param_1, void *AiNodeUpdateContext);
 
@@ -200,6 +200,10 @@ typedef bool(__thiscall SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndO
     void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6);
 
 typedef bool(__thiscall StatusControllerImplIsSetFunc)(void *StatusControllerImpl, unsigned char param_1);
+
+typedef void *(__thiscall ScriptDeclVarsImplGetVarHandleWithVarIndexFunc)(void *ScriptDeclVarsImpl, void* param_1, uint32_t param_2);
+
+typedef void ** (__cdecl GmGetScriptVarInfoFunc)();
 
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
@@ -298,5 +302,7 @@ extern CoreAiImplGetVehicleRideStateFunc *CoreAiImplGetVehicleRideState;
 extern CoreAiImplIsVehicleRetainFunc *CoreAiImplIsVehicleRetain;
 extern SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep;
 extern StatusControllerImplIsSetFunc *StatusControllerImplIsSet;
+extern ScriptDeclVarsImplGetVarHandleWithVarIndexFunc* ScriptDeclVarsImplGetVarHandleWithVarIndex;
+extern GmGetScriptVarInfoFunc *GmGetScriptVarInfo;
 
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

@@ -397,6 +397,11 @@ namespace Dynamite {
             CREATE_HOOK(MessageBufferAddMessage)
             ENABLEHOOK(MessageBufferAddMessage)
         }
+
+        if (cfg.debug.getSVarHandle) {
+            CREATE_HOOK(ScriptDeclVarsImplGetVarHandleWithVarIndex)
+            ENABLEHOOK(ScriptDeclVarsImplGetVarHandleWithVarIndex)
+        }
     }
 
     void Dynamite::CreateHooks() {

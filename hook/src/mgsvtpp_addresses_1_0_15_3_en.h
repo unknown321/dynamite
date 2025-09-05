@@ -70,6 +70,8 @@ namespace Dynamite {
         {"CoreAiImplIsVehicleRetain", 0x14a0a3f30},
         {"SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep", 0x14156d590},
         {"StatusControllerImplIsSet", 0x144cba8d0},
+        {"ScriptDeclVarsImplGetVarHandleWithVarIndex", 0x140ae17c0},
+        {"GmGetScriptVarInfo", 0x1461f02b0},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},

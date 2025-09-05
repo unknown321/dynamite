@@ -94,6 +94,8 @@ namespace Dynamite {
         SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep =
             (SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *)addressSet["SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep"];
         StatusControllerImplIsSet = (StatusControllerImplIsSetFunc *)addressSet["StatusControllerImplIsSet"];
+        ScriptDeclVarsImplGetVarHandleWithVarIndex = (ScriptDeclVarsImplGetVarHandleWithVarIndexFunc *)addressSet["ScriptDeclVarsImplGetVarHandleWithVarIndex"];
+        GmGetScriptVarInfo = (GmGetScriptVarInfoFunc*)addressSet["GmGetScriptVarInfo"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];

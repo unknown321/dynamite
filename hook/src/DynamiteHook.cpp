@@ -560,11 +560,13 @@ namespace Dynamite {
         return CloseSession();
     }
 
-    void ScriptDeclVarsImplSetVarValueHook(void *thisPtr, uint32_t param_1, uint32_t param_2, bool param_3, ScriptVarValue value) {
-        auto nameStr32 = *(uint32_t *)((char *)thisPtr + 0x18 + param_2 * 0x18);
-        auto name = messageDict[nameStr32];
-        spdlog::info("set var {} (0x{:x}) = {:f}, 0x{:x}, 0x{:x}, 0x{:x}", name, nameStr32, value.value, param_1, param_2, param_3);
-        ScriptDeclVarsImplSetVarValue(thisPtr, param_1, param_2, param_3, value);
+    void ScriptDeclVarsImplSetVarValueHook(void *thisPtr, uint64_t index, uint32_t param_2, uint32_t param_3, uint32_t value) {
+        auto tp = (char *)thisPtr + 0x18;
+        auto hash = *(uint32_t *)(*(char **)tp + 0xc + index * 0x18 + -0x4);
+
+        spdlog::info(
+            "{} {} (0x{:x}) = p1 = 0x{:x}, p2 = 0x{:x}, p3 = 0x{:x}, value = 0x{:x}", __FUNCTION__, messageDict[hash], hash, index, param_2, param_3, value);
+        ScriptDeclVarsImplSetVarValue(thisPtr, index, param_2, param_3, value);
     }
 
     void SoldierRouteAiImplPreUpdateHook(void *thisPtr, uint32_t param_1, void *AiNodeUpdateContext) {
@@ -646,6 +648,17 @@ namespace Dynamite {
         if (param_1 == TppGameStatusFlag::S_IS_ONLINE) {
             spdlog::info("{}, {} -> {}", __FUNCTION__, "S_IS_ONLINE", res);
         }
+        return res;
+    }
+
+    void *ScriptDeclVarsImplGetVarHandleWithVarIndexHook(void *ScriptDeclVarsImpl, void *param_1, uint32_t param_2) {
+        auto res = ScriptDeclVarsImplGetVarHandleWithVarIndex(ScriptDeclVarsImpl, param_1, param_2);
+
+        auto varsInfo = GmGetScriptVarInfo();
+        auto tp = (char *)varsInfo + 0x8;
+        auto hash = *(uint32_t *)(*(char **)tp + param_2 * 0x18 + 0x10);
+
+        spdlog::info("{} {} 0x{:x} {} {} (0x{:x})", __FUNCTION__, param_1, param_2, res, messageDict[hash], hash);
         return res;
     }
 }
