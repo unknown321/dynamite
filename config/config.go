@@ -129,6 +129,7 @@ type Debug struct {
 	SoldierRouteVehicleGetInStep bool
 	StatusControllerIsOnline     bool
 	SoldierRouteAiImplPreUpdate  bool
+	GetSVarHandle                bool
 }
 
 type Config struct {

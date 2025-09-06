@@ -324,7 +324,8 @@ func Save(w http.ResponseWriter, r *http.Request) {
 	Config.Debug.CoreAiVehicle = r.FormValue("Config.Debug.CoreAiVehicle") == "on"
 	Config.Debug.SoldierRouteVehicleGetInStep = r.FormValue("Config.Debug.SoldierRouteVehicleGetInStep") == "on"
 	Config.Debug.StatusControllerIsOnline = r.FormValue("Config.Debug.StatusControllerIsOnline") == "on"
-	Config.Debug.SoldierRouteAiImplPreUpdate = r.FormValue("  boolConfig.Debug.SoldierRouteAiImplPreUpdate") == "on"
+	Config.Debug.SoldierRouteAiImplPreUpdate = r.FormValue("Config.Debug.SoldierRouteAiImplPreUpdate") == "on"
+	Config.Debug.GetSVarHandle = r.FormValue("Config.Debug.GetSVarHandle") == "on"
 
 	if Config.Dynamite.AccountDir == "" {
 		http.Error(w, "Account directory is required", http.StatusBadRequest)
