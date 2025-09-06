@@ -1016,6 +1016,10 @@ var ReplaceInQAR = []AddToQar{
 		FileName:   "/Assets/tpp/script/lib/TppMain.lua",
 	},
 	{
+		SourceFile: "standalone/TppEnemy.lua",
+		FileName:   "/Assets/tpp/script/lib/TppEnemy.lua",
+	},
+	{
 		// 00.dat
 		// change save file name
 		SourceFile: "standalone/TppDefine.lua",
