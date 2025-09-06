@@ -661,4 +661,22 @@ namespace Dynamite {
         spdlog::info("{} {} 0x{:x} {} {} (0x{:x})", __FUNCTION__, param_1, param_2, res, messageDict[hash], hash);
         return res;
     }
+
+    int32_t BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionHook(void *thisPtr) {
+        auto res = BandWidthManagerImplCalcAverageRttOfBetterHalfConnection(thisPtr);
+        spdlog::info("{}: {}", __FUNCTION__, res);
+        return res;
+    }
+
+    int32_t BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionHook(void *thisPtr) {
+        auto res = BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection(thisPtr);
+        spdlog::info("{}: {}", __FUNCTION__, res);
+        return res;
+    }
+
+    void BandWidthManagerImplStartLimitStateHook(void *thisPtr) {
+        BandWidthManagerImplStartLimitState(thisPtr);
+        spdlog::info("{}", __FUNCTION__);
+        return;
+    }
 }

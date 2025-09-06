@@ -205,6 +205,12 @@ typedef void *(__thiscall ScriptDeclVarsImplGetVarHandleWithVarIndexFunc)(void *
 
 typedef void ** (__cdecl GmGetScriptVarInfoFunc)();
 
+typedef int32_t (__thiscall BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionFunc)(void *thisPtr);
+
+typedef int32_t (__thiscall BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionFunc)(void *thisPtr);
+
+typedef void (__thiscall BandWidthManagerImplStartLimitStateFunc)(void *thisPtr);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -304,5 +310,7 @@ extern SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *Soldi
 extern StatusControllerImplIsSetFunc *StatusControllerImplIsSet;
 extern ScriptDeclVarsImplGetVarHandleWithVarIndexFunc* ScriptDeclVarsImplGetVarHandleWithVarIndex;
 extern GmGetScriptVarInfoFunc *GmGetScriptVarInfo;
-
+extern BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionFunc *BandWidthManagerImplCalcAverageRttOfBetterHalfConnection;
+extern BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionFunc* BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection;
+extern BandWidthManagerImplStartLimitStateFunc* BandWidthManagerImplStartLimitState;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

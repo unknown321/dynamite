@@ -72,6 +72,9 @@ namespace Dynamite {
         {"StatusControllerImplIsSet", 0x144cba8d0},
         {"ScriptDeclVarsImplGetVarHandleWithVarIndex", 0x140ae17c0},
         {"GmGetScriptVarInfo", 0x1461f02b0},
+        {"BandWidthManagerImplCalcAverageRttOfBetterHalfConnection", 0x1407e0580},
+        {"BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection", 0x1407e0370},
+        {"BandWidthManagerImplStartLimitState", 0x1459bf210},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},

@@ -25,6 +25,7 @@ struct debug {
     bool statusControllerIsOnline;
     bool soldierRouteAiImplPreUpdate;
     bool getSVarHandle;
+    bool rttAndLoss;
 };
 
 class Config {

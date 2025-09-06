@@ -402,6 +402,17 @@ namespace Dynamite {
             CREATE_HOOK(ScriptDeclVarsImplGetVarHandleWithVarIndex)
             ENABLEHOOK(ScriptDeclVarsImplGetVarHandleWithVarIndex)
         }
+
+        if (cfg.debug.rttAndLoss) {
+            CREATE_HOOK(BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection)
+            ENABLEHOOK(BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection)
+
+            CREATE_HOOK(BandWidthManagerImplCalcAverageRttOfBetterHalfConnection)
+            ENABLEHOOK(BandWidthManagerImplCalcAverageRttOfBetterHalfConnection)
+
+            CREATE_HOOK(BandWidthManagerImplStartLimitState)
+            ENABLEHOOK(BandWidthManagerImplStartLimitState)
+        }
     }
 
     void Dynamite::CreateHooks() {

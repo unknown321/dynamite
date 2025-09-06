@@ -95,7 +95,12 @@ namespace Dynamite {
             (SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *)addressSet["SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep"];
         StatusControllerImplIsSet = (StatusControllerImplIsSetFunc *)addressSet["StatusControllerImplIsSet"];
         ScriptDeclVarsImplGetVarHandleWithVarIndex = (ScriptDeclVarsImplGetVarHandleWithVarIndexFunc *)addressSet["ScriptDeclVarsImplGetVarHandleWithVarIndex"];
-        GmGetScriptVarInfo = (GmGetScriptVarInfoFunc*)addressSet["GmGetScriptVarInfo"];
+        GmGetScriptVarInfo = (GmGetScriptVarInfoFunc *)addressSet["GmGetScriptVarInfo"];
+        BandWidthManagerImplCalcAverageRttOfBetterHalfConnection =
+            (BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionFunc *)addressSet["BandWidthManagerImplCalcAverageRttOfBetterHalfConnection"];
+        BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection =
+            (BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionFunc *)addressSet["BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection"];
+        BandWidthManagerImplStartLimitState = (BandWidthManagerImplStartLimitStateFunc *)addressSet["BandWidthManagerImplStartLimitState"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];

@@ -76,6 +76,9 @@ namespace Dynamite {
         void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6);
     bool StatusControllerImplIsSetHook(void *StatusControllerImpl, unsigned char param_1);
     void *ScriptDeclVarsImplGetVarHandleWithVarIndexHook(void *ScriptDeclVarsImpl, void* param_1, uint32_t param_2);
+    int32_t BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionHook(void *thisPtr);
+    int32_t BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionHook(void *thisPtr);
+    void BandWidthManagerImplStartLimitStateHook(void *thisPtr);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);
