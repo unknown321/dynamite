@@ -130,6 +130,7 @@ type Debug struct {
 	StatusControllerIsOnline     bool
 	SoldierRouteAiImplPreUpdate  bool
 	GetSVarHandle                bool
+	RttAndLoss                   bool
 }
 
 type Config struct {

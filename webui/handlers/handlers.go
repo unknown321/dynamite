@@ -326,6 +326,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 	Config.Debug.StatusControllerIsOnline = r.FormValue("Config.Debug.StatusControllerIsOnline") == "on"
 	Config.Debug.SoldierRouteAiImplPreUpdate = r.FormValue("Config.Debug.SoldierRouteAiImplPreUpdate") == "on"
 	Config.Debug.GetSVarHandle = r.FormValue("Config.Debug.GetSVarHandle") == "on"
+	Config.Debug.RttAndLoss = r.FormValue("Config.Debug.RttAndLoss") == "on"
 
 	if Config.Dynamite.AccountDir == "" {
 		http.Error(w, "Account directory is required", http.StatusBadRequest)
