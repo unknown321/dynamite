@@ -75,10 +75,27 @@ namespace Dynamite {
     bool SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepHook(
         void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6);
     bool StatusControllerImplIsSetHook(void *StatusControllerImpl, unsigned char param_1);
-    void *ScriptDeclVarsImplGetVarHandleWithVarIndexHook(void *ScriptDeclVarsImpl, void* param_1, uint32_t param_2);
+    void *ScriptDeclVarsImplGetVarHandleWithVarIndexHook(void *ScriptDeclVarsImpl, void *param_1, uint32_t param_2);
     int32_t BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionHook(void *thisPtr);
     int32_t BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionHook(void *thisPtr);
     void BandWidthManagerImplStartLimitStateHook(void *thisPtr);
+    uint32_t FoxNioMpMessageContainerGetFreeSizeHook(void *MpMessageContainer);
+    int32_t FoxNioImplMpMuxImplSendHook(
+        void *MpMuxImpl, unsigned short param_1, unsigned char param_2, void *param_3, int param_4, void *SppInfo, unsigned short param_6);
+    int32_t FoxNioImplMpMuxImplRecv1Hook(void *MpMuxImpl, unsigned short param_1, void *Buffer, void *SppInfo, unsigned short param_4);
+    int32_t FoxNioImplMpMuxImplRecv2Hook(void *MpMuxImpl, unsigned short param_1, void *param_2, int param_3, void *param_4, unsigned short param_5);
+    int32_t FoxNtPeerControllerSendHook(void *PeerController, uint32_t param_1, int param_2, int param_3);
+    bool FoxNtImplGameSocketImplPeerIsSendPacketEmptyHook(void *Peer);
+    int FoxNtTotalControllerSendHook(void *TotalController, uint32_t param_1, int32_t param_2, int32_t param_3);
+    int FoxNtImplTransceiverManagerImplPeerSendHook(void *TransceiverManagerImpl, uint32_t param_1);
+    int FoxNioImplMpSocketImplSendHook(void *MpSocketImpl, void *param_1, int param_2, void *Info, void *Address);
+    int FoxNioImplMpMuxImplGetTotalPayloadSizeHook(void *thisPtr);
+    void FoxNioMpMessageSerializerSerializeHook(void *Serializer, fox::nio::Buffer *buffer);
+    void *FoxNioMpMessageContainerCreateHook(void *param_1, uint32_t sizeWithHeader);
+    int FoxNioMpMessageContainerAddMessageHook(void *MpMessageContainer, void *MpMessageComponent);
+    int32_t FoxNioImplSppSocketImplGetStateHook(void *SppSocketImpl);
+    void *FoxNtImplSyncMemoryCollectorSyncMemoryCollectorHook(
+        void *SyncMemoryCollector, uint32_t param_1, uint32_t param_2, uint32_t param_3, void *TransceiverImpl, void *param_5, uint64_t param_6);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

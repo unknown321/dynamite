@@ -536,6 +536,16 @@ namespace Dynamite {
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
 
+        if (categoryTag == MEMTAG_NETWORK_NT_SYSTEM ) {
+            spdlog::info("allocating {} bytes, {} align, category MEMTAG_NETWORK_NT_SYSTEM", sizeInBytes, alignment);
+            return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
+        }
+
+        if (categoryTag == MEMTAG_TPP_SYSTEM2SCRIPT) {
+            spdlog::info("allocating {} bytes, {} align, category MEMTAG_TPP_SYSTEM2SCRIPT", sizeInBytes, alignment);
+            return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
+        }
+
         if (categoryTag != MEMTAG_TPP_NETWORK) {
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
@@ -677,6 +687,128 @@ namespace Dynamite {
     void BandWidthManagerImplStartLimitStateHook(void *thisPtr) {
         BandWidthManagerImplStartLimitState(thisPtr);
         spdlog::info("{}", __FUNCTION__);
-        return;
+    }
+
+    uint32_t FoxNioMpMessageContainerGetFreeSizeHook(void *MpMessageContainer) {
+        auto res = FoxNioMpMessageContainerGetFreeSize(MpMessageContainer);
+        spdlog::info("{}: {}", __FUNCTION__, res);
+        return res;
+    }
+
+    int32_t FoxNioImplMpMuxImplSendHook(
+        void *MpMuxImpl, unsigned short param_1, unsigned char param_2, void *param_3, int param_4, void *SppInfo, unsigned short param_6) {
+        auto res = FoxNioImplMpMuxImplSend(MpMuxImpl, param_1, param_2, param_3, param_4, SppInfo, param_6);
+        spdlog::info("{}: p1={}, p2={}, p3={}, p4={}, p6={}, res {}", __FUNCTION__, param_1, param_2, param_3, param_4, param_6, res);
+        return res;
+    }
+
+    int32_t FoxNioImplMpMuxImplRecv1Hook(void *MpMuxImpl, unsigned short param_1, void *Buffer, void *SppInfo, unsigned short param_4) {
+        auto res = FoxNioImplMpMuxImplRecv1(MpMuxImpl, param_1, Buffer, SppInfo, param_4);
+        spdlog::info("{}: p1={}, p4={}, res {}", __FUNCTION__, param_1, param_4, res);
+        return res;
+    }
+
+    int32_t FoxNioImplMpMuxImplRecv2Hook(void *MpMuxImpl, unsigned short param_1, void *param_2, int param_3, void *param_4, unsigned short param_5) {
+        auto res = FoxNioImplMpMuxImplRecv2(MpMuxImpl, param_1, param_2, param_3, param_4, param_5);
+        spdlog::info("{}: p1={}, p2={}, p3={}, p4={}, p5={}, res {}", __FUNCTION__, param_1, param_2, param_3, param_4, param_5, res);
+        return res;
+    }
+
+    int32_t FoxNtPeerControllerSendHook(void *PeerController, uint32_t param_1, int param_2, int param_3) {
+        auto pp1 = *(uint64_t *)((char *)PeerController + 0x28);
+        auto pp2 = pp1 + *(uint32_t *)((char *)PeerController + 0x20);
+        spdlog::info("{}, pp1={:x}, pp2={:x}", __FUNCTION__, pp1, pp2);
+        auto len = pp2 - pp1;
+        for (int i = 0; i < len; i++) {
+            auto v = *(uint64_t *)((char *)PeerController + 0x28 + 8 * i);
+            spdlog::info("{} subcontroller {}: {:x} ({})", __FUNCTION__, i, v, (void *)((char *)PeerController + 0x28 + 8 * i));
+            auto qq = (void *)v;
+            if (qq != nullptr) {
+                spdlog::info("{}, {} ok", __FUNCTION__, i);
+            } else {
+                spdlog::info("{}, {} not ok", __FUNCTION__, i);
+            }
+        }
+        auto res = FoxNtPeerControllerSend(PeerController, param_1, param_2, param_3);
+        spdlog::info("{}, p1={}, p2={}, p3={}, res={}", __FUNCTION__, param_1, param_2, param_3, res);
+        return res;
+    }
+
+    bool FoxNtImplGameSocketImplPeerIsSendPacketEmptyHook(void *Peer) {
+        auto res = FoxNtImplGameSocketImplPeerIsSendPacketEmpty(Peer);
+        spdlog::info("{}: {}", __FUNCTION__, res);
+        return res;
+    }
+
+    int FoxNtTotalControllerSendHook(void *TotalController, uint32_t param_1, int32_t param_2, int32_t param_3) {
+        auto res = FoxNtTotalControllerSend(TotalController, param_1, param_2, param_3);
+        spdlog::info("{}, p1={}, p2={}, p3={}, res={}", __FUNCTION__, param_1, param_2, param_3, res);
+        return res;
+    }
+
+    int FoxNtImplTransceiverManagerImplPeerSendHook(void *TransceiverManagerImpl, uint32_t param_1) {
+        auto res = FoxNtImplTransceiverManagerImplPeerSend(TransceiverManagerImpl, param_1);
+        spdlog::info("{}, p1={}, res={}", __FUNCTION__, param_1, res);
+        return res;
+    }
+
+    int FoxNioImplMpSocketImplSendHook(void *MpSocketImpl, void *param_1, int param_2, void *Info, void *Address) {
+        auto res = FoxNioImplMpSocketImplSend(MpSocketImpl, param_1, param_2, Info, Address);
+        spdlog::info("{}, p1={}, p2={}, info={}, address={}, res={}", __FUNCTION__, param_1, param_2, Info, Address, res);
+        return res;
+    }
+
+    int FoxNioImplMpMuxImplGetTotalPayloadSizeHook(void *thisPtr) {
+        auto res = FoxNioImplMpMuxImplGetTotalPayloadSize(thisPtr);
+        spdlog::info("{}: {}", __FUNCTION__, res);
+        return res;
+    }
+
+    std::string bytes_to_hex(const void *data, size_t n) {
+        const uint8_t *bytes = static_cast<const uint8_t *>(data);
+        std::stringstream ss;
+        ss << std::hex << std::uppercase << std::setfill('0');
+
+        for (size_t i = 0; i < n; ++i) {
+            //            if (i > 0) ss << " ";
+            ss << std::setw(2) << static_cast<int>(bytes[i]);
+        }
+
+        return ss.str();
+    }
+
+    void FoxNioMpMessageSerializerSerializeHook(void *Serializer, fox::nio::Buffer *buffer) {
+        spdlog::info("{} before: size {}, m1 {}, m2 {}, m3 {}",
+            __FUNCTION__,
+            buffer->size,
+            buffer->mystery1,
+            buffer->mystery2,
+            buffer->mystery3); // bytes_to_hex(buffer->mem, buffer->size));
+        FoxNioMpMessageSerializerSerialize(Serializer, buffer);
+        //        spdlog::info("{} after: size {}, data: {}", __FUNCTION__, buffer->size, bytes_to_hex(buffer->mem, buffer->size));
+    }
+
+    void *FoxNioMpMessageContainerCreateHook(void *param_1, uint32_t sizeWithHeader) {
+        spdlog::info("{}: {}", __FUNCTION__, sizeWithHeader);
+        return FoxNioMpMessageContainerCreate(param_1, sizeWithHeader);
+    }
+
+    int FoxNioMpMessageContainerAddMessageHook(void *MpMessageContainer, void *MpMessageComponent) {
+        auto res = FoxNioMpMessageContainerAddMessage(MpMessageContainer, MpMessageComponent);
+        spdlog::info("{}: {}", __FUNCTION__, res);
+        return res;
+    }
+
+    int32_t FoxNioImplSppSocketImplGetStateHook(void *SppSocketImpl) {
+        auto res = FoxNioImplSppSocketImplGetState(SppSocketImpl);
+        spdlog::info("{}, state: {}", __FUNCTION__, res);
+        return res;
+    }
+
+    void *FoxNtImplSyncMemoryCollectorSyncMemoryCollectorHook(
+        void *SyncMemoryCollector, uint32_t param_1, uint32_t param_2, uint32_t param_3, void *TransceiverImpl, void *param_5, uint64_t param_6) {
+        spdlog::info("{}: p1={}, p2={}, p3={}, p5={}, p6={}", __FUNCTION__, param_1, param_2, param_3, param_5, param_6);
+        auto res = FoxNtImplSyncMemoryCollectorSyncMemoryCollector(SyncMemoryCollector, param_1, param_2, param_3, TransceiverImpl, param_5, param_6);
+        return res;
     }
 }

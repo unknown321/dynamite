@@ -201,15 +201,48 @@ typedef bool(__thiscall SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndO
 
 typedef bool(__thiscall StatusControllerImplIsSetFunc)(void *StatusControllerImpl, unsigned char param_1);
 
-typedef void *(__thiscall ScriptDeclVarsImplGetVarHandleWithVarIndexFunc)(void *ScriptDeclVarsImpl, void* param_1, uint32_t param_2);
+typedef void *(__thiscall ScriptDeclVarsImplGetVarHandleWithVarIndexFunc)(void *ScriptDeclVarsImpl, void *param_1, uint32_t param_2);
 
-typedef void ** (__cdecl GmGetScriptVarInfoFunc)();
+typedef void **(__cdecl GmGetScriptVarInfoFunc)();
 
-typedef int32_t (__thiscall BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionFunc)(void *thisPtr);
+typedef int32_t(__thiscall BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionFunc)(void *thisPtr);
 
-typedef int32_t (__thiscall BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionFunc)(void *thisPtr);
+typedef int32_t(__thiscall BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionFunc)(void *thisPtr);
 
-typedef void (__thiscall BandWidthManagerImplStartLimitStateFunc)(void *thisPtr);
+typedef void(__cdecl BandWidthManagerImplStartLimitStateFunc)(void *thisPtr);
+
+typedef uint32_t(__cdecl FoxNioMpMessageContainerGetFreeSizeFunc)(void *MpMessageContainer);
+
+typedef int32_t(__thiscall FoxNioImplMpMuxImplSendFunc)(
+    void *MpMuxImpl, unsigned short param_1, unsigned char param_2, void *param_3, int param_4, void *SppInfo, unsigned short param_6);
+
+typedef int32_t(__thiscall FoxNioImplMpMuxImplRecv1Func)(void *MpMuxImpl, unsigned short param_1, void *Buffer, void *SppInfo, unsigned short param_4);
+
+typedef int32_t(__thiscall FoxNioImplMpMuxImplRecv2Func)(
+    void *MpMuxImpl, unsigned short param_1, void *param_2, int param_3, void *param_4, unsigned short param_5);
+
+typedef int32_t(__thiscall FoxNtPeerControllerSendFunc)(void *PeerController, uint32_t param_1, int param_2, int param_3);
+
+typedef bool(__thiscall FoxNtImplGameSocketImplPeerIsSendPacketEmptyFunc)(void *Peer);
+
+typedef int(__thiscall FoxNtTotalControllerSendFunc)(void *TotalController, uint32_t param_1, int32_t param_2, int32_t param_3);
+
+typedef int(__thiscall FoxNtImplTransceiverManagerImplPeerSendFunc)(void *TransceiverManagerImpl, uint32_t param_2);
+
+typedef int(__thiscall FoxNioImplMpSocketImplSendFunc)(void *MpSocketImpl, void *param_1, int param_2, void *Info, void *Address);
+
+typedef int(__cdecl FoxNioImplMpMuxImplGetTotalPayloadSizeFunc)(void *thisPtr);
+
+typedef void(__thiscall FoxNioMpMessageSerializerSerializeFunc)(void *Serializer, fox::nio::Buffer *buffer);
+
+typedef void *(__cdecl FoxNioMpMessageContainerCreateFunc)(void *param_1, uint32_t sizeWithHeader);
+
+typedef int(__thiscall FoxNioMpMessageContainerAddMessageFunc)(void *MpMessageContainer, void *MpMessageComponent);
+
+typedef int32_t(__thiscall FoxNioImplSppSocketImplGetStateFunc)(void *SppSocketImpl);
+
+typedef void *(__thiscall FoxNtImplSyncMemoryCollectorSyncMemoryCollectorFunc)(
+    void *SyncMemoryCollector, uint32_t param_1, uint32_t param_2, uint32_t param_3, void *TransceiverImpl, void *param_5, uint64_t param_6);
 
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
@@ -308,9 +341,24 @@ extern CoreAiImplGetVehicleRideStateFunc *CoreAiImplGetVehicleRideState;
 extern CoreAiImplIsVehicleRetainFunc *CoreAiImplIsVehicleRetain;
 extern SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepFunc *SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep;
 extern StatusControllerImplIsSetFunc *StatusControllerImplIsSet;
-extern ScriptDeclVarsImplGetVarHandleWithVarIndexFunc* ScriptDeclVarsImplGetVarHandleWithVarIndex;
+extern ScriptDeclVarsImplGetVarHandleWithVarIndexFunc *ScriptDeclVarsImplGetVarHandleWithVarIndex;
 extern GmGetScriptVarInfoFunc *GmGetScriptVarInfo;
 extern BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionFunc *BandWidthManagerImplCalcAverageRttOfBetterHalfConnection;
-extern BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionFunc* BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection;
-extern BandWidthManagerImplStartLimitStateFunc* BandWidthManagerImplStartLimitState;
+extern BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionFunc *BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection;
+extern BandWidthManagerImplStartLimitStateFunc *BandWidthManagerImplStartLimitState;
+extern FoxNioMpMessageContainerGetFreeSizeFunc *FoxNioMpMessageContainerGetFreeSize;
+extern FoxNioImplMpMuxImplSendFunc *FoxNioImplMpMuxImplSend;
+extern FoxNioImplMpMuxImplRecv1Func *FoxNioImplMpMuxImplRecv1;
+extern FoxNioImplMpMuxImplRecv2Func *FoxNioImplMpMuxImplRecv2;
+extern FoxNtPeerControllerSendFunc *FoxNtPeerControllerSend;
+extern FoxNtImplGameSocketImplPeerIsSendPacketEmptyFunc *FoxNtImplGameSocketImplPeerIsSendPacketEmpty;
+extern FoxNtTotalControllerSendFunc *FoxNtTotalControllerSend;
+extern FoxNtImplTransceiverManagerImplPeerSendFunc *FoxNtImplTransceiverManagerImplPeerSend;
+extern FoxNioImplMpSocketImplSendFunc *FoxNioImplMpSocketImplSend;
+extern FoxNioImplMpMuxImplGetTotalPayloadSizeFunc *FoxNioImplMpMuxImplGetTotalPayloadSize;
+extern FoxNioMpMessageSerializerSerializeFunc *FoxNioMpMessageSerializerSerialize;
+extern FoxNioMpMessageContainerCreateFunc *FoxNioMpMessageContainerCreate;
+extern FoxNioMpMessageContainerAddMessageFunc *FoxNioMpMessageContainerAddMessage;
+extern FoxNioImplSppSocketImplGetStateFunc *FoxNioImplSppSocketImplGetState;
+extern FoxNtImplSyncMemoryCollectorSyncMemoryCollectorFunc *FoxNtImplSyncMemoryCollectorSyncMemoryCollector;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

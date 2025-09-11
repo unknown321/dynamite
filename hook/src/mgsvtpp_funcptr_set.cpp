@@ -105,5 +105,21 @@ namespace Dynamite {
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];
         FoxLuaPushQuat = (FoxLuaPushQuatFunc *)addressSet["FoxLuaPushQuat"];
+        FoxNioMpMessageContainerGetFreeSize = (FoxNioMpMessageContainerGetFreeSizeFunc *)addressSet["FoxNioMpMessageContainerGetFreeSize"];
+        FoxNioImplMpMuxImplSend = (FoxNioImplMpMuxImplSendFunc *)addressSet["FoxNioImplMpMuxImplSend"];
+        FoxNioImplMpMuxImplRecv1 = (FoxNioImplMpMuxImplRecv1Func *)addressSet["FoxNioImplMpMuxImplRecv1"];
+        FoxNioImplMpMuxImplRecv2 = (FoxNioImplMpMuxImplRecv2Func *)addressSet["FoxNioImplMpMuxImplRecv2"];
+        FoxNtPeerControllerSend = (FoxNtPeerControllerSendFunc *)addressSet["FoxNtPeerControllerSend"];
+        FoxNtImplGameSocketImplPeerIsSendPacketEmpty = (FoxNtImplGameSocketImplPeerIsSendPacketEmptyFunc *)addressSet["FoxNtImplGameSocketImplPeerIsSendPacketEmpty"];
+        FoxNtTotalControllerSend = (FoxNtTotalControllerSendFunc *)addressSet["FoxNtTotalControllerSend"];
+        FoxNtImplTransceiverManagerImplPeerSend = (FoxNtImplTransceiverManagerImplPeerSendFunc *)addressSet["FoxNtImplTransceiverManagerImplPeerSend"];
+        FoxNioImplMpSocketImplSend = (FoxNioImplMpSocketImplSendFunc *)addressSet["FoxNioImplMpSocketImplSend"];
+        FoxNioImplMpMuxImplGetTotalPayloadSize = (FoxNioImplMpMuxImplGetTotalPayloadSizeFunc *)addressSet["FoxNioImplMpMuxImplGetTotalPayloadSize"];
+        FoxNioMpMessageSerializerSerialize = (FoxNioMpMessageSerializerSerializeFunc *)addressSet["FoxNioMpMessageSerializerSerialize"];
+        FoxNioMpMessageContainerCreate = (FoxNioMpMessageContainerCreateFunc *)addressSet["FoxNioMpMessageContainerCreate"];
+        FoxNioMpMessageContainerAddMessage = (FoxNioMpMessageContainerAddMessageFunc *)addressSet["FoxNioMpMessageContainerAddMessage"];
+        FoxNioImplSppSocketImplGetState = (FoxNioImplSppSocketImplGetStateFunc *)addressSet["FoxNioImplSppSocketImplGetState"];
+        FoxNtImplSyncMemoryCollectorSyncMemoryCollector = (FoxNtImplSyncMemoryCollectorSyncMemoryCollectorFunc *)addressSet["FoxNtImplSyncMemoryCollectorSyncMemoryCollector"];
+
     }
 }

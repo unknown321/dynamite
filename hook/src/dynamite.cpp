@@ -413,6 +413,53 @@ namespace Dynamite {
             CREATE_HOOK(BandWidthManagerImplStartLimitState)
             ENABLEHOOK(BandWidthManagerImplStartLimitState)
         }
+
+        if (cfg.debug.nio) {
+            //            CREATE_HOOK(FoxNioMpMessageContainerGetFreeSize)
+            //            ENABLEHOOK(FoxNioMpMessageContainerGetFreeSize)
+
+            CREATE_HOOK(FoxNioImplMpMuxImplSend)
+            ENABLEHOOK(FoxNioImplMpMuxImplSend)
+
+            CREATE_HOOK(FoxNioImplMpMuxImplRecv1)
+            ENABLEHOOK(FoxNioImplMpMuxImplRecv1)
+
+            CREATE_HOOK(FoxNioImplMpMuxImplRecv2)
+            ENABLEHOOK(FoxNioImplMpMuxImplRecv2)
+
+            CREATE_HOOK(FoxNtPeerControllerSend)
+            ENABLEHOOK(FoxNtPeerControllerSend)
+
+            CREATE_HOOK(FoxNtImplGameSocketImplPeerIsSendPacketEmpty)
+            ENABLEHOOK(FoxNtImplGameSocketImplPeerIsSendPacketEmpty)
+
+            CREATE_HOOK(FoxNtTotalControllerSend)
+            ENABLEHOOK(FoxNtTotalControllerSend)
+
+            CREATE_HOOK(FoxNtImplTransceiverManagerImplPeerSend)
+            ENABLEHOOK(FoxNtImplTransceiverManagerImplPeerSend)
+
+            CREATE_HOOK(FoxNioImplMpSocketImplSend)
+            ENABLEHOOK(FoxNioImplMpSocketImplSend)
+
+            CREATE_HOOK(FoxNioImplMpMuxImplGetTotalPayloadSize)
+            ENABLEHOOK(FoxNioImplMpMuxImplGetTotalPayloadSize)
+
+            CREATE_HOOK(FoxNioMpMessageSerializerSerialize)
+            ENABLEHOOK(FoxNioMpMessageSerializerSerialize)
+
+            CREATE_HOOK(FoxNioMpMessageContainerCreate)
+            ENABLEHOOK(FoxNioMpMessageContainerCreate)
+
+            CREATE_HOOK(FoxNioMpMessageContainerAddMessage)
+            ENABLEHOOK(FoxNioMpMessageContainerAddMessage)
+
+            CREATE_HOOK(FoxNioImplSppSocketImplGetState)
+            ENABLEHOOK(FoxNioImplSppSocketImplGetState)
+
+            CREATE_HOOK(FoxNtImplSyncMemoryCollectorSyncMemoryCollector)
+            ENABLEHOOK(FoxNtImplSyncMemoryCollectorSyncMemoryCollector)
+        }
     }
 
     void Dynamite::CreateHooks() {

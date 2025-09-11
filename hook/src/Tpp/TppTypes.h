@@ -97,6 +97,16 @@ namespace fox {
       public:
         uint64_t value;
     };
+    namespace nio {
+        class Buffer {
+          public:
+            void* mem;
+            void* mystery1;
+            uint32_t size;
+            uint32_t mystery2;
+            uint32_t mystery3;
+        };
+    }
 }
 
 #endif // HOOK_TPPTYPES_H

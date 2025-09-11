@@ -158,6 +158,7 @@ bool Config::Read(ConfigValidateResult *r) {
         this->debug.soldierRouteAiImplPreUpdate = ini.get("Debug").get("SoldierRouteAiImplPreUpdate") == "true";
         this->debug.getSVarHandle = ini.get("Debug").get("GetSVarHandle") == "true";
         this->debug.rttAndLoss = ini.get("Debug").get("RttAndLoss") == "true";
+        this->debug.nio = ini.get("Debug").get("Nio") == "true";
     }
 
     return true;
@@ -189,6 +190,7 @@ void Config::Log() {
     spdlog::info("debug.StatusControllerIsOnline: {}", this->debug.statusControllerIsOnline);
     spdlog::info("debug.SoldierRouteAiImplPreUpdate: {}", this->debug.soldierRouteAiImplPreUpdate);
     spdlog::info("debug.Messages: {}", this->debug.messages);
-    spdlog::info("debug.GetSVarHandle :{}", this->debug.getSVarHandle);
-    spdlog::info("debug.RttAndLoss:{}", this->debug.rttAndLoss);
+    spdlog::info("debug.GetSVarHandle: {}", this->debug.getSVarHandle);
+    spdlog::info("debug.RttAndLoss: {}", this->debug.rttAndLoss);
+    spdlog::info("debug.Nio: {}", this->debug.nio);
 }

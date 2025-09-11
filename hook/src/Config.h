@@ -26,6 +26,7 @@ struct debug {
     bool soldierRouteAiImplPreUpdate;
     bool getSVarHandle;
     bool rttAndLoss;
+    bool nio;
 };
 
 class Config {
