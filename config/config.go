@@ -131,6 +131,7 @@ type Debug struct {
 	SoldierRouteAiImplPreUpdate  bool
 	GetSVarHandle                bool
 	RttAndLoss                   bool
+	Nio                          bool
 }
 
 type Config struct {
