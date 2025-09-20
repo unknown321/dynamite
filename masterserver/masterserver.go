@@ -1,9 +1,10 @@
 package masterserver
 
 import (
+	"log/slog"
+
 	"github.com/unknown321/fuse/playerresource"
 	"github.com/unknown321/fuse/sessionmanager"
-	"log/slog"
 
 	"github.com/unknown321/fuse/server"
 )

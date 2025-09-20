@@ -285,7 +285,10 @@ function e.AcceptMissionOnMBFreeMission(n, s, t)
 			missionClearType = TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX,
 		})
 	else
-		e.ReserveMissionClear({ nextMissionId = n, missionClearType = TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX })
+		e.ReserveMissionClear({
+			nextMissionId = n,
+			missionClearType = TppDefine.MISSION_CLEAR_TYPE.FREE_PLAY_NO_ORDER_BOX,
+		})
 	end
 end
 function e.AcceptEmergencyMission(n, s, i, t)
@@ -1367,7 +1370,11 @@ function e.ExecuteMissionFinalize()
 		vars.items[3] = TppEquip.EQP_IT_Nvg
 		vars.initItems[2] = TppEquip.EQP_IT_TimeCigarette
 		vars.initItems[3] = TppEquip.EQP_IT_Nvg
-		TppUiCommand.LoadoutSetItemEquipInfoInMission({ slotIndex = 2, equipId = TppEquip.EQP_IT_TimeCigarette, level = 1 })
+		TppUiCommand.LoadoutSetItemEquipInfoInMission({
+			slotIndex = 2,
+			equipId = TppEquip.EQP_IT_TimeCigarette,
+			level = 1,
+		})
 		TppUiCommand.LoadoutSetItemEquipInfoInMission({ slotIndex = 3, equipId = TppEquip.EQP_IT_Nvg, level = 1 })
 	end
 	if not i then
@@ -1486,15 +1493,11 @@ function e.ExecuteMissionFinalize()
 	if TppRadio.playingBlackTelInfo then
 		mvars.mis_showLoadingTipsOnMissionFinalize = false
 	end
-	e.RequestLoad(
-		vars.missionCode,
-		n,
-		{
-			showLoadingTips = mvars.mis_showLoadingTipsOnMissionFinalize,
-			waitOnLoadingTipsEnd = r,
-			ignoreMtbsLoadLocationForce = mvars.mis_missionFinalizeIgnoreMtbsLoadLocationForce,
-		}
-	)
+	e.RequestLoad(vars.missionCode, n, {
+		showLoadingTips = mvars.mis_showLoadingTipsOnMissionFinalize,
+		waitOnLoadingTipsEnd = r,
+		ignoreMtbsLoadLocationForce = mvars.mis_missionFinalizeIgnoreMtbsLoadLocationForce,
+	})
 end
 function e.ParseMissionName(e)
 	local i = string.sub(e, 2)
@@ -1821,7 +1824,11 @@ function e.Messages()
 					end
 				end,
 			},
-			{ msg = "GameOverOpen", func = TppMain.DisableGameStatusOnGameOverMenu, option = { isExecGameOver = true } },
+			{
+				msg = "GameOverOpen",
+				func = TppMain.DisableGameStatusOnGameOverMenu,
+				option = { isExecGameOver = true },
+			},
 			{ msg = "GameOverContinue", func = e.ExecuteContinueFromCheckPoint, option = { isExecGameOver = true } },
 			{
 				msg = "GameOverAbortMission",
@@ -1912,9 +1919,15 @@ function e.Messages()
 		Radio = { { msg = "Finish", func = e.OnFinishUpdateObjectiveRadio } },
 		Timer = {
 			{ msg = "Finish", sender = "Timer_OutsideOfHotZoneCount", func = e.OutsideOfHotZoneCount, nil },
-			{ msg = "Finish", sender = "Timer_OnEndReturnToTile", func = e.RestartMission, option = {
-				isExecGameOver = true,
-			}, nil },
+			{
+				msg = "Finish",
+				sender = "Timer_OnEndReturnToTile",
+				func = e.RestartMission,
+				option = {
+					isExecGameOver = true,
+				},
+				nil,
+			},
 			{
 				msg = "Finish",
 				sender = "Timer_GameOverPresentation",
@@ -1948,9 +1961,14 @@ function e.Messages()
 				func = e.FadeOutOnMissionAbort,
 				option = { isExecGameOver = true },
 			},
-			{ msg = "Finish", sender = "Timer_MissionAbort", func = e.OnEndFadeOutMissionAbort, option = {
-				isExecGameOver = true,
-			} },
+			{
+				msg = "Finish",
+				sender = "Timer_MissionAbort",
+				func = e.OnEndFadeOutMissionAbort,
+				option = {
+					isExecGameOver = true,
+				},
+			},
 			{
 				msg = "Finish",
 				sender = "Timer_PlayCommonRadioOnRideHelicopter",
@@ -3129,7 +3147,10 @@ function e.ReserveMissionClearOnRideOnFultonContainer()
 		e.systemCallbacks.OnFultonContainerMissionClear()
 	else
 		local n = e.GetCurrentLocationHeliMissionAndLocationCode()
-		e.ReserveMissionClear({ missionClearType = TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER, nextMissionId = n })
+		e.ReserveMissionClear({
+			missionClearType = TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_FULTON_CONTAINER,
+			nextMissionId = n,
+		})
 	end
 end
 function e.AbortMissionByMenu()
@@ -4081,15 +4102,11 @@ function e.ExecuteReload()
 	TppPlayer.ForceSetAllInitialWeapon()
 	TppSave.VarSave()
 	TppSave.CheckAndSavePersonalData()
-	e.RequestLoad(
-		vars.missionCode,
-		nil,
-		{
-			force = true,
-			showLoadingTips = mvars.mis_showLoadingTipsOnReload,
-			ignoreMtbsLoadLocationForce = mvars.mis_ignoreMtbsLoadLocationForce,
-		}
-	)
+	e.RequestLoad(vars.missionCode, nil, {
+		force = true,
+		showLoadingTips = mvars.mis_showLoadingTipsOnReload,
+		ignoreMtbsLoadLocationForce = mvars.mis_ignoreMtbsLoadLocationForce,
+	})
 end
 function e.CanStart()
 	if mvars.mis_alwaysMissionCanStart then

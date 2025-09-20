@@ -5,11 +5,12 @@ import (
 	"dynamite/savebackup"
 	"dynamite/util"
 	"fmt"
-	"github.com/unknown321/fuse/steamid"
-	"gopkg.in/ini.v1"
 	"log/slog"
 	"os"
 	"strings"
+
+	"github.com/unknown321/fuse/steamid"
+	"gopkg.in/ini.v1"
 )
 
 var Filename = "./dynamite/dynamite.ini"

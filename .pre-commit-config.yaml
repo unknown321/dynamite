@@ -1,0 +1,18 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+
+repos:
+  - repo: https://github.com/JohnnyMorganz/stylua
+    rev: v2.2.0
+    hooks:
+      - id: stylua
+  
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+      - id: go-imports
+      - id: go-mod-tidy

@@ -167,7 +167,7 @@ function e.OnAllocate(n)
 		TppMission.SetFOBMissionFlag() -- crashes 10033
 		TppGameStatus.Set("Mission", "S_IS_ONLINE")
 	elseif e.IsCoop(vars.missionCode) then
-		TppNetworkUtil.SetTimeOut(10);
+		TppNetworkUtil.SetTimeOut(10)
 		if Dynamite.IsHost() then
 			Dynamite.CreateHostSession()
 		else
@@ -178,7 +178,7 @@ function e.OnAllocate(n)
 	else
 		Dynamite.StopNearestEnemyThread()
 		TppGameStatus.Reset("Mission", "S_IS_ONLINE")
-		Dynamite.ResetClientSessionState();
+		Dynamite.ResetClientSessionState()
 
 		--TppNetworkUtil.SessionDisconnectPreparingMembers() --breaks fob if uncommented
 		--TppNetworkUtil.CloseSession() -- breaks fob if uncommented

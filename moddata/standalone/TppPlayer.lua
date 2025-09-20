@@ -722,7 +722,10 @@ function e.SetEquipMissionBlockGroupSize()
 end
 function e.SetMaxPickableLocatorCount()
 	if mvars.ply_maxPickableLocatorCount > 0 then
-		TppPickable.OnAllocate({ locators = mvars.ply_maxPickableLocatorCount, svarsName = "ply_pickableLocatorDisabled" })
+		TppPickable.OnAllocate({
+			locators = mvars.ply_maxPickableLocatorCount,
+			svarsName = "ply_pickableLocatorDisabled",
+		})
 	end
 end
 function e.SetMaxPlacedLocatorCount()
@@ -732,8 +735,11 @@ function e.SetMaxPlacedLocatorCount()
 end
 function e.IsDecoy(e)
 	local a = TppEquip.GetSupportWeaponTypeId(e)
-	local e =
-		{ [TppEquip.SWP_TYPE_Decoy] = true, [TppEquip.SWP_TYPE_ActiveDecoy] = true, [TppEquip.SWP_TYPE_ShockDecoy] = true }
+	local e = {
+		[TppEquip.SWP_TYPE_Decoy] = true,
+		[TppEquip.SWP_TYPE_ActiveDecoy] = true,
+		[TppEquip.SWP_TYPE_ShockDecoy] = true,
+	}
 	if e[a] then
 		return true
 	else
@@ -1028,16 +1034,20 @@ function e._SetTargetDeadCamera()
 		followDelayTime = 0.1,
 		candidateRots = { { 10, 0 }, { 10, 45 }, { 10, 90 }, { 10, 135 }, { 10, 180 }, { 10, 225 }, { 10, 270 } },
 		skeletonNames = { "SKL_004_HEAD", "SKL_011_LUARM", "SKL_021_RUARM", "SKL_032_LFOOT", "SKL_042_RFOOT" },
-		skeletonCenterOffsets = { Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(
-			0,
-			0,
-			0
-		) },
-		skeletonBoundings = { Vector3(0, 0.45, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, -0.3, 0), Vector3(
-			0,
-			-0.3,
-			0
-		) },
+		skeletonCenterOffsets = {
+			Vector3(0, 0, 0),
+			Vector3(0, 0, 0),
+			Vector3(0, 0, 0),
+			Vector3(0, 0, 0),
+			Vector3(0, 0, 0),
+		},
+		skeletonBoundings = {
+			Vector3(0, 0.45, 0),
+			Vector3(0, 0, 0),
+			Vector3(0, 0, 0),
+			Vector3(0, -0.3, 0),
+			Vector3(0, -0.3, 0),
+		},
 		offsetPos = Vector3(0.3, 0.2, -4.6),
 		focalLength = 21,
 		aperture = 1.875,
@@ -1970,10 +1980,19 @@ function e.PlayFallDeadCameraOnFoot()
 		isFollowRot = true,
 		followTime = 0.8,
 		followDelayTime = 0,
-		candidateRots = { { -60, -25 }, { -60, 25 }, { -60, -115 }, { -60, 115 }, { 5, -25 }, { 5, 25 }, { 5, -115 }, {
-			5,
-			115,
-		} },
+		candidateRots = {
+			{ -60, -25 },
+			{ -60, 25 },
+			{ -60, -115 },
+			{ -60, 115 },
+			{ 5, -25 },
+			{ 5, 25 },
+			{ 5, -115 },
+			{
+				5,
+				115,
+			},
+		},
 		offsetTarget = Vector3(0, 0, 0),
 		offsetPos = Vector3(-2.5, (e + 1), -2.5),
 		focalLength = 21,
@@ -1991,10 +2010,19 @@ function e.PlayFallDeadCameraOnRideHorse(a)
 		isFollowRot = true,
 		followTime = 0.8,
 		followDelayTime = 0,
-		candidateRots = { { -60, -25 }, { -60, 25 }, { -60, -115 }, { -60, 115 }, { 5, -25 }, { 5, 25 }, { 5, -115 }, {
-			5,
-			115,
-		} },
+		candidateRots = {
+			{ -60, -25 },
+			{ -60, 25 },
+			{ -60, -115 },
+			{ -60, 115 },
+			{ 5, -25 },
+			{ 5, 25 },
+			{ 5, -115 },
+			{
+				5,
+				115,
+			},
+		},
 		offsetTarget = Vector3(0, 0, 0),
 		offsetPos = Vector3(-2.5, (e + 1), -2.5),
 		focalLength = 21,
@@ -2012,10 +2040,19 @@ function e.PlayFallDeadCameraOnRideLightVehicle(a)
 		isFollowRot = true,
 		followTime = 0.8,
 		followDelayTime = 0,
-		candidateRots = { { -60, -25 }, { -60, 25 }, { -60, -115 }, { -60, 115 }, { 5, -25 }, { 5, 25 }, { 5, -115 }, {
-			5,
-			115,
-		} },
+		candidateRots = {
+			{ -60, -25 },
+			{ -60, 25 },
+			{ -60, -115 },
+			{ -60, 115 },
+			{ 5, -25 },
+			{ 5, 25 },
+			{ 5, -115 },
+			{
+				5,
+				115,
+			},
+		},
 		offsetTarget = Vector3(0, 0, 0),
 		offsetPos = Vector3(-4, (e + 1), -8),
 		focalLength = 21,
@@ -2033,10 +2070,19 @@ function e.PlayFallDeadCameraOnRideTruck(a)
 		isFollowRot = true,
 		followTime = 0.8,
 		followDelayTime = 0,
-		candidateRots = { { -60, -25 }, { -60, 25 }, { -60, -115 }, { -60, 115 }, { 5, -25 }, { 5, 25 }, { 5, -115 }, {
-			5,
-			115,
-		} },
+		candidateRots = {
+			{ -60, -25 },
+			{ -60, 25 },
+			{ -60, -115 },
+			{ -60, 115 },
+			{ 5, -25 },
+			{ 5, 25 },
+			{ 5, -115 },
+			{
+				5,
+				115,
+			},
+		},
 		offsetTarget = Vector3(0, 0, 0),
 		offsetPos = Vector3(-4, (e + 1), -8),
 		focalLength = 21,
@@ -2054,10 +2100,19 @@ function e.PlayFallDeadCameraOnRideArmoredVehicle(a)
 		isFollowRot = true,
 		followTime = 0.8,
 		followDelayTime = 0,
-		candidateRots = { { -60, -25 }, { -60, 25 }, { -60, -115 }, { -60, 115 }, { 5, -25 }, { 5, 25 }, { 5, -115 }, {
-			5,
-			115,
-		} },
+		candidateRots = {
+			{ -60, -25 },
+			{ -60, 25 },
+			{ -60, -115 },
+			{ -60, 115 },
+			{ 5, -25 },
+			{ 5, 25 },
+			{ 5, -115 },
+			{
+				5,
+				115,
+			},
+		},
 		offsetTarget = Vector3(0, 0, 0),
 		offsetPos = Vector3(-4, (e + 1), -8),
 		focalLength = 21,
@@ -2075,10 +2130,19 @@ function e.PlayFallDeadCameraOnRideTank(a)
 		isFollowRot = true,
 		followTime = 0.8,
 		followDelayTime = 0,
-		candidateRots = { { -60, -25 }, { -60, 25 }, { -60, -115 }, { -60, 115 }, { 5, -25 }, { 5, 25 }, { 5, -115 }, {
-			5,
-			115,
-		} },
+		candidateRots = {
+			{ -60, -25 },
+			{ -60, 25 },
+			{ -60, -115 },
+			{ -60, 115 },
+			{ 5, -25 },
+			{ 5, 25 },
+			{ 5, -115 },
+			{
+				5,
+				115,
+			},
+		},
 		offsetTarget = Vector3(0, 0, 0),
 		offsetPos = Vector3(-4, (e + 1), -8),
 		focalLength = 21,
@@ -2096,10 +2160,19 @@ function e.PlayFallDeadCameraOnWalkerGear(a)
 		isFollowRot = true,
 		followTime = 0.8,
 		followDelayTime = 0,
-		candidateRots = { { -60, -25 }, { -60, 25 }, { -60, -115 }, { -60, 115 }, { 5, -25 }, { 5, 25 }, { 5, -115 }, {
-			5,
-			115,
-		} },
+		candidateRots = {
+			{ -60, -25 },
+			{ -60, 25 },
+			{ -60, -115 },
+			{ -60, 115 },
+			{ 5, -25 },
+			{ 5, 25 },
+			{ 5, -115 },
+			{
+				5,
+				115,
+			},
+		},
 		offsetTarget = Vector3(0, 0, 0),
 		offsetPos = Vector3(-4, (a + 1), -8),
 		focalLength = 21,
@@ -2229,10 +2302,19 @@ function e.Messages()
 				func = e._PlayMissionAbortCamera,
 				option = { isExecGameOver = true },
 			},
-			{ msg = "Finish", sender = "Timer_DeliveryWarpSoundCannotCancel", func = e.OnDeliveryWarpSoundCannotCancel },
-			{ msg = "Finish", sender = "Timer_StartGameOverCamera", func = e._StartGameOverCamera, option = {
-				isExecGameOver = true,
-			} },
+			{
+				msg = "Finish",
+				sender = "Timer_DeliveryWarpSoundCannotCancel",
+				func = e.OnDeliveryWarpSoundCannotCancel,
+			},
+			{
+				msg = "Finish",
+				sender = "Timer_StartGameOverCamera",
+				func = e._StartGameOverCamera,
+				option = {
+					isExecGameOver = true,
+				},
+			},
 			{
 				msg = "Finish",
 				sender = "Timer_FOBWaitStandStance",
@@ -2751,7 +2833,10 @@ function e.CheckAllStationPickedUp()
 			gvars.ply_isAllGotStation_Mafr = true
 		end
 		if gvars.ply_isAllGotStation_Afgh and gvars.ply_isAllGotStation_Mafr then
-			TppTerminal.AcquireKeyItem({ dataBaseId = TppMotherBaseManagementConst.DESIGN_3012, isShowAnnounceLog = true })
+			TppTerminal.AcquireKeyItem({
+				dataBaseId = TppMotherBaseManagementConst.DESIGN_3012,
+				isShowAnnounceLog = true,
+			})
 		end
 	end
 end

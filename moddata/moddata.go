@@ -3,8 +3,9 @@ package moddata
 import (
 	"embed"
 	"fmt"
-	"github.com/unknown321/datfpk/qar"
 	"path/filepath"
+
+	"github.com/unknown321/datfpk/qar"
 )
 
 //go:embed coop_essentials/coop_essentials.fpkd

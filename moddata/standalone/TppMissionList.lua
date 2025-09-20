@@ -257,12 +257,15 @@ s[10052] = function(p)
 	do
 		local p = "hos_target_0000"
 		local s = "sol_s10052_transportVehicle_0000"
-		local s = { { type = "hostage", name = p, faceId = 607, bodyId = 200 }, {
-			type = "enemy",
-			name = s,
-			faceId = 608,
-			bodyId = 263,
-		} }
+		local s = {
+			{ type = "hostage", name = p, faceId = 607, bodyId = 200 },
+			{
+				type = "enemy",
+				name = s,
+				faceId = 608,
+				bodyId = 263,
+			},
+		}
 		TppEneFova.AddUniqueSettingPackage(s)
 	end
 
@@ -537,12 +540,15 @@ s[10195] = function(p)
 	do
 		local s = "sol_dealer"
 		local p = "sol_vip"
-		local s = { { type = "enemy", name = s, faceId = 614, bodyId = 250 }, {
-			type = "enemy",
-			name = p,
-			faceId = 615,
-			bodyId = 256,
-		} }
+		local s = {
+			{ type = "enemy", name = s, faceId = 614, bodyId = 250 },
+			{
+				type = "enemy",
+				name = p,
+				faceId = 615,
+				bodyId = 256,
+			},
+		}
 		TppEneFova.AddUniqueSettingPackage(s)
 	end
 
@@ -932,10 +938,12 @@ s[30050] = function(p)
 					p = 379
 				end
 				local s = {}
-				table.insert(
-					s,
-					{ type = "hostage", name = "TppHuey2GameObjectLocator", faceId = EnemyFova.INVALID_FOVA_VALUE, bodyId = p }
-				)
+				table.insert(s, {
+					type = "hostage",
+					name = "TppHuey2GameObjectLocator",
+					faceId = EnemyFova.INVALID_FOVA_VALUE,
+					bodyId = p,
+				})
 				TppEneFova.AddUniqueSettingPackage(s)
 			end
 			gvars.f30050_missionPackIndex = 2

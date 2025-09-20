@@ -147,18 +147,30 @@ e.DEPLOY_REVENGE_MISSION_BLOCKED_LIST = {
 }
 e.DEPLOY_REVENGE_MISSION_CONDITION_LIST = {
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_SMOKE] = { revengeType = e.REVENGE_TYPE.SMOKE, lv = 1 },
-	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT] = { revengeType = e.REVENGE_TYPE.HEAD_SHOT, lv = 1 },
+	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_HEAD_SHOT] = {
+		revengeType = e.REVENGE_TYPE.HEAD_SHOT,
+		lv = 1,
+	},
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH1] = { revengeType = e.REVENGE_TYPE.STEALTH, lv = 1 },
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH2] = { revengeType = e.REVENGE_TYPE.STEALTH, lv = 2 },
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_STEALTH3] = { revengeType = e.REVENGE_TYPE.STEALTH, lv = 3 },
-	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH] = { revengeType = e.REVENGE_TYPE.NIGHT_S, lv = 1 },
+	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_STEALTH] = {
+		revengeType = e.REVENGE_TYPE.NIGHT_S,
+		lv = 1,
+	},
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT1] = { revengeType = e.REVENGE_TYPE.COMBAT, lv = 1 },
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT2] = { revengeType = e.REVENGE_TYPE.COMBAT, lv = 1 },
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT3] = { revengeType = e.REVENGE_TYPE.COMBAT, lv = 1 },
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT4] = { revengeType = e.REVENGE_TYPE.COMBAT, lv = 2 },
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_COMBAT5] = { revengeType = e.REVENGE_TYPE.COMBAT, lv = 3 },
-	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT] = { revengeType = e.REVENGE_TYPE.NIGHT_C, lv = 1 },
-	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE] = { revengeType = e.REVENGE_TYPE.LONG_RANGE, lv = 1 },
+	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_NIGHT_COMBAT] = {
+		revengeType = e.REVENGE_TYPE.NIGHT_C,
+		lv = 1,
+	},
+	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_LONG_RANGE] = {
+		revengeType = e.REVENGE_TYPE.LONG_RANGE,
+		lv = 1,
+	},
 	[TppMotherBaseManagementConst.DEPLOY_MISSION_ID_REVENGE_VEHICLE] = { revengeType = e.REVENGE_TYPE.VEHICLE, lv = 1 },
 }
 e.REVENGE_POINT_TABLE = {
@@ -221,8 +233,24 @@ e.revengeDefine = {
 	COMBAT_1 = { { SOFT_ARMOR = "25%", SHOTGUN = 2 }, { SOFT_ARMOR = "25%", MG = 2 } },
 	COMBAT_2 = { { SOFT_ARMOR = "50%", SHOTGUN = 2, SHIELD = 1 }, { SOFT_ARMOR = "50%", MG = 2, SHIELD = 1 } },
 	COMBAT_3 = {
-		{ SOFT_ARMOR = "75%", SHOTGUN = 2, SHIELD = 1, ARMOR = 1, STRONG_WEAPON = true, COMBAT_HIGH = true, SUPER_REINFORCE = true },
-		{ SOFT_ARMOR = "75%", MG = 2, SHIELD = 1, ARMOR = 1, STRONG_WEAPON = true, COMBAT_HIGH = true, SUPER_REINFORCE = true },
+		{
+			SOFT_ARMOR = "75%",
+			SHOTGUN = 2,
+			SHIELD = 1,
+			ARMOR = 1,
+			STRONG_WEAPON = true,
+			COMBAT_HIGH = true,
+			SUPER_REINFORCE = true,
+		},
+		{
+			SOFT_ARMOR = "75%",
+			MG = 2,
+			SHIELD = 1,
+			ARMOR = 1,
+			STRONG_WEAPON = true,
+			COMBAT_HIGH = true,
+			SUPER_REINFORCE = true,
+		},
 	},
 	COMBAT_4 = {
 		{
@@ -335,9 +363,28 @@ e.revengeDefine = {
 	FOB_LongRange_5 = { STRONG_SNIPER = true, SNIPER = "15%" },
 	FOB_LongRange_6 = { STRONG_SNIPER = true, SNIPER = "20%", MISSILE = "10%" },
 	FOB_LongRange_7 = { STRONG_SNIPER = true, SNIPER = "20%", MISSILE = "10%" },
-	FOB_LongRange_8 = { STRONG_WEAPON = true, STRONG_SNIPER = true, STRONG_MISSILE = true, SNIPER = "20%", MISSILE = "10%" },
-	FOB_LongRange_9 = { STRONG_WEAPON = true, STRONG_SNIPER = true, STRONG_MISSILE = true, SNIPER = "25%", MISSILE = "10%" },
-	FOB_LongRange_10 = { STRONG_WEAPON = true, STRONG_SNIPER = true, STRONG_MISSILE = true, SNIPER = "30%", MISSILE = "20%", MG = "10%" },
+	FOB_LongRange_8 = {
+		STRONG_WEAPON = true,
+		STRONG_SNIPER = true,
+		STRONG_MISSILE = true,
+		SNIPER = "20%",
+		MISSILE = "10%",
+	},
+	FOB_LongRange_9 = {
+		STRONG_WEAPON = true,
+		STRONG_SNIPER = true,
+		STRONG_MISSILE = true,
+		SNIPER = "25%",
+		MISSILE = "10%",
+	},
+	FOB_LongRange_10 = {
+		STRONG_WEAPON = true,
+		STRONG_SNIPER = true,
+		STRONG_MISSILE = true,
+		SNIPER = "30%",
+		MISSILE = "20%",
+		MG = "10%",
+	},
 }
 function e.SelectRevengeType()
 	local n = TppMission.GetMissionID()
@@ -917,7 +964,14 @@ function e._SetUiParameters()
 	local n = e._GetUiParameterValue(e.REVENGE_TYPE.COMBAT)
 	local t = math.min(3, math.max(e.GetRevengeLv(e.REVENGE_TYPE.NIGHT_S), e.GetRevengeLv(e.REVENGE_TYPE.NIGHT_C)))
 	local e = e._GetUiParameterValue(e.REVENGE_TYPE.LONG_RANGE)
-	TppUiCommand.RegisterEnemyRevengeParameters({ fulton = a, headShot = r, stealth = E, combat = n, night = t, longRange = e })
+	TppUiCommand.RegisterEnemyRevengeParameters({
+		fulton = a,
+		headShot = r,
+		stealth = E,
+		combat = n,
+		night = t,
+		longRange = e,
+	})
 end
 function e._SetMbInterrogate()
 	if not GameObject.DoesGameObjectExistWithTypeName("TppSoldier2") then

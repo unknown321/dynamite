@@ -26,41 +26,41 @@
 -- https://github.com/Dynodzzo/Lua_INI_Parser/blob/533d48746a5c4688fc21e8583a61ac6590d12e8b/LIP.lua
 -- modified to work without asserts and file:lines()
 
-local LIP = {};
+local LIP = {}
 
 --- Returns a table containing all the data from the INI file.
 --@param fileName The name of the INI file to parse. [string]
 --@return The table containing all data from the INI file. [table]
 function LIP.load(fileName)
-    local file = io.open(fileName, 'r')
-    local content = file:read("*all")
-    file:close()
+	local file = io.open(fileName, "r")
+	local content = file:read("*all")
+	file:close()
 
-    local data = {}
-    local section
-    for line in content:gmatch("([^\r\n]+)[\r\n]*") do
-        local tempSection = line:match('^%[([^%[%]]+)%]$')
-        if (tempSection) then
-            section = tonumber(tempSection) and tonumber(tempSection) or tempSection
-            data[section] = data[section] or {}
-        end
-        local param, value = line:match('^([%w|_]+)%s-=%s-(.+)$')
-        if (param and value ~= nil) then
-            if (tonumber(value)) then
-                value = tonumber(value)
-            elseif (value == 'true') then
-                value = true;
-            elseif (value == 'false') then
-                value = false;
-            end
-            if (tonumber(param)) then
-                param = tonumber(param)
-            end
-            data[section][param] = value
-        end
-    end
+	local data = {}
+	local section
+	for line in content:gmatch("([^\r\n]+)[\r\n]*") do
+		local tempSection = line:match("^%[([^%[%]]+)%]$")
+		if tempSection then
+			section = tonumber(tempSection) and tonumber(tempSection) or tempSection
+			data[section] = data[section] or {}
+		end
+		local param, value = line:match("^([%w|_]+)%s-=%s-(.+)$")
+		if param and value ~= nil then
+			if tonumber(value) then
+				value = tonumber(value)
+			elseif value == "true" then
+				value = true
+			elseif value == "false" then
+				value = false
+			end
+			if tonumber(param) then
+				param = tonumber(param)
+			end
+			data[section][param] = value
+		end
+	end
 
-    return data
+	return data
 end
 
-return LIP;
+return LIP

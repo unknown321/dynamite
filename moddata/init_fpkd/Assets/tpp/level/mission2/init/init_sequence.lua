@@ -4,7 +4,7 @@ local StrCode32Table = Tpp.StrCode32Table
 local TimerStart = GkEventTimerManager.Start
 
 local IS_QA_RELEASE
-if ( Fox.GetDebugLevel() == Fox.DEBUG_LEVEL_QA_RELEASE ) then
+if Fox.GetDebugLevel() == Fox.DEBUG_LEVEL_QA_RELEASE then
 	IS_QA_RELEASE = true
 end
 
@@ -15,56 +15,20 @@ this.NO_LOAD_UI_DEFAULT_BLOCK = true
 this.NO_RESULT = true
 
 local ERROR_POPUP_ID = {
-	
-
-
-
-
-
 
 	INSTALL_DATA_BROKEN = 7001,
 
-	
-
-
-
-
-
 	INSTALL_FAILED = 7005,
-
-	
-
-
-
-
-
-
 
 	INSTALL_NOSPACE = 7006,
 
-	
-
-
-
-
 	DOWNLOAD_INSTALL_START = 7070,
-	
-
-
 
 	DOWNLOAD_INSTALL_CANCEL = 7071,
-	
-
-
 
 	DOWNLOAD_INSTALL_NEED_SIGN_IN = 7072,
-	
-
 
 	DOWNLOAD_INSTALL_INSTALLING = 7073,
-
-	
-
 
 	DLC_ERROR_NETWORK = 9020,
 }
@@ -93,38 +57,32 @@ local function IsPlaystationFamily()
 end
 
 local function GetSavingSlotStorySequence()
-	local globalSlotForSaving = { TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }
-	return TppScriptVars.GetVarValueInSlot( globalSlotForSaving, "gvars", "str_storySequence", 0 )
+	local globalSlotForSaving =
+		{ TppDefine.SAVE_SLOT.SAVING, TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot }
+	return TppScriptVars.GetVarValueInSlot(globalSlotForSaving, "gvars", "str_storySequence", 0)
 end
 
 local sequenceTime = 0
 
-
-
-
-
-
-
-
 function this.OnLoad()
 	Fox.Log("#### OnLoad ####")
 
-	TppSequence.RegisterSequences{
-		
+	TppSequence.RegisterSequences({
+
 		"Seq_Demo_Start",
-		
+
 		"Seq_Demo_SelectLanguage",
 		"Seq_Demo_ChangeLanguage",
 		"Seq_Demo_BrightnessSetting",
-		
+
 		"Seq_Demo_WaitCopyRightLogo",
-		
+
 		"Seq_Demo_SetInitialLanguage",
-		
+
 		"Seq_Demo_SetSavedLanguage",
-		
+
 		"Seq_Demo_SetConsoleLanguage",
-		
+
 		"Seq_Demo_StartCheckNecessaryStorageSpace",
 		"Seq_Demo_CheckNecessaryStorageSpace",
 		"Seq_Demo_CheckStorageFreeSpaceSize",
@@ -132,7 +90,7 @@ function this.OnLoad()
 		"Seq_Demo_CheckNecessaryTrophyInstallationSize",
 		"Seq_Error_ShowNecessaryStorageSpaceSize",
 		"Seq_Error_CannotGetSaveDataNecessaryStorageSpaceSize",
-		
+
 		"Seq_Demo_CheckInstalled",
 		"Seq_Demo_StartInstall",
 		"Seq_Demo_CheckInstalledErrorBroken",
@@ -146,14 +104,14 @@ function this.OnLoad()
 		"Seq_Demo_DownloadInstall_Installing",
 		"Seq_Demo_DownloadInstall_NeedSignIn",
 		"Seq_Demo_DownloadInstall_Cancel",
-		
+
 		"Seq_Demo_GameDiscInsertCheck",
-		
+
 		"Seq_Demo_InstallTrophy",
 		"Seq_Error_TrophyInstallFailed",
-		
+
 		"Seq_Demo_ConfirmAutoSave",
-		
+
 		"Seq_Demo_StartSignIn",
 		"Seq_Demo_SignIn",
 		"Seq_Demo_NotSignIn",
@@ -173,7 +131,6 @@ function this.OnLoad()
 		"Seq_Error_WriteSaveDataResultInvalidStorage",
 		"Seq_Error_LoadSaveDataVersionError",
 
-		
 		"Seq_Demo_LogInKonamiServer",
 		"Seq_Demo_CheckDlc",
 		"Seq_Demo_ShowDlcError",
@@ -191,16 +148,9 @@ function this.OnLoad()
 		"Seq_Demo_Init",
 		"Seq_Demo_StartTitle",
 		"Seq_Demo_ShowKonamiAndFoxLogo",
-	}
+	})
 	TppSequence.RegisterSequenceTable(sequences)
 end
-
-
-
-
-
-
-
 
 function this.MissionPrepare()
 	local missionName = TppMission.GetMissionName()
@@ -211,27 +161,30 @@ function this.MissionPrepare()
 			coroutine.yield()
 		end
 	end
-	
-	
+
 	PatchDlc.AllocateMemoryForRequest()
-	
+
 	TppMission.AlwaysMissionCanStart()
 end
 
 function this.StartPreTitleSequence()
 	local slot = TppDefine.SAVE_FILE_INFO[TppScriptVars.CATEGORY_GAME_GLOBAL].slot
-	TppScriptVars.CopySlot( slot, { TppDefine.SAVE_SLOT.SAVING, slot } )
-	TppScriptVars.LoadVarsFromSlot( TppDefine.SAVE_SLOT.GLOBAL, TppDefine.VARS_GROUP_GAME_DATA_ON_START_MISSION, TppScriptVars.CATEGORY_GAME_GLOBAL )
-	
---	if not TppSave.IsNewGame() then
---		TppSequence.SetNextSequence("Seq_Demo_ShowKonamiAndFoxLogo")
---	else
-		
-		SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("konamiLogo"))
-		SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("kjpLogo"))
-		SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("foxLogo"))
-		this._StartPreTitleSequence()
---	end
+	TppScriptVars.CopySlot(slot, { TppDefine.SAVE_SLOT.SAVING, slot })
+	TppScriptVars.LoadVarsFromSlot(
+		TppDefine.SAVE_SLOT.GLOBAL,
+		TppDefine.VARS_GROUP_GAME_DATA_ON_START_MISSION,
+		TppScriptVars.CATEGORY_GAME_GLOBAL
+	)
+
+	--	if not TppSave.IsNewGame() then
+	--		TppSequence.SetNextSequence("Seq_Demo_ShowKonamiAndFoxLogo")
+	--	else
+
+	SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("konamiLogo"))
+	SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("kjpLogo"))
+	SplashScreen.Delete(SplashScreen.GetSplashScreenWithName("foxLogo"))
+	this._StartPreTitleSequence()
+	--	end
 end
 
 function this._StartPreTitleSequence()
@@ -244,7 +197,7 @@ function this.IsWindowsEditor()
 	if gvars.DEBUG_initMissionToTitle then
 		return false
 	end
-	if ( Fox.GetPlatformName() == 'Windows' ) and Editor then
+	if (Fox.GetPlatformName() == "Windows") and Editor then
 		return true
 	else
 		return false
@@ -253,7 +206,7 @@ end
 
 function this.IsNeedStorageSpaceCheck()
 	local platform = Fox.GetPlatformName()
-	if ( platform == "PS3" ) then
+	if platform == "PS3" then
 		return true
 	else
 		return false
@@ -262,8 +215,7 @@ end
 
 function this.IsNeedTrophyInstallation()
 	local platform = Fox.GetPlatformName()
-	if ( platform == "PS3" )
-	or ( platform == "PS4" ) then
+	if (platform == "PS3") or (platform == "PS4") then
 		return true
 	else
 		return false
@@ -272,22 +224,21 @@ end
 
 function this.IsNeedGameInstallation()
 	local platform = Fox.GetPlatformName()
-	if ( platform == "Xbox360" )
-	or ( platform == "PS3" ) then
+	if (platform == "Xbox360") or (platform == "PS3") then
 		return true
 	else
 		return false
 	end
 end
 
-function this.SelectLanguageAndGoSequence( sequenceName, onEndChangeLanguageFunc )
+function this.SelectLanguageAndGoSequence(sequenceName, onEndChangeLanguageFunc)
 	mvars.init_afterSelectLanguageSequenceName = sequenceName
 	mvars.init_onEndChangeLanguageFunc = onEndChangeLanguageFunc
 	mvars.init_afterChangeLanguageSequenceName = nil
 	TppSequence.SetNextSequence("Seq_Demo_SelectLanguage")
 end
 
-function this.ChangeLanguageAndGoSequence( sequenceName )
+function this.ChangeLanguageAndGoSequence(sequenceName)
 	mvars.init_afterChangeLanguageSequenceName = sequenceName
 	mvars.init_afterSelectLanguageSequenceName = nil
 	mvars.init_onEndChangeLanguageFunc = nil
@@ -295,68 +246,49 @@ function this.ChangeLanguageAndGoSequence( sequenceName )
 end
 
 function this.ShowLoadingSaveDataPopUp()
-	TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-	TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.LOADING_SAVE_DATA )
+	TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+	TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.LOADING_SAVE_DATA)
 end
 
 function this.ShowMakingSaveDataPopUp()
-	TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-	TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.MAKE_NEW_SAVE_DATA )
+	TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+	TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.MAKE_NEW_SAVE_DATA)
 end
-
-
-
-
-
-
-
 
 sequences.Seq_Demo_Start = {
 	OnEnter = function(self)
 		TppClock.Stop()
 		TppException.isLoadedInitMissionOnSignInUserChanged = nil
 		Fox.Log("### Seq_Demo_Start ###")
-		
-		
+
 		if IS_QA_RELEASE or DEBUG then
 			if MissionTest and MissionTest.qaReleaseEntryFunction then
 				TppSequence.SetNextSequence("Seq_Demo_Init")
 				return
 			end
 		end
-		
+
 		if DEBUG then
-			
 			if this.IsWindowsEditor() then
 				TppSoundDaemon.LoadRegidentStreamData()
 				TppSequence.SetNextSequence("Seq_Demo_CreateOrLoadSaveData")
 				return
 			end
-			
+
 			if not gvars.DEBUG_initMissionToTitle then
 				TppSequence.SetNextSequence("Seq_Demo_CheckInstalled")
 				return
 			end
 		end
-		
-		
+
 		TppSequence.SetNextSequence("Seq_Demo_WaitCopyRightLogo")
 	end,
 
-	
 	ignoreSignInUserChanged = true,
 }
 
-
-
-
-
-
-
-
-
 sequences.Seq_Demo_SelectLanguage = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		TppUiCommand.ShowLangPopup()
 	end,
 
@@ -371,7 +303,7 @@ sequences.Seq_Demo_SelectLanguage = {
 }
 
 sequences.Seq_Demo_ChangeLanguage = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		TppUiCommand.ChangeLanguage()
 	end,
 
@@ -385,7 +317,7 @@ sequences.Seq_Demo_ChangeLanguage = {
 		if TppUiCommand.IsChangeLanguage and TppUiCommand.IsChangeLanguage() then
 			return
 		end
-	
+
 		if mvars.init_afterSelectLanguageSequenceName then
 			TppSequence.SetNextSequence("Seq_Demo_BrightnessSetting")
 		else
@@ -394,9 +326,8 @@ sequences.Seq_Demo_ChangeLanguage = {
 	end,
 }
 
-
 sequences.Seq_Demo_BrightnessSetting = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		TppUiCommand.OpenBrightnessSetting()
 	end,
 
@@ -412,25 +343,35 @@ sequences.Seq_Demo_BrightnessSetting = {
 		if mvars.init_onEndChangeLanguageFunc then
 			mvars.init_onEndChangeLanguageFunc()
 		end
-		
+
 		TppSequence.SetNextSequence(mvars.init_afterSelectLanguageSequenceName)
 	end,
 }
-
-
-
 
 sequences.Seq_Demo_WaitCopyRightLogo = {
 	OnUpdate = function(self)
 		local screen = SplashScreen.GetSplashScreenWithName("cesa")
 		if not screen then
-			
-			
-			local konamiLogoScreenId = SplashScreen.Create("konamiLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex", 640, 640);
-			
-			local kjpLogoScreenId = SplashScreen.Create("kjpLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex", 640, 640)
-			
-			local foxLogoScreenId = SplashScreen.Create("foxLogo", "/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_fox_logo_clp_nmp.ftex", 640, 640);
+			local konamiLogoScreenId = SplashScreen.Create(
+				"konamiLogo",
+				"/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_konami_logo_clp_nmp.ftex",
+				640,
+				640
+			)
+
+			local kjpLogoScreenId = SplashScreen.Create(
+				"kjpLogo",
+				"/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_kjp_logo_clp_nmp.ftex",
+				640,
+				640
+			)
+
+			local foxLogoScreenId = SplashScreen.Create(
+				"foxLogo",
+				"/Assets/tpp/ui/ModelAsset/sys_logo/Pictures/common_fox_logo_clp_nmp.ftex",
+				640,
+				640
+			)
 
 			TppSequence.SetNextSequence("Seq_Demo_SetInitialLanguage")
 		else
@@ -440,7 +381,7 @@ sequences.Seq_Demo_WaitCopyRightLogo = {
 			end
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
@@ -458,7 +399,6 @@ sequences.Seq_Demo_SetInitialLanguage = {
 this.langCoroutine = nil
 
 local function SetSavedLanguage()
-	
 	TppSave.LoadConfigDataFromSaveFile()
 	while TppScriptVars.IsSavingOrLoading() do
 		DebugPrintState("loading CONFIG file...")
@@ -468,9 +408,12 @@ local function SetSavedLanguage()
 	if result ~= TppScriptVars.RESULT_OK then
 		return "Seq_Demo_SetConsoleLanguage"
 	end
-	TppScriptVars.LoadVarsFromSlot( TppDefine.SAVE_SLOT.CONFIG, TppScriptVars.GROUP_BIT_VARS, TppScriptVars.CATEGORY_CONFIG )
+	TppScriptVars.LoadVarsFromSlot(
+		TppDefine.SAVE_SLOT.CONFIG,
+		TppScriptVars.GROUP_BIT_VARS,
+		TppScriptVars.CATEGORY_CONFIG
+	)
 
-	
 	TppUiCommand.SetLoadIndicatorVisible(true)
 	TppUiCommand.ChangeLanguage()
 	while TppUiCommand.IsChangeLanguage() do
@@ -489,21 +432,19 @@ sequences.Seq_Demo_SetSavedLanguage = {
 	end,
 	OnLeave = function(self)
 		this.langCoroutine = nil
-		
+
 		TppUiCommand.SetLoadIndicatorVisible(false)
 	end,
 	OnUpdate = function(self)
 		if this.langCoroutine then
 			local status, ret1 = coroutine.resume(this.langCoroutine)
 			if not status then
-				
 				Fox.Log("init_sequence", string.format("error on SetSavedLanguage. %s", tostring(ret1)))
 				self.nextSequence = "Seq_Demo_SetConsoleLanguage"
 				this.langCoroutine = nil
 				return
 			end
 			if coroutine.status(this.langCoroutine) == "dead" then
-				
 				self.nextSequence = ret1
 				this.langCoroutine = nil
 			end
@@ -530,30 +471,23 @@ sequences.Seq_Demo_SetConsoleLanguage = {
 			end
 			return
 		end
-		
+
 		TppUiCommand.SetLoadIndicatorVisible(false)
 		TppSequence.SetNextSequence("Seq_Demo_StartCheckNecessaryStorageSpace")
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
-
-
-
-
-
 sequences.Seq_Demo_StartCheckNecessaryStorageSpace = {
-	OnEnter = function( self )
-		
+	OnEnter = function(self)
 		if not this.IsNeedStorageSpaceCheck() then
 			TppSequence.SetNextSequence("Seq_Demo_CheckInstalled")
 			return
 		end
 
-		
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.CHECKING_STORAGE_FREE_SPACE_SIZE )
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.CHECKING_STORAGE_FREE_SPACE_SIZE)
 
 		TppSequence.SetNextSequence("Seq_Demo_CheckNecessaryStorageSpace")
 	end,
@@ -564,21 +498,19 @@ sequences.Seq_Demo_StartCheckNecessaryStorageSpace = {
 			DebugText.Print(context, "Start check necessary storage space")
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_CheckNecessaryStorageSpace = {
-	OnEnter = function( self )
-
-		
+	OnEnter = function(self)
 		if not mvars.init_storageFreeSpaceSize then
 			TppSequence.SetNextSequence("Seq_Demo_CheckStorageFreeSpaceSize")
 			return
 		end
 
-		if ( gvars.gameDataLoadingResult ~= TppDefine.SAVE_FILE_LOAD_RESULT.OK ) then
-			if ( not mvars.init_needRemainMakeSaveDataSize ) then
+		if gvars.gameDataLoadingResult ~= TppDefine.SAVE_FILE_LOAD_RESULT.OK then
+			if not mvars.init_needRemainMakeSaveDataSize then
 				TppSequence.SetNextSequence("Seq_Demo_CheckNecessarySaveDataSize")
 				return
 			end
@@ -591,18 +523,15 @@ sequences.Seq_Demo_CheckNecessaryStorageSpace = {
 			end
 		end
 
-		
 		if this.IsNeedGameInstallation() then
-
 			if not mvars.init_doneInstallationCheck then
 				TppSequence.SetNextSequence("Seq_Demo_CheckInstalled")
 				return
 			end
 
-			if ( not Installer.IsInstalled() ) and ( not mvars.init_needRemainInstallationSize ) then
+			if (not Installer.IsInstalled()) and not mvars.init_needRemainInstallationSize then
 				local necessaryStorageSpaceSize = Installer.GetInstallationSize() - Installer.GetInstalledSize()
 
-				
 				necessaryStorageSpaceSize = necessaryStorageSpaceSize + GetInstallSizeMargin()
 
 				Fox.Log("Game installation necessaryStorageSpaceSize = " .. tostring(necessaryStorageSpaceSize))
@@ -621,7 +550,7 @@ sequences.Seq_Demo_CheckNecessaryStorageSpace = {
 			necessaryStorageSpaceSize = necessaryStorageSpaceSize + mvars.init_needRemainTrophyInstallationSize
 		end
 		mvars.init_necessaryStorageSpaceSize = necessaryStorageSpaceSize
-		
+
 		TppUiCommand.ErasePopup()
 	end,
 
@@ -633,13 +562,12 @@ sequences.Seq_Demo_CheckNecessaryStorageSpace = {
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
 					sender = TppDefine.ERROR_ID.CHECKING_STORAGE_FREE_SPACE_SIZE,
 					func = function()
-						
 						if mvars.init_storageFreeSpaceSize >= mvars.init_necessaryStorageSpaceSize then
 							TppSequence.SetNextSequence("Seq_Demo_StartInstall")
 						else
@@ -648,14 +576,14 @@ sequences.Seq_Demo_CheckNecessaryStorageSpace = {
 					end,
 				},
 			},
-		}
+		})
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_CheckStorageFreeSpaceSize = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		TppScriptVars.RequestNecessaryStorageSpace()
 	end,
 
@@ -674,12 +602,12 @@ sequences.Seq_Demo_CheckStorageFreeSpaceSize = {
 		Fox.Log("FreeStorageSpaceSize = " .. tostring(freeSize))
 		TppSequence.SetNextSequence("Seq_Demo_CheckNecessaryStorageSpace")
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_CheckNecessarySaveDataSize = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		TppScriptVars.RequestNecessaryStorageSpace()
 	end,
 
@@ -702,12 +630,12 @@ sequences.Seq_Demo_CheckNecessarySaveDataSize = {
 			TppSequence.SetNextSequence("Seq_Error_CannotGetSaveDataNecessaryStorageSpaceSize")
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_CheckNecessaryTrophyInstallationSize = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		Trophy.TrophyDiskCheck()
 	end,
 
@@ -719,11 +647,11 @@ sequences.Seq_Demo_CheckNecessaryTrophyInstallationSize = {
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			Network = {
 				{
 					msg = "TrophySpaceChecked",
-					func = function( result, necessaryStorageSpaceSize )
+					func = function(result, necessaryStorageSpaceSize)
 						if necessaryStorageSpaceSize >= 0 then
 							Fox.Log("Trophy necessaryStorageSpaceSize = " .. tostring(necessaryStorageSpaceSize))
 							mvars.init_needRemainTrophyInstallationSize = necessaryStorageSpaceSize
@@ -731,21 +659,20 @@ sequences.Seq_Demo_CheckNecessaryTrophyInstallationSize = {
 						TppSequence.SetNextSequence("Seq_Demo_CheckNecessaryStorageSpace")
 					end,
 				},
-			}
-		}
+			},
+		})
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
-
 sequences.Seq_Error_ShowNecessaryStorageSpaceSize = {
-	OnEnter = function( self )
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
+	OnEnter = function(self)
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
 		local necessaryStorageSpaceSize = mvars.init_necessaryStorageSpaceSize
-		local sizeValue, unitLetter, dotPosition = Tpp.GetFormatedStorageSizePopupParam( necessaryStorageSpaceSize )
-		TppUiCommand.SetErrorPopupParam( sizeValue, unitLetter, dotPosition )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.SAVE_FAILED_NOT_ENOUGH_STORAGE_CAPACITY )
+		local sizeValue, unitLetter, dotPosition = Tpp.GetFormatedStorageSizePopupParam(necessaryStorageSpaceSize)
+		TppUiCommand.SetErrorPopupParam(sizeValue, unitLetter, dotPosition)
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SAVE_FAILED_NOT_ENOUGH_STORAGE_CAPACITY)
 	end,
 
 	OnUpdate = function(self)
@@ -754,14 +681,14 @@ sequences.Seq_Error_ShowNecessaryStorageSpaceSize = {
 			DebugText.Print(context, "Show necessary storage space size")
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Error_CannotGetSaveDataNecessaryStorageSpaceSize = {
-	OnEnter = function( self )
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.SAVE_FAILED_UNKNOWN_REASON )
+	OnEnter = function(self)
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SAVE_FAILED_UNKNOWN_REASON)
 	end,
 
 	OnUpdate = function(self)
@@ -769,28 +696,22 @@ sequences.Seq_Error_CannotGetSaveDataNecessaryStorageSpaceSize = {
 			DebugText.Print(DebugText.NewContext(), "Save data necessary storage space check error. call Tago san.")
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
-
-
-
 sequences.Seq_Demo_CheckInstalled = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		if not this.IsNeedGameInstallation() then
-			
 			TppSequence.SetNextSequence("Seq_Demo_StartInstall")
 			return
 		end
 
 		if this.IsNeedStorageSpaceCheck() then
-			
 			Fox.Log("Skip ShowErrorPopup because already showing storage space check.")
 		else
-			
-			TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-			TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.NOW_INSTALLATION_CHECKING )
+			TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+			TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLATION_CHECKING)
 		end
 		Installer.StartCheckingInstallation()
 	end,
@@ -800,13 +721,12 @@ sequences.Seq_Demo_CheckInstalled = {
 			local context = DebugText.NewContext()
 			DebugText.Print(context, "Check already installed ...")
 		end
-		
+
 		if Installer.IsCheckingInstallation() then
-			
 			TppUI.ShowAccessIconContinue()
 			return
 		end
-		
+
 		mvars.init_doneInstallationCheck = true
 
 		if this.IsNeedStorageSpaceCheck() then
@@ -825,7 +745,7 @@ sequences.Seq_Demo_CheckInstalled = {
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -835,26 +755,19 @@ sequences.Seq_Demo_CheckInstalled = {
 					end,
 				},
 			},
-		}
+		})
 	end,
 
-	
 	ignoreSignInUserChanged = true,
 }
 
-
-
-
-
 sequences.Seq_Demo_StartInstall = {
-	OnEnter = function( self )
-
+	OnEnter = function(self)
 		if not this.IsNeedGameInstallation() then
-			
 			if this.IsNeedTrophyInstallation() then
-				TppSequence.SetNextSequence("Seq_Demo_InstallTrophy")	
+				TppSequence.SetNextSequence("Seq_Demo_InstallTrophy")
 			else
-				TppSequence.SetNextSequence("Seq_Demo_ConfirmAutoSave")	
+				TppSequence.SetNextSequence("Seq_Demo_ConfirmAutoSave")
 			end
 			return
 		end
@@ -885,36 +798,34 @@ sequences.Seq_Demo_StartInstall = {
 			DebugText.Print(context, "Install start ...")
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
-
 
 sequences.Seq_Demo_CheckInstalledErrorBroken = {
 	OnEnter = function(self)
 		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
 		TppUiCommand.ShowErrorPopup(ERROR_POPUP_ID.INSTALL_DATA_BROKEN)
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
-
 
 sequences.Seq_Demo_CheckInstalledErrorNoHdd = {
 	OnEnter = function(self)
 		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
 		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.CANNOT_FIND_HDD)
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_InstallDiscInsertCheck = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		if Installer.GetCurrentDisc() ~= Installer.DISC_INSTALL then
 			Fox.Log("Seq_Demo_InstallDiscInsertCheck")
-			TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-			TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.INSERT_INSTALL_DISK_WHEN_NOT_INSTALLED )
+			TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+			TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.INSERT_INSTALL_DISK_WHEN_NOT_INSTALLED)
 			Installer.StartChangingDisc(Installer.DISC_INSTALL)
 		else
 			TppSequence.SetNextSequence("Seq_Demo_Install")
@@ -926,9 +837,7 @@ sequences.Seq_Demo_InstallDiscInsertCheck = {
 			local context = DebugText.NewContext()
 			DebugText.Print(context, "Check inserted install disk ...")
 		end
-		
-		
-		
+
 		if Installer.IsChangingDisc() then
 			return
 		end
@@ -942,7 +851,7 @@ sequences.Seq_Demo_InstallDiscInsertCheck = {
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -952,24 +861,23 @@ sequences.Seq_Demo_InstallDiscInsertCheck = {
 					end,
 				},
 			},
-		}
+		})
 	end,
 
-	OnLeave = function(self)
-	end,
-	
+	OnLeave = function(self) end,
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_Install = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		if Installer.IsDownloadDeployment and Installer.IsDownloadDeployment() then
 			TppSequence.SetNextSequence("Seq_Demo_DownloadInstall")
 			return
 		end
 
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.NOW_INSTALLING )
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING)
 		Installer.StartInstalling()
 		self.updateTimer = 0
 	end,
@@ -984,27 +892,34 @@ sequences.Seq_Demo_Install = {
 		if installationSize < 1 then
 			installationSize = 1
 		end
-		local installRate = ( installedSize / installationSize )
+		local installRate = (installedSize / installationSize)
 
 		if DebugText then
 			local context = DebugText.NewContext()
-			DebugText.Print( context, string.format( "Now installing ... : installedSize %d KB, installationSize %d KB, install rate %02.2f percent.", installedSize / 1024, installationSize / 1024, installRate) )
+			DebugText.Print(
+				context,
+				string.format(
+					"Now installing ... : installedSize %d KB, installationSize %d KB, install rate %02.2f percent.",
+					installedSize / 1024,
+					installationSize / 1024,
+					installRate
+				)
+			)
 		end
-		
+
 		local dt = Time.GetFrameTime()
 		self.updateTimer = self.updateTimer - dt
 
 		if Installer.IsInstalling() then
 			if self.updateTimer <= 0 then
-				
 				self.updateTimer = self.updateTimer + 1
 				if self.updateTimer < 0 then
 					self.updateTimer = 0
 				end
 
-				TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-				TppUiCommand.SetErrorPopupParam( installRate * 10000, "None", 2 )
-				TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.NOW_INSTALLING )	
+				TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+				TppUiCommand.SetErrorPopupParam(installRate * 10000, "None", 2)
+				TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOW_INSTALLING)
 			end
 
 			TppUI.ShowAccessIconContinue()
@@ -1015,7 +930,7 @@ sequences.Seq_Demo_Install = {
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -1030,34 +945,31 @@ sequences.Seq_Demo_Install = {
 					end,
 				},
 			},
-		}
+		})
 	end,
 
 	updateTimer = 0,
 
-	
 	ignoreSignInUserChanged = true,
 }
 
-
 sequences.Seq_Demo_InstallFailed = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		local installResult = Installer.GetInstallResult()
-		
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
+
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
 		if installResult == Installer.INSTALL_RESULT_NOSPACE then
 			local necessaryStorageSpaceSize = Installer.GetInstallationSize() - Installer.GetInstalledSize()
-			
-			
+
 			necessaryStorageSpaceSize = necessaryStorageSpaceSize + GetInstallSizeMargin()
-			
-			local sizeValue, unitLetter, dotPosition = Tpp.GetFormatedStorageSizePopupParam( necessaryStorageSpaceSize )
-			TppUiCommand.SetErrorPopupParam( sizeValue, unitLetter, dotPosition )
-			TppUiCommand.ShowErrorPopup( ERROR_POPUP_ID.INSTALL_NOSPACE )
+
+			local sizeValue, unitLetter, dotPosition = Tpp.GetFormatedStorageSizePopupParam(necessaryStorageSpaceSize)
+			TppUiCommand.SetErrorPopupParam(sizeValue, unitLetter, dotPosition)
+			TppUiCommand.ShowErrorPopup(ERROR_POPUP_ID.INSTALL_NOSPACE)
 		elseif installResult == Installer.INSTALL_RESULT_NOHDD then
-			TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.CANNOT_FIND_HDD )
+			TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.CANNOT_FIND_HDD)
 		else
-			TppUiCommand.ShowErrorPopup( ERROR_POPUP_ID.INSTALL_FAILED )
+			TppUiCommand.ShowErrorPopup(ERROR_POPUP_ID.INSTALL_FAILED)
 		end
 	end,
 
@@ -1067,17 +979,16 @@ sequences.Seq_Demo_InstallFailed = {
 			DebugText.Print(context, "Install failed ...")
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
-
 
 sequences.Seq_Demo_DownloadInstall = {
 	OnEnter = function(self)
 		TppUiCommand.ShowErrorPopup(ERROR_POPUP_ID.DOWNLOAD_INSTALL_START, Popup.TYPE_ONE_BUTTON)
 	end,
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -1087,9 +998,9 @@ sequences.Seq_Demo_DownloadInstall = {
 					end,
 				},
 			},
-		}
+		})
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
@@ -1113,10 +1024,7 @@ sequences.Seq_Demo_DownloadInstall_Installing = {
 	OnEnter = function(self)
 		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
 		TppUiCommand.ShowErrorPopup(ERROR_POPUP_ID.DOWNLOAD_INSTALL_INSTALLING)
-		
-		
 
-		
 		Installer.StartInstalling()
 	end,
 	OnUpdate = function(self)
@@ -1139,19 +1047,16 @@ sequences.Seq_Demo_DownloadInstall_Installing = {
 			TppSequence.SetNextSequence(nextSequence)
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_DownloadInstall_NeedSignIn = {
 	OnEnter = function(self)
 		TppUiCommand.ShowErrorPopup(ERROR_POPUP_ID.DOWNLOAD_INSTALL_NEED_SIGN_IN, Popup.TYPE_ONE_BUTTON)
-		
-		
 	end,
 	OnUpdate = function(self)
 		if TppUiCommand.IsShowPopup() then
-
 		else
 			TppSequence.SetNextSequence("Seq_Demo_DownloadInstall_SignIn")
 		end
@@ -1161,38 +1066,33 @@ sequences.Seq_Demo_DownloadInstall_NeedSignIn = {
 sequences.Seq_Demo_DownloadInstall_Cancel = {
 	OnEnter = function(self)
 		TppUiCommand.ShowErrorPopup(ERROR_POPUP_ID.DOWNLOAD_INSTALL_CANCEL, Popup.TYPE_ONE_BUTTON)
-		
-		
 	end,
 	OnUpdate = function(self)
 		if TppUiCommand.IsShowPopup() then
-
 		else
 			TppSequence.SetNextSequence("Seq_Demo_DownloadInstall_SignIn")
 		end
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_GameDiscInsertCheck = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		if Installer.GetCurrentDisc() ~= Installer.DISC_GAME then
-			
 			Installer.StartChangingDisc(Installer.DISC_GAME)
-			
-			
-			TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
+
+			TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
 			if mvars.alreadyInstalled then
-				TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.INSERT_GAME_DISK_WHEN_ALREADY_INSTALLED )
+				TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.INSERT_GAME_DISK_WHEN_ALREADY_INSTALLED)
 			else
-				TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.INSERT_GAME_DISK_WHEN_INSTALL_END )
+				TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.INSERT_GAME_DISK_WHEN_INSTALL_END)
 			end
 		else
 			if this.IsNeedTrophyInstallation() then
-				TppSequence.SetNextSequence("Seq_Demo_InstallTrophy")		
+				TppSequence.SetNextSequence("Seq_Demo_InstallTrophy")
 			else
-				TppSequence.SetNextSequence("Seq_Demo_ConfirmAutoSave")	
+				TppSequence.SetNextSequence("Seq_Demo_ConfirmAutoSave")
 			end
 		end
 	end,
@@ -1211,12 +1111,12 @@ sequences.Seq_Demo_GameDiscInsertCheck = {
 			Installer.StartChangingDisc(Installer.DISC_GAME)
 			return
 		end
-			
+
 		TppUiCommand.ErasePopup()
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -1226,45 +1126,40 @@ sequences.Seq_Demo_GameDiscInsertCheck = {
 					},
 					func = function()
 						if this.IsNeedTrophyInstallation() then
-							TppSequence.SetNextSequence("Seq_Demo_InstallTrophy")		
+							TppSequence.SetNextSequence("Seq_Demo_InstallTrophy")
 						else
-							TppSequence.SetNextSequence("Seq_Demo_ConfirmAutoSave")	
+							TppSequence.SetNextSequence("Seq_Demo_ConfirmAutoSave")
 						end
 					end,
 				},
 			},
-		}
+		})
 	end,
-	
+
 	ignoreSignInUserChanged = true,
 }
-
-
-
-
-
 
 local TROPHY_INSTALL_RESULT_SUCCESS = 1
 
 sequences.Seq_Demo_InstallTrophy = {
-	OnEnter = function( self )
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.TROPHY_INSTALLING )
+	OnEnter = function(self)
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.TROPHY_INSTALLING)
 		Trophy.TrophyInstall()
 	end,
-	
-	OnUpdate = function( self )
+
+	OnUpdate = function(self)
 		if DebugText then
 			DebugText.Print(DebugText.NewContext(), "Now installing Trophy ...")
 		end
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			Network = {
 				{
 					msg = "TrophyInstalled",
-					func = function( result )
+					func = function(result)
 						mvars.init_trophyInstallResult = result
 						TppUiCommand.ErasePopup()
 					end,
@@ -1283,47 +1178,41 @@ sequences.Seq_Demo_InstallTrophy = {
 					end,
 				},
 			},
-		}
+		})
 	end,
 }
 
 sequences.Seq_Error_TrophyInstallFailed = {
-	OnEnter = function( self )
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.TROPHY_INSTALL_FAILED )
+	OnEnter = function(self)
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.TROPHY_INSTALL_FAILED)
 	end,
-	
-	OnUpdate = function( self )
+
+	OnUpdate = function(self)
 		if DebugText then
-			DebugText.Print(DebugText.NewContext(), {1.0, 0.0, 0.0}, "Trophy install failed ...")
+			DebugText.Print(DebugText.NewContext(), { 1.0, 0.0, 0.0 }, "Trophy install failed ...")
 		end
 	end,
 }
 
-
-
-
-
 sequences.Seq_Demo_ConfirmAutoSave = {
-	OnEnter = function( self )
-		
+	OnEnter = function(self)
 		TppSoundDaemon.LoadRegidentStreamData()
 
-		
 		if SignIn.PresetUserIdExists and SignIn.PresetUserIdExists() then
 			TppSequence.SetNextSequence("Seq_Demo_StartSignIn")
 			return
 		end
 
---		if IsPlaystationFamily() then
---			sequenceTime = 0
---			TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
---			TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.CONFIRM_AUTO_SAVE )
---		else
---			TppUiCommand.SetPopupAllPad()
---			TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.CONFIRM_AUTO_SAVE, Popup.TYPE_ONE_BUTTON )
---		end
-        TppSequence.SetNextSequence("Seq_Demo_StartSignIn")
+		--		if IsPlaystationFamily() then
+		--			sequenceTime = 0
+		--			TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
+		--			TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.CONFIRM_AUTO_SAVE )
+		--		else
+		--			TppUiCommand.SetPopupAllPad()
+		--			TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.CONFIRM_AUTO_SAVE, Popup.TYPE_ONE_BUTTON )
+		--		end
+		TppSequence.SetNextSequence("Seq_Demo_StartSignIn")
 	end,
 
 	OnUpdate = function(self)
@@ -1336,7 +1225,7 @@ sequences.Seq_Demo_ConfirmAutoSave = {
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -1346,16 +1235,11 @@ sequences.Seq_Demo_ConfirmAutoSave = {
 					end,
 				},
 			},
-		}
+		})
 	end,
 
-	
 	ignoreSignInUserChanged = true,
 }
-
-
-
-
 
 sequences.Seq_Demo_StartSignIn = {
 	OnEnter = function(self)
@@ -1401,7 +1285,6 @@ sequences.Seq_Demo_SignIn = {
 					local error = SignIn.StartSignInWithUserId(userId)
 					SignIn.ClearPresetUserId()
 					if error then
-						
 						TppSequence.SetNextSequence("Seq_Demo_ConfirmAutoSave")
 					end
 					return
@@ -1410,8 +1293,8 @@ sequences.Seq_Demo_SignIn = {
 		end
 
 		local padIndex = TppUiCommand.GetPopupAllPadNo()
-		Fox.Log("Set padIndex = " .. tostring(padIndex) )
-		
+		Fox.Log("Set padIndex = " .. tostring(padIndex))
+
 		SignIn.StartSignIn(padIndex)
 	end,
 
@@ -1420,14 +1303,13 @@ sequences.Seq_Demo_SignIn = {
 			local context = DebugText.NewContext()
 			DebugText.Print(context, "Signing In ...")
 		end
-		
+
 		if SignIn.GetSignInState() ~= SignIn.SIGN_IN_STATE_BUSY then
 			if SignIn.IsSignedIn() then
 				TppSequence.SetNextSequence("Seq_Demo_SelectStorage")
 			else
 				TppSequence.SetNextSequence("Seq_Demo_NotSignIn")
 			end
-			
 		end
 	end,
 }
@@ -1435,11 +1317,11 @@ sequences.Seq_Demo_SignIn = {
 sequences.Seq_Demo_NotSignIn = {
 	OnEnter = function(self)
 		Fox.Log("### Seq_Demo_NotSignIn ###")
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.START_NOT_SIGN_IN, Popup.TYPE_ONE_BUTTON )
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.START_NOT_SIGN_IN, Popup.TYPE_ONE_BUTTON)
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -1448,14 +1330,14 @@ sequences.Seq_Demo_NotSignIn = {
 						local select = TppUiCommand.GetPopupSelect()
 						if select == Popup.SELECT_OK then
 							TppSave.ForbidSave()
-							this.SelectLanguageAndGoSequence( "Seq_Demo_CheckPatchDlc" )
+							this.SelectLanguageAndGoSequence("Seq_Demo_CheckPatchDlc")
 						else
 							TppSequence.SetNextSequence("Seq_Demo_SignIn")
 						end
 					end,
 				},
 			},
-		}
+		})
 	end,
 }
 
@@ -1488,7 +1370,7 @@ sequences.Seq_Demo_NoStorageSelected = {
 	OnEnter = function(self)
 		Fox.Log("### Seq_Demo_NoStorageSelected ###")
 		TppUiCommand.SetPopupSelectNegative()
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.NOT_SELECT_STORAGE, Popup.TYPE_TWO_BUTTON )
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.NOT_SELECT_STORAGE, Popup.TYPE_TWO_BUTTON)
 	end,
 
 	OnLeave = function(self, nextSequenceName)
@@ -1498,7 +1380,7 @@ sequences.Seq_Demo_NoStorageSelected = {
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -1507,34 +1389,27 @@ sequences.Seq_Demo_NoStorageSelected = {
 						local select = TppUiCommand.GetPopupSelect()
 						if select == Popup.SELECT_OK then
 							TppSave.ForbidSave()
-							this.SelectLanguageAndGoSequence( "Seq_Demo_CheckPatchDlc" )
+							this.SelectLanguageAndGoSequence("Seq_Demo_CheckPatchDlc")
 						else
 							TppSequence.SetNextSequence("Seq_Demo_SelectStorage")
 						end
 					end,
 				},
 			},
-		}
+		})
 	end,
-
 }
 
 this.saveCoroutine = nil
-
-
-
-
 
 local function SearchSaveDataExistAreaList()
 	local fileName = TppSave.GetGameSaveFileName()
 	local currentArea = TppGameSequence.GetShortTargetArea()
 	local areas = TppGameSequence.GetShortTargetAreaList()
-	
+
 	local foundAreas = {}
 	for i, area in ipairs(areas) do
-		
-		
-		Fox.Log("SearchSaveDataExistAreaList : area = " .. tostring(area) )
+		Fox.Log("SearchSaveDataExistAreaList : area = " .. tostring(area))
 		TppScriptVars.RequestAreaFileExistence(area, fileName)
 		while TppScriptVars.IsSavingOrLoading() do
 			coroutine.yield()
@@ -1542,28 +1417,28 @@ local function SearchSaveDataExistAreaList()
 		local result = TppScriptVars.GetLastResult()
 		if result == TppScriptVars.RESULT_OK then
 			if TppScriptVars.GetFileExistence() then
-				foundAreas[#foundAreas+1] = area
+				foundAreas[#foundAreas + 1] = area
 			end
 		else
-			
-
-
-
-
-
-
-			Fox.Log("SearchSaveDataExistAreaList : TppScriptVars.GetLastResult is not TppScriptVars.RESULT_OK. result = " .. tostring(result))
+			Fox.Log(
+				"SearchSaveDataExistAreaList : TppScriptVars.GetLastResult is not TppScriptVars.RESULT_OK. result = "
+					.. tostring(result)
+			)
 		end
 	end
 	return foundAreas
 end
 
-
-
-
-
-
-local function ImportAnotherAreaSaveData( foundAreas, SAVE_FILE_CONFIG, SAVE_FILE_PERSONAL, SAVE_FILE_GAME, SAVE_FILE_COUNT, loadFuncs, fileExists, tempSaveConfig )
+local function ImportAnotherAreaSaveData(
+	foundAreas,
+	SAVE_FILE_CONFIG,
+	SAVE_FILE_PERSONAL,
+	SAVE_FILE_GAME,
+	SAVE_FILE_COUNT,
+	loadFuncs,
+	fileExists,
+	tempSaveConfig
+)
 	local function ClosePopupAndWait()
 		if TppUiCommand.IsShowPopup() then
 			TppUiCommand.ErasePopup()
@@ -1574,8 +1449,8 @@ local function ImportAnotherAreaSaveData( foundAreas, SAVE_FILE_CONFIG, SAVE_FIL
 		end
 	end
 	local function RestoreTempSavedConfingAndVarSave()
-		for index, value in pairs( tempSaveConfig ) do
-			Fox.Log("RestoreTempSavedConfing : index = " .. tostring(index) .. ", value = " .. tostring(value) )
+		for index, value in pairs(tempSaveConfig) do
+			Fox.Log("RestoreTempSavedConfing : index = " .. tostring(index) .. ", value = " .. tostring(value))
 			vars.optionSelectedIndices[index] = value
 		end
 		TppSave.VarSaveConfig()
@@ -1583,50 +1458,51 @@ local function ImportAnotherAreaSaveData( foundAreas, SAVE_FILE_CONFIG, SAVE_FIL
 
 	ClosePopupAndWait()
 
-	
-	TppUiCommand.ShowAreaPopup( foundAreas )
+	TppUiCommand.ShowAreaPopup(foundAreas)
 	while TppUiCommand.IsShowAreaPopup() do
 		DebugPrintState("waiting area popup close...")
 		coroutine.yield()
 	end
 	local importArea = TppUiCommand.GetAreaPopupResult()
-	if ( importArea == "new" ) then
-		
-		
-		
+	if importArea == "new" then
 		TppVarInit.ClearAllVarsAndSlot()
 		RestoreTempSavedConfingAndVarSave()
 		return importArea
 	end
 
-	
 	this.ShowLoadingSaveDataPopUp()
 
-	
 	local fileNames = {
 		[SAVE_FILE_CONFIG] = TppDefine.CONFIG_SAVE_FILE_NAME,
 		[SAVE_FILE_PERSONAL] = TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,
 		[SAVE_FILE_GAME] = TppSave.GetGameSaveFileName(),
 	}
-	
+
 	local loadCheckFuncs = {
 		[SAVE_FILE_CONFIG] = function()
-			
-			TppScriptVars.LoadVarsFromSlot( TppDefine.SAVE_SLOT.CONFIG, TppScriptVars.GROUP_BIT_VARS, TppScriptVars.CATEGORY_CONFIG )
-			
+			TppScriptVars.LoadVarsFromSlot(
+				TppDefine.SAVE_SLOT.CONFIG,
+				TppScriptVars.GROUP_BIT_VARS,
+				TppScriptVars.CATEGORY_CONFIG
+			)
+
 			RestoreTempSavedConfingAndVarSave()
 		end,
 		[SAVE_FILE_PERSONAL] = function()
-			TppScriptVars.LoadVarsFromSlot( TppDefine.SAVE_SLOT.PERSONAL, TppScriptVars.GROUP_BIT_VARS, TppScriptVars.CATEGORY_PERSONAL )
+			TppScriptVars.LoadVarsFromSlot(
+				TppDefine.SAVE_SLOT.PERSONAL,
+				TppScriptVars.GROUP_BIT_VARS,
+				TppScriptVars.CATEGORY_PERSONAL
+			)
 		end,
 		[SAVE_FILE_GAME] = function()
 			TppSave.CopyGameDataFromSavingSlot()
 		end,
 	}
-	
+
 	local importSaveFuncs = {
 		[SAVE_FILE_CONFIG] = function()
-			return TppSave.SaveConfigData(false, true)	
+			return TppSave.SaveConfigData(false, true)
 		end,
 		[SAVE_FILE_PERSONAL] = function()
 			return TppSave.SavePersonalData(false, true)
@@ -1635,13 +1511,15 @@ local function ImportAnotherAreaSaveData( foundAreas, SAVE_FILE_CONFIG, SAVE_FIL
 			return TppSave.SaveImportedGameData()
 		end,
 	}
-	
+
 	local importExistCount = 0
-	local importFileExists = {false, false, false}
-	local importFileLoaded = {false, false, false}
-	
+	local importFileExists = { false, false, false }
+	local importFileLoaded = { false, false, false }
+
 	for i = 1, SAVE_FILE_COUNT do
-		Fox.Log("TppScriptVars.RequestAreaFileExistence( " .. tostring(importArea).. ", " .. tostring(fileNames[i]) .. " )")
+		Fox.Log(
+			"TppScriptVars.RequestAreaFileExistence( " .. tostring(importArea) .. ", " .. tostring(fileNames[i]) .. " )"
+		)
 		TppScriptVars.RequestAreaFileExistence(importArea, fileNames[i])
 		while TppScriptVars.IsSavingOrLoading() do
 			DebugPrintState("ImportAnotherAreaSaveData : check file existence: " .. fileNames[i])
@@ -1652,52 +1530,40 @@ local function ImportAnotherAreaSaveData( foundAreas, SAVE_FILE_CONFIG, SAVE_FIL
 		if result == TppScriptVars.RESULT_OK then
 			importFileExists[i] = TppScriptVars.GetFileExistence()
 		else
-			
-
-
-
-
-
 			Fox.Log("TppScriptVars.GetLastResult is not TppScriptVars.RESULT_OK. result = " .. tostring(result))
 			return false
 		end
 	end
 
-	
 	for i = 1, SAVE_FILE_COUNT do
 		if importFileExists[i] then
-			local ret = loadFuncs[i]( importArea )
+			local ret = loadFuncs[i](importArea)
 			if ret == TppScriptVars.READ_FAILED then
 				return false
 			end
 
-			Fox.Log("ImportAnotherAreaSaveData : import save data load " .. tostring(fileNames[i]) .. ", importArea = " .. tostring(importArea) )
+			Fox.Log(
+				"ImportAnotherAreaSaveData : import save data load "
+					.. tostring(fileNames[i])
+					.. ", importArea = "
+					.. tostring(importArea)
+			)
 
 			while TppScriptVars.IsSavingOrLoading() do
-				DebugPrintState("ImportAnotherAreaSaveData : import save data load " .. tostring(fileNames[i]) .. ", importArea = " .. tostring(importArea) )
+				DebugPrintState(
+					"ImportAnotherAreaSaveData : import save data load "
+						.. tostring(fileNames[i])
+						.. ", importArea = "
+						.. tostring(importArea)
+				)
 				coroutine.yield()
 			end
 
 			local result = TppScriptVars.GetLastResult()
-			if ( result == TppScriptVars.RESULT_OK )
-			or ( result == TppScriptVars.RESULT_ERROR_LOAD_BACKUP ) then
+			if (result == TppScriptVars.RESULT_OK) or (result == TppScriptVars.RESULT_ERROR_LOAD_BACKUP) then
 				loadCheckFuncs[i]()
 				importFileLoaded[i] = true
 			else
-				
-
-
-
-
-
-
-
-
-
-
-
-
-
 				Fox.Log("TppScriptVars.GetLastResult is not TppScriptVars.RESULT_OK. result = " .. tostring(result))
 				return false
 			end
@@ -1707,7 +1573,6 @@ local function ImportAnotherAreaSaveData( foundAreas, SAVE_FILE_CONFIG, SAVE_FIL
 	ClosePopupAndWait()
 	this.ShowMakingSaveDataPopUp()
 
-	
 	for i = 1, SAVE_FILE_COUNT do
 		if importFileLoaded[i] then
 			local ret = importSaveFuncs[i]()
@@ -1715,31 +1580,26 @@ local function ImportAnotherAreaSaveData( foundAreas, SAVE_FILE_CONFIG, SAVE_FIL
 				return false
 			end
 
-			Fox.Log("ImportAnotherAreaSaveData : Save loaded import save data: " .. fileNames[i] .. ", importArea = " .. tostring(importArea) )
+			Fox.Log(
+				"ImportAnotherAreaSaveData : Save loaded import save data: "
+					.. fileNames[i]
+					.. ", importArea = "
+					.. tostring(importArea)
+			)
 			while TppScriptVars.IsSavingOrLoading() do
-				DebugPrintState("ImportAnotherAreaSaveData : Save loaded import save data: " .. fileNames[i] .. ", importArea = " .. tostring(importArea) )
+				DebugPrintState(
+					"ImportAnotherAreaSaveData : Save loaded import save data: "
+						.. fileNames[i]
+						.. ", importArea = "
+						.. tostring(importArea)
+				)
 				coroutine.yield()
 			end
 
 			local result = TppScriptVars.GetLastResult()
 			if result == TppScriptVars.RESULT_OK then
-				
 				fileExists[i] = true
 			else
-				
-
-
-
-
-
-
-
-
-
-
-
-
-
 				Fox.Log("TppScriptVars.GetLastResult is not TppScriptVars.RESULT_OK. result = " .. tostring(result))
 				return false
 			end
@@ -1748,7 +1608,6 @@ local function ImportAnotherAreaSaveData( foundAreas, SAVE_FILE_CONFIG, SAVE_FIL
 
 	return importArea
 end
-
 
 local function CreateOrLoadSaveData()
 	local DebugText = DebugText
@@ -1779,13 +1638,12 @@ local function CreateOrLoadSaveData()
 	local SAVE_FILE_GAME = 3
 	local SAVE_FILE_COUNT = 3
 
-	
 	local fileNames = {
 		[SAVE_FILE_CONFIG] = TppDefine.CONFIG_SAVE_FILE_NAME,
 		[SAVE_FILE_PERSONAL] = TppDefine.PERSONAL_DATA_SAVE_FILE_NAME,
 		[SAVE_FILE_GAME] = TppSave.GetGameSaveFileName(),
 	}
-	
+
 	local saveFuncs = {
 		[SAVE_FILE_CONFIG] = function()
 			TppSave.VarSaveConfig()
@@ -1800,44 +1658,43 @@ local function CreateOrLoadSaveData()
 			return TppSave.MakeNewGameSaveData()
 		end,
 	}
-	
+
 	local loadFuncs = {
-		[SAVE_FILE_CONFIG] = function( area )
-			return TppSave.LoadConfigDataFromSaveFile( area )
+		[SAVE_FILE_CONFIG] = function(area)
+			return TppSave.LoadConfigDataFromSaveFile(area)
 		end,
-		[SAVE_FILE_PERSONAL] = function( area )
-			return TppSave.LoadPersonalDataFromSaveFile( area )
+		[SAVE_FILE_PERSONAL] = function(area)
+			return TppSave.LoadPersonalDataFromSaveFile(area)
 		end,
-		[SAVE_FILE_GAME] = function( area )
-			return TppSave.LoadGameDataFromSaveFile( area )
+		[SAVE_FILE_GAME] = function(area)
+			return TppSave.LoadGameDataFromSaveFile(area)
 		end,
 	}
-	
+
 	local loadCheckFuncs = {
 		[SAVE_FILE_CONFIG] = function()
-			
-			TppScriptVars.LoadVarsFromSlot( TppDefine.SAVE_SLOT.CONFIG, TppScriptVars.GROUP_BIT_VARS, TppScriptVars.CATEGORY_CONFIG )
+			TppScriptVars.LoadVarsFromSlot(
+				TppDefine.SAVE_SLOT.CONFIG,
+				TppScriptVars.GROUP_BIT_VARS,
+				TppScriptVars.CATEGORY_CONFIG
+			)
 		end,
-		[SAVE_FILE_PERSONAL] = function()
-			
-		end,
+		[SAVE_FILE_PERSONAL] = function() end,
 		[SAVE_FILE_GAME] = function()
 			TppSave.CheckGameSaveDataLoadResult()
 		end,
 	}
 
-	
 	gvars.gameDataLoadingResult = TppDefine.SAVE_FILE_LOAD_RESULT.NOT_EXIST_FILE
 
-	
 	local existCount = 0
-	local fileExists = {false, false, false}
-	local fileCorrupt = {false, false, false}
-	local fileLoaded = {false, false, false}
+	local fileExists = { false, false, false }
+	local fileCorrupt = { false, false, false }
+	local fileLoaded = { false, false, false }
 	local ownerError = false
 	local fileCorruptError = false
 	for i = 1, SAVE_FILE_COUNT do
-		Fox.Log("TppScriptVars.RequestFileExistence[" .. tostring(i).. "]:" .. tostring(fileNames[i]))
+		Fox.Log("TppScriptVars.RequestFileExistence[" .. tostring(i) .. "]:" .. tostring(fileNames[i]))
 		TppScriptVars.RequestFileExistence(fileNames[i])
 		while TppScriptVars.IsSavingOrLoading() do
 			DebugPrintState("check file existence: " .. fileNames[i])
@@ -1852,14 +1709,11 @@ local function CreateOrLoadSaveData()
 				existCount = existCount + 1
 			end
 		elseif result == TppScriptVars.RESULT_ERROR_OWNER then
-			
 			ownerError = true
 		elseif result == TppScriptVars.RESULT_ERROR_FILE_CORRUPT then
-			
 			fileCorrupt[i] = true
 			fileCorruptError = true
 		else
-			
 			return "Seq_Demo_SaveDataError"
 		end
 	end
@@ -1874,13 +1728,11 @@ local function CreateOrLoadSaveData()
 			end
 			local popupSelect = TppUiCommand.GetPopupSelect()
 			if popupSelect == Popup.SELECT_OK then
-				
 				for i = 1, SAVE_FILE_COUNT do
 					fileExists[i] = false
 				end
 				existCount = 0
 			else
-				
 				return "Seq_Demo_RetryCreateOrLoadSaveData"
 			end
 		else
@@ -1892,7 +1744,7 @@ local function CreateOrLoadSaveData()
 		end
 	elseif ownerError then
 		TppUiCommand.SetPopupSelectNegative()
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.LOAD_RESULT_OWNER_ERROR, Popup.TYPE_TWO_BUTTON )
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.LOAD_RESULT_OWNER_ERROR, Popup.TYPE_TWO_BUTTON)
 		coroutine.yield()
 		while TppUiCommand.IsShowPopup() do
 			DebugPrintState("waiting owner-error popup closed...")
@@ -1900,19 +1752,15 @@ local function CreateOrLoadSaveData()
 		end
 		local popupSelect = TppUiCommand.GetPopupSelect()
 		if popupSelect == Popup.SELECT_OK then
-			
 			for i = 1, SAVE_FILE_COUNT do
 				fileExists[i] = false
 			end
 			existCount = 0
 		else
-			
 			return "Seq_Demo_RetryCreateOrLoadSaveData"
 		end
 	end
 
-	
-	
 	if existCount < SAVE_FILE_COUNT and Fox.GetPlatformName() == "Xbox360" then
 		TppScriptVars.RequestNecessaryStorageSpace()
 		while TppScriptVars.IsSavingOrLoading() do
@@ -1928,7 +1776,6 @@ local function CreateOrLoadSaveData()
 				return "Seq_Error_WriteSaveDataResultNoSpace"
 			end
 		else
-			
 			return "Seq_Demo_SaveDataError"
 		end
 	end
@@ -1936,9 +1783,6 @@ local function CreateOrLoadSaveData()
 	if not fileExists[SAVE_FILE_GAME] then
 		if InvitationManager.IsAccepted() then
 			InvitationManager.ResetAccept()
-			
-
-
 
 			TppUiCommand.ShowErrorPopup(5004, Popup.TYPE_ONE_BUTTON)
 			while TppUiCommand.IsShowPopup() do
@@ -1946,21 +1790,17 @@ local function CreateOrLoadSaveData()
 				coroutine.yield()
 			end
 		end
-
 	end
 
-	
 	if not fileExists[SAVE_FILE_CONFIG] then
-		
 		TppUiCommand.ShowLangPopup()
 		while TppUiCommand.IsShowLangPopup() do
 			DebugPrintState("select language")
 			coroutine.yield()
 		end
-		
+
 		ChangeLanguage()
 
-		
 		TppUiCommand.OpenBrightnessSetting()
 		while not TppUiCommand.IsEndBrightnessSetting() do
 			DebugPrintState("set brightness")
@@ -1968,17 +1808,14 @@ local function CreateOrLoadSaveData()
 		end
 	end
 
-	
 	if existCount ~= SAVE_FILE_COUNT then
 		this.ShowMakingSaveDataPopUp()
 	end
 
-	
 	for i = 1, SAVE_FILE_COUNT do
 		if not fileExists[i] then
 			local ret = saveFuncs[i]()
 			if ret == TppScriptVars.WRITE_FAILED then
-				
 				return "Seq_Demo_SaveDataError"
 			end
 
@@ -1989,54 +1826,46 @@ local function CreateOrLoadSaveData()
 
 			local result = TppScriptVars.GetLastResult()
 			if result == TppScriptVars.RESULT_OK then
-				
 			elseif result == TppScriptVars.RESULT_ERROR_NOSPACE then
-				
 				return "Seq_Error_WriteSaveDataResultNoSpace"
 			elseif result == TppScriptVars.RESULT_ERROR_INVALID_STORAGE then
-				
 				return "Seq_Error_WriteSaveDataResultInvalidStorage"
 			else
-				
 				return "Seq_Demo_SaveDataError"
 			end
 		end
 	end
 
-	
 	ClosePopupAndWait()
 
-	
-	if ( not fileExists[SAVE_FILE_GAME] ) and IsPlaystationFamily() then
+	if (not fileExists[SAVE_FILE_GAME]) and IsPlaystationFamily() then
 		this.ShowLoadingSaveDataPopUp()
 		local foundAreas = SearchSaveDataExistAreaList()
 		if next(foundAreas) then
-			
 			local tempSaveConfig = {
-				[0] = vars.optionSelectedIndices[0],	
-				[22] = vars.optionSelectedIndices[22],	
+				[0] = vars.optionSelectedIndices[0],
+				[22] = vars.optionSelectedIndices[22],
 			}
-			
-			
+
 			local IMPORT_RESULT_FAILED = false
 			local result
 			repeat
 				result = ImportAnotherAreaSaveData(
-					foundAreas, SAVE_FILE_CONFIG, SAVE_FILE_PERSONAL, SAVE_FILE_GAME, SAVE_FILE_COUNT, loadFuncs, fileExists, tempSaveConfig
+					foundAreas,
+					SAVE_FILE_CONFIG,
+					SAVE_FILE_PERSONAL,
+					SAVE_FILE_GAME,
+					SAVE_FILE_COUNT,
+					loadFuncs,
+					fileExists,
+					tempSaveConfig
 				)
 
 				ClosePopupAndWait()
 
-				if ( result == IMPORT_RESULT_FAILED ) then
-					
-
-
+				if result == IMPORT_RESULT_FAILED then
 					TppUiCommand.ShowErrorPopup(1121, Popup.TYPE_ONE_BUTTON)
-				elseif ( result ~= "new" ) then
-					
-
-
-
+				elseif result ~= "new" then
 					TppUiCommand.ShowErrorPopup(1120, Popup.TYPE_ONE_BUTTON)
 				end
 
@@ -2045,7 +1874,7 @@ local function CreateOrLoadSaveData()
 					coroutine.yield()
 				end
 
-			until( result ~= IMPORT_RESULT_FAILED )
+			until result ~= IMPORT_RESULT_FAILED
 		end
 	end
 
@@ -2058,12 +1887,10 @@ local function CreateOrLoadSaveData()
 	end
 	fileCorruptError = false
 
-	
 	for i = 1, SAVE_FILE_COUNT do
 		if fileExists[i] then
 			local ret = loadFuncs[i]()
 			if ret == TppScriptVars.READ_FAILED then
-				
 				return "Seq_Demo_SaveDataError"
 			end
 
@@ -2080,13 +1907,11 @@ local function CreateOrLoadSaveData()
 				loadCheckFuncs[i]()
 				fileLoaded[i] = true
 			elseif result == TppScriptVars.RESULT_ERROR_FILE_CORRUPT then
-				
 				fileCorrupt[i] = true
 				fileCorruptError = true
 			elseif result == TppScriptVars.RESULT_ERROR_NOSPACE then
 				return "Seq_Error_LoadSaveDataVersionError"
 			else
-				
 				return "Seq_Demo_SaveDataError"
 			end
 		end
@@ -2104,9 +1929,7 @@ local function CreateOrLoadSaveData()
 			end
 			local popupSelect = TppUiCommand.GetPopupSelect()
 			if popupSelect == Popup.SELECT_OK then
-				
 			else
-				
 				return "Seq_Demo_RetryCreateOrLoadSaveData"
 			end
 		else
@@ -2117,12 +1940,10 @@ local function CreateOrLoadSaveData()
 			end
 		end
 
-		
 		for i = 1, SAVE_FILE_COUNT do
 			if fileCorrupt[i] then
 				local ret = saveFuncs[i]()
 				if ret == TppScriptVars.WRITE_FAILED then
-					
 					return "Seq_Demo_SaveDataError"
 				end
 
@@ -2133,33 +1954,24 @@ local function CreateOrLoadSaveData()
 
 				local result = TppScriptVars.GetLastResult()
 				if result == TppScriptVars.RESULT_OK then
-					
 				elseif result == TppScriptVars.RESULT_ERROR_NOSPACE then
-					
 					return "Seq_Error_WriteSaveDataResultNoSpace"
 				elseif result == TppScriptVars.RESULT_ERROR_INVALID_STORAGE then
-					
 					return "Seq_Error_WriteSaveDataResultInvalidStorage"
 				else
-					
 					return "Seq_Demo_SaveDataError"
 				end
 			end
 		end
-
 	end
 
-
-	
 	if fileExists[SAVE_FILE_CONFIG] then
-		
 		ChangeLanguage()
 	end
 
 	if fileExists[SAVE_FILE_GAME] and not fileCorrupt[SAVE_FILE_GAME] then
 		local result = gvars.gameDataLoadingResult
 		if result == TppDefine.SAVE_FILE_LOAD_RESULT.OK then
-			
 		elseif result == TppDefine.SAVE_FILE_LOAD_RESULT.OK_LOAD_BACKUP then
 			return "Seq_Demo_UseBackUpLoadGameSaveData"
 		elseif result == TppDefine.SAVE_FILE_LOAD_RESULT.DIFFER_FROM_CURRENT_VERSION then
@@ -2184,7 +1996,6 @@ sequences.Seq_Demo_CreateOrLoadSaveData = {
 		if this.saveCoroutine then
 			local status, ret1 = coroutine.resume(this.saveCoroutine)
 			if not status then
-				
 				Fox.Error("init_sequence", string.format("error on CreateOnLoadSaveData. %s", tostring(ret1)))
 				self.nextSequence = "Seq_Demo_SaveDataError"
 				this.saveCoroutine = nil
@@ -2192,14 +2003,12 @@ sequences.Seq_Demo_CreateOrLoadSaveData = {
 			end
 
 			if coroutine.status(this.saveCoroutine) == "dead" then
-				
 				Fox.Log("CreateOrLoadSaveData() finished. next: " .. tostring(ret1))
 				self.nextSequence = ret1
 				this.saveCoroutine = nil
 				return
 			end
 		else
-			
 			if TppUiCommand.IsShowPopup() then
 				if DebugText then
 					DebugText.Print(DebugText.NewContext(), "waiting popup closed...")
@@ -2209,15 +2018,14 @@ sequences.Seq_Demo_CreateOrLoadSaveData = {
 				TppSequence.SetNextSequence(self.nextSequence)
 			end
 		end
-
 	end,
 	nextSequence = nil,
 }
 
 sequences.Seq_Demo_SaveDataError = {
 	OnEnter = function(self)
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.SAVE_FAILED_UNKNOWN_REASON )
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SAVE_FAILED_UNKNOWN_REASON)
 	end,
 	OnUpdate = function(self)
 		if DebugText then
@@ -2232,15 +2040,14 @@ sequences.Seq_Demo_RetryCreateOrLoadSaveData = {
 	end,
 }
 
-
 sequences.Seq_Error_WriteSaveDataResultNoSpacePS4 = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		TppScriptVars.ShowNoSpaceDialog()
 	end,
 
 	OnUpdate = function(self)
 		if DebugText then
-			DebugText.Print(DebugText.NewContext(), {1.0, 0.0, 0.0}, "Save data result error : no space ps4.")
+			DebugText.Print(DebugText.NewContext(), { 1.0, 0.0, 0.0 }, "Save data result error : no space ps4.")
 		end
 
 		if TppScriptVars.IsShowingNoSpaceDialog() then
@@ -2251,11 +2058,9 @@ sequences.Seq_Error_WriteSaveDataResultNoSpacePS4 = {
 	end,
 }
 
-
 sequences.Seq_Error_WriteSaveDataResultNoSpace = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		if Fox.GetPlatformName() == "PS4" then
-			
 			TppSequence.SetNextSequence("Seq_Error_WriteSaveDataResultNoSpacePS4")
 			return
 		end
@@ -2269,7 +2074,11 @@ sequences.Seq_Error_WriteSaveDataResultNoSpace = {
 		end
 
 		if DebugText then
-			DebugText.Print(DebugText.NewContext(), {1.0, 0.0, 0.0}, "Save data result error : checking storage space.")
+			DebugText.Print(
+				DebugText.NewContext(),
+				{ 1.0, 0.0, 0.0 },
+				"Save data result error : checking storage space."
+			)
 		end
 
 		TppUI.ShowAccessIconContinue()
@@ -2282,94 +2091,87 @@ sequences.Seq_Error_WriteSaveDataResultNoSpace = {
 		if result == TppScriptVars.RESULT_OK then
 			TppSequence.SetNextSequence("Seq_Error_WriteSaveDataResultNoSpaceShowPopUp")
 		else
-			
 			TppSequence.SetNextSequence("Seq_Error_WriteSaveDataResultUnknown")
 		end
 	end,
 }
 
-
 sequences.Seq_Error_WriteSaveDataResultNoSpaceShowPopUp = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		local buttunSetting = Popup.TYPE_ONE_BUTTON
 		if this.IsNeedStorageSpaceCheck() then
-			TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )	
-			buttunSetting = nil 	
+			TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+			buttunSetting = nil
 		end
-		
+
 		local necessarySize = TppScriptVars.GetNecessaryStorageSpaceSize()
-		local sizeValue, unitLetter, dotPosition = Tpp.GetFormatedStorageSizePopupParam( necessarySize )
-		TppUiCommand.SetErrorPopupParam( sizeValue, unitLetter, dotPosition )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.SAVE_FAILED_NOT_ENOUGH_STORAGE_CAPACITY, buttunSetting )
+		local sizeValue, unitLetter, dotPosition = Tpp.GetFormatedStorageSizePopupParam(necessarySize)
+		TppUiCommand.SetErrorPopupParam(sizeValue, unitLetter, dotPosition)
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SAVE_FAILED_NOT_ENOUGH_STORAGE_CAPACITY, buttunSetting)
 	end,
 
 	OnUpdate = function(self)
 		if DebugText then
-			DebugText.Print(DebugText.NewContext(), {1.0, 0.0, 0.0}, "Save data result error : checking storage space.")
+			DebugText.Print(
+				DebugText.NewContext(),
+				{ 1.0, 0.0, 0.0 },
+				"Save data result error : checking storage space."
+			)
 		end
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
-					
-
-
-
 
 					msg = "PopupClose",
 					sender = TppDefine.ERROR_ID.SAVE_FAILED_NOT_ENOUGH_STORAGE_CAPACITY,
-					func = function( errorId )
+					func = function(errorId)
 						TppSequence.SetNextSequence("Seq_Demo_SelectStorage")
 					end,
 				},
 			},
-		}
+		})
 	end,
 }
 
-
 sequences.Seq_Error_WriteSaveDataResultInvalidStorage = {
-	OnEnter = function( self )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.SAVE_FAILED_CANNOT_FIND_STORAGE, Popup.TYPE_ONE_BUTTON )
+	OnEnter = function(self)
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SAVE_FAILED_CANNOT_FIND_STORAGE, Popup.TYPE_ONE_BUTTON)
 	end,
 
 	OnUpdate = function(self)
 		if DebugText then
-			DebugText.Print(DebugText.NewContext(), {1.0, 0.0, 0.0}, "Save data result error : invalid storage.")
+			DebugText.Print(DebugText.NewContext(), { 1.0, 0.0, 0.0 }, "Save data result error : invalid storage.")
 		end
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
-					
-
-
 
 					msg = "PopupClose",
 					sender = TppDefine.ERROR_ID.SAVE_FAILED_CANNOT_FIND_STORAGE,
-					func = function( errorId )
+					func = function(errorId)
 						TppSequence.SetNextSequence("Seq_Demo_SelectStorage")
 					end,
 				},
 			},
-		}
+		})
 	end,
 }
 
-
 sequences.Seq_Error_WriteSaveDataResultUnknown = {
-	OnEnter = function( self )
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.SAVE_FAILED_UNKNOWN_REASON )
+	OnEnter = function(self)
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.SAVE_FAILED_UNKNOWN_REASON)
 	end,
 
 	OnUpdate = function(self)
 		if DebugText then
-			DebugText.Print(DebugText.NewContext(), {1.0, 0.0, 0.0}, "Save data result error.")
+			DebugText.Print(DebugText.NewContext(), { 1.0, 0.0, 0.0 }, "Save data result error.")
 		end
 	end,
 }
@@ -2380,18 +2182,18 @@ function this.OnReadSaveDataError()
 end
 
 sequences.Seq_Demo_UseBackUpLoadGameSaveData = {
-	OnEnter = function( self )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.LOAD_RESULT_BACKUP_ERROR, Popup.TYPE_ONE_BUTTON )
+	OnEnter = function(self)
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.LOAD_RESULT_BACKUP_ERROR, Popup.TYPE_ONE_BUTTON)
 	end,
 
 	OnUpdate = function(self)
 		if DebugText then
-			DebugText.Print(DebugText.NewContext(), {1.0, 0.0, 0.0}, "Save data write error. use back up data.")
+			DebugText.Print(DebugText.NewContext(), { 1.0, 0.0, 0.0 }, "Save data write error. use back up data.")
 		end
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "PopupClose",
@@ -2401,21 +2203,20 @@ sequences.Seq_Demo_UseBackUpLoadGameSaveData = {
 					end,
 				},
 			},
-		}
+		})
 	end,
 }
 
-
 sequences.Seq_Error_LoadSaveDataVersionError = {
-	OnEnter = function( self )
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( TppDefine.ERROR_ID.LOAD_RESULT_VERSION_ERROR )
+	OnEnter = function(self)
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(TppDefine.ERROR_ID.LOAD_RESULT_VERSION_ERROR)
 	end,
 }
 
 sequences.Seq_Demo_LogInKonamiServer = {
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			Network = {
 				{
 					msg = "EndLogin",
@@ -2424,13 +2225,16 @@ sequences.Seq_Demo_LogInKonamiServer = {
 					end,
 				},
 			},
-		}
+		})
 	end,
 
-	OnEnter = function( self )
-		
-		TppScriptVars.LoadVarsFromSlot( TppDefine.SAVE_SLOT.PERSONAL, TppScriptVars.GROUP_BIT_VARS, TppScriptVars.CATEGORY_PERSONAL )
-		if DEBUG then	
+	OnEnter = function(self)
+		TppScriptVars.LoadVarsFromSlot(
+			TppDefine.SAVE_SLOT.PERSONAL,
+			TppScriptVars.GROUP_BIT_VARS,
+			TppScriptVars.CATEGORY_PERSONAL
+		)
+		if DEBUG then
 			TppSequence.SetNextSequence("Seq_Demo_CheckPatchDlcForInvitation")
 			return
 		end
@@ -2462,13 +2266,10 @@ sequences.Seq_Demo_ShowDlcError = {
 	OnEnter = function(self)
 		local dlcError = Dlc.GetLastError()
 		if dlcError == DlcError.E_NETWORK then
-			
 			TppSequence.SetNextSequence("Seq_Demo_ShowDlcErrorNetwork")
 		else
-			
 			TppSequence.SetNextSequence("Seq_Demo_ShowDlcAnnouncePopup")
 		end
-
 	end,
 }
 
@@ -2478,7 +2279,6 @@ sequences.Seq_Demo_ShowDlcErrorNetwork = {
 	end,
 	OnUpdate = function(self)
 		if TppUiCommand.IsShowPopup() then
-
 		else
 			TppSequence.SetNextSequence("Seq_Demo_ShowDlcAnnouncePopup")
 		end
@@ -2489,15 +2289,15 @@ sequences.Seq_Demo_ShowDlcAnnouncePopup = {
 	OnEnter = function(self)
 		TppUiCommand.ShowDlcAnnouncePopup()
 	end,
-	
-	OnUpdate = function( self )
+
+	OnUpdate = function(self)
 		if DebugText then
 			DebugText.Print(DebugText.NewContext(), "Showing dlc announce popup ...")
 		end
 	end,
 
 	Messages = function(self)
-		return StrCode32Table{
+		return StrCode32Table({
 			UI = {
 				{
 					msg = "EndDlcAnnounce",
@@ -2506,7 +2306,7 @@ sequences.Seq_Demo_ShowDlcAnnouncePopup = {
 					end,
 				},
 			},
-		}
+		})
 	end,
 	OnLeave = function(self)
 		TppSave.CheckAndSavePersonalData()
@@ -2525,8 +2325,8 @@ sequences.Seq_Demo_CheckPatchDlcForInvitation = {
 			TppSequence.SetNextSequence("Seq_Demo_CheckMgoInvitation")
 			return
 		end
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( 5100 )
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(5100)
 	end,
 	OnUpdate = function(self)
 		if PatchDlc.IsCheckingPatchDlc() then
@@ -2540,57 +2340,47 @@ sequences.Seq_Demo_CheckPatchDlcForInvitation = {
 	end,
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function CommonPatchDlcCheckCoroutine( dlcType, DidCanceledDownloadRequest, OnCancelDownloadRequestFunc, popUpId_ConfirmDownloadRequest, popUpId_DownloadRequestFailed )
-	
+local function CommonPatchDlcCheckCoroutine(
+	dlcType,
+	DidCanceledDownloadRequest,
+	OnCancelDownloadRequestFunc,
+	popUpId_ConfirmDownloadRequest,
+	popUpId_DownloadRequestFailed
+)
 	local function DebugPrintState(state)
 		if DebugText then
 			local debugDlcTypeText = Tpp.DEBUG_debugDlcTypeTextTable[dlcType]
-			DebugText.Print(DebugText.NewContext(), "CommonPatchDlcCheckCoroutine: dltType = " .. tostring(debugDlcTypeText) .. ", " .. tostring(state))
+			DebugText.Print(
+				DebugText.NewContext(),
+				"CommonPatchDlcCheckCoroutine: dltType = " .. tostring(debugDlcTypeText) .. ", " .. tostring(state)
+			)
 		end
 	end
 	local function notExistPatchDlcFunc()
-		
 		if not SignIn.IsOnlineSignedIn() then
 			return
 		end
 
-		
 		if DidCanceledDownloadRequest() then
 			Fox.Log("PatchDlc download request cancel, because already canceled. dlcType = " .. tostring(dlcType))
 			return
 		end
 
-		if not Tpp.IsPatchDlcValidPlatform( dlcType ) then
-			
-			Fox.Error("Invalid platform. Stop PatchDlc down load request. platform = " .. tostring(platform) )
+		if not Tpp.IsPatchDlcValidPlatform(dlcType) then
+			Fox.Error("Invalid platform. Stop PatchDlc down load request. platform = " .. tostring(platform))
 			return false
 		end
 
-		
-		TppUiCommand.ShowErrorPopup( popUpId_ConfirmDownloadRequest, Popup.TYPE_TWO_BUTTON )
+		TppUiCommand.ShowErrorPopup(popUpId_ConfirmDownloadRequest, Popup.TYPE_TWO_BUTTON)
 
 		while TppUiCommand.IsShowPopup() do
 			DebugPrintState("waiting popup closed...")
 			coroutine.yield()
 		end
 
-		
 		local popUpSelect = TppUiCommand.GetPopupSelect()
 		if popUpSelect ~= Popup.SELECT_OK then
-			OnCancelDownloadRequestFunc() 
+			OnCancelDownloadRequestFunc()
 			while TppSave.IsSaving() do
 				DebugPrintState("waiting saving end...")
 				coroutine.yield()
@@ -2598,40 +2388,32 @@ local function CommonPatchDlcCheckCoroutine( dlcType, DidCanceledDownloadRequest
 			return false
 		end
 
-		
-
-
-		PatchDlc.RequestDownloadingPatchDlc( dlcType )
+		PatchDlc.RequestDownloadingPatchDlc(dlcType)
 		while PatchDlc.IsRequestingDownloadingPatchDlc() do
 			DebugPrintState("PatchDlc download requesting ...")
 			TppUI.ShowAccessIconContinue()
 			coroutine.yield()
 		end
 
-		
 		if PatchDlc.GetRequestDownloadingResult() ~= PatchDlc.REQUEST_DOWNLOADING_RESULT_OK then
-			TppUiCommand.ShowErrorPopup( popUpId_DownloadRequestFailed, Popup.TYPE_ONE_BUTTON )
-			
+			TppUiCommand.ShowErrorPopup(popUpId_DownloadRequestFailed, Popup.TYPE_ONE_BUTTON)
+
 			while TppUiCommand.IsShowPopup() do
 				DebugPrintState("waiting popup closed...")
 				coroutine.yield()
 			end
 		end
-
 	end
 
-	return Tpp.PatchDlcCheckCoroutine( nil, notExistPatchDlcFunc, nil, dlcType ) 
+	return Tpp.PatchDlcCheckCoroutine(nil, notExistPatchDlcFunc, nil, dlcType)
 end
 
 sequences.Seq_Demo_CheckPatchDlc = {
 	OnEnter = function(self)
-		
-
-
 		local function InitPatchDlcCheck()
 			local function DidCancelMgoPathDlcDownloadRequest()
 				Fox.Log("DidCancelMgoPathDlcDownloadRequest")
-				if ( vars.didCancelPatchDlcDownloadRequest == 1 ) then					
+				if vars.didCancelPatchDlcDownloadRequest == 1 then
 					return true
 				else
 					return false
@@ -2643,20 +2425,12 @@ sequences.Seq_Demo_CheckPatchDlc = {
 				vars.isPersonalDirty = 1
 				TppSave.CheckAndSavePersonalData()
 			end
-			
-
-
-
-
 
 			local popUpId_ConfirmDownloadRequest = 5101
-			
-
-
 
 			local popUpId_DownloadRequestFailed = 5102
 			return CommonPatchDlcCheckCoroutine(
-				PatchDlc.PATCH_DLC_TYPE_MGO_DATA,	
+				PatchDlc.PATCH_DLC_TYPE_MGO_DATA,
 				DidCancelMgoPathDlcDownloadRequest,
 				OnDenyMgoPathDlcDownloadRequest,
 				popUpId_ConfirmDownloadRequest,
@@ -2665,22 +2439,18 @@ sequences.Seq_Demo_CheckPatchDlc = {
 		end
 		mvars.init_patchDlcCheckCoroutine = coroutine.create(InitPatchDlcCheck)
 	end,
-	
-	OnUpdate = function( self )
+
+	OnUpdate = function(self)
 		if mvars.init_patchDlcCheckCoroutine then
 			local status, ret1 = coroutine.resume(mvars.init_patchDlcCheckCoroutine)
 
-			
 			if not TppGameSequence.IsMaster() then
-				if ( not status )then
+				if not status then
 					Fox.Hungup("Script error in InitPatchDlcCheck")
 				end
 			end
 
-			
-			
-			if ( coroutine.status(mvars.init_patchDlcCheckCoroutine) == "dead" )
-			or ( not status ) then
+			if (coroutine.status(mvars.init_patchDlcCheckCoroutine) == "dead") or not status then
 				mvars.init_patchDlcCheckCoroutine = nil
 				TppSequence.SetNextSequence("Seq_Demo_CheckCompatibilityPatchDlc")
 				return ret1
@@ -2688,66 +2458,44 @@ sequences.Seq_Demo_CheckPatchDlc = {
 		end
 	end,
 
-	OnLeave = function(self)
-	end,
+	OnLeave = function(self) end,
 
-	
-	
-	
 	ignoreSignInUserChanged = true,
 }
 
 sequences.Seq_Demo_CheckMgoInvitation = {
-	OnEnter = function( self )
-		
+	OnEnter = function(self)
 		if not InvitationManager.IsAccepted() then
 			TppSequence.SetNextSequence("Seq_Demo_CheckDlc")
 			return
 		end
 
-		
 		if TppException.IsDisabledMgoInChinaKorea() then
-			
-
-
-			TppUiCommand.ShowErrorPopup( 5013, Popup.TYPE_ONE_BUTTON )
+			TppUiCommand.ShowErrorPopup(5013, Popup.TYPE_ONE_BUTTON)
 			return
 		end
 
 		local storySequence = GetSavingSlotStorySequence()
-		
-		if not TppStory.CanPlayMgo( storySequence ) then
-			
 
-
-
-			TppUiCommand.ShowErrorPopup( 5004, Popup.TYPE_ONE_BUTTON )
+		if not TppStory.CanPlayMgo(storySequence) then
+			TppUiCommand.ShowErrorPopup(5004, Popup.TYPE_ONE_BUTTON)
 			return
 		end
 
 		if not PatchDlc.DoesExistPatchDlc() then
-			
-
-
-
-			TppUiCommand.ShowErrorPopup( 5006, Popup.TYPE_ONE_BUTTON )
+			TppUiCommand.ShowErrorPopup(5006, Popup.TYPE_ONE_BUTTON)
 			return
 		end
 
 		if not InvitationManager.IsCurrentUserInvited() then
-			
-
-
-
-			TppUiCommand.ShowErrorPopup( 5005, Popup.TYPE_ONE_BUTTON )
+			TppUiCommand.ShowErrorPopup(5005, Popup.TYPE_ONE_BUTTON)
 			return
 		end
 
-		
 		TppSequence.SetNextSequence("Seq_Demo_CheckMgoChunkInstallation")
 	end,
 
-	OnUpdate = function( self )		
+	OnUpdate = function(self)
 		if TppUiCommand.IsShowPopup() then
 			return
 		end
@@ -2756,85 +2504,74 @@ sequences.Seq_Demo_CheckMgoInvitation = {
 	end,
 
 	OnLeave = function(self, nextSequenceName)
-		if ( nextSequenceName == "Seq_Demo_CheckDlc" ) then
-			
-			
+		if nextSequenceName == "Seq_Demo_CheckDlc" then
 			if not InvitationManager.IsAccepted() then
 				InvitationManager.EnableMessage(true)
 			else
 				TppException.CancelMgoInvitation()
 			end
-	
 		end
 	end,
-	
 }
-
 
 sequences.Seq_Demo_CheckMgoChunkInstallation = {
 	OnEnter = function(self)
-		if Chunk.GetChunkState( Chunk.INDEX_MGO ) == Chunk.STATE_INSTALLED then
+		if Chunk.GetChunkState(Chunk.INDEX_MGO) == Chunk.STATE_INSTALLED then
 			TppSequence.SetNextSequence("Seq_Demo_GoToMgo")
 			return
 		end
 
-		Tpp.StartWaitChunkInstallation( Chunk.INDEX_MGO )
-		Tpp.ShowChunkInstallingPopup( Chunk.INDEX_MGO, true )	
+		Tpp.StartWaitChunkInstallation(Chunk.INDEX_MGO)
+		Tpp.ShowChunkInstallingPopup(Chunk.INDEX_MGO, true)
 	end,
 
 	OnUpdate = function(self)
 		if Chunk.GetChunkState(Chunk.INDEX_MGO) == Chunk.STATE_INSTALLED then
-			Fox.Log("Install Chunk Index:" ..tostring(self.chunkIndex) )
-			
-			if TppUiCommand.IsShowPopup( TppDefine.ERROR_ID.NOW_INSTALLING ) then
+			Fox.Log("Install Chunk Index:" .. tostring(self.chunkIndex))
+
+			if TppUiCommand.IsShowPopup(TppDefine.ERROR_ID.NOW_INSTALLING) then
 				TppUiCommand.ErasePopup()
 				return
 			end
-			
+
 			TppSequence.SetNextSequence("Seq_Demo_GoToMgo")
 			return
 		end
 
-		Tpp.ShowChunkInstallingPopup( Chunk.INDEX_MGO, true )	
-		
-		
+		Tpp.ShowChunkInstallingPopup(Chunk.INDEX_MGO, true)
+
 		TppUI.ShowAccessIconContinue()
 
-		if not TppUiCommand.IsShowPopup( TppDefine.ERROR_ID.NOW_INSTALLING ) then
+		if not TppUiCommand.IsShowPopup(TppDefine.ERROR_ID.NOW_INSTALLING) then
 			if InvitationManager.IsAccepted() then
 				TppSequence.SetNextSequence("Seq_Demo_CheckDlc")
 			else
-				
 				TppSequence.SetNextSequence("Seq_Demo_Init")
 			end
 		end
 	end,
 
 	OnLeave = function(self, nextSequenceName)
-		if ( nextSequenceName == "Seq_Demo_CheckDlc" ) then
+		if nextSequenceName == "Seq_Demo_CheckDlc" then
 			TppException.CancelMgoInvitation()
 		end
 	end,
 }
 
-
 sequences.Seq_Demo_GoToMgo = {
-	OnEnter = function( self )
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
+	OnEnter = function(self)
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
 		local popUpId
 		if InvitationManager.IsAccepted() then
-			popUpId = 5000	
+			popUpId = 5000
 		else
-			
-			popUpId = 5050	
+			popUpId = 5050
 		end
-		TppUiCommand.ShowErrorPopup( popUpId )
+		TppUiCommand.ShowErrorPopup(popUpId)
 		mvars.init_invitationAcceptedShowTime = 2.0
-		TppException.isNowGoingToMgo = true		
+		TppException.isNowGoingToMgo = true
 	end,
-	OnUpdate = function( self )
-		
-		
+	OnUpdate = function(self)
 		if mvars.init_invitationAcceptedShowTime then
 			mvars.init_invitationAcceptedShowTime = mvars.init_invitationAcceptedShowTime - Time.GetFrameTime()
 			if mvars.init_invitationAcceptedShowTime <= 0 then
@@ -2846,7 +2583,6 @@ sequences.Seq_Demo_GoToMgo = {
 			return
 		end
 
-		
 		if mvars.init_invitationAcceptedShowTime then
 			Mission.SwitchApplication("mgo")
 			return
@@ -2856,13 +2592,10 @@ sequences.Seq_Demo_GoToMgo = {
 
 sequences.Seq_Demo_CheckCompatibilityPatchDlc = {
 	OnEnter = function(self)
-		
-
-
 		local function CompatibilityPatchDlcCoroutine()
 			local function DidCancelCompatibilityPatchDlcDownloadRequest()
 				Fox.Log("DidCancelCompatibilityPatchDlcDownloadRequest")
-				if ( vars.didCancelFobPatchDlcDownloadRequest == 1 ) then			
+				if vars.didCancelFobPatchDlcDownloadRequest == 1 then
 					return true
 				else
 					return false
@@ -2874,16 +2607,12 @@ sequences.Seq_Demo_CheckCompatibilityPatchDlc = {
 				vars.isPersonalDirty = 1
 				TppSave.CheckAndSavePersonalData()
 			end
-			
-
 
 			local popUpId_ConfirmDownloadRequest = 5151
-			
-
 
 			local popUpId_DownloadRequestFailed = 5152
 			return CommonPatchDlcCheckCoroutine(
-				PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA,	
+				PatchDlc.PATCH_DLC_TYPE_TPP_COMPATIBILITY_DATA,
 				DidCancelCompatibilityPatchDlcDownloadRequest,
 				OnDenyCompatibilityPatchDlcDownloadRequest,
 				popUpId_ConfirmDownloadRequest,
@@ -2892,26 +2621,22 @@ sequences.Seq_Demo_CheckCompatibilityPatchDlc = {
 		end
 		mvars.init_CompatibilityPatchDlcCoroutine = coroutine.create(CompatibilityPatchDlcCoroutine)
 	end,
-	
-	GoNextSequence = function( self )
+
+	GoNextSequence = function(self)
 		TppSequence.SetNextSequence("Seq_Demo_CheckBootTypeMgo")
 	end,
 
-	OnUpdate = function( self )
+	OnUpdate = function(self)
 		if mvars.init_CompatibilityPatchDlcCoroutine then
 			local status, ret1 = coroutine.resume(mvars.init_CompatibilityPatchDlcCoroutine)
 
-			
 			if not TppGameSequence.IsMaster() then
-				if ( not status )then
+				if not status then
 					Fox.Hungup("Script error in CompatibilityPatchDlcCoroutine")
 				end
 			end
 
-			
-			
-			if ( coroutine.status(mvars.init_CompatibilityPatchDlcCoroutine) == "dead" )
-			or ( not status ) then
+			if (coroutine.status(mvars.init_CompatibilityPatchDlcCoroutine) == "dead") or not status then
 				mvars.init_CompatibilityPatchDlcCoroutine = nil
 				self.GoNextSequence()
 				return ret1
@@ -2921,121 +2646,91 @@ sequences.Seq_Demo_CheckCompatibilityPatchDlc = {
 }
 
 sequences.Seq_Demo_CheckBootTypeMgo = {
-	OnEnter = function( self )
-		
-		if ( not TppUiCommand.IsBootTypeMGO() )
-		or Mission.IsBootedFromMgo() then
+	OnEnter = function(self)
+		if (not TppUiCommand.IsBootTypeMGO()) or Mission.IsBootedFromMgo() then
 			self.GoCheckBootGz()
 			return
 		else
-			
-			if ( not Tpp.IsMaster() ) and this.IsWindowsEditor() then
+			if (not Tpp.IsMaster()) and this.IsWindowsEditor() then
 				self.GoCheckBootGz()
 				return
 			end
 		end
 
 		local storySequence = GetSavingSlotStorySequence()
-		
-		if not TppStory.CanPlayMgo( storySequence ) then
-			
 
-
-
-			TppUiCommand.ShowErrorPopup( 5051, Popup.TYPE_ONE_BUTTON )
+		if not TppStory.CanPlayMgo(storySequence) then
+			TppUiCommand.ShowErrorPopup(5051, Popup.TYPE_ONE_BUTTON)
 			return
 		end
 
 		if not PatchDlc.DoesExistPatchDlc() then
-			
-
-
-
-			TppUiCommand.ShowErrorPopup( 5103, Popup.TYPE_ONE_BUTTON )
+			TppUiCommand.ShowErrorPopup(5103, Popup.TYPE_ONE_BUTTON)
 			return
 		end
 
-		
 		TppSequence.SetNextSequence("Seq_Demo_CheckMgoChunkInstallation")
 	end,
 
-	OnUpdate = function( self )		
+	OnUpdate = function(self)
 		if TppUiCommand.IsShowPopup() then
 			return
 		end
 
-		
 		self.GoCheckBootGz()
 	end,
 
-	GoCheckBootGz = function( self )
+	GoCheckBootGz = function(self)
 		TppSequence.SetNextSequence("Seq_Demo_CheckBootGz")
 	end,
 
-	OnLeave = function(self, nextSequenceName)
-	end,
-	
+	OnLeave = function(self, nextSequenceName) end,
 }
 
-
 sequences.Seq_Demo_CheckBootGz = {
-	OnEnter = function( self )
-		
-		if ( not Tpp.IsMaster() ) and this.IsWindowsEditor() then
+	OnEnter = function(self)
+		if (not Tpp.IsMaster()) and this.IsWindowsEditor() then
 			self.GoInitSequence()
 			return
 		end
 
 		local storySequence = GetSavingSlotStorySequence()
-		
-		if IsPlaystationFamily()
-		and ( not Mission.IsBootedFromGz() )
-		and ( not TppStory.CanPlayMgo( storySequence ) ) then
-			
 
-
-
-			TppUiCommand.ShowErrorPopup( 9030, Popup.TYPE_TWO_BUTTON )
+		if IsPlaystationFamily() and (not Mission.IsBootedFromGz()) and (not TppStory.CanPlayMgo(storySequence)) then
+			TppUiCommand.ShowErrorPopup(9030, Popup.TYPE_TWO_BUTTON)
 			return
 		end
 
-		
 		self.GoInitSequence()
 	end,
 
-	OnUpdate = function( self )		
+	OnUpdate = function(self)
 		if TppUiCommand.IsShowPopup() then
 			return
 		end
 
 		local popUpSelect = TppUiCommand.GetPopupSelect()
 		if popUpSelect == Popup.SELECT_OK then
-			
 			TppSequence.SetNextSequence("Seq_Demo_GoToGz")
 		else
 			self.GoInitSequence()
 		end
 	end,
 
-	GoInitSequence = function( self )
+	GoInitSequence = function(self)
 		TppSequence.SetNextSequence("Seq_Demo_Init")
 	end,
 
-	OnLeave = function(self, nextSequenceName)
-	end,
-	
+	OnLeave = function(self, nextSequenceName) end,
 }
 
-
 sequences.Seq_Demo_GoToGz = {
-	OnEnter = function( self )
-		TppUiCommand.SetPopupType( "POPUP_TYPE_NO_BUTTON_NO_EFFECT" )
-		TppUiCommand.ShowErrorPopup( 9031 ) 
+	OnEnter = function(self)
+		TppUiCommand.SetPopupType("POPUP_TYPE_NO_BUTTON_NO_EFFECT")
+		TppUiCommand.ShowErrorPopup(9031)
 		mvars.init_goingToGzDialogShowTime = 2.0
 	end,
-	OnUpdate = function( self )
-		
-		
+	OnUpdate = function(self)
 		if mvars.init_goingToGzDialogShowTime then
 			mvars.init_goingToGzDialogShowTime = mvars.init_goingToGzDialogShowTime - Time.GetFrameTime()
 			if mvars.init_goingToGzDialogShowTime <= 0 then
@@ -3047,7 +2742,6 @@ sequences.Seq_Demo_GoToGz = {
 			return
 		end
 
-		
 		if mvars.init_goingToGzDialogShowTime then
 			Mission.SwitchApplication("gz")
 			return
@@ -3056,28 +2750,27 @@ sequences.Seq_Demo_GoToGz = {
 }
 
 sequences.Seq_Demo_Init = {
-	OnEnter = function( self )
+	OnEnter = function(self)
 		if SignIn then
 			SignIn.SetStartupProcessCompleted(true)
 		end
-		TppUiCommand.CreateEmblem( 'MyEmblem' )
+		TppUiCommand.CreateEmblem("MyEmblem")
 		AvatarPreloadTextureDaemon.PreloadRequestForLocalPlayer()
 	end,
 
-	OnUpdate = function( self )
+	OnUpdate = function(self)
 		if DebugText then
 			DebugText.Print(DebugText.NewContext(), "Crating emblem Data ...")
 		end
-		
+
 		TppUI.ShowAccessIconContinue()
-		
+
 		if TppUiCommand.IsCreatingEmblem() then
 			return
 		end
 
 		TppSequence.SetNextSequence("Seq_Demo_StartTitle")
 	end,
-
 }
 
 sequences.Seq_Demo_StartTitle = {
@@ -3091,24 +2784,23 @@ sequences.Seq_Demo_StartTitle = {
 		else
 			local platform = Fox.GetPlatformName()
 			if Selector then
-				if platform ~= 'Windows' or not Editor then
+				if platform ~= "Windows" or not Editor then
 					tpp_editor_menu2.StartTestStage(60000)
 					return
 				else
 					local mode = Fox.GetActMode()
-					if( mode == "GAME" ) then
-						Fox.SetActMode( "EDIT" )
+					if mode == "GAME" then
+						Fox.SetActMode("EDIT")
 					end
 					TppUI.FadeIn(TppUI.FADE_SPEED.FADE_MOMENT)
-					TppSoundDaemon.ResetMute( 'Loading' )	
+					TppSoundDaemon.ResetMute("Loading")
 				end
 			else
-				
 				self.StartQARelealsePreTitleSequence()
 			end
 		end
 	end,
-	
+
 	StartQARelealsePreTitleSequence = function()
 		Fox.Log("init mission : StartQARelealsePreTitleSequence")
 		if MissionTest and MissionTest.qaReleaseEntryFunction then
@@ -3126,32 +2818,26 @@ sequences.Seq_Demo_ShowKonamiAndFoxLogo = {
 		local kjpLogoScreenId = SplashScreen.GetSplashScreenWithName("kjpLogo")
 		local foxLogoScreenId = SplashScreen.GetSplashScreenWithName("foxLogo")
 
-		
 		local function StateCallback(screenId, state)
 			if state == SplashScreen.STATE_DELETE then
 				Fox.Log("konamiLogoScreen is deleted. show fox logo.")
-				SplashScreen.Show( kjpLogoScreenId, 1.0, 4.0, 1.0)
+				SplashScreen.Show(kjpLogoScreenId, 1.0, 4.0, 1.0)
 			end
 		end
 		SplashScreen.SetStateCallback(konamiLogoScreenId, StateCallback)
-		
-		
+
 		local function StateCallback(screenId, state)
 			if state == SplashScreen.STATE_DELETE then
 				Fox.Log("konamiLogoScreen is deleted. show fox logo.")
-				SplashScreen.Show( foxLogoScreenId, 1.0, 4.0, 1.0)
+				SplashScreen.Show(foxLogoScreenId, 1.0, 4.0, 1.0)
 			end
 		end
 		SplashScreen.SetStateCallback(kjpLogoScreenId, StateCallback)
-		
-		SplashScreen.Show( konamiLogoScreenId, 1.0, 4.0, 1.0)
+
+		SplashScreen.Show(konamiLogoScreenId, 1.0, 4.0, 1.0)
 
 		this._StartPreTitleSequence()
 	end,
-
 }
-
-
-
 
 return this

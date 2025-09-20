@@ -16155,10 +16155,10 @@ local damageTable = {
 	},
 }
 
-for k,v in pairs(damageTable) do
-    if v[13] == 1 then
-        damageTable[k][13] = 0
-    end
+for k, v in pairs(damageTable) do
+	if v[13] == 1 then
+		damageTable[k][13] = 0
+	end
 end
 
 TppDamage.ReloadDamageParameter(damageTable)
