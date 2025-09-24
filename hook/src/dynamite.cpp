@@ -844,6 +844,251 @@ namespace Dynamite {
                                "allows soldiers to get in vehicles"
                                "tpp::gm::soldier::impl::Soldier2Impl::Initialize",
             },
+            {
+                .address = 0x140ae1c61,
+                .expected = {0x48, 0xc7, 0x45, 0xdb, 0x00, 0x20, 0x00, 0x00}, // MOV qword ptr [RBP + -0x25]=>local_84,0x2000
+                .patch = {0x48, 0xc7, 0x45, 0xdb, 0x00, 0x71, 0x02, 0x00},    // MOV qword ptr [RBP + -0x25]=>local_84,0x27100
+                .description = "increase svars buffer2"
+                               "tpp::gm::impl::ScriptDeclVarsImpl::OnSessionNotify",
+            },
+            {
+                .address = 0x141a5a0c9,
+                .expected = {0xb8, 0x00, 0x04, 0x00, 0x00},
+                .patch = {0xb8, 0x00, 0x08, 0x00, 0x00},
+                .description = "fox::nio::impl::MpMuxImpl::Send, allow bigger payload size",
+            },
+            {
+                .address = 0x141a59d0a,
+                .expected = {0xba, 0x14, 0x04, 0x00, 0x00},
+                .patch = {0xba, 0x14, 0x08, 0x00, 0x00},
+                .description = "fox::nio::impl::MpMuxImpl::RecvUpdate, increase message max size",
+            },
+            /*
+                        {
+                            .address = 0x141a59fc2,
+                            .expected = {0xba, 0x14, 0x04, 0x00, 0x00},
+                            .patch = {0xba, 0x00, 0x11, 0x00, 0x00},
+                            .description = "fox::nio::impl::MpMuxImpl::Send, increase message max size",
+                        },
+                        */
+
+            /*
+             //
+             //            {
+             //                .address = 0x140ae1c42,
+             //                .expected = {0xba, 0x00, 0x04, 0x00, 0x00}, // MOV EDX,0x400
+             //                .patch = {0xba, 0x00, 0x71, 0x02, 0x00},    // MOV EDX,0x27100
+             //                .description = "increase svars buffer"
+             //                               "tpp::gm::impl::ScriptDeclVarsImpl::OnSessionNotify",
+             //            },
+
+             // {
+             //     .address = 0x141a59f39,
+             //     .expected = {0xb8, 0xb0, 0x15, 0x00, 0x00},
+             //     .patch = {0xb8, 0xb0, 0x19, 0x00, 0x00},
+             //     .description = "fox::nio::impl::MpMuxImpl::Send, stack increase start",
+             // },
+             // {
+             //     .address = 0x141a5a189,
+             //     .expected = {0x4c, 0x8d, 0x9c, 0x24, 0xb0, 0x15, 0x00, 0x00},
+             //     .patch = {0x4c, 0x8d, 0x9c, 0x24, 0xb0, 0x19, 0x00, 0x00},
+             //     .description = "fox::nio::impl::MpMuxImpl::Send, stack increase end",
+             // },
+             //            //            {
+             //            //                .address = 0x14c39a9e0,
+             //            //                .expected = {0xb8, 0x00, 0x00, 0x01, 0x00},
+             //            //                .patch = {0xb8, 0x00, 0x00, 0x08, 0x00},
+             //            //                .description = "fox::nio::impl::MpMuxImpl::MpMuxImpl, increase something from 0x10000",
+             //            //            },
+             //            {
+             //                .address = 0x141a5a08a,
+             //                .expected = {0x41, 0xb8, 0x00, 0x10, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x20, 0x00, 0x00},
+             //                .description = "fox::nio::impl::MpMuxImpl::Send, increase serializer buffer?",
+             //            },
+             // {
+             //     .address = 0x143e7c183,
+             //     .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //     .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //     .description = "fox::nt::impl::TransceiverManagerImpl::Peer::SendImpl, increase buffer size",
+             // },
+             //            {
+             //                .address = 0x14031bb81,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::UpdateToRecv, increase buffer size",
+             //            },
+             //            {
+             //                .address = 0x141a59c3e,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::UpdateToRecv, increase buffer size 2",
+             //            },
+             //            {
+             //                .address = 0x143e7c2a1,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::Peer::SendImpl, increase buffer size",
+             //            },
+             //            {
+             //                .address = 0x143e9f589,
+             //                .expected = {0x48, 0xc7, 0x45, 0x14, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x48, 0xc7, 0x45, 0x14, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::TransceiverImpl::Peer::CreatePacket, increase packet size?",
+             //            },
+
+             // {
+             //     .address = 0x141a5a512,
+             //     .expected = {0xb8, 0x00, 0x04, 0x00, 0x00},
+             //     .patch = {0xb8, 0x00, 0x08, 0x00, 0x00},
+             //     .description = "fox::nio::impl::MpMuxImpl::SendRetransmissionPacket, increase retransmission size limit",
+             // },
+             // //            {
+             //                .address = 0x141a5a4cf,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //     .description = "fox::nio::impl::MpMuxImpl::SendRetransmissionPacket, increase retransmission size limit 2",
+             //            },
+             //            {
+             //                .address = 0x141a557b0,
+             //                .expected = {0x41, 0x81, 0xff, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0x81, 0xff, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nio::impl::SppMessage::Divide, increase division size",
+             //            },
+             //            {
+             //                .address = 0x141a557f0,
+             //                .expected = {0xbe, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0xbe, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nio::impl::SppMessage::Divide, increase division size 2",
+             //            },
+             //            {
+             //                .address = 0x143e65a86,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::SessionImpl2::PrepareP2pConnection, bigger buffer",
+             //            },
+             //            {
+             //                .address = 0x140315f25,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::SessionImpl2::UpdateClientCommon, bigger buffer",
+             //            },
+             //            {
+             //                .address = 0x143e67955,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::SessionImpl2::UpdateClientConnect, bigger buffer",
+             //            },
+             //            {
+             //                .address = 0x140316677,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::SessionImpl2::UpdateClientEstablished, bigger buffer",
+             //            },
+             //            {
+             //                .address = 0x140316c4c,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::SessionImpl2::UpdateHost, bigger buffer",
+             //            },
+             //            {
+             //                .address = 0x140316d79,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::SessionImpl2::UpdateHost, bigger buffer 2",
+             //            },
+             //            {
+             //                .address = 0x140321660,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::SyncInstance::Send, bigger buffer",
+             //            },
+             //            {
+             //                .address = 0x140321575,
+             //                .expected = {0x41, 0xb8, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::SyncInstance::Send, bigger buffer 2",
+             //            },
+             //            {
+             //                .address = 0x1403251cc,
+             //                .expected = {0x48, 0xc7, 0x45, 0x14, 0x00, 0x04, 0x00, 0x00},
+             //                .patch = {0x48, 0xc7, 0x45, 0x14, 0x00, 0x08, 0x00, 0x00},
+             //                .description = "fox::nt::impl::GameSocketImpl::Peer::CreateSendPacket, bigger buffer?",
+             //            },
+             //            {
+             //                .address = 0x14c2cb2bd,
+             //                .expected = {0xc6, 0x05, 0xb4, 0x17, 0x9a, 0xf6, 0x00},
+             //                .patch = {0xc6, 0x05, 0xb4, 0x17, 0x9a, 0xf6, 0x01},
+             //                .description = "nio::s_dispRecvLogFlag, does nothing?",
+             //            },
+             //            {
+             //                .address = 0x14031aa61,
+             //                .expected = {0x49, 0x81, 0xfe, 0x00, 0x20, 0x00, 0x00},
+             //                .patch = {0x49, 0x81, 0xfe, 0x00, 0x71, 0x02, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::OnNotify, clear authority size limit",
+             //            },
+             //            {
+             //                .address = 0x14031a898,
+             //                .expected = {0x48, 0x81, 0xfb, 0x00, 0x20, 0x00, 0x00},
+             //                .patch = {0x48, 0x81, 0xfb, 0x00, 0x71, 0x02, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::OnNotify, another clear authority size limit?",
+             //            },
+             // {
+             //     .address = 0x14031ba16,
+             //     .expected = {0x48, 0x81, 0xfb, 0x00, 0x20, 0x00, 0x00},
+             //     .patch = {0x48, 0x81, 0xfb, 0x00, 0x71, 0x02, 0x00},
+             //     .description = "fox::nt::impl::TransceiverManagerImpl::UpdateToRecv, reset limit",
+             // },
+             // {
+             //     .address = 0x14031ba47,
+             //     .expected = {0x48, 0x81, 0xfb, 0x00, 0x20, 0x00, 0x00},
+             //     .patch = {0x48, 0x81, 0xfb, 0x00, 0x71, 0x02, 0x00},
+             //     .description = "fox::nt::impl::TransceiverManagerImpl::UpdateToRecv, reset limit 2",
+             // },
+             //            {
+             //                .address = 0x143e77949,
+             //                .expected = {0xb9, 0x00, 0x20, 0x00, 0x00},
+             //                .patch = {0xb9, 0x00, 0x71, 0x02, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::TransceiverManagerImpl, alloc1",
+             //            },
+             //            {
+             //                .address = 0x143e77962,
+             //                .expected = {0xb9, 0x00, 0x20, 0x00, 0x00},
+             //                .patch = {0xb9, 0x00, 0x71, 0x02, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::TransceiverManagerImpl, alloc2",
+             //            },
+             //            {
+             //                .address = 0x143e77978,
+             //                .expected = {0x41, 0xb8, 0x00, 0x20, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x71, 0x02, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::TransceiverManagerImpl, memset1",
+             //            },
+             //            {
+             //                .address = 0x143e77989,
+             //                .expected = {0x41, 0xb8, 0x00, 0x20, 0x00, 0x00},
+             //                .patch = {0x41, 0xb8, 0x00, 0x71, 0x02, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::TransceiverManagerImpl, memset2",
+             //            },
+             //            {
+             //                .address = 0x143e7771d,
+             //                .expected = {0xba, 0x00, 0x80, 0x00, 0x00},
+             //                .patch = {0xba, 0x00, 0xf1, 0x02, 0x00},
+             //                .description = "fox::nt::impl::TransceiverManagerImpl::Peer::Peer, GameSocketBufferImpl size",
+             //            },
+
+             // {
+             //     .address = 0x143e776c3,
+             //     .expected = {0xba, 0x00, 0x02, 0x00, 0x00},
+             //     .patch = {0xba, 0x00, 0x04, 0x00, 0x00},
+             //     .description = "fox::nt::impl::TransceiverManagerImpl::Peer::Peer list size1",
+             // },
+             // {
+             //     .address = 0x143e776ef,
+             //     .expected = {0xba, 0x00, 0x02, 0x00, 0x00},
+             //     .patch = {0xba, 0x00, 0x04, 0x00, 0x00},
+             //     .description = "fox::nt::impl::TransceiverManagerImpl::Peer::Peer list size2",
+             // },
+             */
         };
     }
 
