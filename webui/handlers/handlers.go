@@ -328,6 +328,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 	Config.Debug.GetSVarHandle = r.FormValue("Config.Debug.GetSVarHandle") == "on"
 	Config.Debug.RttAndLoss = r.FormValue("Config.Debug.RttAndLoss") == "on"
 	Config.Debug.Nio = r.FormValue("Config.Debug.Nio") == "on"
+	Config.Debug.MuxSendError = r.FormValue("Config.Debug.MuxSendError") == "on"
 
 	if Config.Dynamite.AccountDir == "" {
 		http.Error(w, "Account directory is required", http.StatusBadRequest)

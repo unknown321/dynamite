@@ -132,6 +132,7 @@ type Debug struct {
 	GetSVarHandle                bool
 	RttAndLoss                   bool
 	Nio                          bool
+	MuxSendError                 bool
 }
 
 type Config struct {
