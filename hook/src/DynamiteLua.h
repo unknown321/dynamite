@@ -2,6 +2,7 @@
 #define HOOK_DYNAMITELUA_H
 
 #include "Config.h"
+#include "DynamiteSyncImpl/DynamiteSyncImpl.h"
 #include "Tpp/PlayerDamage.h"
 #include "Tpp/TppNPCLifeState.h"
 #include "lua/lua.h"
@@ -24,6 +25,7 @@ namespace Dynamite {
     extern void* fobTargetCtor;
     extern Vector3 GetPlayerPosition(int index);
     extern bool hostSessionCreated;
+    extern DynamiteSyncImpl dynamiteSyncImpl;
 
     extern bool AddLocalDamageHook(void *thisPtr, uint32_t playerIndex, PlayerDamage *Damage);
     extern ENPCLifeState GetSoldierLifeStatus(int objectID);

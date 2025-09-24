@@ -1,6 +1,6 @@
 #include "Config.h"
-#include "spdlog/spdlog.h"
 #include "mini/ini.h"
+#include "spdlog/spdlog.h"
 #include <ranges>
 
 // important keys
@@ -159,6 +159,7 @@ bool Config::Read(ConfigValidateResult *r) {
         this->debug.getSVarHandle = ini.get("Debug").get("GetSVarHandle") == "true";
         this->debug.rttAndLoss = ini.get("Debug").get("RttAndLoss") == "true";
         this->debug.nio = ini.get("Debug").get("Nio") == "true";
+        this->debug.muxSendError = ini.get("Debug").get("MuxSendError") == "true";
     }
 
     return true;
@@ -168,11 +169,11 @@ void Config::Log() {
     spdlog::info("Host: {0:d}", this->Host);
     spdlog::info("HostID: {0:d}", this->HostSteamID);
     spdlog::info("Master server URL: {}", this->MasterServerURL);
-    for (const auto &steamID: this->whitelist) {
+    for (const auto &steamID : this->whitelist) {
         spdlog::info("Whitelist entry: {0:d}", steamID);
     }
 
-    for (const auto &steamID: this->blacklist) {
+    for (const auto &steamID : this->blacklist) {
         spdlog::info("Blacklist entry: {0:d}", steamID);
     }
 
@@ -193,4 +194,5 @@ void Config::Log() {
     spdlog::info("debug.GetSVarHandle: {}", this->debug.getSVarHandle);
     spdlog::info("debug.RttAndLoss: {}", this->debug.rttAndLoss);
     spdlog::info("debug.Nio: {}", this->debug.nio);
+    spdlog::info("debug.MuxSendError: {}", this->debug.muxSendError);
 }

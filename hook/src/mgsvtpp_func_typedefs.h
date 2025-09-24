@@ -244,6 +244,53 @@ typedef int32_t(__thiscall FoxNioImplSppSocketImplGetStateFunc)(void *SppSocketI
 typedef void *(__thiscall FoxNtImplSyncMemoryCollectorSyncMemoryCollectorFunc)(
     void *SyncMemoryCollector, uint32_t param_1, uint32_t param_2, uint32_t param_3, void *TransceiverImpl, void *param_5, uint64_t param_6);
 
+typedef void *(__thiscall FoxNtImplGameSocketBufferImplAllocFunc)(void *GameSocketBufferImpl, uint32_t param_1);
+
+typedef void(__thiscall TppGmImplScriptDeclVarsImplOnSessionNotifyFunc)(void *ScriptDeclVarsImpl, void *SessionInterface, int param_2, void *param_3);
+
+typedef void *(__thiscall FoxBitStreamWriterPrimitiveWriteFunc)(void *BitStreamWriter, void *ErrorCode, uint64_t param_1, uint32_t size);
+
+typedef void *(__thiscall TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndexFunc)(void *ScriptDeclVarsImpl, uint32_t index);
+
+typedef int32_t(__thiscall FoxNtImplTransceiverManagerImplPeerSendImpl1Func)(void *PeerThis, void *Peer, int32_t param_2);
+
+typedef int32_t(__thiscall FoxNtImplTransceiverManagerImplPeerSendImpl2Func)(void *PeerThis, void *Peer, int32_t param_2);
+
+typedef void *(__thiscall FoxNtImplTransceiverImplTransceiverImplFunc)(void *TransceiverImpl, void *TransceiverCreationDesc);
+
+typedef void(__thiscall FoxNtImplGameSocketImplPeerRequestToSendFunc)(void *Peer, void *param_1, uint32_t param_2);
+
+typedef void *(__thiscall FoxNtImplGameSocketBufferImplGameSocketBufferImplFunc)(void *GameSocketBufferImpl, uint32_t size);
+
+typedef void *(__cdecl FoxNioMpMessageCreateFunc)(void *param_1, uint32_t param_2, void *param_3, uint32_t param_4);
+
+typedef void *(__thiscall FoxNtImplNetworkSystemImplGetMainSessionFunc)(void *NetworkSystemImpl);
+
+typedef void *(__thiscall FoxImplScopeAllocatorImplAllocFunc)(void *ScopeAllocatorImpl, uint64_t param_1, uint64_t param_2, uint32_t param_3);
+
+typedef void *(__thiscall FoxScopeMemoryScopeMemory1Func)(void *ScopeMemory);
+
+typedef void *(__thiscall FoxScopeMemoryScopeMemoryDtorFunc)(void *ScopeMemory);
+
+typedef void(__thiscall TppGmImplScriptDeclVarsImplUpdateFunc)(void *ScriptDeclVarsImpl);
+
+typedef uint32_t(__thiscall FoxNtImplGameSocketImplGetPacketCountFunc)(void *GameSocketImpl, uint32_t param_1);
+
+typedef void *(__thiscall FoxNtImplGameSocketImplGetPacketFunc)(void *GameSocketImpl, uint32_t param_2, uint32_t param_3);
+
+typedef void *(__thiscall FoxNtImplNetworkSystemImplCreateGameSocketFunc)(void *NetworkSystemImpl, fox::nt::GameSocketDesc *gameSocketDesc);
+
+typedef void(__cdecl FoxNtNtModuleInitFunc)();
+
+typedef void(__thiscall FoxNtImplGameSocketImplRequestToSendToMemberFunc)(
+    void *GameSocketImpl, unsigned char memberIndex, uint32_t param_2, void *bufferPtr, uint32_t byteCount);
+
+typedef void(__thiscall FoxNtImplGameSocketImplSetIntervalFunc)(void *GameSocketImpl, uint32_t param_1, unsigned char param_2, float param_3);
+
+typedef void(__thiscall FoxNtImplPeerCommonInitializeLastSendTimeFunc)(void *PeerCommon);
+
+typedef uint32_t(__thiscall FoxNtImplGameSocketImplGetPacketSizeFunc)(void *GameSocketImpl, uint32_t param_1, uint32_t param_2);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -361,4 +408,27 @@ extern FoxNioMpMessageContainerCreateFunc *FoxNioMpMessageContainerCreate;
 extern FoxNioMpMessageContainerAddMessageFunc *FoxNioMpMessageContainerAddMessage;
 extern FoxNioImplSppSocketImplGetStateFunc *FoxNioImplSppSocketImplGetState;
 extern FoxNtImplSyncMemoryCollectorSyncMemoryCollectorFunc *FoxNtImplSyncMemoryCollectorSyncMemoryCollector;
+extern FoxNtImplGameSocketBufferImplAllocFunc *FoxNtImplGameSocketBufferImplAlloc;
+extern TppGmImplScriptDeclVarsImplOnSessionNotifyFunc *TppGmImplScriptDeclVarsImplOnSessionNotify;
+extern FoxBitStreamWriterPrimitiveWriteFunc *FoxBitStreamWriterPrimitiveWrite;
+extern TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndexFunc *TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndex;
+extern FoxNtImplTransceiverManagerImplPeerSendImpl1Func *FoxNtImplTransceiverManagerImplPeerSendImpl1;
+extern FoxNtImplTransceiverManagerImplPeerSendImpl2Func *FoxNtImplTransceiverManagerImplPeerSendImpl2;
+extern FoxNtImplTransceiverImplTransceiverImplFunc *FoxNtImplTransceiverImplTransceiverImpl;
+extern FoxNtImplGameSocketImplPeerRequestToSendFunc *FoxNtImplGameSocketImplPeerRequestToSend;
+extern FoxNtImplGameSocketBufferImplGameSocketBufferImplFunc *FoxNtImplGameSocketBufferImplGameSocketBufferImpl;
+extern FoxNioMpMessageCreateFunc *FoxNioMpMessageCreate;
+extern FoxNtImplNetworkSystemImplGetMainSessionFunc *FoxNtImplNetworkSystemImplGetMainSession;
+extern FoxImplScopeAllocatorImplAllocFunc *FoxImplScopeAllocatorImplAlloc;
+extern FoxScopeMemoryScopeMemory1Func *FoxScopeMemoryScopeMemory1;
+extern FoxScopeMemoryScopeMemoryDtorFunc *FoxScopeMemoryScopeMemoryDtor;
+extern TppGmImplScriptDeclVarsImplUpdateFunc *TppGmImplScriptDeclVarsImplUpdate;
+extern FoxNtImplGameSocketImplGetPacketCountFunc *FoxNtImplGameSocketImplGetPacketCount;
+extern FoxNtImplGameSocketImplGetPacketFunc *FoxNtImplGameSocketImplGetPacket;
+extern FoxNtImplNetworkSystemImplCreateGameSocketFunc *FoxNtImplNetworkSystemImplCreateGameSocket;
+extern FoxNtNtModuleInitFunc *FoxNtNtModuleInit;
+extern FoxNtImplGameSocketImplRequestToSendToMemberFunc *FoxNtImplGameSocketImplRequestToSendToMember;
+extern FoxNtImplGameSocketImplSetIntervalFunc *FoxNtImplGameSocketImplSetInterval;
+extern FoxNtImplPeerCommonInitializeLastSendTimeFunc *FoxNtImplPeerCommonInitializeLastSendTime;
+extern FoxNtImplGameSocketImplGetPacketSizeFunc *FoxNtImplGameSocketImplGetPacketSize;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

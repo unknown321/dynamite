@@ -27,6 +27,7 @@ struct debug {
     bool getSVarHandle;
     bool rttAndLoss;
     bool nio;
+    bool muxSendError;
 };
 
 class Config {

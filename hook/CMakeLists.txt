@@ -63,6 +63,7 @@ add_library(${PROJECT_NAME} SHARED
         src/mgsvtpp_funcptr_set.cpp
         src/Tpp/GameObject.cpp
         src/Tpp/TppSoldier2.cpp
+        src/DynamiteSyncImpl/DynamiteSyncImpl.cpp
         src/Config.cpp
         src/Messagebox.cpp
         src/patch.cpp

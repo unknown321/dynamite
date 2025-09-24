@@ -1,5 +1,6 @@
 #include "DynamiteHook.h"
 #include "DamageProtocol.h"
+#include "DynamiteSyncImpl/DynamiteSyncImpl.h"
 #include "Tpp/TppFOB.h"
 #include "Tpp/TppGameStatusFlag.h"
 #include "Tpp/TppMarkerType.h"
@@ -7,11 +8,17 @@
 #include "mgsvtpp_func_typedefs.h"
 #include "spdlog/spdlog.h"
 #include "util.h"
+
 #include <filesystem>
 
 namespace Dynamite {
     void *fobTargetCtor = nullptr;
     void *messageBuffer = nullptr;
+    bool recordBinWrites = false;
+    void *recordBinWriter = nullptr;
+    uint32_t recordOffset = 0;
+    uint32_t varsTotalSize = 0;
+    DynamiteSyncImpl dynamiteSyncImpl{};
 
     // entry point
     void __fastcall luaL_openlibsHook(lua_State *L) {
@@ -25,7 +32,7 @@ namespace Dynamite {
         luaState = L;
 
         messageDict = readMessageDictionary("messageDict.txt");
-        pathDict = readPathCodeDictionary("pathDict.txt");
+        pathDict = readPathCodeDictionary("pathDict.txt"); // pathfilenamecode64
 
         auto luaLog = "dynamite/lualog.txt";
         if (cfg.debug.luaLog) {
@@ -490,16 +497,16 @@ namespace Dynamite {
         auto pp = pathID;
         auto blockName = blockNames[thisPtr];
         if (pathDict.empty()) {
-            spdlog::info("tid {}, block {} ({}), loading {:x} ({:d})", tid, blockName, thisPtr, *pp, count);
+            spdlog::info("{}, tid {}, block {} ({}), loading {:x} ({:d})", __FUNCTION__, tid, blockName, thisPtr, *pp, count);
             return FoxBlockLoad(thisPtr, errorCode, pathID, count);
         }
 
         for (int i = 0; i < count; i++) {
             auto name = pathDict[*pp];
             if (name.empty()) {
-                spdlog::info("tid {}, block {} ({}), loading {:x} ({:d}/{:d})", tid, blockName, thisPtr, *pp, i + 1, count);
+                spdlog::info("{}, tid {}, block {} ({}), loading {:x} ({:d}/{:d})", __FUNCTION__, tid, blockName, thisPtr, *pp, i + 1, count);
             } else {
-                spdlog::info("tid {}, block {} ({}), loading {} ({:d}/{})", tid, blockName, thisPtr, name, i + 1, count);
+                spdlog::info("{}, tid {}, block {} ({}), loading {} ({:d}/{})", __FUNCTION__, tid, blockName, thisPtr, name, i + 1, count);
             }
             pp++;
         }
@@ -529,20 +536,18 @@ namespace Dynamite {
 
     bool blockHeapAllocLoginUtilityCalled = false;
 
-    // issue #7 workaround, force network allocations on heap when called from lua instead of current block
-    // see docs/issue_7.md
     void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag) {
+        if (categoryTag == MEMTAG_TPP_SYSTEM2SCRIPT) {
+            spdlog::info("{}, allocating {} bytes, {} align, category MEMTAG_TPP_SYSTEM2SCRIPT", __FUNCTION__, sizeInBytes, alignment);
+            return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
+        }
+
         if (!cfg.Host) {
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
 
-        if (categoryTag == MEMTAG_NETWORK_NT_SYSTEM ) {
-            spdlog::info("allocating {} bytes, {} align, category MEMTAG_NETWORK_NT_SYSTEM", sizeInBytes, alignment);
-            return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
-        }
-
-        if (categoryTag == MEMTAG_TPP_SYSTEM2SCRIPT) {
-            spdlog::info("allocating {} bytes, {} align, category MEMTAG_TPP_SYSTEM2SCRIPT", sizeInBytes, alignment);
+        if (categoryTag == MEMTAG_NETWORK_NT_SYSTEM) {
+            spdlog::info("{}, allocating {} bytes, {} align, category MEMTAG_NETWORK_NT_SYSTEM", __FUNCTION__, sizeInBytes, alignment);
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
 
@@ -550,7 +555,8 @@ namespace Dynamite {
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
 
-        spdlog::info("alloc MEMTAG_TPP_NETWORK");
+        // issue #7 workaround, force network allocations on heap when called from lua instead of current block
+        // see docs/issue_7.md
         if (blockHeapAllocLoginUtilityCalled) {
             spdlog::info("{}, alloc MEMTAG_TPP_NETWORK force on heap", __FUNCTION__);
             return BlockMemoryAllocHeap(sizeInBytes, alignment, categoryTag);
@@ -696,9 +702,20 @@ namespace Dynamite {
     }
 
     int32_t FoxNioImplMpMuxImplSendHook(
-        void *MpMuxImpl, unsigned short param_1, unsigned char param_2, void *param_3, int param_4, void *SppInfo, unsigned short param_6) {
-        auto res = FoxNioImplMpMuxImplSend(MpMuxImpl, param_1, param_2, param_3, param_4, SppInfo, param_6);
-        spdlog::info("{}: p1={}, p2={}, p3={}, p4={}, p6={}, res {}", __FUNCTION__, param_1, param_2, param_3, param_4, param_6, res);
+        void *MpMuxImpl, unsigned short param_1, unsigned char param_2, void *param_3, int size, void *SppInfo, unsigned short param_6) {
+        // spdlog::info("{}: message container {}", __FUNCTION__, *(void **)((char *)MpMuxImpl + 0x468));
+        auto res = FoxNioImplMpMuxImplSend(MpMuxImpl, param_1, param_2, param_3, size, SppInfo, param_6);
+
+        if (cfg.debug.muxSendError && res < 0) {
+            spdlog::info("{} fail: p1={}, p2={}, p3={}, size={}, p6={}, res {}", __FUNCTION__, param_1, param_2, param_3, size, param_6, res);
+            return res;
+        }
+
+        if (res < 0) {
+            spdlog::info("{} fail: p1={}, p2={}, p3={}, size={}, p6={}, res {}", __FUNCTION__, param_1, param_2, param_3, size, param_6, res);
+        } else {
+            spdlog::info("{} ok: p1={}, p2={}, p3={}, size={}, p6={}, res {}", __FUNCTION__, param_1, param_2, param_3, size, param_6, res);
+        }
         return res;
     }
 
@@ -748,33 +765,28 @@ namespace Dynamite {
 
     int FoxNtImplTransceiverManagerImplPeerSendHook(void *TransceiverManagerImpl, uint32_t param_1) {
         auto res = FoxNtImplTransceiverManagerImplPeerSend(TransceiverManagerImpl, param_1);
-        spdlog::info("{}, p1={}, res={}", __FUNCTION__, param_1, res);
+        if (res != 0) {
+            spdlog::info("{}, seqNum={}, res={} (not 0!!!)", __FUNCTION__, param_1, res);
+        }
         return res;
     }
 
-    int FoxNioImplMpSocketImplSendHook(void *MpSocketImpl, void *param_1, int param_2, void *Info, void *Address) {
-        auto res = FoxNioImplMpSocketImplSend(MpSocketImpl, param_1, param_2, Info, Address);
-        spdlog::info("{}, p1={}, p2={}, info={}, address={}, res={}", __FUNCTION__, param_1, param_2, Info, Address, res);
+    int FoxNioImplMpSocketImplSendHook(void *MpSocketImpl, void *param_1, int size, void *Info, void *Address) {
+        auto res = FoxNioImplMpSocketImplSend(MpSocketImpl, param_1, size, Info, Address);
+        if (res < 0) {
+            spdlog::info("{} fail, p1={}, size={}, info={}, address={}, res={}", __FUNCTION__, param_1, size, Info, Address, res);
+        } else {
+            spdlog::info("{} ok, p1={}, size={}, info={}, address={}, res={}", __FUNCTION__, param_1, size, Info, Address, res);
+        }
         return res;
     }
 
     int FoxNioImplMpMuxImplGetTotalPayloadSizeHook(void *thisPtr) {
         auto res = FoxNioImplMpMuxImplGetTotalPayloadSize(thisPtr);
-        spdlog::info("{}: {}", __FUNCTION__, res);
-        return res;
-    }
-
-    std::string bytes_to_hex(const void *data, size_t n) {
-        const uint8_t *bytes = static_cast<const uint8_t *>(data);
-        std::stringstream ss;
-        ss << std::hex << std::uppercase << std::setfill('0');
-
-        for (size_t i = 0; i < n; ++i) {
-            //            if (i > 0) ss << " ";
-            ss << std::setw(2) << static_cast<int>(bytes[i]);
+        if (res != 0) {
+            spdlog::info("{}: res={}", __FUNCTION__, res);
         }
-
-        return ss.str();
+        return res;
     }
 
     void FoxNioMpMessageSerializerSerializeHook(void *Serializer, fox::nio::Buffer *buffer) {
@@ -785,17 +797,23 @@ namespace Dynamite {
             buffer->mystery2,
             buffer->mystery3); // bytes_to_hex(buffer->mem, buffer->size));
         FoxNioMpMessageSerializerSerialize(Serializer, buffer);
-        //        spdlog::info("{} after: size {}, data: {}", __FUNCTION__, buffer->size, bytes_to_hex(buffer->mem, buffer->size));
+        spdlog::info("{} after: size {}", __FUNCTION__, buffer->size);
     }
 
     void *FoxNioMpMessageContainerCreateHook(void *param_1, uint32_t sizeWithHeader) {
-        spdlog::info("{}: {}", __FUNCTION__, sizeWithHeader);
-        return FoxNioMpMessageContainerCreate(param_1, sizeWithHeader);
+        auto res = FoxNioMpMessageContainerCreate(param_1, sizeWithHeader);
+        spdlog::info("{}: p1={}, sizeWithHeader={}, res={}", __FUNCTION__, param_1, sizeWithHeader, res);
+        return res;
     }
 
     int FoxNioMpMessageContainerAddMessageHook(void *MpMessageContainer, void *MpMessageComponent) {
+        spdlog::info("{}: {}, {}", __FUNCTION__, MpMessageContainer, MpMessageComponent);
         auto res = FoxNioMpMessageContainerAddMessage(MpMessageContainer, MpMessageComponent);
-        spdlog::info("{}: {}", __FUNCTION__, res);
+        if (res != 0) {
+            spdlog::info("{} fail: {}, {}, res={}", __FUNCTION__, MpMessageContainer, MpMessageComponent, res);
+        } else {
+            spdlog::info("{} ok: {}, {}, res={}", __FUNCTION__, MpMessageContainer, MpMessageComponent, res);
+        }
         return res;
     }
 
@@ -807,8 +825,144 @@ namespace Dynamite {
 
     void *FoxNtImplSyncMemoryCollectorSyncMemoryCollectorHook(
         void *SyncMemoryCollector, uint32_t param_1, uint32_t param_2, uint32_t param_3, void *TransceiverImpl, void *param_5, uint64_t param_6) {
-        spdlog::info("{}: p1={}, p2={}, p3={}, p5={}, p6={}", __FUNCTION__, param_1, param_2, param_3, param_5, param_6);
+        spdlog::info("{}: p1={}, p2={}, p3={}, p5={}, p6={} (p1*p2)", __FUNCTION__, param_1, param_2, param_3, param_5, param_6);
         auto res = FoxNtImplSyncMemoryCollectorSyncMemoryCollector(SyncMemoryCollector, param_1, param_2, param_3, TransceiverImpl, param_5, param_6);
         return res;
     }
+
+    void *FoxNtImplGameSocketBufferImplAllocHook(void *GameSocketBufferImpl, uint32_t size) {
+        auto res = FoxNtImplGameSocketBufferImplAlloc(GameSocketBufferImpl, size);
+        spdlog::info("{}: size {}, res {}", __FUNCTION__, size, res);
+        return res;
+    }
+
+    void *FoxBitStreamWriterPrimitiveWriteHook(void *BitStreamWriter, void *ErrorCode, uint64_t value, uint32_t size) {
+        if (recordBinWrites) {
+            varsTotalSize += size;
+            auto offset = *(uint32_t *)((char *)BitStreamWriter + 0x10);
+            auto capacity = *(int32_t *)((char *)BitStreamWriter + 0xC);
+
+            recordBinWriter = *(void **)BitStreamWriter; // *(uint64_t*)BitStreamWriter
+            recordOffset = offset;
+            spdlog::info("{}: a={}, cap={}, offset={}, value={}, varSize={}", __FUNCTION__, recordBinWriter, capacity, offset, value, size);
+        }
+
+        auto res = FoxBitStreamWriterPrimitiveWrite(BitStreamWriter, ErrorCode, value, size);
+        if (*(uint32_t *)res != 0) {
+            spdlog::info("{}: error", __FUNCTION__);
+        }
+
+        return res;
+    }
+
+    int32_t FoxNtImplTransceiverManagerImplPeerSendImpl1Hook(void *PeerThis, void *Peer, int32_t param_2) {
+        auto res = FoxNtImplTransceiverManagerImplPeerSendImpl1(PeerThis, Peer, param_2);
+        spdlog::info("{}: p2={}, res={}", __FUNCTION__, param_2, res);
+        return res;
+    }
+
+    int32_t FoxNtImplTransceiverManagerImplPeerSendImpl2Hook(void *PeerThis, void *Peer, int32_t param_2) {
+        auto res = FoxNtImplTransceiverManagerImplPeerSendImpl2(PeerThis, Peer, param_2);
+        spdlog::info("{}: p2={}, res={}", __FUNCTION__, param_2, res);
+        return res;
+    }
+
+    void *FoxNtImplTransceiverImplTransceiverImplHook(void *TransceiverImpl, void *TransceiverCreationDesc) {
+        auto res = FoxNtImplTransceiverImplTransceiverImpl(TransceiverImpl, TransceiverCreationDesc);
+        auto size = *(uint32_t *)((char *)TransceiverCreationDesc + 0x4);
+        auto memsize = *(uint32_t *)((char *)res + 0x10);
+        auto something = *(uint32_t *)((char *)res + 0xC);
+        spdlog::info("{}, size={}, memsize={}, something={}", __FUNCTION__, size, memsize, something);
+        return res;
+    }
+
+    void FoxNtImplGameSocketImplPeerRequestToSendHook(void *Peer, void *src, uint32_t size) {
+        spdlog::info("{}, src={}, size={}", __FUNCTION__, src, size);
+        FoxNtImplGameSocketImplPeerRequestToSend(Peer, src, size);
+        // spdlog::info("{}, peer dump={}", __FUNCTION__, bytes_to_hex(Peer, 0x18+8+8));
+        auto addr = (char *)Peer + 0x18;
+        spdlog::info("{}, contents, addr={}, dump={}", __FUNCTION__, (void *)addr, bytes_to_hex((void *)addr, 64));
+    }
+
+    void *FoxNtImplGameSocketBufferImplGameSocketBufferImplHook(void *GameSocketBufferImpl, uint32_t size) {
+        spdlog::info("{}, size={}", __FUNCTION__, size);
+        auto res = FoxNtImplGameSocketBufferImplGameSocketBufferImpl(GameSocketBufferImpl, size);
+        return res;
+    }
+
+    void *FoxNioMpMessageCreateHook(void *param_1, uint32_t maxSize, void *param_3, uint32_t requestedSize) {
+        auto msgPtr = BlockHeapAlloc(maxSize, 8, MEMTAG_TPP_NETWORK);
+        auto res = FoxNioMpMessageCreate(msgPtr, maxSize, param_3, requestedSize);
+        if (res == nullptr) {
+            spdlog::info("{}: fail, p1={}, maxSize={}, p3={}, requestedSize={}", __FUNCTION__, param_1, maxSize, param_3, requestedSize);
+        } else {
+            spdlog::info("{}: ok, p1={}, maxSize={}, p3={}, requestedSize={}", __FUNCTION__, param_1, maxSize, param_3, requestedSize);
+        }
+
+        return res;
+    }
+    uint32_t FoxNtImplGameSocketImplGetPacketCountHook(void *GameSocketImpl, uint32_t param_1) {
+        spdlog::info("{}, socket={}, p1={}", __FUNCTION__, GameSocketImpl, param_1);
+        return FoxNtImplGameSocketImplGetPacketCount(GameSocketImpl, param_1);
+    }
+
+    void *FoxNtImplNetworkSystemImplCreateGameSocketHook(void *NetworkSystemImpl, fox::nt::GameSocketDesc *gameSocketDesc) {
+        spdlog::info("{}, socket={}, value={}", __FUNCTION__, gameSocketDesc->number, gameSocketDesc->value);
+        return FoxNtImplNetworkSystemImplCreateGameSocket(NetworkSystemImpl, gameSocketDesc);
+    }
+
+    void FoxNtNtModuleInitHook() {
+        spdlog::info("{}", __FUNCTION__);
+        FoxNtNtModuleInit();
+    }
+
+    void FoxNtImplGameSocketImplRequestToSendToMemberHook(
+        void *GameSocketImpl, unsigned char memberIndex, uint32_t param_2, void *bufferPtr, uint32_t byteCount) {
+        spdlog::info("{}, memberIndex={}, p2={}, p3={}, p4={}", __FUNCTION__, memberIndex, param_2, bufferPtr, byteCount);
+        FoxNtImplGameSocketImplRequestToSendToMember(GameSocketImpl, memberIndex, param_2, bufferPtr, byteCount);
+    }
+
+    void FoxNtImplGameSocketImplSetIntervalHook(void *GameSocketImpl, uint32_t param_1, unsigned char param_2, float param_3) {
+        spdlog::info("{}, p1={}, p2={}, p3={}", __FUNCTION__, param_1, param_2, param_3);
+        FoxNtImplGameSocketImplSetInterval(GameSocketImpl, param_1, param_2, param_3);
+    }
+
+    void FoxNtImplPeerCommonInitializeLastSendTimeHook(void *PeerCommon) {
+        spdlog::info("{}", __FUNCTION__);
+        FoxNtImplPeerCommonInitializeLastSendTime(PeerCommon);
+    }
+
+    void TppGmImplScriptDeclVarsImplUpdateHook(void *ScriptDeclVarsImpl) {
+        TppGmImplScriptDeclVarsImplUpdate(ScriptDeclVarsImpl);
+        dynamiteSyncImpl.Update();
+    }
+
+    void TppGmImplScriptDeclVarsImplOnSessionNotifyHook(void *ScriptDeclVarsImpl, void *SessionInterface, int param_2, void *param_3) {
+        auto varCount = *(uint32_t *)((char *)ScriptDeclVarsImpl + -0x10);
+        auto syncCount = 0;
+        auto offset = 0;
+        recordBinWrites = false;
+        for (int i = 0; i < varCount; i++) {
+            auto varTable = *(uint64_t *)((char *)ScriptDeclVarsImpl + -0x20);
+            auto flag = *(byte *)(varTable + offset + 0x10);
+            if ((flag & 0x10) != 0) {
+                syncCount++;
+                //                auto handle = TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndex(ScriptDeclVarsImpl, i);
+            }
+            offset += 0x18;
+        }
+        recordBinWrites = false;
+
+        TppGmImplScriptDeclVarsImplOnSessionNotify(ScriptDeclVarsImpl, SessionInterface, param_2, param_3);
+
+        // if (FILE *file = fopen("payload", "wb")) {
+        //     fwrite(recordBinWriter, 1, recordOffset, file);
+        //     fclose(file);
+        // }
+
+        spdlog::info(
+            "{}, {} records, syncCount {}, wrote {} bits, will allocate {} bytes", __FUNCTION__, varCount, syncCount, varsTotalSize, varsTotalSize >> 3);
+        varsTotalSize = 0;
+    }
+
 }

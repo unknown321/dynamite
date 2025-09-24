@@ -70,7 +70,7 @@ namespace Dynamite {
 
         void CreateHooks();
 
-        void CreateDebugHooks();
+        static void CreateDebugHooks();
 
         static void ReadConfig();
 

@@ -313,7 +313,6 @@ namespace Dynamite {
             .w = 7.0f,
         };
 
-
         auto playerID = 1;
         if (cfg.Host) {
             playerID = 0;
@@ -325,7 +324,7 @@ namespace Dynamite {
             return 0;
         }
 
-        gameObject = (char*)gameObject + 0x20;
+        gameObject = (char *)gameObject + 0x20;
 
         spdlog::info("player {} warping to partner {}, position {}, {}, {}", playerID, partnerID, partnerPos.x, partnerPos.y, partnerPos.z);
 
@@ -342,6 +341,16 @@ namespace Dynamite {
         GetLocalPlayerId(&playerID);
         auto dmgAdd = AddLocalDamageHook(DamageControllerImpl, playerID, &d);
         spdlog::info("custom command: {}", dmgAdd);
+        return 0;
+    }
+
+    int l_SyncInit(lua_State *L) {
+        dynamiteSyncImpl.Init();
+        return 0;
+    }
+
+    int l_SyncWrite(lua_State *L) {
+        dynamiteSyncImpl.Write();
         return 0;
     }
 
@@ -369,6 +378,8 @@ namespace Dynamite {
             {"GetPlayerPosition", l_GetPlayerPosition},
             {"WarpToPartner", l_WarpToPartner},
             {"CustomCommand", l_CustomCommand},
+            {"SyncInit", l_SyncInit},
+            {"SyncWrite", l_SyncWrite},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);

@@ -2,10 +2,12 @@
 #define HOOK_DYNAMITEHOOK_H
 
 #include "Config.h"
+#include "DynamiteSyncImpl/DynamiteSyncImpl.h"
 #include "Tpp/PlayerDamage.h"
 #include "Tpp/TppTypes.h"
 #include "lua/lua.h"
 #include "windows.h"
+
 #include <map>
 
 namespace Dynamite {
@@ -24,6 +26,7 @@ namespace Dynamite {
     extern unsigned int defensePlayerID;
     extern bool hostSessionCreated;
     extern void CreateLibs(lua_State *L);
+    extern DynamiteSyncImpl dynamiteSyncImpl;
 
     void __fastcall luaL_openlibsHook(lua_State *L);
     bool IsDefenseTeamByOnlineFobLocalHook();
@@ -81,14 +84,14 @@ namespace Dynamite {
     void BandWidthManagerImplStartLimitStateHook(void *thisPtr);
     uint32_t FoxNioMpMessageContainerGetFreeSizeHook(void *MpMessageContainer);
     int32_t FoxNioImplMpMuxImplSendHook(
-        void *MpMuxImpl, unsigned short param_1, unsigned char param_2, void *param_3, int param_4, void *SppInfo, unsigned short param_6);
+        void *MpMuxImpl, unsigned short param_1, unsigned char param_2, void *param_3, int size, void *SppInfo, unsigned short param_6);
     int32_t FoxNioImplMpMuxImplRecv1Hook(void *MpMuxImpl, unsigned short param_1, void *Buffer, void *SppInfo, unsigned short param_4);
     int32_t FoxNioImplMpMuxImplRecv2Hook(void *MpMuxImpl, unsigned short param_1, void *param_2, int param_3, void *param_4, unsigned short param_5);
     int32_t FoxNtPeerControllerSendHook(void *PeerController, uint32_t param_1, int param_2, int param_3);
     bool FoxNtImplGameSocketImplPeerIsSendPacketEmptyHook(void *Peer);
     int FoxNtTotalControllerSendHook(void *TotalController, uint32_t param_1, int32_t param_2, int32_t param_3);
     int FoxNtImplTransceiverManagerImplPeerSendHook(void *TransceiverManagerImpl, uint32_t param_1);
-    int FoxNioImplMpSocketImplSendHook(void *MpSocketImpl, void *param_1, int param_2, void *Info, void *Address);
+    int FoxNioImplMpSocketImplSendHook(void *MpSocketImpl, void *param_1, int size, void *Info, void *Address);
     int FoxNioImplMpMuxImplGetTotalPayloadSizeHook(void *thisPtr);
     void FoxNioMpMessageSerializerSerializeHook(void *Serializer, fox::nio::Buffer *buffer);
     void *FoxNioMpMessageContainerCreateHook(void *param_1, uint32_t sizeWithHeader);
@@ -96,6 +99,23 @@ namespace Dynamite {
     int32_t FoxNioImplSppSocketImplGetStateHook(void *SppSocketImpl);
     void *FoxNtImplSyncMemoryCollectorSyncMemoryCollectorHook(
         void *SyncMemoryCollector, uint32_t param_1, uint32_t param_2, uint32_t param_3, void *TransceiverImpl, void *param_5, uint64_t param_6);
+    void *FoxNtImplGameSocketBufferImplAllocHook(void *GameSocketBufferImpl, uint32_t size);
+    void TppGmImplScriptDeclVarsImplOnSessionNotifyHook(void *ScriptDeclVarsImpl, void *SessionInterface, int param_2, void *param_3);
+    void *FoxBitStreamWriterPrimitiveWriteHook(void *BitStreamWriter, void *ErrorCode, uint64_t value, uint32_t size);
+    int32_t FoxNtImplTransceiverManagerImplPeerSendImpl1Hook(void *PeerThis, void *Peer, int32_t param_2);
+    int32_t FoxNtImplTransceiverManagerImplPeerSendImpl2Hook(void *PeerThis, void *Peer, int32_t param_2);
+    void *FoxNtImplTransceiverImplTransceiverImplHook(void *TransceiverImpl, void *TransceiverCreationDesc);
+    void FoxNtImplGameSocketImplPeerRequestToSendHook(void *Peer, void *src, uint32_t size);
+    void *FoxNtImplGameSocketBufferImplGameSocketBufferImplHook(void *GameSocketBufferImpl, uint32_t size);
+    void *FoxNioMpMessageCreateHook(void *param_1, uint32_t maxSize, void *param_3, uint32_t requestedSize);
+    void TppGmImplScriptDeclVarsImplUpdateHook(void *ScriptDeclVarsImpl);
+    uint32_t FoxNtImplGameSocketImplGetPacketCountHook(void *GameSocketImpl, uint32_t param_1);
+    void *FoxNtImplNetworkSystemImplCreateGameSocketHook(void *NetworkSystemImpl, fox::nt::GameSocketDesc *gameSocketDesc);
+    void FoxNtNtModuleInitHook();
+    void FoxNtImplGameSocketImplRequestToSendToMemberHook(
+        void *GameSocketImpl, unsigned char memberIndex, uint32_t param_2, void *bufferPtr, uint32_t byteCount);
+    void FoxNtImplGameSocketImplSetIntervalHook(void *GameSocketImpl, uint32_t param_1, unsigned char param_2, float param_3);
+    void FoxNtImplPeerCommonInitializeLastSendTimeHook(void *PeerCommon);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

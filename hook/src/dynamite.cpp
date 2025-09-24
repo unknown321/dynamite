@@ -414,12 +414,19 @@ namespace Dynamite {
             ENABLEHOOK(BandWidthManagerImplStartLimitState)
         }
 
-        if (cfg.debug.nio) {
-            //            CREATE_HOOK(FoxNioMpMessageContainerGetFreeSize)
-            //            ENABLEHOOK(FoxNioMpMessageContainerGetFreeSize)
-
+        if (cfg.debug.muxSendError) {
             CREATE_HOOK(FoxNioImplMpMuxImplSend)
             ENABLEHOOK(FoxNioImplMpMuxImplSend)
+        }
+
+        if (cfg.debug.nio) {
+            if (!cfg.debug.muxSendError) {
+                CREATE_HOOK(FoxNioImplMpMuxImplSend)
+                ENABLEHOOK(FoxNioImplMpMuxImplSend)
+            }
+
+            CREATE_HOOK(FoxNioMpMessageContainerGetFreeSize)
+            ENABLEHOOK(FoxNioMpMessageContainerGetFreeSize)
 
             CREATE_HOOK(FoxNioImplMpMuxImplRecv1)
             ENABLEHOOK(FoxNioImplMpMuxImplRecv1)
@@ -459,6 +466,48 @@ namespace Dynamite {
 
             CREATE_HOOK(FoxNtImplSyncMemoryCollectorSyncMemoryCollector)
             ENABLEHOOK(FoxNtImplSyncMemoryCollectorSyncMemoryCollector)
+
+            CREATE_HOOK(FoxNtImplGameSocketBufferImplAlloc)
+            ENABLEHOOK(FoxNtImplGameSocketBufferImplAlloc)
+
+            CREATE_HOOK(FoxBitStreamWriterPrimitiveWrite)
+            ENABLEHOOK(FoxBitStreamWriterPrimitiveWrite)
+
+            CREATE_HOOK(FoxNtImplTransceiverManagerImplPeerSendImpl1)
+            ENABLEHOOK(FoxNtImplTransceiverManagerImplPeerSendImpl1)
+
+            CREATE_HOOK(FoxNtImplTransceiverManagerImplPeerSendImpl2)
+            ENABLEHOOK(FoxNtImplTransceiverManagerImplPeerSendImpl2)
+
+            CREATE_HOOK(FoxNtImplTransceiverImplTransceiverImpl)
+            ENABLEHOOK(FoxNtImplTransceiverImplTransceiverImpl)
+
+            CREATE_HOOK(FoxNtImplGameSocketImplPeerRequestToSend)
+            ENABLEHOOK(FoxNtImplGameSocketImplPeerRequestToSend)
+
+            CREATE_HOOK(FoxNtImplGameSocketBufferImplGameSocketBufferImpl)
+            ENABLEHOOK(FoxNtImplGameSocketBufferImplGameSocketBufferImpl)
+
+            CREATE_HOOK(FoxNioMpMessageCreate)
+            ENABLEHOOK(FoxNioMpMessageCreate)
+
+            CREATE_HOOK(FoxNtImplNetworkSystemImplCreateGameSocket)
+            ENABLEHOOK(FoxNtImplNetworkSystemImplCreateGameSocket)
+
+            CREATE_HOOK(FoxNtNtModuleInit)
+            ENABLEHOOK(FoxNtNtModuleInit)
+
+            CREATE_HOOK(FoxNtImplGameSocketImplRequestToSendToMember)
+            ENABLEHOOK(FoxNtImplGameSocketImplRequestToSendToMember)
+
+            CREATE_HOOK(FoxNtImplGameSocketImplSetInterval)
+            ENABLEHOOK(FoxNtImplGameSocketImplSetInterval)
+
+            CREATE_HOOK(FoxNtImplGameSocketImplGetPacketCount)
+            ENABLEHOOK(FoxNtImplGameSocketImplGetPacketCount)
+
+            CREATE_HOOK(FoxNtImplPeerCommonInitializeLastSendTime)
+            ENABLEHOOK(FoxNtImplPeerCommonInitializeLastSendTime)
         }
     }
 
@@ -545,10 +594,16 @@ namespace Dynamite {
         CREATE_HOOK(FobTargetCtor)
         ENABLEHOOK(FobTargetCtor)
 
+        CREATE_HOOK(TppGmImplScriptDeclVarsImplOnSessionNotify)
+        ENABLEHOOK(TppGmImplScriptDeclVarsImplOnSessionNotify)
+
+        CREATE_HOOK(TppGmImplScriptDeclVarsImplUpdate)
+        ENABLEHOOK(TppGmImplScriptDeclVarsImplUpdate)
+
         for (auto p : GetPatches()) {
             if (!p.Apply()) {
                 std::stringstream msg;
-                msg << "Failed to apply patch: " << p.description << ".";
+                msg << "Failed to apply patch: " << p.description << " (" << p.address << ").";
                 spdlog::error(msg.str());
                 ShowMessageBox(msg.str().c_str(), "Dynamite error", MB_ICONERROR);
                 exit(1);
@@ -786,6 +841,7 @@ namespace Dynamite {
                 },
                 // clang-format on
                 .description = "ignore IS_ONLINE check at 1409e6f18, always set flag based on that check to 2 instead of calculated 4"
+                               "allows soldiers to get in vehicles"
                                "tpp::gm::soldier::impl::Soldier2Impl::Initialize",
             },
         };

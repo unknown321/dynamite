@@ -88,10 +88,26 @@ struct ScriptVarValue {
 #pragma pack(pop)
 
 namespace fox {
+    namespace nt {
+        struct GameSocketDesc {
+            uint32_t number;
+            uint32_t value; // ??
+        };
+    }
+
     class QuarkDesc {
       public:
         uint64_t value;
     };
+
+#pragma pack(push, 1)
+    struct BitStreamWriter {
+        void *buffer;
+        uint32_t capacity;
+        short offset;
+    };
+#pragma pack(pop)
+
 
     class QuarkHandle {
       public:

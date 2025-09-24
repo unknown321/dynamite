@@ -24,4 +24,6 @@ void DumpArgs(void *messageArgs, int len);
 
 void DumpDamage(PlayerDamage *Damage, uint32_t playerIndex);
 
+std::string bytes_to_hex(const void *data, size_t n);
+
 #endif // HOOK_UTIL_H

@@ -110,7 +110,8 @@ namespace Dynamite {
         FoxNioImplMpMuxImplRecv1 = (FoxNioImplMpMuxImplRecv1Func *)addressSet["FoxNioImplMpMuxImplRecv1"];
         FoxNioImplMpMuxImplRecv2 = (FoxNioImplMpMuxImplRecv2Func *)addressSet["FoxNioImplMpMuxImplRecv2"];
         FoxNtPeerControllerSend = (FoxNtPeerControllerSendFunc *)addressSet["FoxNtPeerControllerSend"];
-        FoxNtImplGameSocketImplPeerIsSendPacketEmpty = (FoxNtImplGameSocketImplPeerIsSendPacketEmptyFunc *)addressSet["FoxNtImplGameSocketImplPeerIsSendPacketEmpty"];
+        FoxNtImplGameSocketImplPeerIsSendPacketEmpty =
+            (FoxNtImplGameSocketImplPeerIsSendPacketEmptyFunc *)addressSet["FoxNtImplGameSocketImplPeerIsSendPacketEmpty"];
         FoxNtTotalControllerSend = (FoxNtTotalControllerSendFunc *)addressSet["FoxNtTotalControllerSend"];
         FoxNtImplTransceiverManagerImplPeerSend = (FoxNtImplTransceiverManagerImplPeerSendFunc *)addressSet["FoxNtImplTransceiverManagerImplPeerSend"];
         FoxNioImplMpSocketImplSend = (FoxNioImplMpSocketImplSendFunc *)addressSet["FoxNioImplMpSocketImplSend"];
@@ -119,7 +120,35 @@ namespace Dynamite {
         FoxNioMpMessageContainerCreate = (FoxNioMpMessageContainerCreateFunc *)addressSet["FoxNioMpMessageContainerCreate"];
         FoxNioMpMessageContainerAddMessage = (FoxNioMpMessageContainerAddMessageFunc *)addressSet["FoxNioMpMessageContainerAddMessage"];
         FoxNioImplSppSocketImplGetState = (FoxNioImplSppSocketImplGetStateFunc *)addressSet["FoxNioImplSppSocketImplGetState"];
-        FoxNtImplSyncMemoryCollectorSyncMemoryCollector = (FoxNtImplSyncMemoryCollectorSyncMemoryCollectorFunc *)addressSet["FoxNtImplSyncMemoryCollectorSyncMemoryCollector"];
-
+        FoxNtImplSyncMemoryCollectorSyncMemoryCollector =
+            (FoxNtImplSyncMemoryCollectorSyncMemoryCollectorFunc *)addressSet["FoxNtImplSyncMemoryCollectorSyncMemoryCollector"];
+        FoxNtImplGameSocketBufferImplAlloc = (FoxNtImplGameSocketBufferImplAllocFunc *)addressSet["FoxNtImplGameSocketBufferImplAlloc"];
+        TppGmImplScriptDeclVarsImplOnSessionNotify = (TppGmImplScriptDeclVarsImplOnSessionNotifyFunc *)addressSet["TppGmImplScriptDeclVarsImplOnSessionNotify"];
+        FoxBitStreamWriterPrimitiveWrite = (FoxBitStreamWriterPrimitiveWriteFunc *)addressSet["FoxBitStreamWriterPrimitiveWrite"];
+        TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndex =
+            (TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndexFunc *)addressSet["TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndex"];
+        FoxNtImplTransceiverManagerImplPeerSendImpl1 =
+            (FoxNtImplTransceiverManagerImplPeerSendImpl1Func *)addressSet["FoxNtImplTransceiverManagerImplPeerSendImpl1"];
+        FoxNtImplTransceiverManagerImplPeerSendImpl2 =
+            (FoxNtImplTransceiverManagerImplPeerSendImpl2Func *)addressSet["FoxNtImplTransceiverManagerImplPeerSendImpl2"];
+        FoxNtImplTransceiverImplTransceiverImpl = (FoxNtImplTransceiverImplTransceiverImplFunc *)addressSet["FoxNtImplTransceiverImplTransceiverImpl"];
+        FoxNtImplGameSocketImplPeerRequestToSend = (FoxNtImplGameSocketImplPeerRequestToSendFunc *)addressSet["FoxNtImplGameSocketImplPeerRequestToSend"];
+        FoxNtImplGameSocketBufferImplGameSocketBufferImpl =
+            (FoxNtImplGameSocketBufferImplGameSocketBufferImplFunc *)addressSet["FoxNtImplGameSocketBufferImplGameSocketBufferImpl"];
+        FoxNioMpMessageCreate = (FoxNioMpMessageCreateFunc *)addressSet["FoxNioMpMessageCreate"];
+        FoxNtImplNetworkSystemImplGetMainSession = (FoxNtImplNetworkSystemImplGetMainSessionFunc *)addressSet["FoxNtImplNetworkSystemImplGetMainSession"];
+        FoxImplScopeAllocatorImplAlloc = (FoxImplScopeAllocatorImplAllocFunc *)addressSet["FoxImplScopeAllocatorImplAlloc"];
+        FoxScopeMemoryScopeMemory1 = (FoxScopeMemoryScopeMemory1Func *)addressSet["FoxScopeMemoryScopeMemory1"];
+        FoxScopeMemoryScopeMemoryDtor = (FoxScopeMemoryScopeMemoryDtorFunc *)addressSet["FoxScopeMemoryScopeMemoryDtor"];
+        TppGmImplScriptDeclVarsImplUpdate = (TppGmImplScriptDeclVarsImplUpdateFunc *)addressSet["TppGmImplScriptDeclVarsImplUpdate"];
+        FoxNtImplGameSocketImplGetPacketCount = (FoxNtImplGameSocketImplGetPacketCountFunc *)addressSet["FoxNtImplGameSocketImplGetPacketCount"];
+        FoxNtImplGameSocketImplGetPacket = (FoxNtImplGameSocketImplGetPacketFunc *)addressSet["FoxNtImplGameSocketImplGetPacket"];
+        FoxNtImplNetworkSystemImplCreateGameSocket = (FoxNtImplNetworkSystemImplCreateGameSocketFunc *)addressSet["FoxNtImplNetworkSystemImplCreateGameSocket"];
+        FoxNtNtModuleInit = (FoxNtNtModuleInitFunc *)addressSet["FoxNtNtModuleInit"];
+        FoxNtImplGameSocketImplRequestToSendToMember =
+            (FoxNtImplGameSocketImplRequestToSendToMemberFunc *)addressSet["FoxNtImplGameSocketImplRequestToSendToMember"];
+        FoxNtImplGameSocketImplSetInterval = (FoxNtImplGameSocketImplSetIntervalFunc *)addressSet["FoxNtImplGameSocketImplSetInterval"];
+        FoxNtImplPeerCommonInitializeLastSendTime = (FoxNtImplPeerCommonInitializeLastSendTimeFunc *)addressSet["FoxNtImplPeerCommonInitializeLastSendTime"];
+        FoxNtImplGameSocketImplGetPacketSize = (FoxNtImplGameSocketImplGetPacketSizeFunc *)addressSet["FoxNtImplGameSocketImplGetPacketSize"];
     }
 }
