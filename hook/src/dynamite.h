@@ -68,14 +68,14 @@ namespace Dynamite {
 
         void RebaseAddresses() const;
 
-        void CreateHooks();
+        static void CreateHooks();
 
         static void CreateDebugHooks();
 
         static void ReadConfig();
 
       private:
-        static const uint64_t BaseAddr = 0x140000000;
+        static constexpr uint64_t BaseAddr = 0x140000000;
         uint64_t RealBaseAddr = 0;
         HMODULE thisModule{nullptr};
         std::shared_ptr<spdlog::logger> log = nullptr;
