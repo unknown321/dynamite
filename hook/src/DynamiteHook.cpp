@@ -785,28 +785,33 @@ namespace Dynamite {
         FoxNtImplPeerCommonInitializeLastSendTime(PeerCommon);
     }
 
+    void *TppGmImplScriptDeclVarsImplScriptDeclVarsImplHook(void *ScriptDeclVarsImpl) {
+        auto res = TppGmImplScriptDeclVarsImplScriptDeclVarsImpl(ScriptDeclVarsImpl);
+        return res;
+    }
+
     void TppGmImplScriptDeclVarsImplUpdateHook(void *ScriptDeclVarsImpl) {
         TppGmImplScriptDeclVarsImplUpdate(ScriptDeclVarsImpl);
         dynamiteSyncImpl.Update();
     }
 
-    void TppGmImplScriptDeclVarsImplOnSessionNotifyHook(void *ScriptDeclVarsImpl, void *SessionInterface, int param_2, void *param_3) {
+    void TppGmImplScriptDeclVarsImplOnSessionNotifyHook(void *ScriptDeclVarsImpl, void *SessionInterface, const int param_2, void *param_3) {
         auto varCount = *(uint32_t *)((char *)ScriptDeclVarsImpl + -0x10);
         auto syncCount = 0;
         auto offset = 0;
-        recordBinWrites = false;
         for (int i = 0; i < varCount; i++) {
-            auto varTable = *(uint64_t *)((char *)ScriptDeclVarsImpl + -0x20);
-            auto flag = *(byte *)(varTable + offset + 0x10);
+            const auto varTable = *(uint64_t *)((char *)ScriptDeclVarsImpl + -0x20);
+            const auto flag = *(byte *)(varTable + offset + 0x10);
             if ((flag & 0x10) != 0) {
                 syncCount++;
                 //                auto handle = TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndex(ScriptDeclVarsImpl, i);
             }
             offset += 0x18;
         }
-        recordBinWrites = false;
 
+        recordBinWrites = true;
         TppGmImplScriptDeclVarsImplOnSessionNotify(ScriptDeclVarsImpl, SessionInterface, param_2, param_3);
+        recordBinWrites = false;
 
         // if (FILE *file = fopen("payload", "wb")) {
         //     fwrite(recordBinWriter, 1, recordOffset, file);
@@ -815,9 +820,13 @@ namespace Dynamite {
 
         spdlog::info(
             "{}, {} records, syncCount {}, wrote {} bits, will allocate {} bytes", __FUNCTION__, varCount, syncCount, varsTotalSize, varsTotalSize >> 3);
-        varsTotalSize = 0;
 
         dynamiteSyncImpl.Init();
+        if (varsTotalSize > 0 && syncCount > 0 && cfg.Host) {
+            dynamiteSyncImpl.SyncVar("svars", "solState");
+        }
+
+        varsTotalSize = 0;
     }
 
 }

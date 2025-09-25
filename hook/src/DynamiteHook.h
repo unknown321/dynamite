@@ -115,6 +115,7 @@ namespace Dynamite {
         void *GameSocketImpl, unsigned char memberIndex, uint32_t param_2, void *bufferPtr, uint32_t byteCount);
     void FoxNtImplGameSocketImplSetIntervalHook(void *GameSocketImpl, uint32_t param_1, unsigned char param_2, float param_3);
     void FoxNtImplPeerCommonInitializeLastSendTimeHook(void *PeerCommon);
+    void *TppGmImplScriptDeclVarsImplScriptDeclVarsImplHook(void *ScriptDeclVarsImpl);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

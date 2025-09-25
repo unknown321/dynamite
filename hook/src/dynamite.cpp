@@ -296,6 +296,9 @@ namespace Dynamite {
         };
         std::thread d(loop, &stopNearestEnemyThread, &nearestEnemyThreadRunning);
         d.detach();
+
+        dynamiteSyncImpl.SyncVar("svars", "solState");
+        dynamiteSyncImpl.SyncVar("svars", "fail");
     }
 
     void Dynamite::RebaseAddresses() const {
@@ -470,9 +473,6 @@ namespace Dynamite {
             CREATE_HOOK(FoxNtImplGameSocketBufferImplAlloc)
             ENABLEHOOK(FoxNtImplGameSocketBufferImplAlloc)
 
-            CREATE_HOOK(FoxBitStreamWriterPrimitiveWrite)
-            ENABLEHOOK(FoxBitStreamWriterPrimitiveWrite)
-
             CREATE_HOOK(FoxNtImplTransceiverManagerImplPeerSendImpl1)
             ENABLEHOOK(FoxNtImplTransceiverManagerImplPeerSendImpl1)
 
@@ -596,6 +596,9 @@ namespace Dynamite {
 
         CREATE_HOOK(TppGmImplScriptDeclVarsImplUpdate)
         ENABLEHOOK(TppGmImplScriptDeclVarsImplUpdate)
+
+        CREATE_HOOK(FoxBitStreamWriterPrimitiveWrite)
+        ENABLEHOOK(FoxBitStreamWriterPrimitiveWrite)
 
         for (auto p : GetPatches()) {
             if (!p.Apply()) {

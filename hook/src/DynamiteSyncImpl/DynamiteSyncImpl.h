@@ -26,6 +26,7 @@ class DynamiteSyncImpl {
     void SetSightMarker(uint32_t objectID, uint32_t duration) const;
     static void HandleSetSightMarker(const DynamiteMessage::MessageWrapper *w);
 
+    static void SyncVar(const std::string &catName, const std::string &varName);
     void HandleSyncVar(const DynamiteMessage::MessageWrapper *w);
 
     void *gameSocket = nullptr;

@@ -7,7 +7,7 @@
 // do _not_ hook lua_newstate, it will crash no matter what if compiled with mingw
 
 namespace Dynamite {
-    std::map<std::string, uint64_t> mgsvtpp_adresses_1_0_15_3_en{
+    inline std::map<std::string, uint64_t> mgsvtpp_adresses_1_0_15_3_en{
         {"IsDefenseTeamByOnlineFobLocal", 0x14d9ba3b0},
         {"IsOffenseTeamByOnlineFobLocal", 0x141e02e40},
         {"CreateHostSession", 0x1459f3e20},
@@ -114,6 +114,9 @@ namespace Dynamite {
         {"FoxNtImplPeerCommonInitializeLastSendTime", 0x143e9da20},
         {"FoxNtImplGameSocketImplGetPacketSize", 0x143ea9db0},
         {"FoxNtImplGameSocketImplGameSocketImplDtor", 0x143ea7b10},
+        {"TppGmImplScriptDeclVarsImplGetVarHandle", 0x140ae1630},
+        {"TppGmImplScriptDeclVarsImplScriptDeclVarsImpl", 0x146845ab0},
+        {"TppGmImplScriptSystemImplGetScriptDeclVarHandle", 0x1461f4ce0},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},

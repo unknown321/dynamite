@@ -153,12 +153,101 @@ void DynamiteSyncImpl::HandleSetSightMarker(const DynamiteMessage::MessageWrappe
     spdlog::info("{}: {}", __PRETTY_FUNCTION__, ok);
 }
 
+void DynamiteSyncImpl::SyncVar(const std::string &catName, const std::string &varName) {
+    const auto hash = (uint32_t)(FoxStrHash32(varName.c_str(), varName.length()) & 0xffffffff);
+    const auto catHash = (uint32_t)(FoxStrHash32(catName.c_str(), catName.length()) & 0xffffffff);
+
+    auto qt = GetQuarkSystemTable();
+    auto v1 = *(uint64_t *)((char *)qt + 0x98);
+    const auto scriptSystemImpl = *(void **)(v1 + 0x18);
+
+    auto r = malloc(8);
+    auto handle = TppGmImplScriptSystemImplGetScriptDeclVarHandle(scriptSystemImpl, r, catHash, hash);
+    free(r);
+    if (handle == nullptr) {
+        spdlog::error("{}, no handle for var {}.{}", __PRETTY_FUNCTION__, catName, varName);
+        return;
+    }
+
+    auto varType = *(byte *)((char *)handle + 0xC) & 7;
+    if (varType > TppVarType::TYPE_MAX) {
+        spdlog::error("{}, invalid var type {}.{} {}", __PRETTY_FUNCTION__, catName, varName, varType);
+        return;
+    }
+
+    auto varSize = *(unsigned short *)((char *)handle + 0x8);
+    if (varSize == 0) {
+        spdlog::error("{}, invalid var size {}.{}: {}", __PRETTY_FUNCTION__, catName, varName, varSize);
+        return;
+    }
+
+    spdlog::info("{}: {}, type {}, size {}", __PRETTY_FUNCTION__, varName, varType, varSize);
+
+    auto s = 1;
+    switch (varType) {
+    case TppVarType::TYPE_INT32:
+    case TppVarType::TYPE_UINT32:
+    case TppVarType::TYPE_FLOAT:
+        s = 4;
+        break;
+    case TppVarType::TYPE_INT8:
+    case TppVarType::TYPE_UINT8:
+        s = 1;
+        break;
+    case TppVarType::TYPE_INT16:
+    case TppVarType::TYPE_UINT16:
+        s = 2;
+        break;
+    case TppVarType::TYPE_BOOL:
+    default:
+        break;
+    }
+
+    for (int i = 0; i < varSize; i++) {
+        if (varType == TppVarType::TYPE_BOOL) {
+            const auto dataStart = *(unsigned short*)((char*)handle + 0xA);
+            const auto offset = *(uint64_t*)handle;
+            auto res = (*(byte *)(((i + dataStart) >> 3) + offset) & 1 << ((byte)(i + dataStart) & 7)) != 0;
+
+            spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i,  res);
+        }
+
+        const auto value = *(uint64_t *)handle + (*(unsigned short *)((uint64_t)handle + 0xA) + i) * s;
+        switch (varType) {
+        case TppVarType::TYPE_INT32:
+            spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i, *(int32_t *)value);
+            break;
+        case TppVarType::TYPE_UINT32:
+            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(uint32_t *)value);
+            break;
+        case TppVarType::TYPE_FLOAT:
+            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(float *)value);
+            break;
+        case TppVarType::TYPE_INT8:
+            spdlog::info("{}, {} {}: {:d}", __PRETTY_FUNCTION__, varName, i, *(signed char *)value);
+            break;
+        case TppVarType::TYPE_UINT8:
+            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(unsigned char *)value);
+            break;
+        case TppVarType::TYPE_INT16:
+            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(short *)value);
+            break;
+        case TppVarType::TYPE_UINT16:
+            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(unsigned short *)value);
+            break;
+        case TppVarType::TYPE_BOOL:
+        default:
+            break;
+        }
+    }
+}
+
 void DynamiteSyncImpl::HandleSyncVar(const DynamiteMessage::MessageWrapper *w) {
     auto m = w->msg_as_SyncVar();
     spdlog::info("{}: {}", __PRETTY_FUNCTION__, m->text()->c_str());
 }
 
-bool DynamiteSyncImpl::Send(flatbuffers::FlatBufferBuilder* builder) const {
+bool DynamiteSyncImpl::Send(flatbuffers::FlatBufferBuilder *builder) const {
     if (gameSocket == nullptr) {
         spdlog::info("{}, socket is null", __PRETTY_FUNCTION__);
         return false;

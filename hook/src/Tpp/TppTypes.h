@@ -3,6 +3,19 @@
 
 #include <cstdint>
 
+enum TppVarType {
+    TYPE_BOOL = 0,
+    TYPE_INT32 = 1,
+    TYPE_UINT32 = 2,
+    TYPE_FLOAT = 3,
+    TYPE_INT8 = 4,
+    TYPE_UINT8 = 5,
+    TYPE_INT16 = 6,
+    TYPE_UINT16 = 7,
+
+    TYPE_MAX = 7,
+};
+
 // size 0xd8
 struct SessionConnectInfo {
     int64_t zeros;
@@ -108,7 +121,6 @@ namespace fox {
     };
 #pragma pack(pop)
 
-
     class QuarkHandle {
       public:
         uint64_t value;
@@ -116,8 +128,8 @@ namespace fox {
     namespace nio {
         class Buffer {
           public:
-            void* mem;
-            void* mystery1;
+            void *mem;
+            void *mystery1;
             uint32_t size;
             uint32_t mystery2;
             uint32_t mystery3;
