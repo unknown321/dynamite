@@ -1,0 +1,43 @@
+namespace DynamiteMessage;
+
+union Message {
+   AddFixedUserMarker,
+   AddFollowUserMarker,
+   RemoveUserMarker,
+   SetSightMarker,
+   SyncVar,
+}
+
+struct Vec3 {
+    x:float32;
+    y:float32;
+    z:float32;
+}
+
+table AddFixedUserMarker {
+    pos:Vec3;
+}
+
+table AddFollowUserMarker {
+    pos:Vec3;
+    object_id:uint32;
+}
+
+table RemoveUserMarker {
+    marker_id:uint32;
+}
+
+table SetSightMarker {
+    object_id:uint32;
+    duration:uint32;
+}
+
+table SyncVar {
+    text:string;
+}
+
+table MessageWrapper {
+  msg: Message;
+}
+
+root_type MessageWrapper;

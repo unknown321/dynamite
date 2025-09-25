@@ -1,14 +1,20 @@
 #include "DynamiteSyncImpl.h"
+
+#include "DynamiteHook.h"
+#include "DynamiteSyncSchema_generated.h"
+#include "flatbuffers/flatbuffers.h"
 #include "mgsvtpp_func_typedefs.h"
 #include "spdlog/spdlog.h"
 #include "util.h"
 
 DynamiteSyncImpl::DynamiteSyncImpl() = default;
 
+DynamiteSyncImpl::~DynamiteSyncImpl() { FoxNtImplGameSocketImplGameSocketImplDtor(this->gameSocket); }
+
 void DynamiteSyncImpl::Init() {
     spdlog::info("{}", __PRETTY_FUNCTION__);
-    if (gameSocket != nullptr) {
-        return;
+    if (this->gameSocket != nullptr) {
+        FoxNtImplGameSocketImplGameSocketImplDtor(this->gameSocket);
     }
 
     auto qt = GetQuarkSystemTable();
@@ -32,22 +38,194 @@ void DynamiteSyncImpl::Update() {
 
     for (int i = 0; i < packetCount; i++) {
         auto packet = FoxNtImplGameSocketImplGetPacket(this->gameSocket, 0, i);
-        spdlog::info("{}, {}: {}", __PRETTY_FUNCTION__, i, packet);
-        auto packetSize = FoxNtImplGameSocketImplGetPacketSize(this->gameSocket, 0, i);
-        spdlog::info("{}, {}: size {}", __PRETTY_FUNCTION__, i, packetSize);
-        spdlog::info("{}, contents {}", __PRETTY_FUNCTION__, bytes_to_hex(packet, packetSize));
+        // spdlog::info("{}, {}: {}", __PRETTY_FUNCTION__, i, packet);
+        // auto packetSize = FoxNtImplGameSocketImplGetPacketSize(this->gameSocket, 0, i);
+        // spdlog::info("{}, {}: size {}", __PRETTY_FUNCTION__, i, packetSize);
+        // spdlog::info("{}, contents {}", __PRETTY_FUNCTION__, bytes_to_hex(packet, packetSize));
+
+        auto wrapper = DynamiteMessage::GetMessageWrapper(packet);
+        switch (wrapper->msg_type()) {
+        case DynamiteMessage::Message_AddFixedUserMarker:
+            HandleAddFixedUserMarker(wrapper);
+            break;
+        case DynamiteMessage::Message_AddFollowUserMarker:
+            HandleAddFollowUserMarker(wrapper);
+            break;
+        case DynamiteMessage::Message_RemoveUserMarker:
+            HandleRemoveUserMarker(wrapper);
+            break;
+        case DynamiteMessage::Message_SetSightMarker:
+            HandleSetSightMarker(wrapper);
+            break;
+        case DynamiteMessage::Message_SyncVar:
+            HandleSyncVar(wrapper);
+            break;
+        default:
+            spdlog::error("{}, unknown message type", __PRETTY_FUNCTION__);
+            break;
+        }
     }
+}
+
+void DynamiteSyncImpl::HandleAddFixedUserMarker(const DynamiteMessage::MessageWrapper *w) {
+    if (Dynamite::MarkerSystemImpl == nullptr) {
+        spdlog::error("{}, marker system is null!", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto m = w->msg_as_AddFixedUserMarker();
+    spdlog::info("{}: x: {}, y: {}, z: {}", __PRETTY_FUNCTION__, m->pos()->x(), m->pos()->y(), m->pos()->z());
+    auto vv = Vector3{
+        .x = m->pos()->x(),
+        .y = m->pos()->y(),
+        .z = m->pos()->z(),
+    };
+
+    Marker2SystemImplPlacedUserMarkerFixed(Dynamite::MarkerSystemImpl, &vv);
+}
+
+void DynamiteSyncImpl::AddFollowUserMarker(const Vector3 *pos, uint32_t objectID) const {
+    flatbuffers::FlatBufferBuilder builder(128);
+    const auto p = DynamiteMessage::Vec3(pos->x, pos->y, pos->z);
+    const auto sv = DynamiteMessage::CreateAddFollowUserMarker(builder, &p, objectID);
+    const auto message = DynamiteMessage::CreateMessageWrapper(builder, DynamiteMessage::Message_AddFollowUserMarker, sv.Union());
+    builder.Finish(message);
+    auto res = Send(&builder);
+    spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
+}
+
+void DynamiteSyncImpl::HandleAddFollowUserMarker(const DynamiteMessage::MessageWrapper *w) {
+    if (Dynamite::MarkerSystemImpl == nullptr) {
+        spdlog::error("{}, marker system is null!", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto m = w->msg_as_AddFollowUserMarker();
+    auto vv = Vector3{
+        .x = m->pos()->x(),
+        .y = m->pos()->y(),
+        .z = m->pos()->z(),
+    };
+
+    spdlog::info("{}: x: {}, y: {}, z: {}, objectID: {}", __PRETTY_FUNCTION__, m->pos()->x(), m->pos()->y(), m->pos()->z(), m->object_id());
+    auto ok = Marker2SystemImplPlacedUserMarkerFollow(Dynamite::MarkerSystemImpl, &vv, m->object_id());
+    spdlog::info("{}: {}", __PRETTY_FUNCTION__, ok);
+}
+
+void DynamiteSyncImpl::RemoveUserMarker(const uint32_t markerID) const {
+    flatbuffers::FlatBufferBuilder builder(128);
+    auto sv = DynamiteMessage::CreateRemoveUserMarker(builder, markerID);
+    auto message = DynamiteMessage::CreateMessageWrapper(builder, DynamiteMessage::Message_RemoveUserMarker, sv.Union());
+    builder.Finish(message);
+    auto res = Send(&builder);
+    spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
+}
+
+void DynamiteSyncImpl::HandleRemoveUserMarker(const DynamiteMessage::MessageWrapper *w) {
+    if (Dynamite::MarkerSystemImpl == nullptr) {
+        spdlog::error("{}, marker system is null!", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto m = w->msg_as_RemoveUserMarker();
+    spdlog::info("{}, id {}", __PRETTY_FUNCTION__, m->marker_id());
+    Marker2SystemImplRemovedUserMarker(Dynamite::MarkerSystemImpl, m->marker_id());
+}
+
+void DynamiteSyncImpl::SetSightMarker(const uint32_t objectID, const uint32_t duration) const {
+    flatbuffers::FlatBufferBuilder builder(128);
+    const auto sv = DynamiteMessage::CreateSetSightMarker(builder, objectID, duration);
+    const auto message = DynamiteMessage::CreateMessageWrapper(builder, DynamiteMessage::Message_SetSightMarker, sv.Union());
+    builder.Finish(message);
+    auto res = Send(&builder);
+    spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
+}
+
+void DynamiteSyncImpl::HandleSetSightMarker(const DynamiteMessage::MessageWrapper *w) {
+    if (Dynamite::SightManagerImpl == nullptr) {
+        spdlog::error("{}, sight manager is null!", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto m = w->msg_as_SetSightMarker();
+    spdlog::info("{}, objectID {}, duration {}", __PRETTY_FUNCTION__, m->object_id(), m->duration());
+    auto ok = SightManagerImplSetMarker(Dynamite::SightManagerImpl, m->object_id(), m->duration());
+    spdlog::info("{}: {}", __PRETTY_FUNCTION__, ok);
+}
+
+void DynamiteSyncImpl::HandleSyncVar(const DynamiteMessage::MessageWrapper *w) {
+    auto m = w->msg_as_SyncVar();
+    spdlog::info("{}: {}", __PRETTY_FUNCTION__, m->text()->c_str());
+}
+
+bool DynamiteSyncImpl::Send(flatbuffers::FlatBufferBuilder* builder) const {
+    if (gameSocket == nullptr) {
+        spdlog::info("{}, socket is null", __PRETTY_FUNCTION__);
+        return false;
+    }
+
+    uint8_t *buf = builder->GetBufferPointer();
+    int size = builder->GetSize();
+    if (size == 0 || size > 1000) {
+        spdlog::info("{}, invalid size", __PRETTY_FUNCTION__, size);
+        return false;
+    }
+
+    if (buf == nullptr) {
+        spdlog::info("{}, buffer is null", __PRETTY_FUNCTION__);
+        return false;
+    }
+
+    // spdlog::info("{}: {} {}", __PRETTY_FUNCTION__, size, bytes_to_hex(buf, size));
+
+    auto target = 0;
+    if (Dynamite::cfg.Host) {
+        target = 1;
+    }
+
+    FoxNtImplGameSocketImplRequestToSendToMember(gameSocket, target, 0, buf, size);
+    return true;
+}
+
+void DynamiteSyncImpl::AddFixedUserMarker(const Vector3 *pos) const {
+    flatbuffers::FlatBufferBuilder builder(128);
+    const auto p = DynamiteMessage::Vec3(pos->x, pos->y, pos->z);
+    const auto sv = DynamiteMessage::CreateAddFixedUserMarker(builder, &p);
+    const auto message = DynamiteMessage::CreateMessageWrapper(builder, DynamiteMessage::Message_AddFixedUserMarker, sv.Union());
+    builder.Finish(message);
+    auto res = Send(&builder);
+    spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
 }
 
 void DynamiteSyncImpl::Write() {
     spdlog::info("{}", __PRETTY_FUNCTION__);
+
     if (gameSocket == nullptr) {
         spdlog::info("{}, socket is null", __PRETTY_FUNCTION__);
         return;
     }
 
-    auto b = malloc(20);
-    memset(b, 7, 20);
-    FoxNtImplGameSocketImplRequestToSendToMember(gameSocket, 1, 0, b, 20);
-    free(b);
+    flatbuffers::FlatBufferBuilder builder(1000);
+    flatbuffers::Offset<flatbuffers::String> weapon_one_name = builder.CreateString("Sword");
+    auto sv = DynamiteMessage::CreateSyncVar(builder, weapon_one_name);
+    auto message = DynamiteMessage::CreateMessageWrapper(builder, DynamiteMessage::Message_SyncVar, sv.Union());
+    builder.Finish(message);
+    uint8_t *buf = builder.GetBufferPointer();
+    int size = builder.GetSize();
+    if (size == 0 || size > 1000) {
+        // fail
+    }
+
+    if (buf == nullptr) {
+        // fail
+    }
+
+    spdlog::info("{}: {} {}", __PRETTY_FUNCTION__, size, bytes_to_hex(buf, size));
+
+    auto target = 0;
+    if (Dynamite::cfg.Host) {
+        target = 1;
+    }
+
+    FoxNtImplGameSocketImplRequestToSendToMember(gameSocket, target, 0, buf, size);
 }

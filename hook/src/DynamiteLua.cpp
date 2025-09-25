@@ -183,54 +183,6 @@ namespace Dynamite {
         return 1;
     }
 
-    int l_AddDamage(lua_State *L) {
-        int playerID = luaL_checkinteger(L, 1);
-        unsigned short damageID = luaL_checkinteger(L, 2);
-        auto d = NewNetworkDamage();
-        d.v1.x = luaL_checknumber(L, 3);
-        d.v1.y = luaL_checknumber(L, 4);
-        d.v1.z = luaL_checknumber(L, 5);
-        d.v1.w = luaL_checknumber(L, 6);
-        d.damage_category = 16386;
-        d.lethalFlag = 1;
-        d.b1 = 3;
-        d.b2 = DamageProtocolCommand::CMD_AddFixedUserMarker;
-        d.b3 = 0xc8;
-        d.damageID = damageID;
-
-        if (DamageControllerImpl == nullptr) {
-            spdlog::error("damage controller impl is null");
-            return 0;
-        }
-
-        AddLocalDamageHook(DamageControllerImpl, playerID, &d);
-        return 0;
-    }
-
-    int l_AddFixedMarkerNetwork(lua_State *L) {
-        uint32_t playerID;
-        GetLocalPlayerId(&playerID);
-        auto d = new PlayerDamage();
-        d->v1.x = luaL_checknumber(L, 1);
-        d->v1.y = luaL_checknumber(L, 2);
-        d->v1.z = luaL_checknumber(L, 3);
-        d->v1.w = 0;
-        d->damage_category = 16386;
-        d->lethalFlag = 1;
-        d->b1 = 3;
-        d->b2 = DamageProtocolCommand::CMD_AddFixedUserMarker;
-        d->b3 = 0xc8;
-        d->damageID = DamageID;
-
-        if (DamageControllerImpl == nullptr) {
-            spdlog::error("damage controller impl is null");
-            return 0;
-        }
-
-        AddLocalDamageHook(DamageControllerImpl, playerID, d);
-        return 0;
-    }
-
     int l_AddFixedMarker(lua_State *L) {
         auto x = luaL_checknumber(L, 1);
         auto y = luaL_checknumber(L, 2);
@@ -366,8 +318,6 @@ namespace Dynamite {
             {"GetOffensePlayerIndex", l_GetOffensePlayerIndex},
             {"GetDefensePlayerIndex", l_GetDefensePlayerIndex},
             {"GetSoldierLifeStatus", l_GetSoldierLifeStatus},
-            {"AddDamage", l_AddDamage},
-            {"AddFixedMarkerNetwork", l_AddFixedMarkerNetwork},
             {"AddFixedMarker", l_AddFixedMarker},
             {"RemoveMarker", l_RemoveMarker},
             {"RemoveAllUserMarkers", l_RemoveAllUserMarkers},

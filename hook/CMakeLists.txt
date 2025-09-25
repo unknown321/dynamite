@@ -32,12 +32,19 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(spdlog)
 
+
+FetchContent_Declare(
+        flatbuffers
+        GIT_REPOSITORY https://github.com/google/flatbuffers.git
+        GIT_TAG 187240970746d00bbd26b0f5873ed54d2477f9f3
+)
+FetchContent_MakeAvailable(flatbuffers)
+
 include_directories(
         src/
 )
 
 SET(LUA_COMPAT_OPENLIB 1)
-
 
 if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/__header.h)
     message(FATAL_ERROR "File \"${CMAKE_CURRENT_BINARY_DIR}/__header.h\" found, \
@@ -81,4 +88,4 @@ add_dependencies(${PROJECT_NAME} version)
 
 target_compile_options(${PROJECT_NAME} PUBLIC -fpermissive)
 target_link_options(${PROJECT_NAME} PUBLIC -static)
-target_link_libraries(${PROJECT_NAME} minhook mINI spdlog::spdlog_header_only)
+target_link_libraries(${PROJECT_NAME} flatbuffers minhook mINI spdlog::spdlog_header_only)

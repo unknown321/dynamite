@@ -81,15 +81,7 @@ namespace Dynamite {
             return res;
         }
 
-        auto d = NewNetworkDamage();
-        d.b2 = DamageProtocolCommand::CMD_SetSightMarker;
-        d.damage_type_flags = objectID;
-        d.v1.x = duration;
-
-        uint32_t playerID;
-        GetLocalPlayerId(&playerID);
-        auto dmgAdd = AddLocalDamageHook(DamageControllerImpl, playerID, &d);
-        spdlog::info("network set sight marker: {}", dmgAdd);
+        dynamiteSyncImpl.SetSightMarker(objectID, duration);
 
         return res;
     }
@@ -221,66 +213,6 @@ namespace Dynamite {
                 return res;
             }
 
-            // fixed marker
-            if (damage->b2 == DamageProtocolCommand::CMD_AddFixedUserMarker) {
-                if (ignoreMarkerRequests) {
-                    spdlog::info("ignored fixed user marker request");
-                    return res;
-                }
-
-                auto vv = Vector3{
-                    .x = damage->v1.x,
-                    .y = damage->v1.y,
-                    .z = damage->v1.z,
-                };
-
-                spdlog::info("setting fixed network marker at {}, {}, {}", vv.x, vv.y, vv.z);
-                Marker2SystemImplPlacedUserMarkerFixed(MarkerSystemImpl, &vv);
-            }
-
-            if (damage->b2 == DamageProtocolCommand::CMD_AddFollowUserMarker) {
-                if (ignoreMarkerRequests) {
-                    spdlog::info("ignored follow user marker request");
-                    return res;
-                }
-
-                auto vv = Vector3{
-                    .x = damage->v1.x,
-                    .y = damage->v1.y,
-                    .z = damage->v1.z,
-                };
-
-                //                DumpDamage(damage, 1);
-                unsigned short objectIDMarker = damage->damage_type_flags;
-                spdlog::info("adding follow network marker at {}, {}, {}, object id {} ({})", vv.x, vv.y, vv.z, objectIDMarker, damage->damage_type_flags);
-                auto ok = Marker2SystemImplPlacedUserMarkerFollow(MarkerSystemImpl, &vv, objectIDMarker);
-                spdlog::info("follow network marker: {}", ok);
-            }
-
-            if (damage->b2 == DamageProtocolCommand::CMD_RemoveUserMarker) {
-                if (ignoreMarkerRequests) {
-                    spdlog::info("ignored remove marker request");
-                    return res;
-                }
-
-                auto markerID = int(std::round(damage->v1.x));
-                spdlog::info("removing network marker, id {}", markerID);
-                Marker2SystemImplRemovedUserMarker(MarkerSystemImpl, markerID);
-            }
-
-            if (damage->b2 == DamageProtocolCommand::CMD_SetSightMarker) {
-                if (ignoreMarkerRequests) {
-                    spdlog::info("ignored set sight marker request");
-                    return res;
-                }
-
-                auto objectIDMarker = damage->damage_type_flags;
-                auto duration = damage->v1.x;
-                spdlog::info("adding sight marker from network, objectID {}, duration {}", objectIDMarker, duration);
-                auto ok = SightManagerImplSetMarker(SightManagerImpl, objectIDMarker, duration);
-                spdlog::info("sight marker from network: {}", ok);
-            }
-
             if (damage->b2 == DamageProtocolCommand::CMD_CustomCommand1) {
                 spdlog::info("custom command 1");
 
@@ -309,22 +241,14 @@ namespace Dynamite {
     }
 
     void Marker2SystemImplRemovedUserMarkerHook(void *thisPtr, uint32_t markerID) {
-        spdlog::info("removing local user marker {}", markerID);
+        spdlog::info("{}: {}", __FUNCTION__, markerID);
         if (ignoreMarkerRequests) {
             spdlog::info("ignored remove local marker request");
             return;
         }
 
         Marker2SystemImplRemovedUserMarker(thisPtr, markerID);
-
-        auto d = NewNetworkDamage();
-        d.v1.x = markerID;
-        d.b2 = DamageProtocolCommand::CMD_RemoveUserMarker;
-
-        uint32_t playerID;
-        GetLocalPlayerId(&playerID);
-        auto dmgAdd = AddLocalDamageHook(DamageControllerImpl, playerID, &d);
-        spdlog::info("network remove marker request: {}", dmgAdd);
+        dynamiteSyncImpl.RemoveUserMarker(markerID);
     }
 
     void Marker2SystemImplPlacedUserMarkerFixedHook(void *thisPtr, Vector3 *pos) {
@@ -334,54 +258,19 @@ namespace Dynamite {
             return;
         }
 
-        uint32_t playerID;
-        GetLocalPlayerId(&playerID);
-
-        auto d = new PlayerDamage();
-        d->v1.x = pos->x;
-        d->v1.y = pos->y;
-        d->v1.z = pos->z;
-        d->damage_category = 16386;
-        d->lethalFlag = 1;
-        d->b1 = 3;
-        d->b2 = DamageProtocolCommand::CMD_AddFixedUserMarker;
-        d->b3 = 0xc8;
-        d->damageID = DamageID;
-
         Marker2SystemImplPlacedUserMarkerFixed(thisPtr, pos);
-
-        if (DamageControllerImpl == nullptr) {
-            spdlog::info("damage controller not available, not setting fixed marker over network");
-            return;
-        }
-
-        auto res = AddLocalDamageHook(DamageControllerImpl, playerID, d);
-        spdlog::info("network add fixed marker request: {}", res);
+        dynamiteSyncImpl.AddFixedUserMarker(pos);
     }
 
     bool Marker2SystemImplPlacedUserMarkerFollowHook(void *thisPtr, Vector3 *pos, unsigned short objectID) {
-        spdlog::info("placing follow local user marker at {}, {}, {}, objectID {}", pos->x, pos->y, pos->z, objectID);
+        spdlog::info("{}, {}, {}, {}, objectID {}", __FUNCTION__, pos->x, pos->y, pos->z, objectID);
         if (ignoreMarkerRequests) {
             spdlog::info("ignored follow local marker request");
             return true;
         }
 
-        auto d = NewNetworkDamage();
-        d.v1.x = pos->x;
-        d.v1.y = pos->y;
-        d.v1.z = pos->z;
-        d.damage_type_flags = objectID;
-        d.b2 = DamageProtocolCommand::CMD_AddFollowUserMarker;
-
         auto res = Marker2SystemImplPlacedUserMarkerFollow(thisPtr, pos, objectID);
-        spdlog::info("place local follow marker for object {}: {}", d.damage_type_flags, res);
-
-        uint32_t playerID;
-        GetLocalPlayerId(&playerID);
-
-        auto resDmg = AddLocalDamageHook(DamageControllerImpl, playerID, &d);
-        spdlog::info("network add follow marker request: {}", resDmg);
-        //        DumpDamage(&d, 0);
+        dynamiteSyncImpl.AddFollowUserMarker(pos, objectID);
 
         return res;
     }
@@ -965,6 +854,8 @@ namespace Dynamite {
         spdlog::info(
             "{}, {} records, syncCount {}, wrote {} bits, will allocate {} bytes", __FUNCTION__, varCount, syncCount, varsTotalSize, varsTotalSize >> 3);
         varsTotalSize = 0;
+
+        dynamiteSyncImpl.Init();
     }
 
 }
