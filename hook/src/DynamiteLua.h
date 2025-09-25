@@ -43,15 +43,12 @@ namespace Dynamite {
     int l_GetSoldierLifeStatus(lua_State *L);
     int l_IsClient(lua_State *L);
     int l_IsHost(lua_State *L);
-    int l_AddDamage(lua_State *L);
-    int l_AddFixedMarkerNetwork(lua_State *L);
     int l_AddFixedMarker(lua_State *L);
     int l_RemoveMarker(lua_State *L);
     int l_RemoveAllUserMarkers(lua_State *L);
     int l_IgnoreMarkerRequests(lua_State *L);
     int l_AcceptMarkerRequests(lua_State *L);
     int l_WarpToPartner(lua_State *L);
-    int l_CustomCommand(lua_State *L);
 }
 
 #endif // HOOK_DYNAMITELUA_H

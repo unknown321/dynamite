@@ -555,9 +555,6 @@ namespace Dynamite {
         CREATE_HOOK(DamageControllerImplInitialize)
         ENABLEHOOK(DamageControllerImplInitialize)
 
-        CREATE_HOOK(SynchronizerImplGetDamage)
-        ENABLEHOOK(SynchronizerImplGetDamage)
-
         CREATE_HOOK(Marker2SystemImpl)
         ENABLEHOOK(Marker2SystemImpl)
 

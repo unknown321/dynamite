@@ -1,12 +1,10 @@
 #include "DynamiteLua.h"
-#include "DamageProtocol.h"
 #include "DynamiteHook.h"
 #include "dynamite.h"
 #include "lua/lauxlib.h"
 #include "lua/lua.h"
 #include "memtag.h"
 #include "spdlog/spdlog.h"
-#include "util.h"
 
 namespace Dynamite {
 
@@ -285,17 +283,6 @@ namespace Dynamite {
         return 0;
     }
 
-    int l_CustomCommand(lua_State *L) {
-        auto d = NewNetworkDamage();
-        d.b2 = DamageProtocolCommand::CMD_CustomCommand1;
-
-        uint32_t playerID;
-        GetLocalPlayerId(&playerID);
-        auto dmgAdd = AddLocalDamageHook(DamageControllerImpl, playerID, &d);
-        spdlog::info("custom command: {}", dmgAdd);
-        return 0;
-    }
-
     int l_SyncInit(lua_State *L) {
         dynamiteSyncImpl.Init();
         return 0;
@@ -327,7 +314,6 @@ namespace Dynamite {
             {"IsHost", l_IsHost},
             {"GetPlayerPosition", l_GetPlayerPosition},
             {"WarpToPartner", l_WarpToPartner},
-            {"CustomCommand", l_CustomCommand},
             {"SyncInit", l_SyncInit},
             {"SyncWrite", l_SyncWrite},
             {nullptr, nullptr},

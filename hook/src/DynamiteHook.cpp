@@ -1,5 +1,4 @@
 #include "DynamiteHook.h"
-#include "DamageProtocol.h"
 #include "DynamiteSyncImpl/DynamiteSyncImpl.h"
 #include "Tpp/TppFOB.h"
 #include "Tpp/TppGameStatusFlag.h"
@@ -191,43 +190,6 @@ namespace Dynamite {
     void DamageControllerImplInitializeHook(void *thisPtr, void *QuarkDesc) {
         DamageControllerImplInitialize(thisPtr, QuarkDesc);
         DamageControllerImpl = (char *)thisPtr + 0x20;
-    }
-
-    uint32_t SynchronizerImplGetDamageHook(void *thisPtr, uint32_t objectID, PlayerDamage *damage) {
-        auto res = SynchronizerImplGetDamage(thisPtr, objectID, damage);
-        if (res != 1) {
-            return res;
-        }
-
-        if (damage->damageID == DamageID) {
-            spdlog::info("got damage! objectID: {}, res: {}, b2 {}, {} {} {}", objectID, res, int(damage->b2), damage->v1.x, damage->v1.y, damage->v1.z);
-            if (damage->b2 == DamageProtocolCommand::CMD_IgnoreMe) {
-                return res;
-            }
-
-            uint32_t playerID;
-            GetLocalPlayerId(&playerID);
-            if (objectID == playerID) {
-                spdlog::info("synchronizer, playerID {}, objectID {}", playerID, objectID);
-                // do not create local markers again
-                return res;
-            }
-
-            if (damage->b2 == DamageProtocolCommand::CMD_CustomCommand1) {
-                spdlog::info("custom command 1");
-
-                uint32_t errorCode = 0;
-                uint32_t messageArgs = 0;
-
-                auto DynamiteStr32 = static_cast<uint32_t>(FoxStrHash32("Dynamite", strlen("Dynamite")) & 0xffffffff);
-                auto CustomCommand1Str32 = static_cast<uint32_t>(FoxStrHash32("CustomCommand1", strlen("CustomCommand1")) & 0xffffffff);
-                auto MissionStr32 = static_cast<uint32_t>(FoxStrHash32("Mission", strlen("Mission")) & 0xffffffff);
-
-                MessageBufferAddMessageHook(messageBuffer, &errorCode, CustomCommand1Str32, DynamiteStr32, MissionStr32, 0, &messageArgs, 0);
-            }
-        }
-
-        return res;
     }
 
     void *Marker2SystemImplHook(void *thisPtr) {

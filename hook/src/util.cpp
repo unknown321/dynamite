@@ -1,5 +1,4 @@
 #include "util.h"
-#include "DamageProtocol.h"
 #include "Tpp/PlayerDamage.h"
 #include "Tpp/TppTypes.h"
 #include "spdlog/spdlog.h"
@@ -123,18 +122,6 @@ std::map<uint64_t, std::string> readPathCodeDictionary(const std::string &filena
 
     return result;
 }
-
-PlayerDamage NewNetworkDamage() {
-    auto d = PlayerDamage();
-    d.damage_category = 16386;
-    d.lethalFlag = 1;
-    d.b1 = 3;
-    d.b2 = DamageProtocolCommand::CMD_Invalid;
-    d.b3 = 0xc8;
-    d.damageID = DamageID;
-    return d;
-}
-
 
 void DumpArgs(void *messageArgs, int len) {
     const unsigned char *bytes = reinterpret_cast<unsigned char *>(messageArgs);

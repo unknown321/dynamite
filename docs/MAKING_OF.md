@@ -340,6 +340,8 @@ of them were also erased or modified (rounded to fit in the game limits / change
 was transmitted untouched, which had just enough space to fit a game object id, allowing us to successfully add 
 user markers to game entities.
 
+Update: damage-based protocol was replaced by in-game network messaging system.
+
 Player-set markers are done, what about enemy markers? Having them allows you to play a sniper-spotter combo, which is 
 really cool. It was easy to implement with tech developed before, although sometimes it fails for whatever reason, 
 leaving an enemy or two unmarked. Still cool.
