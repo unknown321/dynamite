@@ -706,8 +706,10 @@ namespace Dynamite {
         // spdlog::info("{}: message container {}", __FUNCTION__, *(void **)((char *)MpMuxImpl + 0x468));
         auto res = FoxNioImplMpMuxImplSend(MpMuxImpl, param_1, param_2, param_3, size, SppInfo, param_6);
 
-        if (cfg.debug.muxSendError && res < 0) {
-            spdlog::info("{} fail: p1={}, p2={}, p3={}, size={}, p6={}, res {}", __FUNCTION__, param_1, param_2, param_3, size, param_6, res);
+        if (cfg.debug.muxSendError) {
+            if (res < 0) {
+                spdlog::info("{} fail: p1={}, p2={}, p3={}, size={}, p6={}, res {}", __FUNCTION__, param_1, param_2, param_3, size, param_6, res);
+            }
             return res;
         }
 
