@@ -291,6 +291,8 @@ typedef void(__thiscall FoxNtImplPeerCommonInitializeLastSendTimeFunc)(void *Pee
 
 typedef uint32_t(__thiscall FoxNtImplGameSocketImplGetPacketSizeFunc)(void *GameSocketImpl, uint32_t param_1, uint32_t param_2);
 
+typedef void (__thiscall FoxNtImplGameSocketImplGameSocketImplDtorFunc)(void *GameSocketImpl);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -431,4 +433,5 @@ extern FoxNtImplGameSocketImplRequestToSendToMemberFunc *FoxNtImplGameSocketImpl
 extern FoxNtImplGameSocketImplSetIntervalFunc *FoxNtImplGameSocketImplSetInterval;
 extern FoxNtImplPeerCommonInitializeLastSendTimeFunc *FoxNtImplPeerCommonInitializeLastSendTime;
 extern FoxNtImplGameSocketImplGetPacketSizeFunc *FoxNtImplGameSocketImplGetPacketSize;
+extern FoxNtImplGameSocketImplGameSocketImplDtorFunc* FoxNtImplGameSocketImplGameSocketImplDtor;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

@@ -150,5 +150,6 @@ namespace Dynamite {
         FoxNtImplGameSocketImplSetInterval = (FoxNtImplGameSocketImplSetIntervalFunc *)addressSet["FoxNtImplGameSocketImplSetInterval"];
         FoxNtImplPeerCommonInitializeLastSendTime = (FoxNtImplPeerCommonInitializeLastSendTimeFunc *)addressSet["FoxNtImplPeerCommonInitializeLastSendTime"];
         FoxNtImplGameSocketImplGetPacketSize = (FoxNtImplGameSocketImplGetPacketSizeFunc *)addressSet["FoxNtImplGameSocketImplGetPacketSize"];
+        FoxNtImplGameSocketImplGameSocketImplDtor = (FoxNtImplGameSocketImplGameSocketImplDtorFunc*)addressSet["FoxNtImplGameSocketImplGameSocketImplDtor"];
     }
 }

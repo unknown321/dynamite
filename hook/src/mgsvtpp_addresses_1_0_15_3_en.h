@@ -113,6 +113,7 @@ namespace Dynamite {
         {"FoxNtImplGameSocketImplSetInterval", 0x143eabc30},
         {"FoxNtImplPeerCommonInitializeLastSendTime", 0x143e9da20},
         {"FoxNtImplGameSocketImplGetPacketSize", 0x143ea9db0},
+        {"FoxNtImplGameSocketImplGameSocketImplDtor", 0x143ea7b10},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},
