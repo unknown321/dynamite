@@ -389,7 +389,7 @@ namespace Dynamite {
 
     void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag) {
         if (categoryTag == MEMTAG_TPP_SYSTEM2SCRIPT) {
-            spdlog::info("{}, allocating {} bytes, {} align, category MEMTAG_TPP_SYSTEM2SCRIPT", __FUNCTION__, sizeInBytes, alignment);
+            // spdlog::info("{}, allocating {} bytes, {} align, category MEMTAG_TPP_SYSTEM2SCRIPT", __FUNCTION__, sizeInBytes, alignment);
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
 
@@ -398,7 +398,7 @@ namespace Dynamite {
         }
 
         if (categoryTag == MEMTAG_NETWORK_NT_SYSTEM) {
-            spdlog::info("{}, allocating {} bytes, {} align, category MEMTAG_NETWORK_NT_SYSTEM", __FUNCTION__, sizeInBytes, alignment);
+            // spdlog::info("{}, allocating {} bytes, {} align, category MEMTAG_NETWORK_NT_SYSTEM", __FUNCTION__, sizeInBytes, alignment);
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
 
