@@ -21,6 +21,7 @@ namespace Dynamite {
     extern void *MarkerSystemImpl;
     extern void *SightManagerImpl;
     extern void *EquipHudSystemImpl;
+    extern void *scriptDeclVarsImpl;
     extern bool ignoreMarkerRequests;
     extern unsigned int offensePlayerID;
     extern unsigned int defensePlayerID;

@@ -3,9 +3,11 @@
 #include "DynamiteHook.h"
 #include "DynamiteSyncSchema_generated.h"
 #include "flatbuffers/flatbuffers.h"
+#include "memtag.h"
 #include "mgsvtpp_func_typedefs.h"
 #include "spdlog/spdlog.h"
 #include "util.h"
+#include <vector>
 
 DynamiteSyncImpl::DynamiteSyncImpl() = default;
 
@@ -23,11 +25,24 @@ void DynamiteSyncImpl::Init() {
         .number = 90,
         .value = 2,
     };
-    gameSocket = FoxNtImplNetworkSystemImplCreateGameSocket(networkSystemImpl, &desc);
-};
+    this->gameSocket = FoxNtImplNetworkSystemImplCreateGameSocket(networkSystemImpl, &desc);
+
+    if (thread_.joinable()) {
+        return;
+    }
+
+    thread_ = std::jthread([this](const std::stop_token &stoken) {
+        while (!stoken.stop_requested()) {
+            Update();
+            std::this_thread::sleep_for(std::chrono::milliseconds(int(1000 / 60)));
+        }
+
+        spdlog::info("{}, update thread stopped", __PRETTY_FUNCTION__);
+    });
+}
 
 void DynamiteSyncImpl::Update() {
-    if (gameSocket == nullptr) {
+    if (this->gameSocket == nullptr) {
         return;
     }
 
@@ -35,15 +50,25 @@ void DynamiteSyncImpl::Update() {
     if (packetCount < 1) {
         return;
     }
+    spdlog::info("{}, got packet", __PRETTY_FUNCTION__);
 
     for (int i = 0; i < packetCount; i++) {
+        if (this->gameSocket == nullptr) {
+            return;
+        }
+
+        auto packetSize = FoxNtImplGameSocketImplGetPacketSize(this->gameSocket, 0, i);
         auto packet = FoxNtImplGameSocketImplGetPacket(this->gameSocket, 0, i);
+        if (packetSize > 1024) {
+            spdlog::error("{}, packet size > 1024: {}", __PRETTY_FUNCTION__, packetSize);
+            continue;
+        }
+        memcpy(this->buffer, packet, packetSize);
         // spdlog::info("{}, {}: {}", __PRETTY_FUNCTION__, i, packet);
-        // auto packetSize = FoxNtImplGameSocketImplGetPacketSize(this->gameSocket, 0, i);
         // spdlog::info("{}, {}: size {}", __PRETTY_FUNCTION__, i, packetSize);
         // spdlog::info("{}, contents {}", __PRETTY_FUNCTION__, bytes_to_hex(packet, packetSize));
 
-        auto wrapper = DynamiteMessage::GetMessageWrapper(packet);
+        auto wrapper = DynamiteMessage::GetMessageWrapper(this->buffer);
         switch (wrapper->msg_type()) {
         case DynamiteMessage::Message_AddFixedUserMarker:
             HandleAddFixedUserMarker(wrapper);
@@ -64,7 +89,13 @@ void DynamiteSyncImpl::Update() {
             spdlog::error("{}, unknown message type", __PRETTY_FUNCTION__);
             break;
         }
+
+        memset(this->buffer, 0, 1024);
     }
+}
+void DynamiteSyncImpl::Stop() {
+    spdlog::info("{}", __PRETTY_FUNCTION__);
+    this->thread_.request_stop();
 }
 
 void DynamiteSyncImpl::HandleAddFixedUserMarker(const DynamiteMessage::MessageWrapper *w) {
@@ -84,7 +115,7 @@ void DynamiteSyncImpl::HandleAddFixedUserMarker(const DynamiteMessage::MessageWr
     Marker2SystemImplPlacedUserMarkerFixed(Dynamite::MarkerSystemImpl, &vv);
 }
 
-void DynamiteSyncImpl::AddFollowUserMarker(const Vector3 *pos, uint32_t objectID) const {
+void DynamiteSyncImpl::AddFollowUserMarker(const Vector3 *pos, uint32_t objectID) {
     flatbuffers::FlatBufferBuilder builder(128);
     const auto p = DynamiteMessage::Vec3(pos->x, pos->y, pos->z);
     const auto sv = DynamiteMessage::CreateAddFollowUserMarker(builder, &p, objectID);
@@ -112,7 +143,7 @@ void DynamiteSyncImpl::HandleAddFollowUserMarker(const DynamiteMessage::MessageW
     spdlog::info("{}: {}", __PRETTY_FUNCTION__, ok);
 }
 
-void DynamiteSyncImpl::RemoveUserMarker(const uint32_t markerID) const {
+void DynamiteSyncImpl::RemoveUserMarker(const uint32_t markerID) {
     flatbuffers::FlatBufferBuilder builder(128);
     auto sv = DynamiteMessage::CreateRemoveUserMarker(builder, markerID);
     auto message = DynamiteMessage::CreateMessageWrapper(builder, DynamiteMessage::Message_RemoveUserMarker, sv.Union());
@@ -132,7 +163,7 @@ void DynamiteSyncImpl::HandleRemoveUserMarker(const DynamiteMessage::MessageWrap
     Marker2SystemImplRemovedUserMarker(Dynamite::MarkerSystemImpl, m->marker_id());
 }
 
-void DynamiteSyncImpl::SetSightMarker(const uint32_t objectID, const uint32_t duration) const {
+void DynamiteSyncImpl::SetSightMarker(const uint32_t objectID, const uint32_t duration) {
     flatbuffers::FlatBufferBuilder builder(128);
     const auto sv = DynamiteMessage::CreateSetSightMarker(builder, objectID, duration);
     const auto message = DynamiteMessage::CreateMessageWrapper(builder, DynamiteMessage::Message_SetSightMarker, sv.Union());
@@ -157,98 +188,545 @@ void DynamiteSyncImpl::SyncVar(const std::string &catName, const std::string &va
     const auto hash = (uint32_t)(FoxStrHash32(varName.c_str(), varName.length()) & 0xffffffff);
     const auto catHash = (uint32_t)(FoxStrHash32(catName.c_str(), catName.length()) & 0xffffffff);
 
-    auto qt = GetQuarkSystemTable();
-    auto v1 = *(uint64_t *)((char *)qt + 0x98);
+    const auto qt = GetQuarkSystemTable();
+    const auto v1 = *(uint64_t *)((char *)qt + 0x98);
     const auto scriptSystemImpl = *(void **)(v1 + 0x18);
 
-    auto r = malloc(8);
-    auto handle = TppGmImplScriptSystemImplGetScriptDeclVarHandle(scriptSystemImpl, r, catHash, hash);
-    free(r);
+    auto handle = BlockHeapAlloc(8, 8, MEMTAG_TPP_SYSTEM2SCRIPT);
+    TppGmImplScriptSystemImplGetScriptDeclVarHandle(scriptSystemImpl, handle, catHash, hash);
     if (handle == nullptr) {
         spdlog::error("{}, no handle for var {}.{}", __PRETTY_FUNCTION__, catName, varName);
         return;
     }
 
     auto varType = *(byte *)((char *)handle + 0xC) & 7;
-    if (varType > TppVarType::TYPE_MAX) {
+    if (varType > TYPE_MAX) {
         spdlog::error("{}, invalid var type {}.{} {}", __PRETTY_FUNCTION__, catName, varName, varType);
         return;
     }
 
-    auto varSize = *(unsigned short *)((char *)handle + 0x8);
-    if (varSize == 0) {
-        spdlog::error("{}, invalid var size {}.{}: {}", __PRETTY_FUNCTION__, catName, varName, varSize);
+    auto arraySize = *(unsigned short *)((char *)handle + 0x8);
+    if (arraySize == 0) {
+        spdlog::error("{}, invalid var size {}.{}: {}", __PRETTY_FUNCTION__, catName, varName, arraySize);
         return;
     }
 
-    spdlog::info("{}: {}, type {}, size {}", __PRETTY_FUNCTION__, varName, varType, varSize);
+    spdlog::info("{}: {}, type {}, size {}", __PRETTY_FUNCTION__, varName, varType, arraySize);
 
-    auto s = 1;
+    auto elementSize = 1;
+
+    DynamiteMessage::ArrayValues valType = DynamiteMessage::ArrayValues_NONE;
+
     switch (varType) {
-    case TppVarType::TYPE_INT32:
-    case TppVarType::TYPE_UINT32:
-    case TppVarType::TYPE_FLOAT:
-        s = 4;
+    case TYPE_INT32:
+        valType = DynamiteMessage::ArrayValues_Int32;
+        elementSize = 4;
         break;
-    case TppVarType::TYPE_INT8:
-    case TppVarType::TYPE_UINT8:
-        s = 1;
+    case TYPE_UINT32:
+        valType = DynamiteMessage::ArrayValues_Uint32;
+        elementSize = 4;
         break;
-    case TppVarType::TYPE_INT16:
-    case TppVarType::TYPE_UINT16:
-        s = 2;
+    case TYPE_FLOAT:
+        valType = DynamiteMessage::ArrayValues_Float;
+        elementSize = 4;
         break;
-    case TppVarType::TYPE_BOOL:
+    case TYPE_INT8:
+        valType = DynamiteMessage::ArrayValues_Int8;
+        elementSize = 1;
+        break;
+    case TYPE_UINT8:
+        valType = DynamiteMessage::ArrayValues_Uint8;
+        elementSize = 1;
+        break;
+    case TYPE_INT16:
+        valType = DynamiteMessage::ArrayValues_Int16;
+        elementSize = 2;
+        break;
+    case TYPE_UINT16:
+        valType = DynamiteMessage::ArrayValues_Uint16;
+        elementSize = 2;
+        break;
+    case TYPE_BOOL:
+        valType = DynamiteMessage::ArrayValues_Bool;
+        break;
     default:
         break;
     }
 
-    for (int i = 0; i < varSize; i++) {
-        if (varType == TppVarType::TYPE_BOOL) {
-            const auto dataStart = *(unsigned short*)((char*)handle + 0xA);
-            const auto offset = *(uint64_t*)handle;
-            auto res = (*(byte *)(((i + dataStart) >> 3) + offset) & 1 << ((byte)(i + dataStart) & 7)) != 0;
+    if (valType == DynamiteMessage::ArrayValues_NONE) {
+        spdlog::error("{}, valType is NONE", __PRETTY_FUNCTION__);
+        return;
+    }
 
-            spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i,  res);
+    std::vector<bool> bools;
+    std::vector<int32_t> int32s;
+    std::vector<uint32_t> uint32s;
+    std::vector<float> floats;
+    std::vector<int8_t> int8s;
+    std::vector<uint8_t> uint8s;
+    std::vector<int16_t> int16s;
+    std::vector<uint16_t> uint16s;
+
+    const auto dataStart = *(unsigned short *)((char *)handle + 0xA);
+    const auto offset = *(uint64_t *)handle;
+    BlockHeapFree(handle);
+    for (int i = 0; i < arraySize; i++) {
+        if (varType == TYPE_BOOL) {
+            auto res = (*(byte *)(((i + dataStart) >> 3) + offset) & 1 << ((byte)(i + dataStart) & 7)) != 0;
+            bools.push_back(res);
+
+            spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i, res);
+            continue;
         }
 
-        const auto value = *(uint64_t *)handle + (*(unsigned short *)((uint64_t)handle + 0xA) + i) * s;
+        auto value = offset + (dataStart + i) * elementSize;
+        // spdlog::info("{}, {}, value addr {:x}, offset {:x}", __PRETTY_FUNCTION__, i, value, offset);
         switch (varType) {
-        case TppVarType::TYPE_INT32:
+        case TYPE_INT32:
             spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i, *(int32_t *)value);
+            int32s.push_back(*(int32_t *)value);
             break;
-        case TppVarType::TYPE_UINT32:
-            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(uint32_t *)value);
+        case TYPE_UINT32: {
+            if (*(uint32_t *)value != 0) {
+                spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(uint32_t *)value);
+            }
+            uint32s.push_back(*(uint32_t *)value);
             break;
-        case TppVarType::TYPE_FLOAT:
+        }
+        case TYPE_FLOAT:
             spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(float *)value);
+            floats.push_back(*(float *)value);
             break;
-        case TppVarType::TYPE_INT8:
+        case TYPE_INT8:
             spdlog::info("{}, {} {}: {:d}", __PRETTY_FUNCTION__, varName, i, *(signed char *)value);
+            int8s.push_back(*(int8_t *)value);
             break;
-        case TppVarType::TYPE_UINT8:
+        case TYPE_UINT8:
             spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(unsigned char *)value);
+            uint8s.push_back(*(uint8_t *)value);
             break;
-        case TppVarType::TYPE_INT16:
+        case TYPE_INT16:
             spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(short *)value);
+            int16s.push_back(*(int16_t *)value);
             break;
-        case TppVarType::TYPE_UINT16:
+        case TYPE_UINT16:
             spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(unsigned short *)value);
+            uint16s.push_back(*(uint16_t *)value);
             break;
-        case TppVarType::TYPE_BOOL:
+        case TYPE_BOOL:
         default:
             break;
         }
     }
+
+    spdlog::info("{}, values pushed", __PRETTY_FUNCTION__);
+
+    flatbuffers::FlatBufferBuilder builder(1024);
+    spdlog::info("{}, builder", __PRETTY_FUNCTION__);
+    const flatbuffers::Offset<flatbuffers::String> category = builder.CreateString(catName);
+    spdlog::info("{}, cat", __PRETTY_FUNCTION__);
+    const flatbuffers::Offset<flatbuffers::String> name = builder.CreateString(varName);
+    spdlog::info("{}, name", __PRETTY_FUNCTION__);
+
+    flatbuffers::Offset<DynamiteMessage::Bool> bools_offset;
+    flatbuffers::Offset<DynamiteMessage::Int8> int8s_offset;
+    flatbuffers::Offset<DynamiteMessage::Uint8> uint8s_offset;
+    flatbuffers::Offset<DynamiteMessage::Int16> int16s_offset;
+    flatbuffers::Offset<DynamiteMessage::Uint16> uint16s_offset;
+    flatbuffers::Offset<DynamiteMessage::Int32> int32s_offset;
+    flatbuffers::Offset<DynamiteMessage::Uint32> uint32s_offset;
+    flatbuffers::Offset<DynamiteMessage::Float> floats_offset;
+
+    switch (varType) {
+    case TYPE_BOOL: {
+        auto v = builder.CreateVector(bools);
+        bools_offset = DynamiteMessage::CreateBool(builder, v);
+        // svb.add_array_values(vv.Union());
+        break;
+    }
+    case TYPE_INT32: {
+        auto v = builder.CreateVector(int32s);
+        int32s_offset = DynamiteMessage::CreateInt32(builder, v);
+        break;
+    }
+    case TYPE_UINT32: {
+        auto v = builder.CreateVector(uint32s);
+        uint32s_offset = DynamiteMessage::CreateUint32(builder, v);
+        break;
+    }
+    case TYPE_FLOAT: {
+        auto v = builder.CreateVector(floats);
+        floats_offset = DynamiteMessage::CreateFloat(builder, v);
+        break;
+    }
+    case TYPE_INT8: {
+        auto v = builder.CreateVector(int8s);
+        int8s_offset = DynamiteMessage::CreateInt8(builder, v);
+        break;
+    }
+    case TYPE_UINT8: {
+        auto v = builder.CreateVector(uint8s);
+        uint8s_offset = DynamiteMessage::CreateUint8(builder, v);
+        break;
+    }
+    case TYPE_INT16: {
+        auto v = builder.CreateVector(int16s);
+        int16s_offset = DynamiteMessage::CreateInt16(builder, v);
+        break;
+    }
+    case TYPE_UINT16: {
+        auto v = builder.CreateVector(uint16s);
+        uint16s_offset = DynamiteMessage::CreateUint16(builder, v);
+        break;
+    }
+    default:
+        break;
+    }
+
+    DynamiteMessage::SyncVarBuilder svb(builder);
+    spdlog::info("{}, svbuilder", __PRETTY_FUNCTION__);
+
+    auto arrayStart = 0;
+    svb.add_category(category);
+    svb.add_name(name);
+    svb.add_array_size(arraySize);
+    svb.add_array_start(arrayStart);
+    svb.add_array_values_type(valType);
+    switch (varType) {
+    case TYPE_BOOL: {
+        svb.add_array_values(bools_offset.Union());
+        break;
+    }
+    case TYPE_INT32: {
+        svb.add_array_values(int32s_offset.Union());
+        break;
+    }
+    case TYPE_UINT32: {
+        svb.add_array_values(uint32s_offset.Union());
+        break;
+    }
+    case TYPE_FLOAT: {
+        svb.add_array_values(floats_offset.Union());
+        break;
+    }
+    case TYPE_INT8: {
+        svb.add_array_values(int8s_offset.Union());
+        break;
+    }
+    case TYPE_UINT8: {
+        svb.add_array_values(uint8s_offset.Union());
+        break;
+    }
+    case TYPE_INT16: {
+        svb.add_array_values(int16s_offset.Union());
+        break;
+    }
+    case TYPE_UINT16: {
+        svb.add_array_values(uint16s_offset.Union());
+        break;
+    }
+    default:
+        break;
+    }
+    auto svo = svb.Finish();
+
+    DynamiteMessage::MessageWrapperBuilder mwb(builder);
+    mwb.add_msg_type(DynamiteMessage::Message_SyncVar);
+    mwb.add_msg(svo.Union());
+
+    auto mo = mwb.Finish();
+    builder.Finish(mo);
+    auto res = Send(&builder);
+    spdlog::info("{}: send: {}", __PRETTY_FUNCTION__, res);
 }
 
 void DynamiteSyncImpl::HandleSyncVar(const DynamiteMessage::MessageWrapper *w) {
-    auto m = w->msg_as_SyncVar();
-    spdlog::info("{}: {}", __PRETTY_FUNCTION__, m->text()->c_str());
+    const auto m = w->msg_as_SyncVar();
+    spdlog::info("{}: {}.{}, size {}, start {}, type {}",
+        __PRETTY_FUNCTION__,
+        m->category()->c_str(),
+        m->name()->c_str(),
+        m->array_size(),
+        m->array_start(),
+        static_cast<short>(m->array_values_type()));
+
+    void *vars = nullptr;
+    if (strcmp(m->category()->c_str(), "gvars") == 0) {
+        vars = TppGmGetGVars();
+    }
+
+    if (strcmp(m->category()->c_str(), "svars") == 0) {
+        vars = TppGmGetSVars();
+    }
+
+    if (vars == nullptr) {
+        spdlog::error("{}, bad category {}", __PRETTY_FUNCTION__, m->category()->c_str());
+        return;
+    }
+
+    auto name = FoxStrHash32(m->name()->c_str(), strlen(m->name()->c_str())) & 0xffffffff;
+    auto varIndex = TppGmImplScriptDeclVarsImplGetVarIndexWithName(vars, name);
+    spdlog::info("{}, {}.{} index {}", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str(), varIndex);
+    if (varIndex == 0xffffffff) {
+        spdlog::error("{}, cannot get var index for {}.{} ({:x})", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str(), name);
+        return;
+    }
+
+    switch (m->array_values_type()) {
+    case DynamiteMessage::ArrayValues_Bool:
+        SyncBoolVar(m, vars, varIndex);
+        break;
+    case DynamiteMessage::ArrayValues_Int32:
+        SyncInt32Var(m, vars, varIndex);
+        break;
+    case DynamiteMessage::ArrayValues_Uint32:
+        SyncUint32Var(m, vars, varIndex);
+        break;
+    case DynamiteMessage::ArrayValues_Float:
+        SyncFloatVar(m, vars, varIndex);
+        break;
+    case DynamiteMessage::ArrayValues_Int8:
+        SyncInt8Var(m, vars, varIndex);
+        break;
+    case DynamiteMessage::ArrayValues_Uint8:
+        SyncUint8Var(m, vars, varIndex);
+        break;
+    case DynamiteMessage::ArrayValues_Int16:
+        SyncInt16Var(m, vars, varIndex);
+        break;
+    case DynamiteMessage::ArrayValues_Uint16:
+        SyncUint16Var(m, vars, varIndex);
+        break;
+    default:
+        spdlog::error("{}, unknown message type", __PRETTY_FUNCTION__);
+        break;
+    }
 }
 
-bool DynamiteSyncImpl::Send(flatbuffers::FlatBufferBuilder *builder) const {
-    if (gameSocket == nullptr) {
+void DynamiteSyncImpl::SyncBoolVar(const DynamiteMessage::SyncVar *m, void *vars, const uint32_t varIndex) {
+    const auto asBool = m->array_values_as_Bool();
+    if (asBool == nullptr) {
+        spdlog::error("{}, array values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto values = asBool->value();
+    if (values == nullptr) {
+        spdlog::error("{}, values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if (values->size() < 1) {
+        spdlog::error("{}, {}.{} size is 0!", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str());
+        return;
+    }
+
+    spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+    for (size_t i = 0; i < values->size(); i++) {
+        const auto val = values->Get(i);
+        // ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
+    }
+
+    spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+}
+
+void DynamiteSyncImpl::SyncInt32Var(const DynamiteMessage::SyncVar *m, void *vars, const uint32_t varIndex) {
+    const auto asInt32 = m->array_values_as_Int32();
+    if (asInt32 == nullptr) {
+        spdlog::error("{}, array values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto values = asInt32->value();
+    if (values == nullptr) {
+        spdlog::error("{}, values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if (values->size() < 1) {
+        spdlog::error("{}, {}.{} size is 0!", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str());
+        return;
+    }
+
+    spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+    for (size_t i = 0; i < values->size(); i++) {
+        const auto val = values->Get(i);
+        // ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
+    }
+
+    spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+}
+
+void DynamiteSyncImpl::SyncUint32Var(const DynamiteMessage::SyncVar *m, void *vars, const uint32_t varIndex) {
+    const auto as32 = m->array_values_as_Uint32();
+    if (as32 == nullptr) {
+        spdlog::error("{}, array values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto values = as32->value();
+    if (values == nullptr) {
+        spdlog::error("{}, values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if (values->size() < 1) {
+        spdlog::error("{}, {}.{} size is 0!", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str());
+        return;
+    }
+
+    spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+    for (size_t i = 0; i < values->size(); i++) {
+        const auto val = values->Get(i);
+        // ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
+    }
+
+    spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+}
+
+void DynamiteSyncImpl::SyncInt16Var(const DynamiteMessage::SyncVar *m, void *vars, const uint32_t varIndex) {
+    const auto as16 = m->array_values_as_Int16();
+    if (as16 == nullptr) {
+        spdlog::error("{}, array values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto values = as16->value();
+    if (values == nullptr) {
+        spdlog::error("{}, values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if (values->size() < 1) {
+        spdlog::error("{}, {}.{} size is 0!", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str());
+        return;
+    }
+
+    spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+    for (size_t i = 0; i < values->size(); i++) {
+        const auto val = values->Get(i);
+        // ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
+    }
+
+    spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+}
+
+void DynamiteSyncImpl::SyncUint16Var(const DynamiteMessage::SyncVar *m, void *vars, const uint32_t varIndex) {
+    const auto as16 = m->array_values_as_Uint16();
+    if (as16 == nullptr) {
+        spdlog::error("{}, array values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto values = as16->value();
+    if (values == nullptr) {
+        spdlog::error("{}, values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if (values->size() < 1) {
+        spdlog::error("{}, {}.{} size is 0!", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str());
+        return;
+    }
+
+    spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+    for (size_t i = 0; i < values->size(); i++) {
+        const auto val = values->Get(i);
+        // ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
+    }
+
+    spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+}
+
+void DynamiteSyncImpl::SyncInt8Var(const DynamiteMessage::SyncVar *m, void *vars, const uint32_t varIndex) {
+    const auto as8 = m->array_values_as_Int8();
+    if (as8 == nullptr) {
+        spdlog::error("{}, array values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto values = as8->value();
+    if (values == nullptr) {
+        spdlog::error("{}, values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if (values->size() < 1) {
+        spdlog::error("{}, {}.{} size is 0!", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str());
+        return;
+    }
+
+    spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+    for (size_t i = 0; i < values->size(); i++) {
+        const auto val = values->Get(i);
+        // ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
+    }
+
+    spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+}
+
+void DynamiteSyncImpl::SyncUint8Var(const DynamiteMessage::SyncVar *m, void *vars, const uint32_t varIndex) {
+    const auto as8 = m->array_values_as_Uint8();
+    if (as8 == nullptr) {
+        spdlog::error("{}, array values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto values = as8->value();
+    if (values == nullptr) {
+        spdlog::error("{}, values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if (values->size() < 1) {
+        spdlog::error("{}, {}.{} size is 0!", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str());
+        return;
+    }
+
+    spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+    for (size_t i = 0; i < values->size(); i++) {
+        const auto val = values->Get(i);
+        // ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
+    }
+
+    spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+}
+
+void DynamiteSyncImpl::SyncFloatVar(const DynamiteMessage::SyncVar *m, void *vars, const uint32_t varIndex) {
+    const auto asFloat = m->array_values_as_Float();
+    if (asFloat == nullptr) {
+        spdlog::error("{}, array values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    const auto values = asFloat->value();
+    if (values == nullptr) {
+        spdlog::error("{}, values is null", __PRETTY_FUNCTION__);
+        return;
+    }
+
+    if (values->size() < 1) {
+        spdlog::error("{}, {}.{} size is 0!", __PRETTY_FUNCTION__, m->category()->c_str(), m->name()->c_str());
+        return;
+    }
+
+    spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+    for (size_t i = 0; i < values->size(); i++) {
+        const auto val = values->Get(i);
+        // ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
+    }
+
+    spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
+}
+
+void DynamiteSyncImpl::SyncEnemyVars() {
+    for (const auto &v : enemyVars) {
+        SyncVar("svars", v);
+    }
+}
+
+bool DynamiteSyncImpl::Send(const flatbuffers::FlatBufferBuilder *builder) {
+    if (this->gameSocket == nullptr) {
         spdlog::info("{}, socket is null", __PRETTY_FUNCTION__);
         return false;
     }
@@ -256,7 +734,7 @@ bool DynamiteSyncImpl::Send(flatbuffers::FlatBufferBuilder *builder) const {
     uint8_t *buf = builder->GetBufferPointer();
     int size = builder->GetSize();
     if (size == 0 || size > 1000) {
-        spdlog::info("{}, invalid size", __PRETTY_FUNCTION__, size);
+        spdlog::info("{}, invalid size {}", __PRETTY_FUNCTION__, size);
         return false;
     }
 
@@ -267,6 +745,17 @@ bool DynamiteSyncImpl::Send(flatbuffers::FlatBufferBuilder *builder) const {
 
     // spdlog::info("{}: {} {}", __PRETTY_FUNCTION__, size, bytes_to_hex(buf, size));
 
+//    auto wrapper = DynamiteMessage::GetMessageWrapper(buf);
+//    switch (wrapper->msg_type()) {
+//    case DynamiteMessage::Message_SyncVar: {
+//        spdlog::info("{}, sync var", __PRETTY_FUNCTION__);
+//        HandleSyncVar(wrapper);
+//        break;
+//    }
+//    default:
+//        break;
+//    }
+
     auto target = 0;
     if (Dynamite::cfg.Host) {
         target = 1;
@@ -276,7 +765,7 @@ bool DynamiteSyncImpl::Send(flatbuffers::FlatBufferBuilder *builder) const {
     return true;
 }
 
-void DynamiteSyncImpl::AddFixedUserMarker(const Vector3 *pos) const {
+void DynamiteSyncImpl::AddFixedUserMarker(const Vector3 *pos) {
     flatbuffers::FlatBufferBuilder builder(128);
     const auto p = DynamiteMessage::Vec3(pos->x, pos->y, pos->z);
     const auto sv = DynamiteMessage::CreateAddFixedUserMarker(builder, &p);
@@ -284,37 +773,4 @@ void DynamiteSyncImpl::AddFixedUserMarker(const Vector3 *pos) const {
     builder.Finish(message);
     auto res = Send(&builder);
     spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
-}
-
-void DynamiteSyncImpl::Write() {
-    spdlog::info("{}", __PRETTY_FUNCTION__);
-
-    if (gameSocket == nullptr) {
-        spdlog::info("{}, socket is null", __PRETTY_FUNCTION__);
-        return;
-    }
-
-    flatbuffers::FlatBufferBuilder builder(1000);
-    flatbuffers::Offset<flatbuffers::String> weapon_one_name = builder.CreateString("Sword");
-    auto sv = DynamiteMessage::CreateSyncVar(builder, weapon_one_name);
-    auto message = DynamiteMessage::CreateMessageWrapper(builder, DynamiteMessage::Message_SyncVar, sv.Union());
-    builder.Finish(message);
-    uint8_t *buf = builder.GetBufferPointer();
-    int size = builder.GetSize();
-    if (size == 0 || size > 1000) {
-        // fail
-    }
-
-    if (buf == nullptr) {
-        // fail
-    }
-
-    spdlog::info("{}: {} {}", __PRETTY_FUNCTION__, size, bytes_to_hex(buf, size));
-
-    auto target = 0;
-    if (Dynamite::cfg.Host) {
-        target = 1;
-    }
-
-    FoxNtImplGameSocketImplRequestToSendToMember(gameSocket, target, 0, buf, size);
 }

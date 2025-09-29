@@ -41,6 +41,7 @@ namespace Dynamite {
     void *MarkerSystemImpl = nullptr;
     void *SightManagerImpl = nullptr;
     void *EquipHudSystemImpl = nullptr;
+    void *scriptDeclVarsImpl = nullptr;
 
     std::map<uint32_t, std::string> messageDict{};
     std::map<uint64_t, std::string> pathDict{};
@@ -297,8 +298,7 @@ namespace Dynamite {
         std::thread d(loop, &stopNearestEnemyThread, &nearestEnemyThreadRunning);
         d.detach();
 
-        dynamiteSyncImpl.SyncVar("svars", "solState");
-        dynamiteSyncImpl.SyncVar("svars", "fail");
+        // dynamiteSyncImpl.SyncVar("svars", "solFlagAndStance");
     }
 
     void Dynamite::RebaseAddresses() const {
@@ -599,6 +599,9 @@ namespace Dynamite {
 
         CREATE_HOOK(FoxBitStreamWriterPrimitiveWrite)
         ENABLEHOOK(FoxBitStreamWriterPrimitiveWrite)
+
+        CREATE_HOOK(TppGmImplScriptDeclVarsImplScriptDeclVarsImpl)
+        ENABLEHOOK(TppGmImplScriptDeclVarsImplScriptDeclVarsImpl)
 
         for (auto p : GetPatches()) {
             if (!p.Apply()) {

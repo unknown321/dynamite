@@ -9,31 +9,78 @@ union Message {
 }
 
 struct Vec3 {
-    x:float32;
-    y:float32;
-    z:float32;
+    x: float32;
+    y: float32;
+    z: float32;
 }
 
 table AddFixedUserMarker {
-    pos:Vec3;
+    pos: Vec3;
 }
 
 table AddFollowUserMarker {
-    pos:Vec3;
-    object_id:uint32;
+    pos: Vec3;
+    object_id: uint32;
 }
 
 table RemoveUserMarker {
-    marker_id:uint32;
+    marker_id: uint32;
 }
 
 table SetSightMarker {
-    object_id:uint32;
-    duration:uint32;
+    object_id: uint32;
+    duration: uint32;
+}
+
+union ArrayValues {
+    Bool,
+    Int32,
+    Uint32,
+    Float,
+    Int8,
+    Uint8,
+    Int16,
+    Uint16,
+}
+
+table Bool {
+    value: [bool];
+}
+
+table Int32 {
+    value: [int32];
+}
+
+table Uint32 {
+    value: [uint32];
+}
+
+table Float {
+    value: [float32];
+}
+
+table Int8 {
+    value: [int8];
+}
+
+table Uint8 {
+    value: [uint8];
+}
+
+table Int16 {
+    value: [int16];
+}
+
+table Uint16 {
+    value: [uint16];
 }
 
 table SyncVar {
-    text:string;
+    category: string;
+    name: string;
+    array_size: uint32;
+    array_start: uint32;
+    array_values: ArrayValues;
 }
 
 table MessageWrapper {

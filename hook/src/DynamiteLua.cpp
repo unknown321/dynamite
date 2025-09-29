@@ -289,7 +289,8 @@ namespace Dynamite {
     }
 
     int l_SyncWrite(lua_State *L) {
-        dynamiteSyncImpl.Write();
+        // dynamiteSyncImpl.SyncVar("svars", "solFlagAndStance");
+        dynamiteSyncImpl.SyncEnemyVars();
         return 0;
     }
 

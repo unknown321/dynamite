@@ -424,6 +424,8 @@ namespace Dynamite {
         if (cfg.Host) {
             hostSessionCreated = false;
         }
+
+        dynamiteSyncImpl.Stop();
         return CloseSession();
     }
 
@@ -787,15 +789,20 @@ namespace Dynamite {
 
     void *TppGmImplScriptDeclVarsImplScriptDeclVarsImplHook(void *ScriptDeclVarsImpl) {
         auto res = TppGmImplScriptDeclVarsImplScriptDeclVarsImpl(ScriptDeclVarsImpl);
+        // scriptDeclVarsImpl = res;
         return res;
     }
 
     void TppGmImplScriptDeclVarsImplUpdateHook(void *ScriptDeclVarsImpl) {
+        // dynamiteSyncImpl.Update();
         TppGmImplScriptDeclVarsImplUpdate(ScriptDeclVarsImpl);
-        dynamiteSyncImpl.Update();
     }
 
     void TppGmImplScriptDeclVarsImplOnSessionNotifyHook(void *ScriptDeclVarsImpl, void *SessionInterface, const int param_2, void *param_3) {
+        dynamiteSyncImpl.Init();
+
+        scriptDeclVarsImpl = ScriptDeclVarsImpl;
+
         auto varCount = *(uint32_t *)((char *)ScriptDeclVarsImpl + -0x10);
         auto syncCount = 0;
         auto offset = 0;
@@ -821,9 +828,8 @@ namespace Dynamite {
         spdlog::info(
             "{}, {} records, syncCount {}, wrote {} bits, will allocate {} bytes", __FUNCTION__, varCount, syncCount, varsTotalSize, varsTotalSize >> 3);
 
-        dynamiteSyncImpl.Init();
         if (varsTotalSize > 0 && syncCount > 0 && cfg.Host) {
-            dynamiteSyncImpl.SyncVar("svars", "solState");
+            dynamiteSyncImpl.SyncEnemyVars();
         }
 
         varsTotalSize = 0;

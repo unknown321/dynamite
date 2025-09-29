@@ -156,5 +156,9 @@ namespace Dynamite {
             (TppGmImplScriptDeclVarsImplScriptDeclVarsImplFunc *)addressSet["TppGmImplScriptDeclVarsImplScriptDeclVarsImpl"];
         TppGmImplScriptSystemImplGetScriptDeclVarHandle =
             (TppGmImplScriptSystemImplGetScriptDeclVarHandleFunc *)addressSet["TppGmImplScriptSystemImplGetScriptDeclVarHandle"];
+        TppGmImplScriptDeclVarsImplGetVarIndexWithName =
+            (TppGmImplScriptDeclVarsImplGetVarIndexWithNameFunc *)addressSet["TppGmImplScriptDeclVarsImplGetVarIndexWithName"];
+        TppGmGetSVars = (TppGmGetSVarsFunc *)addressSet["TppGmGetSVars"];
+        TppGmGetGVars = (TppGmGetGVarsFunc *)addressSet["TppGmGetGVars"];
     }
 }

@@ -117,6 +117,9 @@ namespace Dynamite {
         {"TppGmImplScriptDeclVarsImplGetVarHandle", 0x140ae1630},
         {"TppGmImplScriptDeclVarsImplScriptDeclVarsImpl", 0x146845ab0},
         {"TppGmImplScriptSystemImplGetScriptDeclVarHandle", 0x1461f4ce0},
+        {"TppGmImplScriptDeclVarsImplGetVarIndexWithName", 0x146849370},
+        {"TppGmGetGVars", 0x146848a40},
+        {"TppGmGetSVars", 0x1468490b0},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},

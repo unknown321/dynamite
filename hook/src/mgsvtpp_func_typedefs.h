@@ -299,6 +299,12 @@ typedef void *(__thiscall TppGmImplScriptDeclVarsImplScriptDeclVarsImplFunc)(voi
 
 typedef void *(__thiscall TppGmImplScriptSystemImplGetScriptDeclVarHandleFunc)(void *ScriptSystemImpl, void* ret, uint32_t catName, uint32_t varName);
 
+typedef uint32_t(__thiscall TppGmImplScriptDeclVarsImplGetVarIndexWithNameFunc)(void *ScriptDeclVarsImpl, uint32_t name);
+
+typedef void *(__cdecl TppGmGetGVarsFunc)();
+
+typedef void *(__cdecl TppGmGetSVarsFunc)();
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -443,4 +449,7 @@ extern FoxNtImplGameSocketImplGameSocketImplDtorFunc *FoxNtImplGameSocketImplGam
 extern TppGmImplScriptDeclVarsImplGetVarHandleFunc *TppGmImplScriptDeclVarsImplGetVarHandle;
 extern TppGmImplScriptDeclVarsImplScriptDeclVarsImplFunc *TppGmImplScriptDeclVarsImplScriptDeclVarsImpl;
 extern TppGmImplScriptSystemImplGetScriptDeclVarHandleFunc *TppGmImplScriptSystemImplGetScriptDeclVarHandle;
+extern TppGmImplScriptDeclVarsImplGetVarIndexWithNameFunc *TppGmImplScriptDeclVarsImplGetVarIndexWithName;
+extern TppGmGetSVarsFunc *TppGmGetSVars;
+extern TppGmGetGVarsFunc *TppGmGetGVars;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

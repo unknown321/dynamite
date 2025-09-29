@@ -29,6 +29,30 @@ struct RemoveUserMarkerBuilder;
 struct SetSightMarker;
 struct SetSightMarkerBuilder;
 
+struct Bool;
+struct BoolBuilder;
+
+struct Int32;
+struct Int32Builder;
+
+struct Uint32;
+struct Uint32Builder;
+
+struct Float;
+struct FloatBuilder;
+
+struct Int8;
+struct Int8Builder;
+
+struct Uint8;
+struct Uint8Builder;
+
+struct Int16;
+struct Int16Builder;
+
+struct Uint16;
+struct Uint16Builder;
+
 struct SyncVar;
 struct SyncVarBuilder;
 
@@ -103,6 +127,96 @@ template<> struct MessageTraits<DynamiteMessage::SyncVar> {
 
 bool VerifyMessage(::flatbuffers::Verifier &verifier, const void *obj, Message type);
 bool VerifyMessageVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
+
+enum ArrayValues : uint8_t {
+  ArrayValues_NONE = 0,
+  ArrayValues_Bool = 1,
+  ArrayValues_Int32 = 2,
+  ArrayValues_Uint32 = 3,
+  ArrayValues_Float = 4,
+  ArrayValues_Int8 = 5,
+  ArrayValues_Uint8 = 6,
+  ArrayValues_Int16 = 7,
+  ArrayValues_Uint16 = 8,
+  ArrayValues_MIN = ArrayValues_NONE,
+  ArrayValues_MAX = ArrayValues_Uint16
+};
+
+inline const ArrayValues (&EnumValuesArrayValues())[9] {
+  static const ArrayValues values[] = {
+    ArrayValues_NONE,
+    ArrayValues_Bool,
+    ArrayValues_Int32,
+    ArrayValues_Uint32,
+    ArrayValues_Float,
+    ArrayValues_Int8,
+    ArrayValues_Uint8,
+    ArrayValues_Int16,
+    ArrayValues_Uint16
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesArrayValues() {
+  static const char * const names[10] = {
+    "NONE",
+    "Bool",
+    "Int32",
+    "Uint32",
+    "Float",
+    "Int8",
+    "Uint8",
+    "Int16",
+    "Uint16",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameArrayValues(ArrayValues e) {
+  if (::flatbuffers::IsOutRange(e, ArrayValues_NONE, ArrayValues_Uint16)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesArrayValues()[index];
+}
+
+template<typename T> struct ArrayValuesTraits {
+  static const ArrayValues enum_value = ArrayValues_NONE;
+};
+
+template<> struct ArrayValuesTraits<DynamiteMessage::Bool> {
+  static const ArrayValues enum_value = ArrayValues_Bool;
+};
+
+template<> struct ArrayValuesTraits<DynamiteMessage::Int32> {
+  static const ArrayValues enum_value = ArrayValues_Int32;
+};
+
+template<> struct ArrayValuesTraits<DynamiteMessage::Uint32> {
+  static const ArrayValues enum_value = ArrayValues_Uint32;
+};
+
+template<> struct ArrayValuesTraits<DynamiteMessage::Float> {
+  static const ArrayValues enum_value = ArrayValues_Float;
+};
+
+template<> struct ArrayValuesTraits<DynamiteMessage::Int8> {
+  static const ArrayValues enum_value = ArrayValues_Int8;
+};
+
+template<> struct ArrayValuesTraits<DynamiteMessage::Uint8> {
+  static const ArrayValues enum_value = ArrayValues_Uint8;
+};
+
+template<> struct ArrayValuesTraits<DynamiteMessage::Int16> {
+  static const ArrayValues enum_value = ArrayValues_Int16;
+};
+
+template<> struct ArrayValuesTraits<DynamiteMessage::Uint16> {
+  static const ArrayValues enum_value = ArrayValues_Uint16;
+};
+
+bool VerifyArrayValues(::flatbuffers::Verifier &verifier, const void *obj, ArrayValues type);
+bool VerifyArrayValuesVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
 FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
  private:
@@ -317,28 +431,535 @@ inline ::flatbuffers::Offset<SetSightMarker> CreateSetSightMarker(
   return builder_.Finish();
 }
 
-struct SyncVar FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef SyncVarBuilder Builder;
+struct Bool FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef BoolBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_TEXT = 4
+    VT_VALUE = 4
   };
-  const ::flatbuffers::String *text() const {
-    return GetPointer<const ::flatbuffers::String *>(VT_TEXT);
+  const ::flatbuffers::Vector<uint8_t> *value() const {
+    return GetPointer<const ::flatbuffers::Vector<uint8_t> *>(VT_VALUE);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyOffset(verifier, VT_TEXT) &&
-           verifier.VerifyString(text()) &&
+           VerifyOffset(verifier, VT_VALUE) &&
+           verifier.VerifyVector(value()) &&
            verifier.EndTable();
   }
 };
+
+struct BoolBuilder {
+  typedef Bool Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_value(::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> value) {
+    fbb_.AddOffset(Bool::VT_VALUE, value);
+  }
+  explicit BoolBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Bool> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Bool>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Bool> CreateBool(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> value = 0) {
+  BoolBuilder builder_(_fbb);
+  builder_.add_value(value);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Bool> CreateBoolDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<uint8_t> *value = nullptr) {
+  auto value__ = value ? _fbb.CreateVector<uint8_t>(*value) : 0;
+  return DynamiteMessage::CreateBool(
+      _fbb,
+      value__);
+}
+
+struct Int32 FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Int32Builder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_VALUE = 4
+  };
+  const ::flatbuffers::Vector<int32_t> *value() const {
+    return GetPointer<const ::flatbuffers::Vector<int32_t> *>(VT_VALUE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_VALUE) &&
+           verifier.VerifyVector(value()) &&
+           verifier.EndTable();
+  }
+};
+
+struct Int32Builder {
+  typedef Int32 Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_value(::flatbuffers::Offset<::flatbuffers::Vector<int32_t>> value) {
+    fbb_.AddOffset(Int32::VT_VALUE, value);
+  }
+  explicit Int32Builder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Int32> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Int32>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Int32> CreateInt32(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<int32_t>> value = 0) {
+  Int32Builder builder_(_fbb);
+  builder_.add_value(value);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Int32> CreateInt32Direct(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<int32_t> *value = nullptr) {
+  auto value__ = value ? _fbb.CreateVector<int32_t>(*value) : 0;
+  return DynamiteMessage::CreateInt32(
+      _fbb,
+      value__);
+}
+
+struct Uint32 FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Uint32Builder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_VALUE = 4
+  };
+  const ::flatbuffers::Vector<uint32_t> *value() const {
+    return GetPointer<const ::flatbuffers::Vector<uint32_t> *>(VT_VALUE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_VALUE) &&
+           verifier.VerifyVector(value()) &&
+           verifier.EndTable();
+  }
+};
+
+struct Uint32Builder {
+  typedef Uint32 Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_value(::flatbuffers::Offset<::flatbuffers::Vector<uint32_t>> value) {
+    fbb_.AddOffset(Uint32::VT_VALUE, value);
+  }
+  explicit Uint32Builder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Uint32> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Uint32>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Uint32> CreateUint32(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint32_t>> value = 0) {
+  Uint32Builder builder_(_fbb);
+  builder_.add_value(value);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Uint32> CreateUint32Direct(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<uint32_t> *value = nullptr) {
+  auto value__ = value ? _fbb.CreateVector<uint32_t>(*value) : 0;
+  return DynamiteMessage::CreateUint32(
+      _fbb,
+      value__);
+}
+
+struct Float FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef FloatBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_VALUE = 4
+  };
+  const ::flatbuffers::Vector<float> *value() const {
+    return GetPointer<const ::flatbuffers::Vector<float> *>(VT_VALUE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_VALUE) &&
+           verifier.VerifyVector(value()) &&
+           verifier.EndTable();
+  }
+};
+
+struct FloatBuilder {
+  typedef Float Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_value(::flatbuffers::Offset<::flatbuffers::Vector<float>> value) {
+    fbb_.AddOffset(Float::VT_VALUE, value);
+  }
+  explicit FloatBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Float> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Float>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Float> CreateFloat(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<float>> value = 0) {
+  FloatBuilder builder_(_fbb);
+  builder_.add_value(value);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Float> CreateFloatDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<float> *value = nullptr) {
+  auto value__ = value ? _fbb.CreateVector<float>(*value) : 0;
+  return DynamiteMessage::CreateFloat(
+      _fbb,
+      value__);
+}
+
+struct Int8 FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Int8Builder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_VALUE = 4
+  };
+  const ::flatbuffers::Vector<int8_t> *value() const {
+    return GetPointer<const ::flatbuffers::Vector<int8_t> *>(VT_VALUE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_VALUE) &&
+           verifier.VerifyVector(value()) &&
+           verifier.EndTable();
+  }
+};
+
+struct Int8Builder {
+  typedef Int8 Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_value(::flatbuffers::Offset<::flatbuffers::Vector<int8_t>> value) {
+    fbb_.AddOffset(Int8::VT_VALUE, value);
+  }
+  explicit Int8Builder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Int8> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Int8>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Int8> CreateInt8(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<int8_t>> value = 0) {
+  Int8Builder builder_(_fbb);
+  builder_.add_value(value);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Int8> CreateInt8Direct(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<int8_t> *value = nullptr) {
+  auto value__ = value ? _fbb.CreateVector<int8_t>(*value) : 0;
+  return DynamiteMessage::CreateInt8(
+      _fbb,
+      value__);
+}
+
+struct Uint8 FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Uint8Builder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_VALUE = 4
+  };
+  const ::flatbuffers::Vector<uint8_t> *value() const {
+    return GetPointer<const ::flatbuffers::Vector<uint8_t> *>(VT_VALUE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_VALUE) &&
+           verifier.VerifyVector(value()) &&
+           verifier.EndTable();
+  }
+};
+
+struct Uint8Builder {
+  typedef Uint8 Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_value(::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> value) {
+    fbb_.AddOffset(Uint8::VT_VALUE, value);
+  }
+  explicit Uint8Builder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Uint8> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Uint8>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Uint8> CreateUint8(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> value = 0) {
+  Uint8Builder builder_(_fbb);
+  builder_.add_value(value);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Uint8> CreateUint8Direct(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<uint8_t> *value = nullptr) {
+  auto value__ = value ? _fbb.CreateVector<uint8_t>(*value) : 0;
+  return DynamiteMessage::CreateUint8(
+      _fbb,
+      value__);
+}
+
+struct Int16 FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Int16Builder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_VALUE = 4
+  };
+  const ::flatbuffers::Vector<int16_t> *value() const {
+    return GetPointer<const ::flatbuffers::Vector<int16_t> *>(VT_VALUE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_VALUE) &&
+           verifier.VerifyVector(value()) &&
+           verifier.EndTable();
+  }
+};
+
+struct Int16Builder {
+  typedef Int16 Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_value(::flatbuffers::Offset<::flatbuffers::Vector<int16_t>> value) {
+    fbb_.AddOffset(Int16::VT_VALUE, value);
+  }
+  explicit Int16Builder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Int16> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Int16>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Int16> CreateInt16(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<int16_t>> value = 0) {
+  Int16Builder builder_(_fbb);
+  builder_.add_value(value);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Int16> CreateInt16Direct(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<int16_t> *value = nullptr) {
+  auto value__ = value ? _fbb.CreateVector<int16_t>(*value) : 0;
+  return DynamiteMessage::CreateInt16(
+      _fbb,
+      value__);
+}
+
+struct Uint16 FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef Uint16Builder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_VALUE = 4
+  };
+  const ::flatbuffers::Vector<uint16_t> *value() const {
+    return GetPointer<const ::flatbuffers::Vector<uint16_t> *>(VT_VALUE);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_VALUE) &&
+           verifier.VerifyVector(value()) &&
+           verifier.EndTable();
+  }
+};
+
+struct Uint16Builder {
+  typedef Uint16 Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_value(::flatbuffers::Offset<::flatbuffers::Vector<uint16_t>> value) {
+    fbb_.AddOffset(Uint16::VT_VALUE, value);
+  }
+  explicit Uint16Builder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Uint16> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Uint16>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Uint16> CreateUint16(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint16_t>> value = 0) {
+  Uint16Builder builder_(_fbb);
+  builder_.add_value(value);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<Uint16> CreateUint16Direct(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<uint16_t> *value = nullptr) {
+  auto value__ = value ? _fbb.CreateVector<uint16_t>(*value) : 0;
+  return DynamiteMessage::CreateUint16(
+      _fbb,
+      value__);
+}
+
+struct SyncVar FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SyncVarBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_CATEGORY = 4,
+    VT_NAME = 6,
+    VT_ARRAY_SIZE = 8,
+    VT_ARRAY_START = 10,
+    VT_ARRAY_VALUES_TYPE = 12,
+    VT_ARRAY_VALUES = 14
+  };
+  const ::flatbuffers::String *category() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_CATEGORY);
+  }
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  uint32_t array_size() const {
+    return GetField<uint32_t>(VT_ARRAY_SIZE, 0);
+  }
+  uint32_t array_start() const {
+    return GetField<uint32_t>(VT_ARRAY_START, 0);
+  }
+  DynamiteMessage::ArrayValues array_values_type() const {
+    return static_cast<DynamiteMessage::ArrayValues>(GetField<uint8_t>(VT_ARRAY_VALUES_TYPE, 0));
+  }
+  const void *array_values() const {
+    return GetPointer<const void *>(VT_ARRAY_VALUES);
+  }
+  template<typename T> const T *array_values_as() const;
+  const DynamiteMessage::Bool *array_values_as_Bool() const {
+    return array_values_type() == DynamiteMessage::ArrayValues_Bool ? static_cast<const DynamiteMessage::Bool *>(array_values()) : nullptr;
+  }
+  const DynamiteMessage::Int32 *array_values_as_Int32() const {
+    return array_values_type() == DynamiteMessage::ArrayValues_Int32 ? static_cast<const DynamiteMessage::Int32 *>(array_values()) : nullptr;
+  }
+  const DynamiteMessage::Uint32 *array_values_as_Uint32() const {
+    return array_values_type() == DynamiteMessage::ArrayValues_Uint32 ? static_cast<const DynamiteMessage::Uint32 *>(array_values()) : nullptr;
+  }
+  const DynamiteMessage::Float *array_values_as_Float() const {
+    return array_values_type() == DynamiteMessage::ArrayValues_Float ? static_cast<const DynamiteMessage::Float *>(array_values()) : nullptr;
+  }
+  const DynamiteMessage::Int8 *array_values_as_Int8() const {
+    return array_values_type() == DynamiteMessage::ArrayValues_Int8 ? static_cast<const DynamiteMessage::Int8 *>(array_values()) : nullptr;
+  }
+  const DynamiteMessage::Uint8 *array_values_as_Uint8() const {
+    return array_values_type() == DynamiteMessage::ArrayValues_Uint8 ? static_cast<const DynamiteMessage::Uint8 *>(array_values()) : nullptr;
+  }
+  const DynamiteMessage::Int16 *array_values_as_Int16() const {
+    return array_values_type() == DynamiteMessage::ArrayValues_Int16 ? static_cast<const DynamiteMessage::Int16 *>(array_values()) : nullptr;
+  }
+  const DynamiteMessage::Uint16 *array_values_as_Uint16() const {
+    return array_values_type() == DynamiteMessage::ArrayValues_Uint16 ? static_cast<const DynamiteMessage::Uint16 *>(array_values()) : nullptr;
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_CATEGORY) &&
+           verifier.VerifyString(category()) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
+           VerifyField<uint32_t>(verifier, VT_ARRAY_SIZE, 4) &&
+           VerifyField<uint32_t>(verifier, VT_ARRAY_START, 4) &&
+           VerifyField<uint8_t>(verifier, VT_ARRAY_VALUES_TYPE, 1) &&
+           VerifyOffset(verifier, VT_ARRAY_VALUES) &&
+           VerifyArrayValues(verifier, array_values(), array_values_type()) &&
+           verifier.EndTable();
+  }
+};
+
+template<> inline const DynamiteMessage::Bool *SyncVar::array_values_as<DynamiteMessage::Bool>() const {
+  return array_values_as_Bool();
+}
+
+template<> inline const DynamiteMessage::Int32 *SyncVar::array_values_as<DynamiteMessage::Int32>() const {
+  return array_values_as_Int32();
+}
+
+template<> inline const DynamiteMessage::Uint32 *SyncVar::array_values_as<DynamiteMessage::Uint32>() const {
+  return array_values_as_Uint32();
+}
+
+template<> inline const DynamiteMessage::Float *SyncVar::array_values_as<DynamiteMessage::Float>() const {
+  return array_values_as_Float();
+}
+
+template<> inline const DynamiteMessage::Int8 *SyncVar::array_values_as<DynamiteMessage::Int8>() const {
+  return array_values_as_Int8();
+}
+
+template<> inline const DynamiteMessage::Uint8 *SyncVar::array_values_as<DynamiteMessage::Uint8>() const {
+  return array_values_as_Uint8();
+}
+
+template<> inline const DynamiteMessage::Int16 *SyncVar::array_values_as<DynamiteMessage::Int16>() const {
+  return array_values_as_Int16();
+}
+
+template<> inline const DynamiteMessage::Uint16 *SyncVar::array_values_as<DynamiteMessage::Uint16>() const {
+  return array_values_as_Uint16();
+}
 
 struct SyncVarBuilder {
   typedef SyncVar Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_text(::flatbuffers::Offset<::flatbuffers::String> text) {
-    fbb_.AddOffset(SyncVar::VT_TEXT, text);
+  void add_category(::flatbuffers::Offset<::flatbuffers::String> category) {
+    fbb_.AddOffset(SyncVar::VT_CATEGORY, category);
+  }
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(SyncVar::VT_NAME, name);
+  }
+  void add_array_size(uint32_t array_size) {
+    fbb_.AddElement<uint32_t>(SyncVar::VT_ARRAY_SIZE, array_size, 0);
+  }
+  void add_array_start(uint32_t array_start) {
+    fbb_.AddElement<uint32_t>(SyncVar::VT_ARRAY_START, array_start, 0);
+  }
+  void add_array_values_type(DynamiteMessage::ArrayValues array_values_type) {
+    fbb_.AddElement<uint8_t>(SyncVar::VT_ARRAY_VALUES_TYPE, static_cast<uint8_t>(array_values_type), 0);
+  }
+  void add_array_values(::flatbuffers::Offset<void> array_values) {
+    fbb_.AddOffset(SyncVar::VT_ARRAY_VALUES, array_values);
   }
   explicit SyncVarBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -353,19 +974,40 @@ struct SyncVarBuilder {
 
 inline ::flatbuffers::Offset<SyncVar> CreateSyncVar(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<::flatbuffers::String> text = 0) {
+    ::flatbuffers::Offset<::flatbuffers::String> category = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0,
+    uint32_t array_size = 0,
+    uint32_t array_start = 0,
+    DynamiteMessage::ArrayValues array_values_type = DynamiteMessage::ArrayValues_NONE,
+    ::flatbuffers::Offset<void> array_values = 0) {
   SyncVarBuilder builder_(_fbb);
-  builder_.add_text(text);
+  builder_.add_array_values(array_values);
+  builder_.add_array_start(array_start);
+  builder_.add_array_size(array_size);
+  builder_.add_name(name);
+  builder_.add_category(category);
+  builder_.add_array_values_type(array_values_type);
   return builder_.Finish();
 }
 
 inline ::flatbuffers::Offset<SyncVar> CreateSyncVarDirect(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    const char *text = nullptr) {
-  auto text__ = text ? _fbb.CreateString(text) : 0;
+    const char *category = nullptr,
+    const char *name = nullptr,
+    uint32_t array_size = 0,
+    uint32_t array_start = 0,
+    DynamiteMessage::ArrayValues array_values_type = DynamiteMessage::ArrayValues_NONE,
+    ::flatbuffers::Offset<void> array_values = 0) {
+  auto category__ = category ? _fbb.CreateString(category) : 0;
+  auto name__ = name ? _fbb.CreateString(name) : 0;
   return DynamiteMessage::CreateSyncVar(
       _fbb,
-      text__);
+      category__,
+      name__,
+      array_size,
+      array_start,
+      array_values_type,
+      array_values);
 }
 
 struct MessageWrapper FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -491,6 +1133,59 @@ inline bool VerifyMessageVector(::flatbuffers::Verifier &verifier, const ::flatb
   for (::flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
     if (!VerifyMessage(
         verifier,  values->Get(i), types->GetEnum<Message>(i))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+inline bool VerifyArrayValues(::flatbuffers::Verifier &verifier, const void *obj, ArrayValues type) {
+  switch (type) {
+    case ArrayValues_NONE: {
+      return true;
+    }
+    case ArrayValues_Bool: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Bool *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ArrayValues_Int32: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Int32 *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ArrayValues_Uint32: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Uint32 *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ArrayValues_Float: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Float *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ArrayValues_Int8: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Int8 *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ArrayValues_Uint8: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Uint8 *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ArrayValues_Int16: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Int16 *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case ArrayValues_Uint16: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Uint16 *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    default: return true;
+  }
+}
+
+inline bool VerifyArrayValuesVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types) {
+  if (!values || !types) return !values && !types;
+  if (values->size() != types->size()) return false;
+  for (::flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
+    if (!VerifyArrayValues(
+        verifier,  values->Get(i), types->GetEnum<ArrayValues>(i))) {
       return false;
     }
   }
