@@ -14,6 +14,7 @@ lua_tobooleanFunc *lua_toboolean;
 lua_createtableFunc *lua_createtable;
 lua_pushvalueFunc *lua_pushvalue;
 lua_removeFunc *lua_remove;
+luaL_checklstringFunc *luaL_checklstring;
 
 IsDefenseTeamByOnlineFobLocalFunc *IsDefenseTeamByOnlineFobLocal;
 IsOffenseTeamByOnlineFobLocalFunc *IsOffenseTeamByOnlineFobLocal;
@@ -45,7 +46,7 @@ FoxStringFunc *FoxString;
 FindGameObjectWithIDFunc *FindGameObjectWithID;
 Soldier2ImplGetInterfaceFunc *Soldier2ImplGetInterface;
 PlayerInfoServiceGetPositionAtIndexFunc *PlayerInfoServiceGetPositionAtIndex;
-GetMainSessionFunc *GetMainSession;
+FoxNtSessionGetMainSessionFunc *FoxNtSessionGetMainSession;
 GetSessionMemberCountFunc *GetSessionMemberCount;
 GetUiMarkerTypeFromSystemType2Func *GetUiMarkerTypeFromSystemType2;
 SightManagerImplSetMarkerFunc *SightManagerImplSetMarker;
@@ -140,6 +141,10 @@ TppGmImplScriptSystemImplGetScriptDeclVarHandleFunc *TppGmImplScriptSystemImplGe
 TppGmImplScriptDeclVarsImplGetVarIndexWithNameFunc *TppGmImplScriptDeclVarsImplGetVarIndexWithName;
 TppGmGetSVarsFunc *TppGmGetSVars;
 TppGmGetGVarsFunc *TppGmGetGVars;
+FoxNtImplSessionImpl2GetMemberInterfaceAtIndexFunc *FoxNtImplSessionImpl2GetMemberInterfaceAtIndex;
+FoxNtImplGameSocketImplHandleMessageFunc *FoxNtImplGameSocketImplHandleMessage;
+FoxNtImplPeerCommonPeerCommonFunc* FoxNtImplPeerCommonPeerCommon;
+TppGmPlayerImplSynchronizerImplInitializeFunc* TppGmPlayerImplSynchronizerImplInitialize;
 
 lua_CFunction l_AnnounceLogView;
 FoxLuaPushVector3Func *FoxLuaPushVector3;

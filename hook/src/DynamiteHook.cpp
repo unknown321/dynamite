@@ -95,7 +95,8 @@ namespace Dynamite {
 
         if ((cfg.whitelist.empty()) && (cfg.blacklist.empty())) {
             spdlog::info("{}: Connection accepted", __FUNCTION__);
-            return SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
+            SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
+            return;
         }
 
         if (!cfg.whitelist.empty()) {
@@ -112,7 +113,8 @@ namespace Dynamite {
                 return;
             }
 
-            return SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
+            SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
+            return;
         }
 
         for (const auto &v : cfg.blacklist) {
@@ -122,7 +124,7 @@ namespace Dynamite {
             }
         }
 
-        return SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
+        SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
     }
 
     void SetSteamIdHook(void *param, uint64_t *steamID) {
@@ -699,7 +701,7 @@ namespace Dynamite {
 
             recordBinWriter = *(void **)BitStreamWriter; // *(uint64_t*)BitStreamWriter
             recordOffset = offset;
-            spdlog::info("{}: a={}, cap={}, offset={}, value={}, varSize={}", __FUNCTION__, recordBinWriter, capacity, offset, value, size);
+            // spdlog::info("{}: a={}, cap={}, offset={}, value={}, varSize={}", __FUNCTION__, recordBinWriter, capacity, offset, value, size);
         }
 
         auto res = FoxBitStreamWriterPrimitiveWrite(BitStreamWriter, ErrorCode, value, size);
@@ -773,7 +775,7 @@ namespace Dynamite {
 
     void FoxNtImplGameSocketImplRequestToSendToMemberHook(
         void *GameSocketImpl, unsigned char memberIndex, uint32_t param_2, void *bufferPtr, uint32_t byteCount) {
-        spdlog::info("{}, memberIndex={}, p2={}, p3={}, p4={}", __FUNCTION__, memberIndex, param_2, bufferPtr, byteCount);
+        spdlog::info("{}, memberIndex={}, sender(?)={}, bufPtr={}, byteCount={}", __FUNCTION__, memberIndex, param_2, bufferPtr, byteCount);
         FoxNtImplGameSocketImplRequestToSendToMember(GameSocketImpl, memberIndex, param_2, bufferPtr, byteCount);
     }
 
@@ -789,17 +791,20 @@ namespace Dynamite {
 
     void *TppGmImplScriptDeclVarsImplScriptDeclVarsImplHook(void *ScriptDeclVarsImpl) {
         auto res = TppGmImplScriptDeclVarsImplScriptDeclVarsImpl(ScriptDeclVarsImpl);
-        // scriptDeclVarsImpl = res;
         return res;
     }
 
-    void TppGmImplScriptDeclVarsImplUpdateHook(void *ScriptDeclVarsImpl) {
-        // dynamiteSyncImpl.Update();
-        TppGmImplScriptDeclVarsImplUpdate(ScriptDeclVarsImpl);
-    }
+    void TppGmImplScriptDeclVarsImplUpdateHook(void *ScriptDeclVarsImpl) { TppGmImplScriptDeclVarsImplUpdate(ScriptDeclVarsImpl); }
 
     void TppGmImplScriptDeclVarsImplOnSessionNotifyHook(void *ScriptDeclVarsImpl, void *SessionInterface, const int param_2, void *param_3) {
-        dynamiteSyncImpl.Init();
+        if (param_2 != 4) {
+            spdlog::info("{}, notification type {}, ignoring", __PRETTY_FUNCTION__, param_2);
+            TppGmImplScriptDeclVarsImplOnSessionNotify(ScriptDeclVarsImpl, SessionInterface, param_2, param_3);
+            return;
+        }
+
+        auto memberIndex = *(byte *)param_3;
+        spdlog::info("{}, member index {}", __PRETTY_FUNCTION__, memberIndex);
 
         scriptDeclVarsImpl = ScriptDeclVarsImpl;
 
@@ -828,11 +833,44 @@ namespace Dynamite {
         spdlog::info(
             "{}, {} records, syncCount {}, wrote {} bits, will allocate {} bytes", __FUNCTION__, varCount, syncCount, varsTotalSize, varsTotalSize >> 3);
 
-        if (varsTotalSize > 0 && syncCount > 0 && cfg.Host) {
-            dynamiteSyncImpl.SyncEnemyVars();
+        if (syncCount > 0) {
+            dynamiteSyncImpl.SyncInit();
+        }
+
+        if (varsTotalSize > 0 && syncCount > 0) {
+            // dynamiteSyncImpl.SyncEnemyVars();
         }
 
         varsTotalSize = 0;
     }
 
+    void *FoxNtImplSessionImpl2GetMemberInterfaceAtIndexHook(void *SessionImpl2, unsigned char index) {
+        spdlog::info("{}, {} index {}", __PRETTY_FUNCTION__, SessionImpl2, index);
+        return FoxNtImplSessionImpl2GetMemberInterfaceAtIndex(SessionImpl2, index);
+    }
+
+    void FoxNtImplGameSocketImplHandleMessageHook(void *GameSocketImpl, void *Buffer, uint32_t fromIndex, void *Buffer2, void *BitStreamReader) {
+        if (GameSocketImpl == dynamiteSyncImpl.gameSocket) {
+            auto uvar2 = *(int32_t *)((char *)GameSocketImpl + 0x10);
+            spdlog::info("{}, handling game socket message ({}), from={}, uvar2={}!", __PRETTY_FUNCTION__, GameSocketImpl, fromIndex, uvar2);
+        }
+
+        FoxNtImplGameSocketImplHandleMessage(GameSocketImpl, Buffer, fromIndex, Buffer2, BitStreamReader);
+    }
+
+    void *FoxNtImplPeerCommonPeerCommonHook(void *PeerCommon, unsigned char param_1, uint32_t param_2) {
+        spdlog::info("{}, {}, p1={}, p2={}", __PRETTY_FUNCTION__, PeerCommon, param_1, param_2);
+        return FoxNtImplPeerCommonPeerCommon(PeerCommon, param_1, param_2);
+    }
+
+    void TppGmPlayerImplSynchronizerImplInitializeHook(void *SynchronizerImpl, void *QuarkDesc) {
+        spdlog::info("{}", __PRETTY_FUNCTION__);
+        TppGmPlayerImplSynchronizerImplInitialize(SynchronizerImpl, QuarkDesc);
+        dynamiteSyncImpl.Init();
+    }
+
+    void FoxNtImplGameSocketImplGameSocketImplDtorHook(void *GameSocketImpl, uint32_t freeMem) {
+        spdlog::info("{}, ptr={}, freeMem={}", __PRETTY_FUNCTION__, GameSocketImpl, freeMem);
+        FoxNtImplGameSocketImplGameSocketImplDtor(GameSocketImpl, freeMem);
+    }
 }

@@ -1,17 +1,23 @@
 namespace DynamiteMessage;
 
 union Message {
+   Ping,
    AddFixedUserMarker,
    AddFollowUserMarker,
    RemoveUserMarker,
    SetSightMarker,
    SyncVar,
+   RequestVar,
 }
 
 struct Vec3 {
     x: float32;
     y: float32;
     z: float32;
+}
+
+table Ping {
+    number: uint32;
 }
 
 table AddFixedUserMarker {
@@ -30,6 +36,11 @@ table RemoveUserMarker {
 table SetSightMarker {
     object_id: uint32;
     duration: uint32;
+}
+
+table RequestVar {
+    category: string;
+    name: string;
 }
 
 union ArrayValues {
@@ -84,6 +95,7 @@ table SyncVar {
 }
 
 table MessageWrapper {
+  packet_num: uint32;
   msg: Message;
 }
 

@@ -94,7 +94,7 @@ namespace Dynamite {
             return 1;
         }
 
-        auto session = GetMainSession();
+        auto session = FoxNtSessionGetMainSession();
         if (session == nullptr) {
             spdlog::error("{} Main session is null", __FUNCTION__);
             return 1;
@@ -509,6 +509,7 @@ namespace Dynamite {
             CREATE_HOOK(FoxNtImplPeerCommonInitializeLastSendTime)
             ENABLEHOOK(FoxNtImplPeerCommonInitializeLastSendTime)
         }
+
     }
 
     void Dynamite::CreateHooks() {
@@ -594,14 +595,11 @@ namespace Dynamite {
         CREATE_HOOK(TppGmImplScriptDeclVarsImplOnSessionNotify)
         ENABLEHOOK(TppGmImplScriptDeclVarsImplOnSessionNotify)
 
-        CREATE_HOOK(TppGmImplScriptDeclVarsImplUpdate)
-        ENABLEHOOK(TppGmImplScriptDeclVarsImplUpdate)
-
         CREATE_HOOK(FoxBitStreamWriterPrimitiveWrite)
         ENABLEHOOK(FoxBitStreamWriterPrimitiveWrite)
 
-        CREATE_HOOK(TppGmImplScriptDeclVarsImplScriptDeclVarsImpl)
-        ENABLEHOOK(TppGmImplScriptDeclVarsImplScriptDeclVarsImpl)
+        CREATE_HOOK(TppGmPlayerImplSynchronizerImplInitialize)
+        ENABLEHOOK(TppGmPlayerImplSynchronizerImplInitialize)
 
         for (auto p : GetPatches()) {
             if (!p.Apply()) {

@@ -17,6 +17,7 @@ namespace Dynamite {
         lua_toboolean = (lua_tobooleanFunc *)addressSet["lua_toboolean"];
         lua_createtable = (lua_createtableFunc *)addressSet["lua_createtable"];
         lua_pushvalue = (lua_pushvalueFunc *)addressSet["lua_pushvalue"];
+        luaL_checklstring = (luaL_checklstringFunc *)addressSet["luaL_checklstring"];
 
         IsDefenseTeamByOnlineFobLocal = (IsDefenseTeamByOnlineFobLocalFunc *)addressSet["IsDefenseTeamByOnlineFobLocal"];
         IsOffenseTeamByOnlineFobLocal = (IsOffenseTeamByOnlineFobLocalFunc *)addressSet["IsOffenseTeamByOnlineFobLocal"];
@@ -48,7 +49,7 @@ namespace Dynamite {
         FindGameObjectWithID = (FindGameObjectWithIDFunc *)addressSet["FindGameObjectWithID"];
         Soldier2ImplGetInterface = (Soldier2ImplGetInterfaceFunc *)addressSet["Soldier2ImplGetInterface"];
         PlayerInfoServiceGetPositionAtIndex = (PlayerInfoServiceGetPositionAtIndexFunc *)addressSet["PlayerInfoServiceGetPositionAtIndex"];
-        GetMainSession = (GetMainSessionFunc *)addressSet["GetMainSession"];
+        FoxNtSessionGetMainSession = (FoxNtSessionGetMainSessionFunc *)addressSet["FoxNtSessionGetMainSession"];
         GetSessionMemberCount = (GetSessionMemberCountFunc *)addressSet["GetSessionMemberCount"];
         GetUiMarkerTypeFromSystemType2 = (GetUiMarkerTypeFromSystemType2Func *)addressSet["GetUiMarkerTypeFromSystemType2"];
         SightManagerImplSetMarker = (SightManagerImplSetMarkerFunc *)addressSet["SightManagerImplSetMarker"];
@@ -160,5 +161,10 @@ namespace Dynamite {
             (TppGmImplScriptDeclVarsImplGetVarIndexWithNameFunc *)addressSet["TppGmImplScriptDeclVarsImplGetVarIndexWithName"];
         TppGmGetSVars = (TppGmGetSVarsFunc *)addressSet["TppGmGetSVars"];
         TppGmGetGVars = (TppGmGetGVarsFunc *)addressSet["TppGmGetGVars"];
+        FoxNtImplSessionImpl2GetMemberInterfaceAtIndex =
+            (FoxNtImplSessionImpl2GetMemberInterfaceAtIndexFunc *)addressSet["FoxNtImplSessionImpl2GetMemberInterfaceAtIndex"];
+        FoxNtImplGameSocketImplHandleMessage = (FoxNtImplGameSocketImplHandleMessageFunc *)addressSet["FoxNtImplGameSocketImplHandleMessage"];
+        FoxNtImplPeerCommonPeerCommon = (FoxNtImplPeerCommonPeerCommonFunc *)addressSet["FoxNtImplPeerCommonPeerCommon"];
+        TppGmPlayerImplSynchronizerImplInitialize = (TppGmPlayerImplSynchronizerImplInitializeFunc *)addressSet["TppGmPlayerImplSynchronizerImplInitialize"];
     }
 }

@@ -71,6 +71,8 @@ namespace Dynamite {
         sessionConnected = false;
         offensePlayerID = 0;
 
+        dynamiteSyncImpl.RemoveSocket();
+
         return 0;
     }
 
@@ -283,14 +285,32 @@ namespace Dynamite {
         return 0;
     }
 
-    int l_SyncInit(lua_State *L) {
-        dynamiteSyncImpl.Init();
-        return 0;
-    }
-
     int l_SyncWrite(lua_State *L) {
         // dynamiteSyncImpl.SyncVar("svars", "solFlagAndStance");
         dynamiteSyncImpl.SyncEnemyVars();
+        return 0;
+    }
+
+    int l_WaitForSync(lua_State *L) {
+        dynamiteSyncImpl.WaitForSync();
+        return 0;
+    }
+
+    int l_RequestVar(lua_State *L) {
+        size_t len;
+        const auto name = luaL_checklstring(L, 2, &len);
+        if (len < 1) {
+            spdlog::error("{}, name is empty", __FUNCTION__);
+            return 0;
+        }
+
+        const auto category = luaL_checklstring(L, 1, &len);
+        if (len < 1) {
+            spdlog::error("{}, category is empty", __FUNCTION__);
+            return 0;
+        }
+
+        dynamiteSyncImpl.RequestVar(category, name);
         return 0;
     }
 
@@ -315,8 +335,9 @@ namespace Dynamite {
             {"IsHost", l_IsHost},
             {"GetPlayerPosition", l_GetPlayerPosition},
             {"WarpToPartner", l_WarpToPartner},
-            {"SyncInit", l_SyncInit},
             {"SyncWrite", l_SyncWrite},
+            {"WaitForSync", l_WaitForSync},
+            {"RequestVar", l_RequestVar},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);

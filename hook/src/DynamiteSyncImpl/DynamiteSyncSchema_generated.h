@@ -17,6 +17,9 @@ namespace DynamiteMessage {
 
 struct Vec3;
 
+struct Ping;
+struct PingBuilder;
+
 struct AddFixedUserMarker;
 struct AddFixedUserMarkerBuilder;
 
@@ -28,6 +31,9 @@ struct RemoveUserMarkerBuilder;
 
 struct SetSightMarker;
 struct SetSightMarkerBuilder;
+
+struct RequestVar;
+struct RequestVarBuilder;
 
 struct Bool;
 struct BoolBuilder;
@@ -61,48 +67,58 @@ struct MessageWrapperBuilder;
 
 enum Message : uint8_t {
   Message_NONE = 0,
-  Message_AddFixedUserMarker = 1,
-  Message_AddFollowUserMarker = 2,
-  Message_RemoveUserMarker = 3,
-  Message_SetSightMarker = 4,
-  Message_SyncVar = 5,
+  Message_Ping = 1,
+  Message_AddFixedUserMarker = 2,
+  Message_AddFollowUserMarker = 3,
+  Message_RemoveUserMarker = 4,
+  Message_SetSightMarker = 5,
+  Message_SyncVar = 6,
+  Message_RequestVar = 7,
   Message_MIN = Message_NONE,
-  Message_MAX = Message_SyncVar
+  Message_MAX = Message_RequestVar
 };
 
-inline const Message (&EnumValuesMessage())[6] {
+inline const Message (&EnumValuesMessage())[8] {
   static const Message values[] = {
     Message_NONE,
+    Message_Ping,
     Message_AddFixedUserMarker,
     Message_AddFollowUserMarker,
     Message_RemoveUserMarker,
     Message_SetSightMarker,
-    Message_SyncVar
+    Message_SyncVar,
+    Message_RequestVar
   };
   return values;
 }
 
 inline const char * const *EnumNamesMessage() {
-  static const char * const names[7] = {
+  static const char * const names[9] = {
     "NONE",
+    "Ping",
     "AddFixedUserMarker",
     "AddFollowUserMarker",
     "RemoveUserMarker",
     "SetSightMarker",
     "SyncVar",
+    "RequestVar",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameMessage(Message e) {
-  if (::flatbuffers::IsOutRange(e, Message_NONE, Message_SyncVar)) return "";
+  if (::flatbuffers::IsOutRange(e, Message_NONE, Message_RequestVar)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMessage()[index];
 }
 
 template<typename T> struct MessageTraits {
   static const Message enum_value = Message_NONE;
+};
+
+template<> struct MessageTraits<DynamiteMessage::Ping> {
+  static const Message enum_value = Message_Ping;
 };
 
 template<> struct MessageTraits<DynamiteMessage::AddFixedUserMarker> {
@@ -123,6 +139,10 @@ template<> struct MessageTraits<DynamiteMessage::SetSightMarker> {
 
 template<> struct MessageTraits<DynamiteMessage::SyncVar> {
   static const Message enum_value = Message_SyncVar;
+};
+
+template<> struct MessageTraits<DynamiteMessage::RequestVar> {
+  static const Message enum_value = Message_RequestVar;
 };
 
 bool VerifyMessage(::flatbuffers::Verifier &verifier, const void *obj, Message type);
@@ -246,6 +266,47 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
   }
 };
 FLATBUFFERS_STRUCT_END(Vec3, 12);
+
+struct Ping FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef PingBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_NUMBER = 4
+  };
+  uint32_t number() const {
+    return GetField<uint32_t>(VT_NUMBER, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_NUMBER, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct PingBuilder {
+  typedef Ping Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_number(uint32_t number) {
+    fbb_.AddElement<uint32_t>(Ping::VT_NUMBER, number, 0);
+  }
+  explicit PingBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<Ping> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<Ping>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<Ping> CreatePing(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t number = 0) {
+  PingBuilder builder_(_fbb);
+  builder_.add_number(number);
+  return builder_.Finish();
+}
 
 struct AddFixedUserMarker FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef AddFixedUserMarkerBuilder Builder;
@@ -429,6 +490,71 @@ inline ::flatbuffers::Offset<SetSightMarker> CreateSetSightMarker(
   builder_.add_duration(duration);
   builder_.add_object_id(object_id);
   return builder_.Finish();
+}
+
+struct RequestVar FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef RequestVarBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_CATEGORY = 4,
+    VT_NAME = 6
+  };
+  const ::flatbuffers::String *category() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_CATEGORY);
+  }
+  const ::flatbuffers::String *name() const {
+    return GetPointer<const ::flatbuffers::String *>(VT_NAME);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_CATEGORY) &&
+           verifier.VerifyString(category()) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(name()) &&
+           verifier.EndTable();
+  }
+};
+
+struct RequestVarBuilder {
+  typedef RequestVar Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_category(::flatbuffers::Offset<::flatbuffers::String> category) {
+    fbb_.AddOffset(RequestVar::VT_CATEGORY, category);
+  }
+  void add_name(::flatbuffers::Offset<::flatbuffers::String> name) {
+    fbb_.AddOffset(RequestVar::VT_NAME, name);
+  }
+  explicit RequestVarBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<RequestVar> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<RequestVar>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<RequestVar> CreateRequestVar(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    ::flatbuffers::Offset<::flatbuffers::String> category = 0,
+    ::flatbuffers::Offset<::flatbuffers::String> name = 0) {
+  RequestVarBuilder builder_(_fbb);
+  builder_.add_name(name);
+  builder_.add_category(category);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<RequestVar> CreateRequestVarDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const char *category = nullptr,
+    const char *name = nullptr) {
+  auto category__ = category ? _fbb.CreateString(category) : 0;
+  auto name__ = name ? _fbb.CreateString(name) : 0;
+  return DynamiteMessage::CreateRequestVar(
+      _fbb,
+      category__,
+      name__);
 }
 
 struct Bool FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
@@ -1013,9 +1139,13 @@ inline ::flatbuffers::Offset<SyncVar> CreateSyncVarDirect(
 struct MessageWrapper FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef MessageWrapperBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_MSG_TYPE = 4,
-    VT_MSG = 6
+    VT_PACKET_NUM = 4,
+    VT_MSG_TYPE = 6,
+    VT_MSG = 8
   };
+  uint32_t packet_num() const {
+    return GetField<uint32_t>(VT_PACKET_NUM, 0);
+  }
   DynamiteMessage::Message msg_type() const {
     return static_cast<DynamiteMessage::Message>(GetField<uint8_t>(VT_MSG_TYPE, 0));
   }
@@ -1023,6 +1153,9 @@ struct MessageWrapper FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
     return GetPointer<const void *>(VT_MSG);
   }
   template<typename T> const T *msg_as() const;
+  const DynamiteMessage::Ping *msg_as_Ping() const {
+    return msg_type() == DynamiteMessage::Message_Ping ? static_cast<const DynamiteMessage::Ping *>(msg()) : nullptr;
+  }
   const DynamiteMessage::AddFixedUserMarker *msg_as_AddFixedUserMarker() const {
     return msg_type() == DynamiteMessage::Message_AddFixedUserMarker ? static_cast<const DynamiteMessage::AddFixedUserMarker *>(msg()) : nullptr;
   }
@@ -1038,14 +1171,22 @@ struct MessageWrapper FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const DynamiteMessage::SyncVar *msg_as_SyncVar() const {
     return msg_type() == DynamiteMessage::Message_SyncVar ? static_cast<const DynamiteMessage::SyncVar *>(msg()) : nullptr;
   }
+  const DynamiteMessage::RequestVar *msg_as_RequestVar() const {
+    return msg_type() == DynamiteMessage::Message_RequestVar ? static_cast<const DynamiteMessage::RequestVar *>(msg()) : nullptr;
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_PACKET_NUM, 4) &&
            VerifyField<uint8_t>(verifier, VT_MSG_TYPE, 1) &&
            VerifyOffset(verifier, VT_MSG) &&
            VerifyMessage(verifier, msg(), msg_type()) &&
            verifier.EndTable();
   }
 };
+
+template<> inline const DynamiteMessage::Ping *MessageWrapper::msg_as<DynamiteMessage::Ping>() const {
+  return msg_as_Ping();
+}
 
 template<> inline const DynamiteMessage::AddFixedUserMarker *MessageWrapper::msg_as<DynamiteMessage::AddFixedUserMarker>() const {
   return msg_as_AddFixedUserMarker();
@@ -1067,10 +1208,17 @@ template<> inline const DynamiteMessage::SyncVar *MessageWrapper::msg_as<Dynamit
   return msg_as_SyncVar();
 }
 
+template<> inline const DynamiteMessage::RequestVar *MessageWrapper::msg_as<DynamiteMessage::RequestVar>() const {
+  return msg_as_RequestVar();
+}
+
 struct MessageWrapperBuilder {
   typedef MessageWrapper Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
+  void add_packet_num(uint32_t packet_num) {
+    fbb_.AddElement<uint32_t>(MessageWrapper::VT_PACKET_NUM, packet_num, 0);
+  }
   void add_msg_type(DynamiteMessage::Message msg_type) {
     fbb_.AddElement<uint8_t>(MessageWrapper::VT_MSG_TYPE, static_cast<uint8_t>(msg_type), 0);
   }
@@ -1090,10 +1238,12 @@ struct MessageWrapperBuilder {
 
 inline ::flatbuffers::Offset<MessageWrapper> CreateMessageWrapper(
     ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t packet_num = 0,
     DynamiteMessage::Message msg_type = DynamiteMessage::Message_NONE,
     ::flatbuffers::Offset<void> msg = 0) {
   MessageWrapperBuilder builder_(_fbb);
   builder_.add_msg(msg);
+  builder_.add_packet_num(packet_num);
   builder_.add_msg_type(msg_type);
   return builder_.Finish();
 }
@@ -1102,6 +1252,10 @@ inline bool VerifyMessage(::flatbuffers::Verifier &verifier, const void *obj, Me
   switch (type) {
     case Message_NONE: {
       return true;
+    }
+    case Message_Ping: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::Ping *>(obj);
+      return verifier.VerifyTable(ptr);
     }
     case Message_AddFixedUserMarker: {
       auto ptr = reinterpret_cast<const DynamiteMessage::AddFixedUserMarker *>(obj);
@@ -1121,6 +1275,10 @@ inline bool VerifyMessage(::flatbuffers::Verifier &verifier, const void *obj, Me
     }
     case Message_SyncVar: {
       auto ptr = reinterpret_cast<const DynamiteMessage::SyncVar *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case Message_RequestVar: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::RequestVar *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

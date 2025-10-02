@@ -96,6 +96,8 @@ typedef void(lua_pushvalueFunc)(lua_State *L, int index);
 
 typedef void(lua_removeFunc)(lua_State *L, int index);
 
+typedef char *(__fastcall luaL_checklstringFunc)(lua_State *L, int numArg, size_t *l);
+
 /*
 enum fox::PropertyInfo::Type,
 class fox::String const & __ptr64,
@@ -117,7 +119,7 @@ typedef void *(__thiscall Soldier2ImplGetInterfaceFunc)(void *thisPtr, uint64_t 
 
 typedef void *(__cdecl PlayerInfoServiceGetPositionAtIndexFunc)(void *result, uint32_t playerIndex);
 
-typedef void *(__cdecl GetMainSessionFunc)();
+typedef void *(__cdecl FoxNtSessionGetMainSessionFunc)();
 
 typedef int(__thiscall GetSessionMemberCountFunc)(void *session);
 
@@ -285,25 +287,33 @@ typedef void(__cdecl FoxNtNtModuleInitFunc)();
 typedef void(__thiscall FoxNtImplGameSocketImplRequestToSendToMemberFunc)(
     void *GameSocketImpl, unsigned char memberIndex, uint32_t param_2, void *bufferPtr, uint32_t byteCount);
 
-typedef void(__thiscall FoxNtImplGameSocketImplSetIntervalFunc)(void *GameSocketImpl, uint32_t param_1, unsigned char param_2, float param_3);
-
 typedef void(__thiscall FoxNtImplPeerCommonInitializeLastSendTimeFunc)(void *PeerCommon);
 
 typedef uint32_t(__thiscall FoxNtImplGameSocketImplGetPacketSizeFunc)(void *GameSocketImpl, uint32_t param_1, uint32_t param_2);
 
-typedef void(__thiscall FoxNtImplGameSocketImplGameSocketImplDtorFunc)(void *GameSocketImpl);
+typedef void(__thiscall FoxNtImplGameSocketImplGameSocketImplDtorFunc)(void *GameSocketImpl, uint32_t freeMem);
 
 typedef void *(__thiscall TppGmImplScriptDeclVarsImplGetVarHandleFunc)(void *ScriptDeclVarsImpl, uint32_t param_1);
 
 typedef void *(__thiscall TppGmImplScriptDeclVarsImplScriptDeclVarsImplFunc)(void *ScriptDeclVarsImpl);
 
-typedef void *(__thiscall TppGmImplScriptSystemImplGetScriptDeclVarHandleFunc)(void *ScriptSystemImpl, void* ret, uint32_t catName, uint32_t varName);
+typedef void *(__thiscall TppGmImplScriptSystemImplGetScriptDeclVarHandleFunc)(void *ScriptSystemImpl, void *ret, uint32_t catName, uint32_t varName);
 
 typedef uint32_t(__thiscall TppGmImplScriptDeclVarsImplGetVarIndexWithNameFunc)(void *ScriptDeclVarsImpl, uint32_t name);
 
 typedef void *(__cdecl TppGmGetGVarsFunc)();
 
 typedef void *(__cdecl TppGmGetSVarsFunc)();
+
+typedef void *(__thiscall FoxNtImplSessionImpl2GetMemberInterfaceAtIndexFunc)(void *SessionImpl2, unsigned char index);
+
+typedef void(__thiscall FoxNtImplGameSocketImplHandleMessageFunc)(void *GameSocketImpl, void *Buffer, uint32_t fromIndex, void *Buffer2, void *BitStreamReader);
+
+typedef void(__thiscall FoxNtImplGameSocketImplSetIntervalFunc)(void *GameSocketImpl, uint32_t socketNum, unsigned char memberIndex, float interval);
+
+typedef void *(__thiscall FoxNtImplPeerCommonPeerCommonFunc)(void *PeerCommon, unsigned char param_1, uint32_t param_2);
+
+typedef void(__thiscall TppGmPlayerImplSynchronizerImplInitializeFunc)(void *SynchronizerImpl, void *QuarkDesc);
 
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
@@ -320,6 +330,7 @@ extern lua_tobooleanFunc *lua_toboolean;
 extern lua_createtableFunc *lua_createtable;
 extern lua_pushvalueFunc *lua_pushvalue;
 extern lua_removeFunc *lua_remove;
+extern luaL_checklstringFunc *luaL_checklstring;
 
 // tpp lua functions (TppUiCommand.AnnounceLogView)
 extern lua_CFunction l_AnnounceLogView;
@@ -357,7 +368,7 @@ extern FoxStringFunc *FoxString;
 extern FindGameObjectWithIDFunc *FindGameObjectWithID;
 extern Soldier2ImplGetInterfaceFunc *Soldier2ImplGetInterface;
 extern PlayerInfoServiceGetPositionAtIndexFunc *PlayerInfoServiceGetPositionAtIndex;
-extern GetMainSessionFunc *GetMainSession;
+extern FoxNtSessionGetMainSessionFunc *FoxNtSessionGetMainSession;
 extern GetSessionMemberCountFunc *GetSessionMemberCount;
 extern GetUiMarkerTypeFromSystemType2Func *GetUiMarkerTypeFromSystemType2;
 extern SightManagerImplSetMarkerFunc *SightManagerImplSetMarker;
@@ -452,4 +463,8 @@ extern TppGmImplScriptSystemImplGetScriptDeclVarHandleFunc *TppGmImplScriptSyste
 extern TppGmImplScriptDeclVarsImplGetVarIndexWithNameFunc *TppGmImplScriptDeclVarsImplGetVarIndexWithName;
 extern TppGmGetSVarsFunc *TppGmGetSVars;
 extern TppGmGetGVarsFunc *TppGmGetGVars;
+extern FoxNtImplSessionImpl2GetMemberInterfaceAtIndexFunc *FoxNtImplSessionImpl2GetMemberInterfaceAtIndex;
+extern FoxNtImplGameSocketImplHandleMessageFunc *FoxNtImplGameSocketImplHandleMessage;
+extern FoxNtImplPeerCommonPeerCommonFunc *FoxNtImplPeerCommonPeerCommon;
+extern TppGmPlayerImplSynchronizerImplInitializeFunc *TppGmPlayerImplSynchronizerImplInitialize;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H
