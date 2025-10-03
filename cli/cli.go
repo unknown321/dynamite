@@ -20,6 +20,14 @@ func Run() {
 	var err error
 
 	vers := util.GetVersion()
+
+	installNow := false
+	forceInstall := false
+	installAndExit := false
+	flag.BoolVar(&installNow, "installNow", false, "install now")
+	flag.BoolVar(&forceInstall, "forceInstall", false, "force install")
+	flag.BoolVar(&installAndExit, "installAndExit", false, "install and exit")
+
 	flag.Usage = func() {
 		fmt.Println("dynamite, MGSV:TPP co-op mod")
 		dirty := ""
@@ -68,6 +76,10 @@ func Run() {
 		os.Exit(1)
 	}
 
+	if installNow {
+		conf.Dynamite.SkipConfig = true
+	}
+
 	slog.Info("Checking for updates")
 	hasUpdate, tag, err := updatecheck.Check()
 	if err != nil {
@@ -90,7 +102,7 @@ func Run() {
 			case <-handlers.StartInstallChan:
 				buildVersion := util.GetVersionTime()
 				slog.Info("Install?", "installed", conf.Dynamite.Installed, "config version", conf.Dynamite.Version, "build version", buildVersion)
-				if conf.Dynamite.Installed && (conf.Dynamite.Version >= buildVersion) {
+				if conf.Dynamite.Installed && (conf.Dynamite.Version >= buildVersion) && !forceInstall {
 					slog.Info("already installed")
 					handlers.InstallStat.Done = true
 					handlers.InstallStat.Error = ""
@@ -109,6 +121,10 @@ func Run() {
 						handlers.InstallStat.Done = true
 						slog.Info("installed data")
 						slog.Info("done")
+						if installAndExit {
+							slog.Info("Exiting per user request")
+							os.Exit(0)
+						}
 						StartLocalServer <- true
 					}
 				}
@@ -135,7 +151,9 @@ func Run() {
 	// healthcheck that opens web ui as soon as it's up
 	go func(c *config.Config, ls chan bool) {
 		if c.Dynamite.SkipConfig {
-			ls <- true
+			if c.Dynamite.UseLocalMasterServer {
+				ls <- c.Dynamite.UseLocalMasterServer
+			}
 			return
 		}
 
@@ -165,7 +183,13 @@ func Run() {
 		}
 	}(&conf, StartLocalServer)
 
-	slog.Info("Starting Web UI", "address", conf.Dynamite.UIAddress)
-	webui.Run(conf.Dynamite.UIAddress, &conf)
-	slog.Info("Web UI stopped")
+	if installNow {
+		slog.Info("Installing now")
+		handlers.StartInstallChan <- true
+		select {}
+	} else {
+		slog.Info("Starting Web UI", "address", conf.Dynamite.UIAddress)
+		webui.Run(conf.Dynamite.UIAddress, &conf)
+		slog.Info("Web UI stopped")
+	}
 }
