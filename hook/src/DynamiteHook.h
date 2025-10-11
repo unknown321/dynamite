@@ -90,7 +90,7 @@ namespace Dynamite {
     int32_t FoxNtPeerControllerSendHook(void *PeerController, uint32_t param_1, int param_2, int param_3);
     bool FoxNtImplGameSocketImplPeerIsSendPacketEmptyHook(void *Peer);
     int FoxNtTotalControllerSendHook(void *TotalController, uint32_t param_1, int32_t param_2, int32_t param_3);
-    int FoxNtImplTransceiverManagerImplPeerSendHook(void *TransceiverManagerImpl, uint32_t param_1);
+    int FoxNtImplTransceiverManagerImplPeerSendHook(void *TransceiverManagerImpl, uint32_t param_1, int32_t param_2, int32_t param_3);
     int FoxNioImplMpSocketImplSendHook(void *MpSocketImpl, void *param_1, int size, void *Info, void *Address);
     int FoxNioImplMpMuxImplGetTotalPayloadSizeHook(void *thisPtr);
     void FoxNioMpMessageSerializerSerializeHook(void *Serializer, fox::nio::Buffer *buffer);
@@ -122,6 +122,13 @@ namespace Dynamite {
     void *FoxNtImplPeerCommonPeerCommonHook(void *PeerCommon, unsigned char param_1, uint32_t param_2);
     void TppGmPlayerImplSynchronizerImplInitializeHook(void *SynchronizerImpl, void *QuarkDesc);
     void FoxNtImplGameSocketImplGameSocketImplDtorHook(void *GameSocketImpl, uint32_t freeMem);
+    void TppGmImplScriptDeclVarsImplScriptDeclVarsImplDtorHook(void *ScriptDeclVarsImpl);
+    void TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitializeHook(void *CamouflageControllerImpl, fox::QuarkDesc *param_1);
+    void FoxNtImplTransceiverManagerImplPeerAddToSendQueueHook(void *Peer, void *PeerCommon);
+    uint32_t FoxNioImplMpMuxImplSendUpdateHook(void *MpMuxImpl);
+    int32_t FoxNioImplSppSocketImplSendImplHook(void *SppSocketImpl, void *bufferAddr, int size, void *info, void *addr, bool param_5);
+    int32_t FoxNioImplSteamUdpSocketImplSendHook(void *SteamUdpSocketImpl, void *param_1, int param_2, void *SocketInfo, void *Address);
+    int32_t FoxNioImplSteamUdpSocketImplRecvHook(void *SteamUdpSocketImpl, void *buffer, int maxBufferSize, void *SocketInfo, void *Address);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

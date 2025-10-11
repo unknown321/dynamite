@@ -422,35 +422,12 @@ namespace Dynamite {
             ENABLEHOOK(FoxNioImplMpMuxImplSend)
         }
 
-        if (cfg.debug.nio) {
-            if (!cfg.debug.muxSendError) {
-                CREATE_HOOK(FoxNioImplMpMuxImplSend)
-                ENABLEHOOK(FoxNioImplMpMuxImplSend)
-            }
-
+        if (cfg.debug.nioDetailed) {
             CREATE_HOOK(FoxNioMpMessageContainerGetFreeSize)
             ENABLEHOOK(FoxNioMpMessageContainerGetFreeSize)
 
-            CREATE_HOOK(FoxNioImplMpMuxImplRecv1)
-            ENABLEHOOK(FoxNioImplMpMuxImplRecv1)
-
-            CREATE_HOOK(FoxNioImplMpMuxImplRecv2)
-            ENABLEHOOK(FoxNioImplMpMuxImplRecv2)
-
-            CREATE_HOOK(FoxNtPeerControllerSend)
-            ENABLEHOOK(FoxNtPeerControllerSend)
-
             CREATE_HOOK(FoxNtImplGameSocketImplPeerIsSendPacketEmpty)
             ENABLEHOOK(FoxNtImplGameSocketImplPeerIsSendPacketEmpty)
-
-            CREATE_HOOK(FoxNtTotalControllerSend)
-            ENABLEHOOK(FoxNtTotalControllerSend)
-
-            CREATE_HOOK(FoxNtImplTransceiverManagerImplPeerSend)
-            ENABLEHOOK(FoxNtImplTransceiverManagerImplPeerSend)
-
-            CREATE_HOOK(FoxNioImplMpSocketImplSend)
-            ENABLEHOOK(FoxNioImplMpSocketImplSend)
 
             CREATE_HOOK(FoxNioImplMpMuxImplGetTotalPayloadSize)
             ENABLEHOOK(FoxNioImplMpMuxImplGetTotalPayloadSize)
@@ -470,6 +447,52 @@ namespace Dynamite {
             CREATE_HOOK(FoxNtImplSyncMemoryCollectorSyncMemoryCollector)
             ENABLEHOOK(FoxNtImplSyncMemoryCollectorSyncMemoryCollector)
 
+            CREATE_HOOK(FoxNioMpMessageCreate)
+            ENABLEHOOK(FoxNioMpMessageCreate)
+
+            CREATE_HOOK(FoxNtNtModuleInit)
+            ENABLEHOOK(FoxNtNtModuleInit)
+
+            CREATE_HOOK(FoxNtImplGameSocketImplSetInterval)
+            ENABLEHOOK(FoxNtImplGameSocketImplSetInterval)
+
+            CREATE_HOOK(FoxNtImplGameSocketImplGetPacketCount)
+            ENABLEHOOK(FoxNtImplGameSocketImplGetPacketCount)
+
+            CREATE_HOOK(FoxNtImplPeerCommonInitializeLastSendTime)
+            ENABLEHOOK(FoxNtImplPeerCommonInitializeLastSendTime)
+
+            CREATE_HOOK(FoxNtImplTransceiverManagerImplPeerAddToSendQueue)
+            ENABLEHOOK(FoxNtImplTransceiverManagerImplPeerAddToSendQueue)
+
+            CREATE_HOOK(FoxNioImplMpMuxImplSendUpdate)
+            ENABLEHOOK(FoxNioImplMpMuxImplSendUpdate)
+        }
+
+        if (cfg.debug.nio) {
+            if (!cfg.debug.muxSendError) {
+                CREATE_HOOK(FoxNioImplMpMuxImplSend)
+                ENABLEHOOK(FoxNioImplMpMuxImplSend)
+            }
+
+            CREATE_HOOK(FoxNioImplMpMuxImplRecv1)
+            ENABLEHOOK(FoxNioImplMpMuxImplRecv1)
+
+            CREATE_HOOK(FoxNioImplMpMuxImplRecv2)
+            ENABLEHOOK(FoxNioImplMpMuxImplRecv2)
+
+            CREATE_HOOK(FoxNtPeerControllerSend)
+            ENABLEHOOK(FoxNtPeerControllerSend)
+
+            CREATE_HOOK(FoxNtTotalControllerSend)
+            ENABLEHOOK(FoxNtTotalControllerSend)
+
+            CREATE_HOOK(FoxNtImplTransceiverManagerImplPeerSend)
+            ENABLEHOOK(FoxNtImplTransceiverManagerImplPeerSend)
+
+            CREATE_HOOK(FoxNioImplMpSocketImplSend)
+            ENABLEHOOK(FoxNioImplMpSocketImplSend)
+
             CREATE_HOOK(FoxNtImplGameSocketBufferImplAlloc)
             ENABLEHOOK(FoxNtImplGameSocketBufferImplAlloc)
 
@@ -488,28 +511,18 @@ namespace Dynamite {
             CREATE_HOOK(FoxNtImplGameSocketBufferImplGameSocketBufferImpl)
             ENABLEHOOK(FoxNtImplGameSocketBufferImplGameSocketBufferImpl)
 
-            CREATE_HOOK(FoxNioMpMessageCreate)
-            ENABLEHOOK(FoxNioMpMessageCreate)
+            CREATE_HOOK(FoxNtImplGameSocketImplRequestToSendToMember)
+            ENABLEHOOK(FoxNtImplGameSocketImplRequestToSendToMember)
+
+            CREATE_HOOK(FoxNioImplSppSocketImplSendImpl)
+            ENABLEHOOK(FoxNioImplSppSocketImplSendImpl)
 
             CREATE_HOOK(FoxNtImplNetworkSystemImplCreateGameSocket)
             ENABLEHOOK(FoxNtImplNetworkSystemImplCreateGameSocket)
 
-            CREATE_HOOK(FoxNtNtModuleInit)
-            ENABLEHOOK(FoxNtNtModuleInit)
-
-            CREATE_HOOK(FoxNtImplGameSocketImplRequestToSendToMember)
-            ENABLEHOOK(FoxNtImplGameSocketImplRequestToSendToMember)
-
-            CREATE_HOOK(FoxNtImplGameSocketImplSetInterval)
-            ENABLEHOOK(FoxNtImplGameSocketImplSetInterval)
-
-            CREATE_HOOK(FoxNtImplGameSocketImplGetPacketCount)
-            ENABLEHOOK(FoxNtImplGameSocketImplGetPacketCount)
-
-            CREATE_HOOK(FoxNtImplPeerCommonInitializeLastSendTime)
-            ENABLEHOOK(FoxNtImplPeerCommonInitializeLastSendTime)
+            CREATE_HOOK(FoxNtImplGameSocketImplGameSocketImplDtor)
+            ENABLEHOOK(FoxNtImplGameSocketImplGameSocketImplDtor)
         }
-
     }
 
     void Dynamite::CreateHooks() {
@@ -592,14 +605,24 @@ namespace Dynamite {
         CREATE_HOOK(FobTargetCtor)
         ENABLEHOOK(FobTargetCtor)
 
-        CREATE_HOOK(TppGmImplScriptDeclVarsImplOnSessionNotify)
-        ENABLEHOOK(TppGmImplScriptDeclVarsImplOnSessionNotify)
+        {
+            // these must go together to keep track of bytes written
+            // OnSessionNotify doesn't always send sync variables
+            CREATE_HOOK(TppGmImplScriptDeclVarsImplOnSessionNotify)
+            ENABLEHOOK(TppGmImplScriptDeclVarsImplOnSessionNotify)
 
-        CREATE_HOOK(FoxBitStreamWriterPrimitiveWrite)
-        ENABLEHOOK(FoxBitStreamWriterPrimitiveWrite)
+            CREATE_HOOK(FoxBitStreamWriterPrimitiveWrite)
+            ENABLEHOOK(FoxBitStreamWriterPrimitiveWrite)
+        }
 
-        CREATE_HOOK(TppGmPlayerImplSynchronizerImplInitialize)
-        ENABLEHOOK(TppGmPlayerImplSynchronizerImplInitialize)
+        CREATE_HOOK(FoxNioImplSteamUdpSocketImplSend)
+        ENABLEHOOK(FoxNioImplSteamUdpSocketImplSend)
+
+        CREATE_HOOK(FoxNioImplSteamUdpSocketImplRecv)
+        ENABLEHOOK(FoxNioImplSteamUdpSocketImplRecv)
+
+        // CREATE_HOOK(TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize)
+        // ENABLEHOOK(TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize)
 
         for (auto p : GetPatches()) {
             if (!p.Apply()) {
@@ -823,28 +846,29 @@ namespace Dynamite {
                                "tpp::gm::soldier::impl::Soldier2Impl::UpdateCpMemberStatus",
             },
 
-            {
-                .address = 0x1413536b6,
-                // clang-format off
-                .expected = {
-                    0x8b, 0xc1,          // MOV        EAX,ECX
-                    0xd1, 0xe8,          // SHR        EAX,0x1
-                    0xf7, 0xd0,          // NOT        EAX
-                    0x33, 0xc1,          // XOR        EAX,ECX
-                    0x83, 0xe0, 0x02,    // AND        EAX,0x2
-                    0x33, 0xc1,          // XOR        EAX,ECX
-                },
-                .patch = {
-                    0xb8, 0x02, 0x00, 0x00, 0x00, // MOV        EAX,0x2
-                    0x66, 0x48, 0x90 ,            // NOP
-                    0x66, 0x48, 0x90,             // NOP
-                    0x48, 0x90,                   // NOP
-                },
-                // clang-format on
-                .description = "ignore IS_ONLINE check at 1409e6f18, always set flag based on that check to 2 instead of calculated 4"
-                               "allows soldiers to get in vehicles"
-                               "tpp::gm::soldier::impl::Soldier2Impl::Initialize",
-            },
+            // {
+            //     .address = 0x1413536b6,
+            //     // clang-format off
+            //     .expected = {
+            //         0x8b, 0xc1,          // MOV        EAX,ECX
+            //         0xd1, 0xe8,          // SHR        EAX,0x1
+            //         0xf7, 0xd0,          // NOT        EAX
+            //         0x33, 0xc1,          // XOR        EAX,ECX
+            //         0x83, 0xe0, 0x02,    // AND        EAX,0x2
+            //         0x33, 0xc1,          // XOR        EAX,ECX
+            //     },
+            //     .patch = {
+            //         0xb8, 0x02, 0x00, 0x00, 0x00, // MOV        EAX,0x2
+            //         0x66, 0x48, 0x90 ,            // NOP
+            //         0x66, 0x48, 0x90,             // NOP
+            //         0x48, 0x90,                   // NOP
+            //     },
+            //     // clang-format on
+            //     .description = "ignore IS_ONLINE check at 1409e6f18, always set flag based on that check to 2 instead of calculated 4"
+            //                    "allows soldiers to get in vehicles"
+            //                    "this patch also breaks client detection and cannot be applied"
+            //                    "tpp::gm::soldier::impl::Soldier2Impl::Initialize",
+            // },
         };
     }
 

@@ -151,6 +151,7 @@ func Run() {
 	// healthcheck that opens web ui as soon as it's up
 	go func(c *config.Config, ls chan bool) {
 		if c.Dynamite.SkipConfig {
+			slog.Info("NOT opening WebUI in browser (SkipConfig=true)")
 			if c.Dynamite.UseLocalMasterServer {
 				ls <- c.Dynamite.UseLocalMasterServer
 			}

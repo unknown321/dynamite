@@ -20,6 +20,8 @@ typedef lua_Number(__fastcall luaL_checknumberFunc)(lua_State *L, int numArg);
 
 typedef void(__fastcall lua_pushbooleanFunc)(lua_State *L, int b);
 
+typedef void(__fastcall lua_pushnumberFunc)(lua_State *L, lua_Number n);
+
 typedef bool(__fastcall IsDefenseTeamByOnlineFobLocalFunc)();
 
 typedef bool(__fastcall IsOffenseTeamByOnlineFobLocalFunc)();
@@ -229,7 +231,7 @@ typedef bool(__thiscall FoxNtImplGameSocketImplPeerIsSendPacketEmptyFunc)(void *
 
 typedef int(__thiscall FoxNtTotalControllerSendFunc)(void *TotalController, uint32_t param_1, int32_t param_2, int32_t param_3);
 
-typedef int(__thiscall FoxNtImplTransceiverManagerImplPeerSendFunc)(void *TransceiverManagerImpl, uint32_t param_2);
+typedef int(__thiscall FoxNtImplTransceiverManagerImplPeerSendFunc)(void *TransceiverManagerImpl, uint32_t param_1, int32_t param_2, int32_t param_3);
 
 typedef int(__thiscall FoxNioImplMpSocketImplSendFunc)(void *MpSocketImpl, void *param_1, int param_2, void *Info, void *Address);
 
@@ -315,6 +317,22 @@ typedef void *(__thiscall FoxNtImplPeerCommonPeerCommonFunc)(void *PeerCommon, u
 
 typedef void(__thiscall TppGmPlayerImplSynchronizerImplInitializeFunc)(void *SynchronizerImpl, void *QuarkDesc);
 
+typedef void(__thiscall TppGmImplScriptDeclVarsImplScriptDeclVarsImplDtorFunc)(void *ScriptDeclVarsImpl);
+
+typedef void(__thiscall TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitializeFunc)(void *CamouflageControllerImpl, fox::QuarkDesc *param_1);
+
+typedef void(__thiscall FoxNtImplTransceiverManagerImplPeerAddToSendQueueFunc)(void *Peer, void *PeerCommon);
+
+typedef uint32_t(__thiscall FoxNioImplMpMuxImplSendUpdateFunc)(void *MpMuxImpl);
+
+typedef int32_t(__thiscall FoxNioImplSppSocketImplSendImplFunc)(void *SppSocketImpl, void *param_2, int param_3, void *param_4, void *param_5, bool param_6);
+
+typedef int32_t(__thiscall FoxNioImplSteamUdpSocketImplSendFunc)(void *SteamUdpSocketImpl, void *param_1, int param_2, void *SocketInfo, void *Address);
+
+typedef int32_t(__thiscall FoxNioImplSteamUdpSocketImplRecvFunc)(void *SteamUdpSocketImpl, void *buffer, int size, void *SocketInfo, void *Address);
+
+typedef void* SteamNetworkingFunc();
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -331,6 +349,7 @@ extern lua_createtableFunc *lua_createtable;
 extern lua_pushvalueFunc *lua_pushvalue;
 extern lua_removeFunc *lua_remove;
 extern luaL_checklstringFunc *luaL_checklstring;
+extern lua_pushnumberFunc *lua_pushnumber;
 
 // tpp lua functions (TppUiCommand.AnnounceLogView)
 extern lua_CFunction l_AnnounceLogView;
@@ -467,4 +486,11 @@ extern FoxNtImplSessionImpl2GetMemberInterfaceAtIndexFunc *FoxNtImplSessionImpl2
 extern FoxNtImplGameSocketImplHandleMessageFunc *FoxNtImplGameSocketImplHandleMessage;
 extern FoxNtImplPeerCommonPeerCommonFunc *FoxNtImplPeerCommonPeerCommon;
 extern TppGmPlayerImplSynchronizerImplInitializeFunc *TppGmPlayerImplSynchronizerImplInitialize;
+extern TppGmImplScriptDeclVarsImplScriptDeclVarsImplDtorFunc *TppGmImplScriptDeclVarsImplScriptDeclVarsImplDtor;
+extern TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitializeFunc *TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize;
+extern FoxNtImplTransceiverManagerImplPeerAddToSendQueueFunc *FoxNtImplTransceiverManagerImplPeerAddToSendQueue;
+extern FoxNioImplMpMuxImplSendUpdateFunc *FoxNioImplMpMuxImplSendUpdate;
+extern FoxNioImplSppSocketImplSendImplFunc *FoxNioImplSppSocketImplSendImpl;
+extern FoxNioImplSteamUdpSocketImplSendFunc *FoxNioImplSteamUdpSocketImplSend;
+extern FoxNioImplSteamUdpSocketImplRecvFunc *FoxNioImplSteamUdpSocketImplRecv;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

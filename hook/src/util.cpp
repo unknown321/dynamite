@@ -148,13 +148,13 @@ void DumpDamage(PlayerDamage *Damage, uint32_t playerIndex) {
     DumpArgs(Damage, 0x30);
 }
 
+// zero-padded string, 0x2 = "02"
 std::string bytes_to_hex(const void *data, size_t n) {
     const uint8_t *bytes = static_cast<const uint8_t *>(data);
     std::stringstream ss;
     ss << std::hex << std::uppercase << std::setfill('0');
 
     for (size_t i = 0; i < n; ++i) {
-        //            if (i > 0) ss << " ";
         ss << std::setw(2) << static_cast<int>(bytes[i]);
     }
 

@@ -71,7 +71,7 @@ namespace Dynamite {
         sessionConnected = false;
         offensePlayerID = 0;
 
-        dynamiteSyncImpl.RemoveSocket();
+        dynamiteSyncImpl.Stop();
 
         return 0;
     }
@@ -205,19 +205,19 @@ namespace Dynamite {
     }
 
     int l_RemoveAllUserMarkers(lua_State *L) {
-        spdlog::info("removing all user markers");
+        spdlog::info("{}, removing all user markers", __PRETTY_FUNCTION__);
         Marker2SystemImplRemovedAllUserMarker(MarkerSystemImpl);
         return 0;
     }
 
     int l_IgnoreMarkerRequests(lua_State *L) {
-        spdlog::info("ignoring marker requests");
+        spdlog::info("{}, ignoring marker requests", __PRETTY_FUNCTION__);
         ignoreMarkerRequests = true;
         return 0;
     }
 
     int l_AcceptMarkerRequests(lua_State *L) {
-        spdlog::info("{}, accepting marker requests", __FUNCTION__);
+        spdlog::info("{}, accepting marker requests", __PRETTY_FUNCTION__);
         ignoreMarkerRequests = false;
         return 0;
     }
@@ -285,15 +285,10 @@ namespace Dynamite {
         return 0;
     }
 
-    int l_SyncWrite(lua_State *L) {
-        // dynamiteSyncImpl.SyncVar("svars", "solFlagAndStance");
-        dynamiteSyncImpl.SyncEnemyVars();
-        return 0;
-    }
-
-    int l_WaitForSync(lua_State *L) {
-        dynamiteSyncImpl.WaitForSync();
-        return 0;
+    int l_IsSynchronized(lua_State *L) {
+        auto res = dynamiteSyncImpl.IsSynchronized();
+        lua_pushboolean(L, res);
+        return 1;
     }
 
     int l_RequestVar(lua_State *L) {
@@ -311,6 +306,19 @@ namespace Dynamite {
         }
 
         dynamiteSyncImpl.RequestVar(category, name);
+        return 0;
+    }
+
+    int l_Ping(lua_State *L) {
+        dynamiteSyncImpl.Ping();
+        return 0;
+    }
+
+    int l_GetCamoRate(lua_State *L) {
+        // wrong!
+        // auto lvar8 = *(uint32_t *)((char *)camouflageControllerImpl + 0x38);
+        // auto res = *(float *)lvar8;
+        // lua_pushnumber(L, res);
         return 0;
     }
 
@@ -335,9 +343,10 @@ namespace Dynamite {
             {"IsHost", l_IsHost},
             {"GetPlayerPosition", l_GetPlayerPosition},
             {"WarpToPartner", l_WarpToPartner},
-            {"SyncWrite", l_SyncWrite},
-            {"WaitForSync", l_WaitForSync},
+            {"IsSynchronized", l_IsSynchronized},
             {"RequestVar", l_RequestVar},
+            {"Ping", l_Ping},
+            // {"GetCamoRate", l_GetCamoRate},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);

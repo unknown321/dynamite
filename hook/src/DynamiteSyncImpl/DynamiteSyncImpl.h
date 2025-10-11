@@ -7,19 +7,26 @@
 #include <map>
 #include <thread>
 
+const char DYNAMITE_RAW_HEADER[8] = {68, 89, 78, 65, 77, 73, 84, 69}; // DYNAMITE
+
 class DynamiteSyncImpl {
   public:
     DynamiteSyncImpl();
     ~DynamiteSyncImpl();
 
     void Init();
-    void Update();
     void Stop();
     void SyncInit();
-    bool WaitForSync();
-    void RemoveSocket();
+    void WaitForSync();
+    bool IsSynchronized();
 
-    bool Send(const flatbuffers::FlatBufferBuilder *builder) const;
+    [[deprecated("use SteamUDPSocket")]] void CreateGameSocket();
+    [[deprecated("use SteamUDPSocket")]] void RemoveGameSocket();
+    void *gameSocket = nullptr;
+    [[deprecated("use SendRaw")]] bool Send(const flatbuffers::FlatBufferBuilder *builder) const;
+
+    bool SendRaw(const flatbuffers::FlatBufferBuilder *builder) const;
+    bool RecvRaw(void *buffer, int32_t size);
 
     void Ping();
 
@@ -27,7 +34,7 @@ class DynamiteSyncImpl {
     void HandleRequestVar(const DynamiteMessage::MessageWrapper *w);
 
     void AddFixedUserMarker(const Vector3 *pos);
-    static void HandleAddFixedUserMarker(const DynamiteMessage::MessageWrapper *w);
+    void HandleAddFixedUserMarker(const DynamiteMessage::MessageWrapper *w);
 
     void AddFollowUserMarker(const Vector3 *pos, uint32_t objectID);
     static void HandleAddFollowUserMarker(const DynamiteMessage::MessageWrapper *w);
@@ -41,7 +48,7 @@ class DynamiteSyncImpl {
     void SyncVar(const std::string &catName, const std::string &varName);
     void HandleSyncVar(const DynamiteMessage::MessageWrapper *w);
 
-    // todo replace with template
+    // todo replace with template?
     static bool SyncBoolVar(const DynamiteMessage::SyncVar *m, void *vars, uint32_t varIndex);
     static bool SyncInt32Var(const DynamiteMessage::SyncVar *m, void *vars, uint32_t varIndex);
     static bool SyncUint32Var(const DynamiteMessage::SyncVar *m, void *vars, uint32_t varIndex);
@@ -53,11 +60,16 @@ class DynamiteSyncImpl {
 
     void SyncEnemyVars();
 
-    void *gameSocket = nullptr;
-    char buffer[1024];
+    static void GetVar(const std::string &catName, const std::string &varName);
+
+    void *steamUDPAddress = nullptr;
+    void *steamUDPSocketInfo = nullptr;
+    void *steamUDPSocket = nullptr;
+
+    char updateBuffer[1024];
     uint32_t packetNumber = 0;
     uint32_t packetSeen = 0;
-    std::jthread thread_;
+    std::jthread syncThread;
     std::map<std::string, bool> syncStatus{};
     std::vector<std::string> enemyVars = {
         // "cpNames",
@@ -92,7 +104,7 @@ class DynamiteSyncImpl {
         // "noticeObjectOwnerName",
         // "noticeObjectOwnerId",
         // "noticeObjectAttachId",
-        // "solRandomSeed",
+        "solRandomSeed",
         // "hosName",
         // "hosState",
         // "hosFlagAndStance",

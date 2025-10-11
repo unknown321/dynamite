@@ -124,6 +124,13 @@ namespace Dynamite {
         {"FoxNtImplGameSocketImplHandleMessage", 0x143eaa120},
         {"FoxNtImplPeerCommonPeerCommon", 0x143e9cf60},
         {"TppGmPlayerImplSynchronizerImplInitialize", 0x1412a6c50},
+        {"TppGmImplScriptDeclVarsImplScriptDeclVarsImplDtor", 0x146845fc0},
+        {"TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize", 0x140fdd420},
+        {"FoxNtImplTransceiverManagerImplPeerAddToSendQueue", 0x143e78970},
+        {"FoxNioImplMpMuxImplSendUpdate", 0x141a5a6c0},
+        {"FoxNioImplSppSocketImplSendImpl", 0x141a57b00},
+        {"FoxNioImplSteamUdpSocketImplSend", 0x14c4044f0},
+        {"FoxNioImplSteamUdpSocketImplRecv", 0x14c4042c0},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},
@@ -159,10 +166,12 @@ namespace Dynamite {
         {"lua_pushvalue", 0x14c1e87e0},
         {"lua_remove", 0x14c1ea0c0},
         {"luaL_checklstring", 0x14c1ff790},
+        {"lua_pushnumber", 0x14c1e7dd0},
 
         // /*
         //                 {"StrCode64", 0x14c1bd730},
-        //                 {"PathCode64", 0x14c1bd5d0},//tex TODO need to verify naming and purpose. technically this is PathFileNameExt64, but given that PathCode
+        //                 {"PathCode64", 0x14c1bd5d0},//tex TODO need to verify naming and purpose. technically this is PathFileNameExt64, but given that
+        //                 PathCode
         // - without ext is likely less used than PathCode would have been a better name for PathFileNameExt64
         //                 {"FNVHash32", 0x143f33a20},
         //                 {"GetFreeRoamLangId", 0x145e60f40},
@@ -219,7 +228,8 @@ namespace Dynamite {
         //                 //{"lua_isuserdata", USING_CODE},//tex: No calls in lua distro, so may be hard to find, or have been culled by compilation
         //                 {"lua_type", 0x14c1ed760},
         //                 //{"lua_typename", USING_CODE},
-        //                 //{"lua_equal", NOT_FOUND},//tex: lua implementation goes a bit deeper than I'm happy with to use at the moment. No calls in lua distro,
+        //                 //{"lua_equal", NOT_FOUND},//tex: lua implementation goes a bit deeper than I'm happy with to use at the moment. No calls in lua
+        //                 distro,
         //  so may be hard to find, or have been culled by compilation
         //                 {"lua_rawequal", 0x14c1e8d70},
         //                 {"lua_lessthan", 0x14c1d9890},
@@ -233,7 +243,6 @@ namespace Dynamite {
         //                 {"lua_tothread", 0x14c1ed3c0},
         //                 {"lua_topointer", 0x14c1ed230},
         //                 {"lua_pushnil", 0x14c1e7cc0},
-        //                 {"lua_pushnumber", 0x14c1e7dd0},
         //                 {"lua_pushlstring", 0x14c1e7310},
         //                 {"lua_pushvfstring", 0x14c1e8b10},
         //                 {"lua_pushfstring", 0x14c1e6a70},
@@ -255,7 +264,8 @@ namespace Dynamite {
         //                 {"lua_cpcall", 0x146c7dd00},
         //                 {"lua_load", 0x14c1d99c0},
         //                 {"lua_dump", 0x14c1d6690},
-        //                 //{"lua_yield", USING_CODE},//tex: DEBUGNOW uses lua_lock, may not be a good idea due to thread issues and not knowing what the engine
+        //                 //{"lua_yield", USING_CODE},//tex: DEBUGNOW uses lua_lock, may not be a good idea due to thread issues and not knowing what the
+        //                 engine
         //  is doing to the state. Seems to be inlined in luaB_yield (it's only call in lua distro)
         //                 {"lua_resume", 0x14c1f0d80},
         //                 //{"lua_status", USING_CODE},//tex DEBUGNOW hmm, address range. ida finds this as sig though, but the prior functions have entries in
@@ -264,7 +274,8 @@ namespace Dynamite {
         //                 {"lua_error", 0x14c1d6c90},
         //                 {"lua_next", 0x14c1da770},
         //                 {"lua_concat", 0x14c1d5d50},
-        //                 //{"lua_getallocf", NO_USE},//tex don't really want to mess with allocator function anyway, DEBUGNOW no calls in lua distro, so may be
+        //                 //{"lua_getallocf", NO_USE},//tex don't really want to mess with allocator function anyway, DEBUGNOW no calls in lua distro, so may
+        //                 be
         //  hard to find, or have been culled by compilation
         //                 //{"lua_setallocf", NO_USE},//tex don't really want to mess with allocator function anyway
         //                 //{"lua_setlevel", NO_USE},//tex: labeled by lua as a hack to be removed in lua 5.2
@@ -284,7 +295,8 @@ namespace Dynamite {
         //                 {"luaL_typerror", 0x141a184c0},
         //                 {"luaL_argerror", 0x14c1fe5f0},
         //                 {"luaL_optlstring", 0x14c201de0},
-        //                 //{"luaL_optnumber", USING_CODE},//tex: Only use in os_difftime, but decompilation is giving a bunch more params than it usually takes
+        //                 //{"luaL_optnumber", USING_CODE},//tex: Only use in os_difftime, but decompilation is giving a bunch more params than it usually
+        //                 takes
         //                 {"luaL_optinteger", 0x14c201a70},
         //                 {"luaL_checkstack", 0x14c200010},
         //                 {"luaL_checktype", 0x14c2004c0},

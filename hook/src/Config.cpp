@@ -159,7 +159,9 @@ bool Config::Read(ConfigValidateResult *r) {
         this->debug.getSVarHandle = ini.get("Debug").get("GetSVarHandle") == "true";
         this->debug.rttAndLoss = ini.get("Debug").get("RttAndLoss") == "true";
         this->debug.nio = ini.get("Debug").get("Nio") == "true";
+        this->debug.nioDetailed = ini.get("Debug").get("NioDetailed") == "true";
         this->debug.muxSendError = ini.get("Debug").get("MuxSendError") == "true";
+        this->debug.dynamiteMsg = ini.get("Debug").get("DynamiteMsg") == "true";
     }
 
     return true;
@@ -194,5 +196,7 @@ void Config::Log() {
     spdlog::info("debug.GetSVarHandle: {}", this->debug.getSVarHandle);
     spdlog::info("debug.RttAndLoss: {}", this->debug.rttAndLoss);
     spdlog::info("debug.Nio: {}", this->debug.nio);
+    spdlog::info("debug.NioDetailed: {}", this->debug.nioDetailed);
     spdlog::info("debug.MuxSendError: {}", this->debug.muxSendError);
+    spdlog::info("debug.DynamiteMsg: {}", this->debug.dynamiteMsg);
 }

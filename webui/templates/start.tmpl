@@ -518,8 +518,18 @@
                           </div>
 
                           <div class="form-group">
+                              <label for="debug-nio-detailed" class="checkbox-label">NioDetailed</label>
+                              <input type="checkbox" id="debug-nio-detailed" name="Config.Debug.NioDetailed" {{ if .Config.Debug.NioDetailed }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
                               <label for="debug-muxSendError" class="checkbox-label">MuxSendError</label>
                               <input type="checkbox" id="debug-muxSendError" name="Config.Debug.MuxSendError" {{ if .Config.Debug.MuxSendError }}checked{{ end }}>
+                          </div>
+
+                          <div class="form-group">
+                              <label for="debug-dynamiteMsg" class="checkbox-label">DynamiteMsg</label>
+                              <input type="checkbox" id="debug-dynamiteMsg" name="Config.Debug.DynamiteMsg" {{ if .Config.Debug.DynamiteMsg }}checked{{ end }}>
                           </div>
 
                     </div>

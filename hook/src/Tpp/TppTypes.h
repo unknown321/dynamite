@@ -103,7 +103,7 @@ struct ScriptVarValue {
 namespace fox {
     namespace nt {
         struct GameSocketDesc {
-            uint32_t number;
+            uint32_t socketNumber;
             uint32_t value; // ??
         };
     }

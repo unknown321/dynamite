@@ -27,7 +27,9 @@ struct debug {
     bool getSVarHandle;
     bool rttAndLoss;
     bool nio;
+    bool nioDetailed;
     bool muxSendError;
+    bool dynamiteMsg;
 };
 
 class Config {

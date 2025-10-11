@@ -18,6 +18,7 @@ namespace Dynamite {
         lua_createtable = (lua_createtableFunc *)addressSet["lua_createtable"];
         lua_pushvalue = (lua_pushvalueFunc *)addressSet["lua_pushvalue"];
         luaL_checklstring = (luaL_checklstringFunc *)addressSet["luaL_checklstring"];
+        lua_pushnumber = (lua_pushnumberFunc *)addressSet["lua_pushnumber"];
 
         IsDefenseTeamByOnlineFobLocal = (IsDefenseTeamByOnlineFobLocalFunc *)addressSet["IsDefenseTeamByOnlineFobLocal"];
         IsOffenseTeamByOnlineFobLocal = (IsOffenseTeamByOnlineFobLocalFunc *)addressSet["IsOffenseTeamByOnlineFobLocal"];
@@ -166,5 +167,15 @@ namespace Dynamite {
         FoxNtImplGameSocketImplHandleMessage = (FoxNtImplGameSocketImplHandleMessageFunc *)addressSet["FoxNtImplGameSocketImplHandleMessage"];
         FoxNtImplPeerCommonPeerCommon = (FoxNtImplPeerCommonPeerCommonFunc *)addressSet["FoxNtImplPeerCommonPeerCommon"];
         TppGmPlayerImplSynchronizerImplInitialize = (TppGmPlayerImplSynchronizerImplInitializeFunc *)addressSet["TppGmPlayerImplSynchronizerImplInitialize"];
+        TppGmImplScriptDeclVarsImplScriptDeclVarsImplDtor =
+            (TppGmImplScriptDeclVarsImplScriptDeclVarsImplDtorFunc *)addressSet["TppGmImplScriptDeclVarsImplScriptDeclVarsDtor"];
+        TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize = (TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitializeFunc *)
+            addressSet["TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize"];
+        FoxNtImplTransceiverManagerImplPeerAddToSendQueue =
+            (FoxNtImplTransceiverManagerImplPeerAddToSendQueueFunc *)addressSet["FoxNtImplTransceiverManagerImplPeerAddToSendQueue"];
+        FoxNioImplMpMuxImplSendUpdate = (FoxNioImplMpMuxImplSendUpdateFunc *)addressSet["FoxNioImplMpMuxImplSendUpdate"];
+        FoxNioImplSppSocketImplSendImpl = (FoxNioImplSppSocketImplSendImplFunc *)addressSet["FoxNioImplSppSocketImplSendImpl"];
+        FoxNioImplSteamUdpSocketImplSend = (FoxNioImplSteamUdpSocketImplSendFunc *)addressSet["FoxNioImplSteamUdpSocketImplSend"];
+        FoxNioImplSteamUdpSocketImplRecv = (FoxNioImplSteamUdpSocketImplRecvFunc *)addressSet["FoxNioImplSteamUdpSocketImplRecv"];
     }
 }

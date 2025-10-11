@@ -23,6 +23,7 @@ namespace Dynamite {
     extern void *EquipHudSystemImpl;
     extern bool ignoreMarkerRequests;
     extern void* fobTargetCtor;
+    extern void *camouflageControllerImpl;
     extern Vector3 GetPlayerPosition(int index);
     extern bool hostSessionCreated;
     extern DynamiteSyncImpl dynamiteSyncImpl;
@@ -49,9 +50,8 @@ namespace Dynamite {
     int l_IgnoreMarkerRequests(lua_State *L);
     int l_AcceptMarkerRequests(lua_State *L);
     int l_WarpToPartner(lua_State *L);
-    int l_SyncWrite(lua_State *L);
-    int l_WaitForSync(lua_State *L);
     int l_RequestVar(lua_State *L);
+    int l_Ping(lua_State *L);
 }
 
 #endif // HOOK_DYNAMITELUA_H
