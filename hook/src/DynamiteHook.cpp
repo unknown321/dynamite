@@ -574,19 +574,23 @@ namespace Dynamite {
 
     int32_t BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionHook(void *thisPtr) {
         auto res = BandWidthManagerImplCalcAverageRttOfBetterHalfConnection(thisPtr);
-        spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
+        if (res != 0) {
+            spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
+        }
         return res;
     }
 
     int32_t BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionHook(void *thisPtr) {
         auto res = BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection(thisPtr);
-        spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
+        if (res != 0) {
+            spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
+        }
         return res;
     }
 
     void BandWidthManagerImplStartLimitStateHook(void *thisPtr) {
-        BandWidthManagerImplStartLimitState(thisPtr);
         spdlog::info("{}", __PRETTY_FUNCTION__);
+        BandWidthManagerImplStartLimitState(thisPtr);
     }
 
     uint32_t FoxNioMpMessageContainerGetFreeSizeHook(void *MpMessageContainer) {
