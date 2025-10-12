@@ -8,6 +8,7 @@ union Message {
    SetSightMarker,
    SyncVar,
    RequestVar,
+   SendEmblem,
 }
 
 struct Vec3 {
@@ -92,6 +93,20 @@ table SyncVar {
     array_size: uint32;
     array_start: uint32;
     array_values: ArrayValues;
+}
+
+struct EmblemInfo {
+    emblem_texture_tag: [uint32:4];
+    emblem_color_l: [uint32:4];
+    emblem_color_h: [uint32:4];
+    emblem_x: [byte:4];
+    emblem_y: [byte:4];
+    emblem_scale: [byte:4];
+    emblem_rotate: [byte: 4];
+}
+
+table SendEmblem {
+    emblem_info: EmblemInfo;
 }
 
 table MessageWrapper {

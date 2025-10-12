@@ -42,6 +42,9 @@ namespace Dynamite {
         {"SightManagerImplInitialize", 0x149c63e20},
         {"UiControllerImplSetNoUseEquipId", 0x1496b3b50},
         {"EquipCrossEvCallIsItemNoUse", 0x145d0b630},
+        {"TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters", 0x14094c300},
+        {"TppUiEmblemImplEmblemEditorSystemImplCreateEmblem", 0x146073350},
+        {"TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo", 0x14607be80},
 
         {"HashMapFindKey", 0x142ed7be0},
         {"GetQuarkSystemTable", 0x140bff3f0},

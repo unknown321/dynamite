@@ -3,6 +3,7 @@
 #define HOOK_DYNAMITESYNCIMPL_H
 #include "DynamiteSyncSchema_generated.h"
 #include "Tpp/TppTypes.h"
+#include "dynamite.h"
 
 #include <map>
 #include <thread>
@@ -45,6 +46,9 @@ class DynamiteSyncImpl {
     void SetSightMarker(uint32_t objectID, uint32_t duration);
     static void HandleSetSightMarker(const DynamiteMessage::MessageWrapper *w);
 
+    void SendEmblem();
+    static void HandleSendEmblem(const DynamiteMessage::MessageWrapper *w);
+
     void SyncVar(const std::string &catName, const std::string &varName);
     void HandleSyncVar(const DynamiteMessage::MessageWrapper *w);
 
@@ -59,8 +63,6 @@ class DynamiteSyncImpl {
     static bool SyncFloatVar(const DynamiteMessage::SyncVar *m, void *vars, uint32_t varIndex);
 
     void SyncEnemyVars();
-
-    static void GetVar(const std::string &catName, const std::string &varName);
 
     void *steamUDPAddress = nullptr;
     void *steamUDPSocketInfo = nullptr;

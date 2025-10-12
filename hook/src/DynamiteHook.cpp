@@ -153,6 +153,7 @@ namespace Dynamite {
             }
 
             dynamiteSyncImpl.Ping();
+            dynamiteSyncImpl.SendEmblem();
         }
 
         UpdateClientEstablished(param);
@@ -889,6 +890,10 @@ namespace Dynamite {
         spdlog::info(
             "{}, {} records, syncCount {}, wrote {} bits, will allocate {} bytes", __PRETTY_FUNCTION__, varCount, syncCount, varsTotalSize, varsTotalSize >> 3);
 
+        if (cfg.Host && syncCount > 0) {
+            dynamiteSyncImpl.SendEmblem();
+        }
+
         if (syncCount > 0 && !cfg.Host) {
             //            dynamiteSyncImpl.WaitForSync();
         } else {
@@ -1012,5 +1017,35 @@ namespace Dynamite {
         dynamiteSyncImpl.RecvRaw(buffer, responseSize);
 
         return responseSize;
+    }
+
+    void *TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParametersHook(void *EmblemEditorSystemImpl, void *ErrorCode, void *EmblemTextureParameters,
+        uint32_t *emblemTextureTag, uint32_t *emblemColorL, uint32_t *emblemColorH, char *emblemX, char *emblemY, char *emblemScale, char *emblemRotate,
+        unsigned char version, bool param_10) {
+        spdlog::info("{}, emblemTextureTag={:d}, emblemColorL={:d}, emblemColorH={:d}, emblemX={:d}, emblemY={:d}, emblemScale={:d}, emblemRotate={:d}, "
+                     "version={:d}, p10={}",
+            __PRETTY_FUNCTION__,
+            *emblemTextureTag,
+            *emblemColorL,
+            *emblemColorH,
+            *emblemX,
+            *emblemY,
+            *emblemScale,
+            *emblemRotate,
+            version,
+            param_10);
+
+        return TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters(EmblemEditorSystemImpl,
+            ErrorCode,
+            EmblemTextureParameters,
+            emblemTextureTag,
+            emblemColorL,
+            emblemColorH,
+            emblemX,
+            emblemY,
+            emblemScale,
+            emblemRotate,
+            version,
+            param_10);
     }
 }

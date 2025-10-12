@@ -195,6 +195,196 @@ namespace Dynamite {
         return minDistancePlayer;
     }
 
+    EmblemInfo GetEmblemInfo() {
+        // see tpp::ui::emblem::impl::EmblemEditorSystemImpl::LoadFromVars
+
+        const auto qt = GetQuarkSystemTable();
+        const auto v1 = *(uint64_t *)((char *)qt + 0x98);
+        const auto vars = *(void **)(v1 + 0x10);
+
+        EmblemInfo result;
+        memcpy(result.emblemTextureTag, (char *)vars + 0x230, sizeof(uint32_t) * 4);
+        memcpy(result.emblemColorL, (char *)vars + 0x240, sizeof(uint32_t) * 4);
+        memcpy(result.emblemColorH, (char *)vars + 0x250, sizeof(uint32_t) * 4);
+        memcpy(result.emblemX, (char *)vars + 0x260, sizeof(uint8_t) * 4);
+        memcpy(result.emblemY, (char *)vars + 0x264, sizeof(uint8_t) * 4);
+        memcpy(result.emblemScale, (char *)vars + 0x268, sizeof(uint8_t) * 4);
+        memcpy(result.emblemRotate, (char *)vars + 0x26c, sizeof(uint8_t) * 4);
+
+        return result;
+    }
+
+    // values from gvars or svars
+    ScriptVarResult GetSVar(const std::string &catName, const std::string &varName) {
+        const auto hash = (uint32_t)(FoxStrHash32(varName.c_str(), varName.length()) & 0xffffffff);
+        const auto catHash = (uint32_t)(FoxStrHash32(catName.c_str(), catName.length()) & 0xffffffff);
+
+        const auto qt = GetQuarkSystemTable();
+        const auto v1 = *(uint64_t *)((char *)qt + 0x98);
+        const auto scriptSystemImpl = *(void **)(v1 + 0x18);
+
+        ScriptVarResult s{};
+
+        auto handle = BlockHeapAlloc(8, 8, MEMTAG_TPP_SYSTEM2SCRIPT);
+        TppGmImplScriptSystemImplGetScriptDeclVarHandle(scriptSystemImpl, handle, catHash, hash);
+        if (handle == nullptr) {
+            spdlog::error("{}, no handle for var {}.{}", __PRETTY_FUNCTION__, catName, varName);
+            return s;
+        }
+
+        auto varType = *(unsigned char *)((char *)handle + 0xC) & 7;
+        if (varType > TYPE_MAX) {
+            spdlog::error("{}, invalid var type {}.{} {}", __PRETTY_FUNCTION__, catName, varName, varType);
+            return s;
+        }
+
+        auto arraySize = *(unsigned short *)((char *)handle + 0x8);
+        if (arraySize == 0) {
+            spdlog::error("{}, invalid var size {}.{}: {}", __PRETTY_FUNCTION__, catName, varName, arraySize);
+            return s;
+        }
+
+        spdlog::info("{}: {}, type {}, size {}", __PRETTY_FUNCTION__, varName, varType, arraySize);
+
+        auto elementSize = 1;
+
+        switch (varType) {
+        case TYPE_INT32:
+            elementSize = 4;
+            break;
+        case TYPE_UINT32:
+            elementSize = 4;
+            break;
+        case TYPE_FLOAT:
+            elementSize = 4;
+            break;
+        case TYPE_INT8:
+            elementSize = 1;
+            break;
+        case TYPE_UINT8:
+            elementSize = 1;
+            break;
+        case TYPE_INT16:
+            elementSize = 2;
+            break;
+        case TYPE_UINT16:
+            elementSize = 2;
+            break;
+        case TYPE_BOOL:
+            break;
+        default:
+            break;
+        }
+
+        s.type = static_cast<TppVarType>(varType);
+
+        const auto dataStart = *(unsigned short *)((char *)handle + 0xA);
+        const auto offset = *(uint64_t *)handle;
+        BlockHeapFree(handle);
+        for (int i = 0; i < arraySize; i++) {
+            if (varType == TYPE_BOOL) {
+                auto res = (*(unsigned char *)(((i + dataStart) >> 3) + offset) & 1 << ((unsigned char)(i + dataStart) & 7)) != 0;
+                s.bools.push_back(res);
+
+                spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i, res);
+                continue;
+            }
+
+            auto value = offset + (dataStart + i) * elementSize;
+            switch (varType) {
+            case TYPE_INT32:
+                spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i, *(int32_t *)value);
+                s.int32s.push_back(*(int32_t *)value);
+                break;
+            case TYPE_UINT32: {
+                spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(uint32_t *)value);
+                s.uint32s.push_back(*(uint32_t *)value);
+                break;
+            }
+            case TYPE_FLOAT:
+                spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(float *)value);
+                s.floats.push_back(*(float *)value);
+                break;
+            case TYPE_INT8:
+                spdlog::info("{}, {} {}: {:d}", __PRETTY_FUNCTION__, varName, i, *(signed char *)value);
+                s.int8s.push_back(*(int8_t *)value);
+                break;
+            case TYPE_UINT8:
+                spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(unsigned char *)value);
+                s.uint8s.push_back(*(uint8_t *)value);
+                break;
+            case TYPE_INT16:
+                spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(short *)value);
+                s.int16s.push_back(*(int16_t *)value);
+                break;
+            case TYPE_UINT16:
+                spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(unsigned short *)value);
+                s.uint16s.push_back(*(uint16_t *)value);
+                break;
+            case TYPE_BOOL:
+            default:
+                break;
+            }
+        }
+
+        return s;
+    }
+
+    void *GetEmblemEditorSystemImpl() {
+        auto qt = GetQuarkSystemTable();
+        // see tpp::ui::menu::impl::MissionPreparationCallbackImpl::UpdateEmblem
+        auto res = *(void **)(*(uint64_t *)(*(uint64_t *)((char *)qt + 0x98) + 0x40) + 0x60);
+        return res;
+    }
+
+    void CreateEmblem(EmblemInfo info) {
+        const auto emblemEditor = GetEmblemEditorSystemImpl();
+        if (emblemEditor == nullptr) {
+            spdlog::error("{}, emblem editor is null", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        const auto loadOk = TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo(emblemEditor);
+        if (!loadOk) {
+            spdlog::warn("{}, load emblem texture info fail (but it's ok)", __PRETTY_FUNCTION__);
+        }
+
+        uint64_t errcode = 0;
+        const auto params = malloc(1024);
+        if (params == nullptr) {
+            spdlog::error("{}, malloc failed", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParametersHook(emblemEditor,
+            &errcode,
+            params,
+            info.emblemTextureTag,
+            info.emblemColorL,
+            info.emblemColorH,
+            reinterpret_cast<char *>(&info.emblemX[0]),
+            reinterpret_cast<char *>(&info.emblemY[0]),
+            reinterpret_cast<char *>(&info.emblemScale[0]),
+            reinterpret_cast<char *>(&info.emblemRotate[0]),
+            1, // version
+            true);
+
+        if (errcode != 0) {
+            spdlog::error("{}, TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters error code {}", __PRETTY_FUNCTION__, errcode);
+            free(params);
+            return;
+        }
+
+        const auto name = "OpponentEmblem";
+        const auto nameSmall = "OpponentEmblem_S";
+        const auto hash = FoxStrHash32(name, strlen(name));                // 0x90bb6285c23c
+        const auto hashSmall = FoxStrHash32(nameSmall, strlen(nameSmall)); // 0xd2ee491abe8f
+        auto res = TppUiEmblemImplEmblemEditorSystemImplCreateEmblem(emblemEditor, hash, hashSmall, params, 4);
+        spdlog::info("{}, TppUiEmblemImplEmblemEditorSystemImplCreateEmblem res={}", __PRETTY_FUNCTION__, res);
+
+        free(params);
+    }
+
     ENPCLifeState GetSoldierLifeStatus(int objectID) {
         auto go = FindGameObjectWithID(objectID);
         if (go == nullptr) {
@@ -605,6 +795,16 @@ namespace Dynamite {
         CREATE_HOOK(FobTargetCtor)
         ENABLEHOOK(FobTargetCtor)
 
+        CREATE_HOOK(FoxNioImplSteamUdpSocketImplSend)
+        ENABLEHOOK(FoxNioImplSteamUdpSocketImplSend)
+
+        CREATE_HOOK(FoxNioImplSteamUdpSocketImplRecv)
+        ENABLEHOOK(FoxNioImplSteamUdpSocketImplRecv)
+
+        CREATE_HOOK(TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters)
+        ENABLEHOOK(TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters)
+
+        // clang-format off
         {
             // these must go together to keep track of bytes written
             // OnSessionNotify doesn't always send sync variables
@@ -614,12 +814,7 @@ namespace Dynamite {
             CREATE_HOOK(FoxBitStreamWriterPrimitiveWrite)
             ENABLEHOOK(FoxBitStreamWriterPrimitiveWrite)
         }
-
-        CREATE_HOOK(FoxNioImplSteamUdpSocketImplSend)
-        ENABLEHOOK(FoxNioImplSteamUdpSocketImplSend)
-
-        CREATE_HOOK(FoxNioImplSteamUdpSocketImplRecv)
-        ENABLEHOOK(FoxNioImplSteamUdpSocketImplRecv)
+        // clang-format on
 
         // CREATE_HOOK(TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize)
         // ENABLEHOOK(TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize)
@@ -844,6 +1039,22 @@ namespace Dynamite {
                 .patch = {0xeb, 0x07},    // JMP LAB_149f4f184
                 .description = "always use non-fob function to update cp member status"
                                "tpp::gm::soldier::impl::Soldier2Impl::UpdateCpMemberStatus",
+            },
+
+            {
+                .address = 0x1409c9a13,
+                // clang-format off
+                .expected = {
+                    0x84, 0xc0,             // TEST AL, AL
+                    0x4c, 0x0f, 0x45, 0xc1, // CMOVNZ R8,RCX
+                },
+                .patch = {
+                    0x49, 0x89, 0xc8, // MOV        R8,RCX
+                    0x66, 0x48, 0x90, // NOP
+                },
+                // clang-format on
+                .description = "always apply opponent (or partner) emblem"
+                               "tpp::gm::player::impl::Player2Impl::SetEmblemTexture",
             },
 
             // {

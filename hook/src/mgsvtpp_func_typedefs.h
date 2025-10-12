@@ -331,7 +331,16 @@ typedef int32_t(__thiscall FoxNioImplSteamUdpSocketImplSendFunc)(void *SteamUdpS
 
 typedef int32_t(__thiscall FoxNioImplSteamUdpSocketImplRecvFunc)(void *SteamUdpSocketImpl, void *buffer, int size, void *SocketInfo, void *Address);
 
-typedef void* SteamNetworkingFunc();
+typedef void *SteamNetworkingFunc();
+
+typedef void *(__thiscall TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParametersFunc)(void *EmblemEditorSystemImpl, void *ErrorCode,
+    void *EmblemTextureParameters, uint32_t *emblemTextureTag, uint32_t *emblemColorL, uint32_t *emblemColorH, char *emblemX, char *emblemY, char *emblemScale,
+    char *emblemRotate, unsigned char param_9, bool param_10);
+
+typedef bool(__thiscall TppUiEmblemImplEmblemEditorSystemImplCreateEmblemFunc)(
+    void *EmblemEditorSystemImpl, uint64_t textureName, uint64_t textureNameSmall, void *EmblemTextureParameters, uint32_t maybe_sizes);
+
+typedef bool(__thiscall TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfoFunc)(void *EmblemEditorSystemImpl);
 
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
@@ -493,4 +502,7 @@ extern FoxNioImplMpMuxImplSendUpdateFunc *FoxNioImplMpMuxImplSendUpdate;
 extern FoxNioImplSppSocketImplSendImplFunc *FoxNioImplSppSocketImplSendImpl;
 extern FoxNioImplSteamUdpSocketImplSendFunc *FoxNioImplSteamUdpSocketImplSend;
 extern FoxNioImplSteamUdpSocketImplRecvFunc *FoxNioImplSteamUdpSocketImplRecv;
+extern TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParametersFunc *TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters;
+extern TppUiEmblemImplEmblemEditorSystemImplCreateEmblemFunc *TppUiEmblemImplEmblemEditorSystemImplCreateEmblem;
+extern TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfoFunc *TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

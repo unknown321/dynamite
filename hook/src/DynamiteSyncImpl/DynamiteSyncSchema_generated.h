@@ -62,6 +62,11 @@ struct Uint16Builder;
 struct SyncVar;
 struct SyncVarBuilder;
 
+struct EmblemInfo;
+
+struct SendEmblem;
+struct SendEmblemBuilder;
+
 struct MessageWrapper;
 struct MessageWrapperBuilder;
 
@@ -74,11 +79,12 @@ enum Message : uint8_t {
   Message_SetSightMarker = 5,
   Message_SyncVar = 6,
   Message_RequestVar = 7,
+  Message_SendEmblem = 8,
   Message_MIN = Message_NONE,
-  Message_MAX = Message_RequestVar
+  Message_MAX = Message_SendEmblem
 };
 
-inline const Message (&EnumValuesMessage())[8] {
+inline const Message (&EnumValuesMessage())[9] {
   static const Message values[] = {
     Message_NONE,
     Message_Ping,
@@ -87,13 +93,14 @@ inline const Message (&EnumValuesMessage())[8] {
     Message_RemoveUserMarker,
     Message_SetSightMarker,
     Message_SyncVar,
-    Message_RequestVar
+    Message_RequestVar,
+    Message_SendEmblem
   };
   return values;
 }
 
 inline const char * const *EnumNamesMessage() {
-  static const char * const names[9] = {
+  static const char * const names[10] = {
     "NONE",
     "Ping",
     "AddFixedUserMarker",
@@ -102,13 +109,14 @@ inline const char * const *EnumNamesMessage() {
     "SetSightMarker",
     "SyncVar",
     "RequestVar",
+    "SendEmblem",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameMessage(Message e) {
-  if (::flatbuffers::IsOutRange(e, Message_NONE, Message_RequestVar)) return "";
+  if (::flatbuffers::IsOutRange(e, Message_NONE, Message_SendEmblem)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMessage()[index];
 }
@@ -143,6 +151,10 @@ template<> struct MessageTraits<DynamiteMessage::SyncVar> {
 
 template<> struct MessageTraits<DynamiteMessage::RequestVar> {
   static const Message enum_value = Message_RequestVar;
+};
+
+template<> struct MessageTraits<DynamiteMessage::SendEmblem> {
+  static const Message enum_value = Message_SendEmblem;
 };
 
 bool VerifyMessage(::flatbuffers::Verifier &verifier, const void *obj, Message type);
@@ -266,6 +278,59 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
   }
 };
 FLATBUFFERS_STRUCT_END(Vec3, 12);
+
+FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) EmblemInfo FLATBUFFERS_FINAL_CLASS {
+ private:
+  uint32_t emblem_texture_tag_[4];
+  uint32_t emblem_color_l_[4];
+  uint32_t emblem_color_h_[4];
+  int8_t emblem_x_[4];
+  int8_t emblem_y_[4];
+  int8_t emblem_scale_[4];
+  int8_t emblem_rotate_[4];
+
+ public:
+  EmblemInfo()
+      : emblem_texture_tag_(),
+        emblem_color_l_(),
+        emblem_color_h_(),
+        emblem_x_(),
+        emblem_y_(),
+        emblem_scale_(),
+        emblem_rotate_() {
+  }
+  EmblemInfo(::flatbuffers::span<const uint32_t, 4> _emblem_texture_tag, ::flatbuffers::span<const uint32_t, 4> _emblem_color_l, ::flatbuffers::span<const uint32_t, 4> _emblem_color_h, ::flatbuffers::span<const int8_t, 4> _emblem_x, ::flatbuffers::span<const int8_t, 4> _emblem_y, ::flatbuffers::span<const int8_t, 4> _emblem_scale, ::flatbuffers::span<const int8_t, 4> _emblem_rotate) {
+    ::flatbuffers::CastToArray(emblem_texture_tag_).CopyFromSpan(_emblem_texture_tag);
+    ::flatbuffers::CastToArray(emblem_color_l_).CopyFromSpan(_emblem_color_l);
+    ::flatbuffers::CastToArray(emblem_color_h_).CopyFromSpan(_emblem_color_h);
+    ::flatbuffers::CastToArray(emblem_x_).CopyFromSpan(_emblem_x);
+    ::flatbuffers::CastToArray(emblem_y_).CopyFromSpan(_emblem_y);
+    ::flatbuffers::CastToArray(emblem_scale_).CopyFromSpan(_emblem_scale);
+    ::flatbuffers::CastToArray(emblem_rotate_).CopyFromSpan(_emblem_rotate);
+  }
+  const ::flatbuffers::Array<uint32_t, 4> *emblem_texture_tag() const {
+    return &::flatbuffers::CastToArray(emblem_texture_tag_);
+  }
+  const ::flatbuffers::Array<uint32_t, 4> *emblem_color_l() const {
+    return &::flatbuffers::CastToArray(emblem_color_l_);
+  }
+  const ::flatbuffers::Array<uint32_t, 4> *emblem_color_h() const {
+    return &::flatbuffers::CastToArray(emblem_color_h_);
+  }
+  const ::flatbuffers::Array<int8_t, 4> *emblem_x() const {
+    return &::flatbuffers::CastToArray(emblem_x_);
+  }
+  const ::flatbuffers::Array<int8_t, 4> *emblem_y() const {
+    return &::flatbuffers::CastToArray(emblem_y_);
+  }
+  const ::flatbuffers::Array<int8_t, 4> *emblem_scale() const {
+    return &::flatbuffers::CastToArray(emblem_scale_);
+  }
+  const ::flatbuffers::Array<int8_t, 4> *emblem_rotate() const {
+    return &::flatbuffers::CastToArray(emblem_rotate_);
+  }
+};
+FLATBUFFERS_STRUCT_END(EmblemInfo, 64);
 
 struct Ping FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef PingBuilder Builder;
@@ -1136,6 +1201,47 @@ inline ::flatbuffers::Offset<SyncVar> CreateSyncVarDirect(
       array_values);
 }
 
+struct SendEmblem FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SendEmblemBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_EMBLEM_INFO = 4
+  };
+  const DynamiteMessage::EmblemInfo *emblem_info() const {
+    return GetStruct<const DynamiteMessage::EmblemInfo *>(VT_EMBLEM_INFO);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<DynamiteMessage::EmblemInfo>(verifier, VT_EMBLEM_INFO, 4) &&
+           verifier.EndTable();
+  }
+};
+
+struct SendEmblemBuilder {
+  typedef SendEmblem Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_emblem_info(const DynamiteMessage::EmblemInfo *emblem_info) {
+    fbb_.AddStruct(SendEmblem::VT_EMBLEM_INFO, emblem_info);
+  }
+  explicit SendEmblemBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SendEmblem> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SendEmblem>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SendEmblem> CreateSendEmblem(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    const DynamiteMessage::EmblemInfo *emblem_info = nullptr) {
+  SendEmblemBuilder builder_(_fbb);
+  builder_.add_emblem_info(emblem_info);
+  return builder_.Finish();
+}
+
 struct MessageWrapper FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef MessageWrapperBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -1174,6 +1280,9 @@ struct MessageWrapper FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   const DynamiteMessage::RequestVar *msg_as_RequestVar() const {
     return msg_type() == DynamiteMessage::Message_RequestVar ? static_cast<const DynamiteMessage::RequestVar *>(msg()) : nullptr;
   }
+  const DynamiteMessage::SendEmblem *msg_as_SendEmblem() const {
+    return msg_type() == DynamiteMessage::Message_SendEmblem ? static_cast<const DynamiteMessage::SendEmblem *>(msg()) : nullptr;
+  }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyField<uint32_t>(verifier, VT_PACKET_NUM, 4) &&
@@ -1210,6 +1319,10 @@ template<> inline const DynamiteMessage::SyncVar *MessageWrapper::msg_as<Dynamit
 
 template<> inline const DynamiteMessage::RequestVar *MessageWrapper::msg_as<DynamiteMessage::RequestVar>() const {
   return msg_as_RequestVar();
+}
+
+template<> inline const DynamiteMessage::SendEmblem *MessageWrapper::msg_as<DynamiteMessage::SendEmblem>() const {
+  return msg_as_SendEmblem();
 }
 
 struct MessageWrapperBuilder {
@@ -1279,6 +1392,10 @@ inline bool VerifyMessage(::flatbuffers::Verifier &verifier, const void *obj, Me
     }
     case Message_RequestVar: {
       auto ptr = reinterpret_cast<const DynamiteMessage::RequestVar *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case Message_SendEmblem: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::SendEmblem *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

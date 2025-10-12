@@ -4,6 +4,7 @@
 #include "Config.h"
 #include "Tpp/TppNPCLifeState.h"
 #include "Tpp/TppTypes.h"
+#include "Version.h"
 #include "lua/lua.h"
 #include "patch.h"
 #include "spdlog/logger.h"
@@ -11,7 +12,29 @@
 #include <filesystem>
 #include <map>
 #include <memory>
-#include "Version.h"
+
+struct ScriptVarResult {
+    TppVarType type;
+
+    std::vector<bool> bools;
+    std::vector<int32_t> int32s;
+    std::vector<uint32_t> uint32s;
+    std::vector<float> floats;
+    std::vector<int8_t> int8s;
+    std::vector<uint8_t> uint8s;
+    std::vector<int16_t> int16s;
+    std::vector<uint16_t> uint16s;
+};
+
+struct EmblemInfo {
+    uint32_t emblemTextureTag[4];
+    uint32_t emblemColorL[4];
+    uint32_t emblemColorH[4];
+    int8_t emblemX[4];
+    int8_t emblemY[4];
+    int8_t emblemScale[4];
+    int8_t emblemRotate[4];
+};
 
 namespace Dynamite {
     extern std::map<std::string, uint64_t> addressSet;
@@ -58,6 +81,10 @@ namespace Dynamite {
     Vector3 GetSoldierPosition(int objectID);
     Vector3 GetPlayerPosition(int index);
     int GetNearestPlayer();
+    EmblemInfo GetEmblemInfo();
+    ScriptVarResult GetSVar(const std::string &catName, const std::string &varName);
+    void *GetEmblemEditorSystemImpl();
+    void CreateEmblem(EmblemInfo info);
 
     class Dynamite {
       public:

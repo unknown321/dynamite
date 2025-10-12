@@ -248,122 +248,57 @@ void DynamiteSyncImpl::HandleSetSightMarker(const DynamiteMessage::MessageWrappe
     spdlog::info("{}: {}", __PRETTY_FUNCTION__, ok);
 }
 
-void DynamiteSyncImpl::GetVar(const std::string &catName, const std::string &varName) {
-    const auto hash = (uint32_t)(FoxStrHash32(varName.c_str(), varName.length()) & 0xffffffff);
-    const auto catHash = (uint32_t)(FoxStrHash32(catName.c_str(), catName.length()) & 0xffffffff);
+void DynamiteSyncImpl::SendEmblem() {
+    packetNumber++;
+    flatbuffers::FlatBufferBuilder builder(256);
 
-    const auto qt = GetQuarkSystemTable();
-    const auto v1 = *(uint64_t *)((char *)qt + 0x98);
-    const auto scriptSystemImpl = *(void **)(v1 + 0x18);
+    const auto info = Dynamite::GetEmblemInfo();
 
-    auto handle = BlockHeapAlloc(8, 8, MEMTAG_TPP_SYSTEM2SCRIPT);
-    TppGmImplScriptSystemImplGetScriptDeclVarHandle(scriptSystemImpl, handle, catHash, hash);
-    if (handle == nullptr) {
-        spdlog::error("{}, no handle for var {}.{}", __PRETTY_FUNCTION__, catName, varName);
+    const DynamiteMessage::EmblemInfo emblem_info{
+        info.emblemTextureTag,
+        info.emblemColorL,
+        info.emblemColorH,
+        info.emblemX,
+        info.emblemY,
+        info.emblemScale,
+        info.emblemRotate,
+    };
+
+    const auto sv = DynamiteMessage::CreateSendEmblem(builder, &emblem_info);
+    const auto message = DynamiteMessage::CreateMessageWrapper(builder, packetNumber, DynamiteMessage::Message_SendEmblem, sv.Union());
+    builder.Finish(message);
+    auto res = SendRaw(&builder);
+    spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
+}
+
+void DynamiteSyncImpl::HandleSendEmblem(const DynamiteMessage::MessageWrapper *w) {
+    const auto m = w->msg_as_SendEmblem();
+    const auto info = m->emblem_info();
+    if (info == nullptr) {
+        spdlog::error("{}, emblem info is nullptr", __PRETTY_FUNCTION__);
         return;
     }
 
-    auto varType = *(byte *)((char *)handle + 0xC) & 7;
-    if (varType > TYPE_MAX) {
-        spdlog::error("{}, invalid var type {}.{} {}", __PRETTY_FUNCTION__, catName, varName, varType);
-        return;
-    }
+    spdlog::info("{}, tag={}, colorL={}, colorH={}, x={}, y={}, scale={}, rotate={}",
+        __PRETTY_FUNCTION__,
+        info->emblem_texture_tag()->data()[0],
+        info->emblem_color_l()->data()[0],
+        info->emblem_color_h()->data()[0],
+        info->emblem_x()->data()[0],
+        info->emblem_y()->data()[0],
+        info->emblem_scale()->data()[0],
+        info->emblem_rotate()->data()[0]);
 
-    auto arraySize = *(unsigned short *)((char *)handle + 0x8);
-    if (arraySize == 0) {
-        spdlog::error("{}, invalid var size {}.{}: {}", __PRETTY_FUNCTION__, catName, varName, arraySize);
-        return;
-    }
+    EmblemInfo emblem_info;
+    memcpy(emblem_info.emblemTextureTag, info->emblem_texture_tag()->data(), sizeof(uint32_t)*4);
+    memcpy(emblem_info.emblemColorL, info->emblem_color_l()->data(), sizeof(uint32_t)*4);
+    memcpy(emblem_info.emblemColorH, info->emblem_color_h()->data(), sizeof(uint32_t)*4);
+    memcpy(emblem_info.emblemX, info->emblem_x()->data(), sizeof(uint8_t)*4);
+    memcpy(emblem_info.emblemY, info->emblem_y()->data(), sizeof(uint8_t)*4);
+    memcpy(emblem_info.emblemScale, info->emblem_scale()->data(), sizeof(uint8_t)*4);
+    memcpy(emblem_info.emblemRotate, info->emblem_rotate()->data(), sizeof(uint8_t)*4);
 
-    spdlog::info("{}: {}, type {}, size {}", __PRETTY_FUNCTION__, varName, varType, arraySize);
-
-    auto elementSize = 1;
-
-    switch (varType) {
-    case TYPE_INT32:
-        elementSize = 4;
-        break;
-    case TYPE_UINT32:
-        elementSize = 4;
-        break;
-    case TYPE_FLOAT:
-        elementSize = 4;
-        break;
-    case TYPE_INT8:
-        elementSize = 1;
-        break;
-    case TYPE_UINT8:
-        elementSize = 1;
-        break;
-    case TYPE_INT16:
-        elementSize = 2;
-        break;
-    case TYPE_UINT16:
-        elementSize = 2;
-        break;
-    case TYPE_BOOL:
-        break;
-    default:
-        break;
-    }
-
-    std::vector<bool> bools;
-    std::vector<int32_t> int32s;
-    std::vector<uint32_t> uint32s;
-    std::vector<float> floats;
-    std::vector<int8_t> int8s;
-    std::vector<uint8_t> uint8s;
-    std::vector<int16_t> int16s;
-    std::vector<uint16_t> uint16s;
-
-    const auto dataStart = *(unsigned short *)((char *)handle + 0xA);
-    const auto offset = *(uint64_t *)handle;
-    BlockHeapFree(handle);
-    for (int i = 0; i < arraySize; i++) {
-        if (varType == TYPE_BOOL) {
-            auto res = (*(byte *)(((i + dataStart) >> 3) + offset) & 1 << ((byte)(i + dataStart) & 7)) != 0;
-            bools.push_back(res);
-
-            spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i, res);
-            continue;
-        }
-
-        auto value = offset + (dataStart + i) * elementSize;
-        switch (varType) {
-        case TYPE_INT32:
-            spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i, *(int32_t *)value);
-            int32s.push_back(*(int32_t *)value);
-            break;
-        case TYPE_UINT32: {
-            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(uint32_t *)value);
-            uint32s.push_back(*(uint32_t *)value);
-            break;
-        }
-        case TYPE_FLOAT:
-            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(float *)value);
-            floats.push_back(*(float *)value);
-            break;
-        case TYPE_INT8:
-            spdlog::info("{}, {} {}: {:d}", __PRETTY_FUNCTION__, varName, i, *(signed char *)value);
-            int8s.push_back(*(int8_t *)value);
-            break;
-        case TYPE_UINT8:
-            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(unsigned char *)value);
-            uint8s.push_back(*(uint8_t *)value);
-            break;
-        case TYPE_INT16:
-            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(short *)value);
-            int16s.push_back(*(int16_t *)value);
-            break;
-        case TYPE_UINT16:
-            spdlog::info("{}, {} {}: {}", __PRETTY_FUNCTION__, varName, i, *(unsigned short *)value);
-            uint16s.push_back(*(uint16_t *)value);
-            break;
-        case TYPE_BOOL:
-        default:
-            break;
-        }
-    }
+    Dynamite::CreateEmblem(emblem_info);
 }
 
 void DynamiteSyncImpl::SyncVar(const std::string &catName, const std::string &varName) {
@@ -760,14 +695,14 @@ bool DynamiteSyncImpl::SyncUint32Var(const DynamiteMessage::SyncVar *m, void *va
         return false;
     }
 
-    GetVar(m->category()->c_str(), m->name()->c_str());
+    Dynamite::GetSVar(m->category()->c_str(), m->name()->c_str());
     spdlog::info("{}, setting {}.{}", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
     for (size_t i = 0; i < values->size(); i++) {
         const auto val = values->Get(i);
         spdlog::info("{}, {}: {}", __PRETTY_FUNCTION__, i, val);
         ScriptDeclVarsImplSetVarValue(vars, varIndex, m->array_start() + i, 0, val);
     }
-    GetVar(m->category()->c_str(), m->name()->c_str());
+    Dynamite::GetSVar(m->category()->c_str(), m->name()->c_str());
 
     spdlog::info("{}, {}.{}: done", __PRETTY_FUNCTION__, m->name()->c_str(), m->category()->c_str());
     return true;
@@ -1093,6 +1028,9 @@ bool DynamiteSyncImpl::RecvRaw(void *buffer, int32_t size) {
         break;
     case DynamiteMessage::Message_RequestVar:
         HandleRequestVar(wrapper);
+        break;
+    case DynamiteMessage::Message_SendEmblem:
+        HandleSendEmblem(wrapper);
         break;
     default:
         spdlog::error("{}, unknown message type {}", __PRETTY_FUNCTION__, static_cast<uint32_t>(wrapper->msg_type()));
