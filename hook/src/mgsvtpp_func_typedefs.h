@@ -342,6 +342,11 @@ typedef bool(__thiscall TppUiEmblemImplEmblemEditorSystemImplCreateEmblemFunc)(
 
 typedef bool(__thiscall TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfoFunc)(void *EmblemEditorSystemImpl);
 
+typedef void(__thiscall FoxNtImplSessionImpl2DeleteMemberFunc)(void *SessionImpl2, void *Member);
+
+typedef void *(__thiscall FoxImplMessage2MessageBox2ImplSendMessageToSubscribersFunc)(
+    void *MessageBox2Impl, void *ErrorCode, uint32_t msgID, void *MessageArgs);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -505,4 +510,6 @@ extern FoxNioImplSteamUdpSocketImplRecvFunc *FoxNioImplSteamUdpSocketImplRecv;
 extern TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParametersFunc *TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters;
 extern TppUiEmblemImplEmblemEditorSystemImplCreateEmblemFunc *TppUiEmblemImplEmblemEditorSystemImplCreateEmblem;
 extern TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfoFunc *TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo;
+extern FoxNtImplSessionImpl2DeleteMemberFunc *FoxNtImplSessionImpl2DeleteMember;
+extern FoxImplMessage2MessageBox2ImplSendMessageToSubscribersFunc* FoxImplMessage2MessageBox2ImplSendMessageToSubscribers;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

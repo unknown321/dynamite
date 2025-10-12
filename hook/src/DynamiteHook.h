@@ -10,6 +10,8 @@
 
 #include <map>
 
+#define MESSAGE_DISCONNECT_FROM_HOST 0x190fd3bf
+
 namespace Dynamite {
     extern Config cfg;
     extern lua_State *luaState;
@@ -130,8 +132,10 @@ namespace Dynamite {
     int32_t FoxNioImplSteamUdpSocketImplSendHook(void *SteamUdpSocketImpl, void *param_1, int param_2, void *SocketInfo, void *Address);
     int32_t FoxNioImplSteamUdpSocketImplRecvHook(void *SteamUdpSocketImpl, void *buffer, int maxBufferSize, void *SocketInfo, void *Address);
     void *TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParametersHook(void *EmblemEditorSystemImpl, void *ErrorCode, void *EmblemTextureParameters,
-        uint32_t *emblemTextureTag, uint32_t *emblemColorL, uint32_t *emblemColorH, char *emblemX, char *emblemY, char *emblemScale, char *emblemRotate, unsigned char version,
-        bool param_10);
+        uint32_t *emblemTextureTag, uint32_t *emblemColorL, uint32_t *emblemColorH, char *emblemX, char *emblemY, char *emblemScale, char *emblemRotate,
+        unsigned char version, bool param_10);
+    void FoxNtImplSessionImpl2DeleteMemberHook(void *SessionImpl2, void *Member);
+    void *FoxImplMessage2MessageBox2ImplSendMessageToSubscribersHook(void *MessageBox2Impl, void *ErrorCode, uint32_t msgID, void *MessageArgs);
 
     int32_t blockStatus(void *block);
     int32_t blockStatus2(void *block);

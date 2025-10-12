@@ -1048,4 +1048,18 @@ namespace Dynamite {
             version,
             param_10);
     }
+
+    void FoxNtImplSessionImpl2DeleteMemberHook(void *SessionImpl2, void *Member) {
+        dynamiteSyncImpl.Stop();
+        FoxNtImplSessionImpl2DeleteMember(SessionImpl2, Member);
+    }
+
+    void *FoxImplMessage2MessageBox2ImplSendMessageToSubscribersHook(void *MessageBox2Impl, void *ErrorCode, uint32_t msgID, void *MessageArgs) {
+        if (msgID == MESSAGE_DISCONNECT_FROM_HOST) {
+            spdlog::info("{}, disconnect from host", __PRETTY_FUNCTION__);
+            dynamiteSyncImpl.Stop();
+        }
+
+        return FoxImplMessage2MessageBox2ImplSendMessageToSubscribers(MessageBox2Impl, ErrorCode, msgID, MessageArgs);
+    }
 }

@@ -183,5 +183,8 @@ namespace Dynamite {
             (TppUiEmblemImplEmblemEditorSystemImplCreateEmblemFunc *)addressSet["TppUiEmblemImplEmblemEditorSystemImplCreateEmblem"];
         TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo =
             (TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfoFunc *)addressSet["TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo"];
+        FoxNtImplSessionImpl2DeleteMember = (FoxNtImplSessionImpl2DeleteMemberFunc *)addressSet["FoxNtImplSessionImpl2DeleteMember"];
+        FoxImplMessage2MessageBox2ImplSendMessageToSubscribers =
+            (FoxImplMessage2MessageBox2ImplSendMessageToSubscribersFunc *)addressSet["FoxImplMessage2MessageBox2ImplSendMessageToSubscribers"];
     }
 }

@@ -45,6 +45,8 @@ namespace Dynamite {
         {"TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters", 0x14094c300},
         {"TppUiEmblemImplEmblemEditorSystemImplCreateEmblem", 0x146073350},
         {"TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo", 0x14607be80},
+        {"FoxNtImplSessionImpl2DeleteMember", 0x143e5c940},
+        {"FoxImplMessage2MessageBox2ImplSendMessageToSubscribers", 0x1435d1f00},
 
         {"HashMapFindKey", 0x142ed7be0},
         {"GetQuarkSystemTable", 0x140bff3f0},

@@ -804,6 +804,12 @@ namespace Dynamite {
         CREATE_HOOK(TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters)
         ENABLEHOOK(TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParameters)
 
+        CREATE_HOOK(FoxNtImplSessionImpl2DeleteMember)
+        ENABLEHOOK(FoxNtImplSessionImpl2DeleteMember)
+
+        CREATE_HOOK(FoxImplMessage2MessageBox2ImplSendMessageToSubscribers)
+        ENABLEHOOK(FoxImplMessage2MessageBox2ImplSendMessageToSubscribers)
+
         // clang-format off
         {
             // these must go together to keep track of bytes written
