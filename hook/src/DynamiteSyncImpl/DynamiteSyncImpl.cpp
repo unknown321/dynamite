@@ -47,6 +47,10 @@ void DynamiteSyncImpl::Stop() {
 
     packetNumber = 0;
     packetSeen = 0;
+
+    steamUDPSocket = nullptr;
+    steamUDPAddress = nullptr;
+    steamUDPSocketInfo = nullptr;
 }
 
 void DynamiteSyncImpl::RemoveGameSocket() {
