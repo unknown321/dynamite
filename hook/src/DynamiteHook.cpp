@@ -973,11 +973,9 @@ namespace Dynamite {
     }
 
     int32_t FoxNioImplSteamUdpSocketImplSendHook(void *SteamUdpSocketImpl, void *param_1, int param_2, void *SocketInfo, void *Address) {
-        if (dynamiteSyncImpl.steamUDPAddress == nullptr) {
-            dynamiteSyncImpl.steamUDPAddress = Address;
-            dynamiteSyncImpl.steamUDPSocketInfo = SocketInfo;
-            dynamiteSyncImpl.steamUDPSocket = SteamUdpSocketImpl;
-        }
+        dynamiteSyncImpl.steamUDPAddress = Address;
+        dynamiteSyncImpl.steamUDPSocketInfo = SocketInfo;
+        dynamiteSyncImpl.steamUDPSocket = SteamUdpSocketImpl;
 
         auto dumpSize = param_2;
         if (dumpSize > 50) {
