@@ -481,7 +481,7 @@ namespace Dynamite {
 
     void SoldierRouteAiImplPreUpdateHook(void *thisPtr, uint32_t param_1, void *AiNodeUpdateContext) {
         auto qq = *((char *)AiNodeUpdateContext + 0x26);
-        byte v = (byte)qq;
+        auto v = (unsigned char)qq;
         spdlog::info("{}, {} {:x} {:d}", __PRETTY_FUNCTION__, AiNodeUpdateContext, qq, v);
         SoldierRouteAiImplPreUpdate(thisPtr, param_1, AiNodeUpdateContext);
     }
@@ -864,7 +864,7 @@ namespace Dynamite {
             return;
         }
 
-        auto memberIndex = *(byte *)param_3;
+        auto memberIndex = *(unsigned char *)param_3;
         spdlog::info("{}, member index {}", __PRETTY_FUNCTION__, memberIndex);
 
         scriptDeclVarsImpl = ScriptDeclVarsImpl;
@@ -874,7 +874,7 @@ namespace Dynamite {
         auto offset = 0;
         for (int i = 0; i < varCount; i++) {
             const auto varTable = *(uint64_t *)((char *)ScriptDeclVarsImpl + -0x20);
-            const auto flag = *(byte *)(varTable + offset + 0x10);
+            const auto flag = *(unsigned char *)(varTable + offset + 0x10);
             if ((flag & 0x10) != 0) {
                 syncCount++;
                 //                auto handle = TppGmImplScriptDeclVarsImplGetVarHandleWithVarIndex(ScriptDeclVarsImpl, i);
@@ -943,7 +943,7 @@ namespace Dynamite {
     }
 
     void FoxNtImplTransceiverManagerImplPeerAddToSendQueueHook(void *Peer, void *PeerCommon) {
-        auto bp = (*(byte *)PeerCommon & 2) == 0;
+        auto bp = (*(unsigned char *)PeerCommon & 2) == 0;
         if (bp) {
             spdlog::info("{}, peer {}, peer common {}, bp {}", __PRETTY_FUNCTION__, Peer, PeerCommon, bp);
         }

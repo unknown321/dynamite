@@ -377,7 +377,7 @@ void DynamiteSyncImpl::SyncVar(const std::string &catName, const std::string &va
         return;
     }
 
-    auto varType = *(byte *)((char *)handle + 0xC) & 7;
+    auto varType = *(unsigned char*)((char *)handle + 0xC) & 7;
     if (varType > TYPE_MAX) {
         spdlog::error("{}, invalid var type {}.{} {}", __PRETTY_FUNCTION__, catName, varName, varType);
         return;
@@ -450,7 +450,7 @@ void DynamiteSyncImpl::SyncVar(const std::string &catName, const std::string &va
     BlockHeapFree(handle);
     for (int i = 0; i < arraySize; i++) {
         if (varType == TYPE_BOOL) {
-            auto res = (*(byte *)(((i + dataStart) >> 3) + offset) & 1 << ((byte)(i + dataStart) & 7)) != 0;
+            auto res = (*(unsigned char*)(((i + dataStart) >> 3) + offset) & 1 << ((unsigned char)(i + dataStart) & 7)) != 0;
             bools.push_back(res);
 
             spdlog::info("{}, {}, {}: {}", __PRETTY_FUNCTION__, varName, i, res);
@@ -1051,9 +1051,9 @@ bool DynamiteSyncImpl::RecvRaw(void *buffer, int32_t size) {
 
     auto buflen = size - sizeof(DYNAMITE_RAW_HEADER);
     memset(this->updateBuffer, 0, sizeof(this->updateBuffer));
-    memcpy(this->updateBuffer, (char *)buffer + sizeof(DYNAMITE_RAW_HEADER),  buflen);
+    memcpy(this->updateBuffer, (char *)buffer + sizeof(DYNAMITE_RAW_HEADER), buflen);
 
-    auto verifier = flatbuffers::Verifier((uint8_t*)this->updateBuffer, sizeof(this->updateBuffer));
+    auto verifier = flatbuffers::Verifier((uint8_t *)this->updateBuffer, sizeof(this->updateBuffer));
     auto ok = DynamiteMessage::VerifyMessageWrapperBuffer(verifier);
     if (!ok) {
         spdlog::error("{}, message wrapper verification failed", __PRETTY_FUNCTION__);
