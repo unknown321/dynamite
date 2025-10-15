@@ -327,22 +327,25 @@ func replaceFiles(outdir string) error {
 			}
 		}
 
+		toDelete := []string{}
+		copy(toDelete, f.Delete)
+
 		// TODO less loops?
 	Start:
 		for i, e := range sourceFpk.Entries {
-			for k, d := range f.Delete {
+			for k, d := range toDelete {
 				if e.FilePath.Data == d {
 					sourceFpk.Entries = slices.Delete(sourceFpk.Entries, i, i+1)
-					f.Delete = slices.Delete(f.Delete, k, k+1)
+					toDelete = slices.Delete(toDelete, k, k+1)
 					slog.Info("deleted", "name", d, "fpk", f.Source.NameInQar)
 					goto Start
 				}
 			}
 		}
 
-		if len(f.Delete) != 0 {
+		if len(toDelete) != 0 {
 			ff := ""
-			for _, v := range f.Delete {
+			for _, v := range toDelete {
 				ff += v + ","
 			}
 			ff = strings.TrimSuffix(ff, ",")
