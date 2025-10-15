@@ -99,7 +99,10 @@ func GetSteamID(steamID string) (uint64, error) {
 	var err error
 	if strings.HasPrefix(steamID, "https://steamcommunity.com/id/") {
 		var resp *http.Response
-		resp, err = http.DefaultClient.Get(steamID + "?xml=1")
+		client := http.Client{
+			Timeout: time.Second * 5,
+		}
+		resp, err = client.Get(steamID + "?xml=1")
 		if err != nil {
 			return 0, err
 		}
@@ -148,7 +151,10 @@ func GetSteamID(steamID string) (uint64, error) {
 func GetSteamName(steam3ID uint64) (string, error) {
 	result := fmt.Sprintf("unresolved (%d)", steam3ID)
 	u := fmt.Sprintf("https://steamcommunity.com/profiles/[U:1:%d]?xml=1", steam3ID)
-	resp, err := http.DefaultClient.Get(u)
+	client := http.Client{
+		Timeout: time.Second * 5,
+	}
+	resp, err := client.Get(u)
 	if err != nil {
 		return result, err
 	}
