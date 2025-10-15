@@ -170,11 +170,12 @@ func Run() {
 			if err != nil {
 				slog.Warn("healthcheck", "error", err.Error())
 			}
+
 			if resp == nil {
 				continue
 			}
-			if resp.StatusCode == http.StatusOK {
 
+			if resp.StatusCode == http.StatusOK {
 				slog.Info(fmt.Sprintf("Opening %s in browser", u))
 				if err = util.OpenURL(u); err != nil {
 					slog.Error("Cannot open Web UI in browser", "error", err.Error())
