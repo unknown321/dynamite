@@ -3,19 +3,23 @@
 
 #include "dynamite.h"
 
+#include <spdlog/spdlog.h>
+
 HMODULE g_thisModule;
 extern HMODULE origDll; // dinputproxy
-Dynamite::Dynamite *g_hook = nullptr;
+
+#include "DynamiteHook.h"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
     if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
         DisableThreadLibraryCalls(hModule);
         g_thisModule = hModule;
-        g_hook = new Dynamite::Dynamite;
+        Dynamite::g_hook = new Dynamite::Dynamite;
 
     } else if (ul_reason_for_call == DLL_PROCESS_DETACH) {
         if (origDll) {
-            delete g_hook;
+            delete Dynamite::g_hook;
+            spdlog::shutdown();
             FreeLibrary(origDll);
         }
     }

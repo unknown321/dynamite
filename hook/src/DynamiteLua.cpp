@@ -7,43 +7,43 @@
 #include "spdlog/spdlog.h"
 
 namespace Dynamite {
-
-    bool hostSessionCreated = false;
-
     // TppMain.lua, called automatically on mission start
-    __cdecl int l_CreateHostSession(lua_State *L) {
-        spdlog::info(__FUNCTION__);
-        if (!cfg.Host) {
-            spdlog::info("{}, client, refusing to create host session", __FUNCTION__);
+    int l_CreateHostSession(lua_State *L) {
+        spdlog::info(__PRETTY_FUNCTION__);
+        if (!g_hook->cfg.Host) {
+            spdlog::info("{}, client, refusing to create host session", __PRETTY_FUNCTION__);
+
             return 0;
         }
 
-        if (fobTargetCtor == nullptr) {
-            spdlog::info("{}, fob target ctor is null", __FUNCTION__);
+        if (hookState.fobTargetCtor == nullptr) {
+            spdlog::info("{}, fob target ctor is null", __PRETTY_FUNCTION__);
+
             return 0;
         }
 
-        if (hostSessionCreated) {
-            lua_getglobal(luaState, "TppUiCommand");
-            lua_getfield(luaState, -1, "AnnounceLogView");
-            auto text = "Created host session\0";
-            lua_pushstring(luaState, text);
-            lua_pcall(luaState, 1, 0, 0);
+        if (g_hook->dynamiteCore.GetHostSessionCreated()) {
+            lua_getglobal(L, "TppUiCommand");
+            lua_getfield(L, -1, "AnnounceLogView");
+            const auto text = "Created host session\0";
+            lua_pushstring(L, text);
+            lua_pcall(L, 1, 0, 0);
 
-            spdlog::info("{}, host session already created", __FUNCTION__);
+            spdlog::info("{}, host session already created", __PRETTY_FUNCTION__);
+
             return 0;
         }
 
-        auto res = CreateHostSession((FobTarget *)fobTargetCtor);
-        spdlog::info("{}, host session res: {}", __FUNCTION__, res);
+        auto res = CreateHostSession((FobTarget *)hookState.fobTargetCtor);
+        spdlog::info("{}, host session res: {}", __PRETTY_FUNCTION__, res);
 
-        hostSessionCreated = res > 0;
+        g_hook->dynamiteCore.SetHostSessionCreated(res > 0);
 
-        lua_getglobal(luaState, "TppUiCommand");
-        lua_getfield(luaState, -1, "AnnounceLogView");
-        auto text = "Created host session\0";
-        lua_pushstring(luaState, text);
-        lua_pcall(luaState, 1, 0, 0);
+        lua_getglobal(L, "TppUiCommand");
+        lua_getfield(L, -1, "AnnounceLogView");
+        const auto text = "Created host session\0";
+        lua_pushstring(L, text);
+        lua_pcall(L, 1, 0, 0);
 
         return 0;
     }
@@ -51,14 +51,14 @@ namespace Dynamite {
     // allow client to create session again
     // called manually
     int l_ResetClientSessionStateWithNotification(lua_State *L) {
-        spdlog::info(__FUNCTION__);
+        spdlog::info(__PRETTY_FUNCTION__);
         l_ResetClientSessionState(L);
 
-        lua_getglobal(luaState, "TppUiCommand");
-        lua_getfield(luaState, -1, "AnnounceLogView");
-        auto text = "Session status reset\0";
-        lua_pushstring(luaState, text);
-        lua_pcall(luaState, 1, 0, 0);
+        lua_getglobal(L, "TppUiCommand");
+        lua_getfield(L, -1, "AnnounceLogView");
+        const auto text = "Session status reset\0";
+        lua_pushstring(L, text);
+        lua_pcall(L, 1, 0, 0);
 
         return 0;
     }
@@ -66,29 +66,29 @@ namespace Dynamite {
     // allow client to create session again
     // called on mission end
     int l_ResetClientSessionState(lua_State *L) {
-        spdlog::info(__FUNCTION__);
-        sessionCreated = false;
-        sessionConnected = false;
-        offensePlayerID = 0;
+        spdlog::info(__PRETTY_FUNCTION__);
 
-        dynamiteSyncImpl.Stop();
+        g_hook->dynamiteCore.ResetState();
+        g_hook->dynamiteSyncImpl.Stop();
 
         return 0;
     }
 
     // called manually by client
     int l_CreateClientSession(lua_State *L) {
-        spdlog::info(__FUNCTION__);
-        if (cfg.Host) {
-            auto text = "Attempting client connection as a host, you are not supposed to do that!\0";
+        spdlog::info(__PRETTY_FUNCTION__);
+        if (g_hook->cfg.Host) {
+            const auto text = "Attempting client connection as a host, you are not supposed to do that!\0";
             spdlog::warn(text);
             lua_pushstring(L, text);
             l_AnnounceLogView(L);
+
             return 1;
         }
 
-        if (sessionCreated) {
-            spdlog::info("{}, session already created", __FUNCTION__);
+        if (g_hook->dynamiteCore.GetSessionCreated()) {
+            spdlog::info("{}, session already created", __PRETTY_FUNCTION__);
+
             return 0;
         }
 
@@ -101,14 +101,14 @@ namespace Dynamite {
         // it works only because client clears that memory by disconnecting on mission end
         // see issue_7.md for details
 
-        auto ff = (FobTarget *)BlockHeapAlloc(sizeof(FobTarget), 8, MEMTAG_NULL);
-        auto ci = (SessionConnectInfo *)BlockHeapAlloc(sizeof(SessionConnectInfo), 8, MEMTAG_NULL);
+        const auto ff = (FobTarget *)BlockHeapAlloc(sizeof(FobTarget), 8, MEMTAG_NULL);
+        const auto connectInfo = (SessionConnectInfo *)BlockHeapAlloc(sizeof(SessionConnectInfo), 8, MEMTAG_NULL);
         char test = 3;
-        ff->sessionConnectInfo = ci;
+        ff->sessionConnectInfo = connectInfo;
         ff->sessionConnectInfo->targetIPCString = &test;
-        auto res = CreateClientSession(ff, ci);
+        const auto res = CreateClientSession(ff, connectInfo);
         BlockHeapFree(ff);
-        BlockHeapFree(ci);
+        BlockHeapFree(connectInfo);
 
         auto text = "Establishing co-op connection...\0";
         spdlog::info(text);
@@ -116,7 +116,8 @@ namespace Dynamite {
         if (res == 1) {
             lua_pushstring(L, text);
             l_AnnounceLogView(L);
-            sessionCreated = res;
+            g_hook->dynamiteCore.SetSessionCreated(res);
+
             return 1;
         }
 
@@ -126,137 +127,149 @@ namespace Dynamite {
         lua_pushstring(L, text);
         l_AnnounceLogView(L);
 
-        sessionCreated = res;
+        g_hook->dynamiteCore.SetSessionCreated(res);
 
         return 1;
     }
 
     // *_sequence.lua, called on mission start
     int l_StartNearestEnemyThread(lua_State *L) {
-        StartNearestEnemyThread();
+        spdlog::info(__PRETTY_FUNCTION__);
+        g_hook->dynamiteCore.StartNearestEnemyThread();
+
         return 0;
     }
 
     // TppMain, TppMission, called on mission end
     int l_StopNearestEnemyThread(lua_State *L) {
-        spdlog::info(__FUNCTION__);
-        if (nearestEnemyThreadRunning) {
-            stopNearestEnemyThread = true;
-        }
+        spdlog::info(__PRETTY_FUNCTION__);
+        g_hook->dynamiteCore.StopNearestEnemyThread();
+
         return 0;
     }
 
     // not used in lua, but exposed just in case
     int l_IsNearestEnemyThreadRunning(lua_State *L) {
-        lua_pushboolean(L, nearestEnemyThreadRunning);
+        lua_pushboolean(L, g_hook->dynamiteCore.IsNearestEnemyThreadRunning());
+
         return 1;
     }
 
     // not used in lua, but exposed just in case
     int l_GetOffensePlayerIndex(lua_State *L) {
-        lua_pushinteger(L, offensePlayerID);
+        lua_pushinteger(L, g_hook->dynamiteCore.GetOffensePlayerID());
+
         return 1;
     }
 
     // not used in lua, but exposed just in case
     int l_GetDefensePlayerIndex(lua_State *L) {
-        lua_pushinteger(L, defensePlayerID);
+        lua_pushinteger(L, g_hook->dynamiteCore.GetDefensePlayerID());
+
         return 1;
     }
 
     // not used in lua, but exposed just in case
     int l_GetSoldierLifeStatus(lua_State *L) {
-        int oid = luaL_checkinteger(L, 1);
-        auto res = GetSoldierLifeStatus(oid);
+        const int oid = luaL_checkinteger(L, 1);
+        const auto res = g_hook->dynamiteCore.GetSoldierLifeStatus(oid);
         lua_pushinteger(L, res);
+
         return 1;
     }
 
     // called in TppMain to set IS_ONLINE flag
     int l_IsHost(lua_State *L) {
-        lua_pushboolean(L, cfg.Host);
+        lua_pushboolean(L, g_hook->cfg.Host);
+
         return 1;
     }
 
     int l_IsClient(lua_State *L) {
-        lua_pushboolean(L, !cfg.Host);
+        lua_pushboolean(L, !g_hook->cfg.Host);
+
         return 1;
     }
 
     int l_AddFixedMarker(lua_State *L) {
-        auto x = luaL_checknumber(L, 1);
-        auto y = luaL_checknumber(L, 2);
-        auto z = luaL_checknumber(L, 3);
+        const auto x = luaL_checknumber(L, 1);
+        const auto y = luaL_checknumber(L, 2);
+        const auto z = luaL_checknumber(L, 3);
         auto vv = Vector3{
             .x = static_cast<float>(x),
             .y = static_cast<float>(y),
             .z = static_cast<float>(z),
         };
 
-        Marker2SystemImplPlacedUserMarkerFixed(MarkerSystemImpl, &vv);
+        Marker2SystemImplPlacedUserMarkerFixed(hookState.markerSystemImpl, &vv);
 
         return 0;
     }
 
     int l_RemoveMarker(lua_State *L) {
-        auto i = luaL_checkinteger(L, 1);
-        Marker2SystemImplRemovedUserMarker(MarkerSystemImpl, i);
+        const auto i = luaL_checkinteger(L, 1);
+        Marker2SystemImplRemovedUserMarker(hookState.markerSystemImpl, i);
+
         return 0;
     }
 
     int l_RemoveAllUserMarkers(lua_State *L) {
         spdlog::info("{}, removing all user markers", __PRETTY_FUNCTION__);
-        Marker2SystemImplRemovedAllUserMarker(MarkerSystemImpl);
+        Marker2SystemImplRemovedAllUserMarker(hookState.markerSystemImpl);
+
         return 0;
     }
 
     int l_IgnoreMarkerRequests(lua_State *L) {
         spdlog::info("{}, ignoring marker requests", __PRETTY_FUNCTION__);
-        ignoreMarkerRequests = true;
+        hookState.ignoreMarkerRequests = true;
+
         return 0;
     }
 
     int l_AcceptMarkerRequests(lua_State *L) {
         spdlog::info("{}, accepting marker requests", __PRETTY_FUNCTION__);
-        ignoreMarkerRequests = false;
+        hookState.ignoreMarkerRequests = false;
+
         return 0;
     }
 
     int l_GetPlayerPosition(lua_State *L) {
         auto i = luaL_checkinteger(L, 1);
-        auto res = GetPlayerPosition(i);
+        auto res = g_hook->dynamiteCore.GetPlayerPosition(i);
         auto rr = Vector4{
             .x = res.x,
             .y = res.y,
             .z = res.z,
             .w = 0,
         };
-        spdlog::info("{}: {} {} {}", i, res.x, res.y, res.z);
+        spdlog::info("{}, {}: {} {} {}", __PRETTY_FUNCTION__, i, res.x, res.y, res.z);
         FoxLuaPushVector3(L, &rr);
+
         return 1;
     }
 
     int l_WarpToPartner(lua_State *L) {
-        spdlog::info("{}", __FUNCTION__);
-        auto c = GetMemberCount();
-        if (c < 2) {
-            spdlog::info("{}, no player to warp to", __FUNCTION__);
+        spdlog::info("{}", __PRETTY_FUNCTION__);
+        const auto count = g_hook->dynamiteCore.GetMemberCount();
+        if (count < 2) {
+            spdlog::info("{}, no player to warp to ({} players)", __PRETTY_FUNCTION__, count);
 
-            lua_getglobal(luaState, "TppUiCommand");
-            lua_getfield(luaState, -1, "AnnounceLogView");
-            auto text = "No player to warp to\0";
-            lua_pushstring(luaState, text);
-            lua_pcall(luaState, 1, 0, 0);
+            lua_getglobal(L, "TppUiCommand");
+            lua_getfield(L, -1, "AnnounceLogView");
+            const auto text = "No player to warp to\0";
+            lua_pushstring(L, text);
+            lua_pcall(L, 1, 0, 0);
 
             return 0;
         }
 
         uint16_t partnerID = 0;
-        if (cfg.Host) {
+        if (g_hook->cfg.Host) {
             partnerID = 1;
         }
 
-        auto partnerPos = GetPlayerPosition(partnerID);
+        auto partnerPos = g_hook->dynamiteCore.GetPlayerPosition(partnerID);
 
         Quat rot = {
             .x = 0,
@@ -266,19 +279,19 @@ namespace Dynamite {
         };
 
         auto playerID = 1;
-        if (cfg.Host) {
+        if (g_hook->cfg.Host) {
             playerID = 0;
         }
 
         auto gameObject = FindGameObjectWithID(playerID);
         if (gameObject == nullptr) {
-            spdlog::info("{}, cannot find game object to warp", __FUNCTION__);
+            spdlog::info("{}, cannot find game object to warp", __PRETTY_FUNCTION__);
             return 0;
         }
 
         gameObject = (char *)gameObject + 0x20;
 
-        spdlog::info("player {} warping to partner {}, position {}, {}, {}", playerID, partnerID, partnerPos.x, partnerPos.y, partnerPos.z);
+        spdlog::info("{}, player {} warping to partner {}, position {}, {}, {}", __PRETTY_FUNCTION__, playerID, partnerID, partnerPos.x, partnerPos.y, partnerPos.z);
 
         Player2GameObjectImplWarp(gameObject, playerID, &partnerPos, &rot, true);
 
@@ -286,7 +299,7 @@ namespace Dynamite {
     }
 
     int l_IsSynchronized(lua_State *L) {
-        auto res = dynamiteSyncImpl.IsSynchronized();
+        const auto res = g_hook->dynamiteSyncImpl.IsSynchronized();
         lua_pushboolean(L, res);
         return 1;
     }
@@ -295,32 +308,32 @@ namespace Dynamite {
         size_t len;
         const auto name = luaL_checklstring(L, 2, &len);
         if (len < 1) {
-            spdlog::error("{}, name is empty", __FUNCTION__);
+            spdlog::error("{}, name is empty", __PRETTY_FUNCTION__);
             return 0;
         }
 
         const auto category = luaL_checklstring(L, 1, &len);
         if (len < 1) {
-            spdlog::error("{}, category is empty", __FUNCTION__);
+            spdlog::error("{}, category is empty", __PRETTY_FUNCTION__);
             return 0;
         }
 
-        dynamiteSyncImpl.RequestVar(category, name);
+        g_hook->dynamiteSyncImpl.RequestVar(category, name);
         return 0;
     }
 
     int l_Ping(lua_State *L) {
-        dynamiteSyncImpl.Ping();
+        g_hook->dynamiteSyncImpl.Ping();
         return 0;
     }
 
-    int l_GetCamoRate(lua_State *L) {
-        // wrong!
-        // auto lvar8 = *(uint32_t *)((char *)camouflageControllerImpl + 0x38);
-        // auto res = *(float *)lvar8;
-        // lua_pushnumber(L, res);
-        return 0;
-    }
+    // int l_GetCamoRate(lua_State *L) {
+    //     // wrong!
+    //     // auto lvar8 = *(uint32_t *)((char *)camouflageControllerImpl + 0x38);
+    //     // auto res = *(float *)lvar8;
+    //     // lua_pushnumber(L, res);
+    //     return 0;
+    // }
 
     void CreateLibs(lua_State *L) {
         luaL_Reg libFuncs[] = {
@@ -346,7 +359,6 @@ namespace Dynamite {
             {"IsSynchronized", l_IsSynchronized},
             {"RequestVar", l_RequestVar},
             {"Ping", l_Ping},
-            // {"GetCamoRate", l_GetCamoRate},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);

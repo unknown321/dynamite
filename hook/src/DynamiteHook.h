@@ -1,6 +1,7 @@
 #ifndef HOOK_DYNAMITEHOOK_H
 #define HOOK_DYNAMITEHOOK_H
 
+#include "BlockInfo.h"
 #include "Config.h"
 #include "DynamiteSyncImpl/DynamiteSyncImpl.h"
 #include "Tpp/PlayerDamage.h"
@@ -8,28 +9,53 @@
 #include "lua/lua.h"
 #include "windows.h"
 
+#include "dynamite.h"
+
 #include <map>
 
 #define MESSAGE_DISCONNECT_FROM_HOST 0x190fd3bf
+#define ScriptDeclVarsGameSocketNumber 6
+
+// various pointers that are hard to acquire natively
+// also some temp vars used in hooks
+struct HookState {
+    lua_State *luaState = nullptr;
+
+    /*
+    If you are loading a mission from a checkpoint with already placed marker, game will attempt to restore
+    that marker tpp::ui::menu::UiDepend::ActUserMarkerSaveLoad function (not lua).
+    Combined with co-op hacks, marker restoration will result in a hang.
+    Markers are accepted again at the end of TppMain.OnMissionCanStart.
+    Removing all markers using RemovedAllUserMarker doesn't help for some reason, so this is a hack.
+    */
+    bool ignoreMarkerRequests = false;
+    void *fobTargetCtor = nullptr;
+    bool blockHeapAllocLoginUtilityCalled = false;
+
+    bool recordBinWrites = false;
+    uint32_t varsTotalSize = 0;
+    void *camouflageControllerImpl = nullptr;
+    void *damageControllerImpl = nullptr;
+    void *markerSystemImpl = nullptr;
+    void *equipHudSystemImpl = nullptr;
+    void *sightManagerImpl = nullptr;
+
+    std::map<void *, BlockInfo> processCounter{};
+    std::map<void *, std::string> blockNames{};
+    std::string latestGeneratedName;
+
+    std::map<uint64_t, std::string> quarkHandles;
+};
 
 namespace Dynamite {
-    extern Config cfg;
-    extern lua_State *luaState;
-    extern std::map<uint32_t, std::string> messageDict;
-    extern std::map<uint64_t, std::string> pathDict;
-    extern std::map<uint64_t, std::string> quarkHandles;
-    extern bool sessionConnected;
-    extern void *DamageControllerImpl;
-    extern void *MarkerSystemImpl;
-    extern void *SightManagerImpl;
-    extern void *EquipHudSystemImpl;
-    extern void *scriptDeclVarsImpl;
-    extern bool ignoreMarkerRequests;
-    extern unsigned int offensePlayerID;
-    extern unsigned int defensePlayerID;
-    extern bool hostSessionCreated;
-    extern void CreateLibs(lua_State *L);
-    extern DynamiteSyncImpl dynamiteSyncImpl;
+    inline Dynamite *g_hook = nullptr;
+    inline HookState hookState{};
+
+    // // used for debugging, see docs/issue_7.md
+    inline int32_t blockStatus(void *block) { return *(int32_t *)((char *)block + 0x80); }
+
+    // used for debugging, see docs/issue_7.md
+    inline int32_t blockStatus2(void *block) { return *(int32_t *)((char *)block + 0x84); }
 
     void __fastcall luaL_openlibsHook(lua_State *L);
     bool IsDefenseTeamByOnlineFobLocalHook();
@@ -62,8 +88,8 @@ namespace Dynamite {
     int32_t *FoxBlockActivateHook(void *Block, int32_t *param_2);
     int32_t *FoxBlockDeactivateHook(void *Block, int32_t *param_2);
     int *FoxBlockLoadHook(void *thisPtr, int *errorCode, uint64_t *pathID, uint32_t count);
-    void *(BlockMemoryAllocTailHook)(void *memBlock, uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
-    int64_t(__fastcall CreateHostSessionHook)(FobTarget *param);
+    void *BlockMemoryAllocTailHook(void *memBlock, uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
+    int64_t CreateHostSessionHook(FobTarget *param);
     FobTarget *FobTargetCtorHook(FobTarget *p);
     void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag);
     void *CloseSessionHook();
@@ -136,9 +162,9 @@ namespace Dynamite {
         unsigned char version, bool param_10);
     void FoxNtImplSessionImpl2DeleteMemberHook(void *SessionImpl2, void *Member);
     void *FoxImplMessage2MessageBox2ImplSendMessageToSubscribersHook(void *MessageBox2Impl, void *ErrorCode, uint32_t msgID, void *MessageArgs);
-
-    int32_t blockStatus(void *block);
-    int32_t blockStatus2(void *block);
+    bool TppUiEmblemImplEmblemEditorSystemImplCreateEmblemHook(
+        void *EmblemEditorSystemImpl, uint64_t textureName, uint64_t textureNameSmall, void *EmblemTextureParameters, uint32_t maybe_sizes);
+    void TppGkTppGameKitModuleEndHook(void *TppGameKitModule);
 }
 
 #endif // HOOK_DYNAMITEHOOK_H

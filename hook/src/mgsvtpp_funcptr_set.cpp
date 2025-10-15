@@ -1,8 +1,8 @@
-#include "mgsvtpp_funcptr_set.h"
 #include "mgsvtpp_func_typedefs.h"
+#include "dynamite.h"
 
 namespace Dynamite {
-    void SetFuncPtrs() {
+    void Dynamite::SetFuncPtrs() {
         luaI_openlib = (luaI_openlibFunc *)addressSet["luaI_openlib"];
         luaL_openlibs = (luaL_openlibsFunc *)addressSet["luaL_openlibs"];
 
@@ -186,5 +186,15 @@ namespace Dynamite {
         FoxNtImplSessionImpl2DeleteMember = (FoxNtImplSessionImpl2DeleteMemberFunc *)addressSet["FoxNtImplSessionImpl2DeleteMember"];
         FoxImplMessage2MessageBox2ImplSendMessageToSubscribers =
             (FoxImplMessage2MessageBox2ImplSendMessageToSubscribersFunc *)addressSet["FoxImplMessage2MessageBox2ImplSendMessageToSubscribers"];
+        TppUiEmblemImplEmblemEditorSystemImplDeleteTexture =
+            (TppUiEmblemImplEmblemEditorSystemImplDeleteTextureFunc *)addressSet["TppUiEmblemImplEmblemEditorSystemImplDeleteTexture"];
+        TppUiEmblemImplEmblemEditorSystemImplUnloadEmblemTextureInfo =
+            (TppUiEmblemImplEmblemEditorSystemImplUnloadEmblemTextureInfoFunc *)addressSet["TppUiEmblemImplEmblemEditorSystemImplUnloadEmblemTextureInfo"];
+        TppGkTppGameKitModuleEnd = (TppGkTppGameKitModuleEndFunc *)addressSet["TppGkTppGameKitModuleEnd"];
+        TppUiEmblemImplEmblemEditorSystemImplDeleteBlender =
+            (TppUiEmblemImplEmblemEditorSystemImplDeleteBlenderFunc *)addressSet["TppUiEmblemImplEmblemEditorSystemImplDeleteBlender"];
+        TppGkEmblemManagerCreateBlender = (TppGkEmblemManagerCreateBlenderFunc *)addressSet["TppGkEmblemManagerCreateBlender"];
+        TppUiEmblemImplEmblemEditorSystemImplIsReady =
+            (TppUiEmblemImplEmblemEditorSystemImplIsReadyFunc *)addressSet["TppUiEmblemImplEmblemEditorSystemImplIsReady"];
     }
 }

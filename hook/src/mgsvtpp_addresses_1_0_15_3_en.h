@@ -47,6 +47,12 @@ namespace Dynamite {
         {"TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo", 0x14607be80},
         {"FoxNtImplSessionImpl2DeleteMember", 0x143e5c940},
         {"FoxImplMessage2MessageBox2ImplSendMessageToSubscribers", 0x1435d1f00},
+        {"TppUiEmblemImplEmblemEditorSystemImplDeleteTexture", 0x1460741f0},
+        {"TppUiEmblemImplEmblemEditorSystemImplUnloadEmblemTextureInfo", 0x14607e250},
+        {"TppGkTppGameKitModuleEnd", 0x144d18950},
+        {"TppUiEmblemImplEmblemEditorSystemImplDeleteBlender", 0x146074060},
+        {"TppGkEmblemManagerCreateBlender", 0x144d1e170},
+        {"TppUiEmblemImplEmblemEditorSystemImplIsReady", 0x14607bd70},
 
         {"HashMapFindKey", 0x142ed7be0},
         {"GetQuarkSystemTable", 0x140bff3f0},

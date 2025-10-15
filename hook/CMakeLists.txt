@@ -28,7 +28,7 @@ FetchContent_MakeAvailable(mINI)
 FetchContent_Declare(
         spdlog
         GIT_REPOSITORY https://github.com/gabime/spdlog.git
-        GIT_TAG 6fa36017cfd5731d617e1a934f0e5ea9c4445b13
+        GIT_TAG 486b55554f11c9cccc913e11a87085b2a91f706f
 )
 FetchContent_MakeAvailable(spdlog)
 
@@ -77,6 +77,9 @@ add_library(${PROJECT_NAME} SHARED
         src/Tpp/TppTypes.cpp
         src/util.cpp
 
+        src/dynamiteHooks.cpp
+        src/dynamitePatches.cpp
+        src/DynamiteCore.cpp
         src/dynamite.cpp
         src/DynamiteLua.cpp
         src/DynamiteHook.cpp

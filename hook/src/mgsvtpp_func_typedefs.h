@@ -347,6 +347,18 @@ typedef void(__thiscall FoxNtImplSessionImpl2DeleteMemberFunc)(void *SessionImpl
 typedef void *(__thiscall FoxImplMessage2MessageBox2ImplSendMessageToSubscribersFunc)(
     void *MessageBox2Impl, void *ErrorCode, uint32_t msgID, void *MessageArgs);
 
+typedef void(__thiscall TppUiEmblemImplEmblemEditorSystemImplDeleteTextureFunc)(void *EmblemEditorSystemImpl, uint32_t StringId);
+
+typedef void(__thiscall TppUiEmblemImplEmblemEditorSystemImplUnloadEmblemTextureInfoFunc)(void *EmblemEditorSystemImpl);
+
+typedef void(__thiscall TppGkTppGameKitModuleEndFunc)(void *TppGameKitModule);
+
+typedef void(__thiscall TppUiEmblemImplEmblemEditorSystemImplDeleteBlenderFunc)(void *EmblemEditorSystemImpl);
+
+typedef bool(__thiscall TppGkEmblemManagerCreateBlenderFunc)(void *EmblemManager);
+
+typedef bool(__thiscall TppUiEmblemImplEmblemEditorSystemImplIsReadyFunc)(void *EmblemEditorSystemImpl);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -511,5 +523,11 @@ extern TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParametersFunc *TppUiEmb
 extern TppUiEmblemImplEmblemEditorSystemImplCreateEmblemFunc *TppUiEmblemImplEmblemEditorSystemImplCreateEmblem;
 extern TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfoFunc *TppUiEmblemImplEmblemEditorSystemImplLoadEmblemTextureInfo;
 extern FoxNtImplSessionImpl2DeleteMemberFunc *FoxNtImplSessionImpl2DeleteMember;
-extern FoxImplMessage2MessageBox2ImplSendMessageToSubscribersFunc* FoxImplMessage2MessageBox2ImplSendMessageToSubscribers;
+extern FoxImplMessage2MessageBox2ImplSendMessageToSubscribersFunc *FoxImplMessage2MessageBox2ImplSendMessageToSubscribers;
+extern TppUiEmblemImplEmblemEditorSystemImplDeleteTextureFunc *TppUiEmblemImplEmblemEditorSystemImplDeleteTexture;
+extern TppUiEmblemImplEmblemEditorSystemImplUnloadEmblemTextureInfoFunc *TppUiEmblemImplEmblemEditorSystemImplUnloadEmblemTextureInfo;
+extern TppGkTppGameKitModuleEndFunc *TppGkTppGameKitModuleEnd;
+extern TppUiEmblemImplEmblemEditorSystemImplDeleteBlenderFunc *TppUiEmblemImplEmblemEditorSystemImplDeleteBlender;
+extern TppGkEmblemManagerCreateBlenderFunc *TppGkEmblemManagerCreateBlender;
+extern TppUiEmblemImplEmblemEditorSystemImplIsReadyFunc *TppUiEmblemImplEmblemEditorSystemImplIsReady;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

@@ -10,7 +10,7 @@ struct Patch {
     std::vector<signed short> patch;
     std::string description;
 
-    bool Apply();
+    bool Apply() const;
 };
 
 #endif // HOOK_PATCH_H

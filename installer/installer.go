@@ -10,15 +10,16 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/unknown321/datfpk/fpk"
-	"github.com/unknown321/datfpk/qar"
-	"github.com/unknown321/hashing"
 	"io/fs"
 	"log/slog"
 	"os"
 	"path/filepath"
 	"slices"
 	"strings"
+
+	"github.com/unknown321/datfpk/fpk"
+	"github.com/unknown321/datfpk/qar"
+	"github.com/unknown321/hashing"
 )
 
 var vendor00 = filepath.Join("master", "0", "00.dat.vendor")
@@ -463,7 +464,7 @@ func Install(conf *config.Config) error {
 	if outDir, err = unpackVendor(); err != nil {
 		return err
 	}
-	slog.Info("outdir", "", outDir)
+	slog.Info("extracting", "outDir", outDir)
 	defer func() {
 		slog.Info("removing temp dir", "path", filepath.Dir(outDir))
 		if err1 := os.RemoveAll(filepath.Dir(outDir)); err1 != nil {

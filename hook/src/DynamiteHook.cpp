@@ -1,8 +1,11 @@
 #include "DynamiteHook.h"
-#include "DynamiteSyncImpl/DynamiteSyncImpl.h"
+
+#include "BlockInfo.h"
+#include "DynamiteLua.h"
 #include "Tpp/TppFOB.h"
 #include "Tpp/TppGameStatusFlag.h"
 #include "Tpp/TppMarkerType.h"
+#include "dynamite.h"
 #include "memtag.h"
 #include "mgsvtpp_func_typedefs.h"
 #include "spdlog/spdlog.h"
@@ -11,15 +14,6 @@
 #include <filesystem>
 
 namespace Dynamite {
-    void *fobTargetCtor = nullptr;
-    void *messageBuffer = nullptr;
-    bool recordBinWrites = false;
-    void *recordBinWriter = nullptr;
-    void *camouflageControllerImpl = nullptr;
-    uint32_t recordOffset = 0;
-    uint32_t varsTotalSize = 0;
-    DynamiteSyncImpl dynamiteSyncImpl{};
-
     // entry point
     void __fastcall luaL_openlibsHook(lua_State *L) {
         int Version = 1;
@@ -29,13 +23,13 @@ namespace Dynamite {
         lua_setfield(L, LUA_GLOBALSINDEX, "_Dynamite");
 
         CreateLibs(L);
-        luaState = L;
+        hookState.luaState = L;
 
-        messageDict = readMessageDictionary("strcode32hex.txt");
-        pathDict = readPathCodeDictionary("pathfilenamecode64.txt"); // pathfilenamecode64 in HashWrangler
+        g_hook->messageDict = readMessageDictionary("strcode32hex.txt");
+        g_hook->pathDict = readPathCodeDictionary("pathfilenamecode64.txt"); // pathfilenamecode64 in HashWrangler
 
         auto luaLog = "dynamite/lualog.txt";
-        if (cfg.debug.luaLog) {
+        if (g_hook->cfg.debug.luaLog) {
             if (std::filesystem::exists(luaLog)) {
                 spdlog::info("{}, truncating lualog.txt", __PRETTY_FUNCTION__);
                 std::ofstream ofs(luaLog, std::ios::trunc);
@@ -56,12 +50,12 @@ namespace Dynamite {
 
     bool IsOffenseTeamByOnlineFobLocalHook() { return true; }
 
-    unsigned int GetFobOffensePlayerInstanceIndexHook(void *) { return offensePlayerID; }
+    unsigned int GetFobOffensePlayerInstanceIndexHook(void *) { return g_hook->dynamiteCore.GetOffensePlayerID(); }
 
-    unsigned int GetFobDefensePlayerInstanceIndexHook(void *) { return defensePlayerID; }
+    unsigned int GetFobDefensePlayerInstanceIndexHook(void *) { return g_hook->dynamiteCore.GetDefensePlayerID(); }
 
     unsigned int GetUiMarkerTypeFromSystemType2Hook(void *p1, void *p2) {
-        auto res = GetUiMarkerTypeFromSystemType2(p1, p2);
+        const auto res = GetUiMarkerTypeFromSystemType2(p1, p2);
         if (res == TppMarkerType::MARKER_TYPE_FOB_ENEMY) {
             return TppMarkerType::MARKER_TYPE_BUDDY_D_DOG;
         }
@@ -82,7 +76,7 @@ namespace Dynamite {
             return res;
         }
 
-        dynamiteSyncImpl.SetSightMarker(objectID, duration);
+        g_hook->dynamiteSyncImpl.SetSightMarker(objectID, duration);
 
         return res;
     }
@@ -91,19 +85,19 @@ namespace Dynamite {
         auto clientSteamID = *(uint64_t *)request;
         spdlog::info("{}: Connection request: {:d}", __PRETTY_FUNCTION__, clientSteamID);
 
-        if (!cfg.Host) {
+        if (!g_hook->cfg.Host) {
             spdlog::warn("client, but there was a connection attempt?");
         }
 
-        if ((cfg.whitelist.empty()) && (cfg.blacklist.empty())) {
+        if ((g_hook->cfg.whitelist.empty()) && (g_hook->cfg.blacklist.empty())) {
             spdlog::info("{}: Connection accepted", __PRETTY_FUNCTION__);
             SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
             return;
         }
 
-        if (!cfg.whitelist.empty()) {
+        if (!g_hook->cfg.whitelist.empty()) {
             bool found = false;
-            for (const auto &v : cfg.whitelist) {
+            for (const auto &v : g_hook->cfg.whitelist) {
                 if (v == clientSteamID) {
                     found = true;
                     break;
@@ -119,7 +113,7 @@ namespace Dynamite {
             return;
         }
 
-        for (const auto &v : cfg.blacklist) {
+        for (const auto &v : g_hook->cfg.blacklist) {
             if (v == clientSteamID) {
                 spdlog::info("{}: In blacklist: {:d}", __PRETTY_FUNCTION__, clientSteamID);
                 return;
@@ -130,30 +124,32 @@ namespace Dynamite {
     }
 
     void SetSteamIdHook(void *param, uint64_t *steamID) {
-        *steamID = cfg.HostSteamID;
+        *steamID = g_hook->cfg.HostSteamID;
         SetSteamId(param, steamID);
     }
 
     bool IsConnectReadyHook(void *param) { return true; }
 
     void UpdateClientEstablishedHook(void *param) {
-        if (!sessionConnected) {
-            lua_getglobal(luaState, "TppUiCommand");
-            lua_getfield(luaState, -1, "AnnounceLogView");
-            auto text = "Co-op connection established\0";
-            lua_pushstring(luaState, text);
-            lua_pcall(luaState, 1, 0, 0);
+        if (!g_hook->dynamiteCore.GetSessionConnected()) {
+            lua_getglobal(hookState.luaState, "TppUiCommand");
+            lua_getfield(hookState.luaState, -1, "AnnounceLogView");
+            const auto text = "Co-op connection established\0";
+            lua_pushstring(hookState.luaState, text);
+            lua_pcall(hookState.luaState, 1, 0, 0);
 
-            sessionConnected = true;
+            g_hook->dynamiteCore.SetSessionConnected(true);
             spdlog::info("{}: Co-op connection established", __PRETTY_FUNCTION__);
 
-            if (dynamiteSyncImpl.gameSocket == nullptr) {
-                dynamiteSyncImpl.Init();
-                dynamiteSyncImpl.SyncInit();
+            // FIXME
+            // gamesocket is deprecated
+            if (g_hook->dynamiteSyncImpl.gameSocket == nullptr) {
+                g_hook->dynamiteSyncImpl.Init();
+                g_hook->dynamiteSyncImpl.SyncInit();
             }
 
-            dynamiteSyncImpl.Ping();
-            dynamiteSyncImpl.SendEmblem();
+            g_hook->dynamiteSyncImpl.Ping();
+            g_hook->dynamiteSyncImpl.SendEmblem();
         }
 
         UpdateClientEstablished(param);
@@ -161,19 +157,18 @@ namespace Dynamite {
 
     void *MessageBufferAddMessageHook(
         void *thisPtr, void *errCodePtr, uint32_t messageID, uint32_t sender, uint32_t receiver, uint32_t param_4, void *messageArgs, uint32_t param_6) {
-        messageBuffer = thisPtr;
 
-        if (messageDict.size() > 0) {
+        if (g_hook->messageDict.size() > 0) {
             spdlog::info("Message: {} ({:x}), from: {} ({:x}), to: {} ({:x}), {} ({:x}), {} ({:x})",
-                messageDict[messageID],
+                g_hook->messageDict[messageID],
                 messageID,
-                messageDict[sender],
+                g_hook->messageDict[sender],
                 sender,
-                messageDict[receiver],
+                g_hook->messageDict[receiver],
                 receiver,
-                messageDict[param_4],
+                g_hook->messageDict[param_4],
                 param_4,
-                messageDict[param_6],
+                g_hook->messageDict[param_6],
                 param_6);
         }
 
@@ -192,7 +187,7 @@ namespace Dynamite {
         return MessageBufferAddMessage(thisPtr, errCodePtr, messageID, sender, receiver, param_4, messageArgs, param_6);
     }
 
-    bool AddLocalDamageHook(void *thisPtr, uint32_t playerIndex, PlayerDamage *Damage) {
+    bool AddLocalDamageHook(void *thisPtr, const uint32_t playerIndex, PlayerDamage *Damage) {
         if (Damage != nullptr) {
             //            DumpDamage(Damage, playerIndex);
         }
@@ -201,93 +196,85 @@ namespace Dynamite {
 
     void DamageControllerImplInitializeHook(void *thisPtr, void *QuarkDesc) {
         DamageControllerImplInitialize(thisPtr, QuarkDesc);
-        DamageControllerImpl = (char *)thisPtr + 0x20;
+        hookState.damageControllerImpl = (char *)thisPtr + 0x20;
     }
 
     void *Marker2SystemImplHook(void *thisPtr) {
-        MarkerSystemImpl = thisPtr;
+        hookState.markerSystemImpl = thisPtr;
         return Marker2SystemImpl(thisPtr);
     }
 
     void EquipHudSystemImplInitDataHook(void *thisPtr) {
-        EquipHudSystemImpl = thisPtr;
+        hookState.equipHudSystemImpl = thisPtr;
         EquipHudSystemImplInitData(thisPtr);
     }
 
     void Marker2SystemImplRemovedUserMarkerHook(void *thisPtr, uint32_t markerID) {
         spdlog::info("{}: {}", __PRETTY_FUNCTION__, markerID);
-        if (ignoreMarkerRequests) {
+        if (hookState.ignoreMarkerRequests) {
             spdlog::info("{}, ignored remove local marker request", __PRETTY_FUNCTION__);
             return;
         }
 
         Marker2SystemImplRemovedUserMarker(thisPtr, markerID);
-        dynamiteSyncImpl.RemoveUserMarker(markerID);
+        g_hook->dynamiteSyncImpl.RemoveUserMarker(markerID);
     }
 
     void Marker2SystemImplPlacedUserMarkerFixedHook(void *thisPtr, Vector3 *pos) {
         spdlog::info("{}, placing fixed local user marker at {}, {}, {}", __PRETTY_FUNCTION__, pos->x, pos->y, pos->z);
-        if (ignoreMarkerRequests) {
+        if (hookState.ignoreMarkerRequests) {
             spdlog::info("{}, ignored fixed local marker request", __PRETTY_FUNCTION__);
             return;
         }
 
         Marker2SystemImplPlacedUserMarkerFixed(thisPtr, pos);
-        dynamiteSyncImpl.AddFixedUserMarker(pos);
+        g_hook->dynamiteSyncImpl.AddFixedUserMarker(pos);
     }
 
     bool Marker2SystemImplPlacedUserMarkerFollowHook(void *thisPtr, Vector3 *pos, unsigned short objectID) {
         spdlog::info("{}, {}, {}, {}, objectID {}", __PRETTY_FUNCTION__, pos->x, pos->y, pos->z, objectID);
-        if (ignoreMarkerRequests) {
+        if (hookState.ignoreMarkerRequests) {
             spdlog::info("{}, ignored follow local marker request", __PRETTY_FUNCTION__);
             return true;
         }
 
-        auto res = Marker2SystemImplPlacedUserMarkerFollow(thisPtr, pos, objectID);
-        dynamiteSyncImpl.AddFollowUserMarker(pos, objectID);
+        const auto res = Marker2SystemImplPlacedUserMarkerFollow(thisPtr, pos, objectID);
+        g_hook->dynamiteSyncImpl.AddFollowUserMarker(pos, objectID);
 
         return res;
     }
 
     void SightManagerImplInitializeHook(void *thisPtr, void *QuarkDesc) {
-        SightManagerImpl = thisPtr;
         SightManagerImplInitialize(thisPtr, QuarkDesc);
+        hookState.sightManagerImpl = thisPtr;
     }
 
-    void UiControllerImplSetNoUseEquipIdHook(void *thisPtr, bool param_1, unsigned int EquipID) {
+    void UiControllerImplSetNoUseEquipIdHook(void *thisPtr, const bool param_1, unsigned int EquipID) {
         EquipID = 9999;
         UiControllerImplSetNoUseEquipId(thisPtr, param_1, EquipID);
     }
 
     bool EquipCrossEvCallIsItemNoUseHook(void *thisPtr, unsigned int EquipID) { return false; }
 
-    struct blockInfo {
-        uint32_t counter;
-        uint32_t blockState;
-    };
-
-    std::map<void *, blockInfo> processCounter{};
-    std::map<void *, std::string> blockNames{};
-
     // used for debugging, see docs/issue_7.md
     double FoxBlockProcessHook(void *Block, void *TaskContext, void *BlockProcessState) {
         DWORD tid = GetCurrentThreadId();
-        if (processCounter.contains(Block)) {
-            processCounter[Block].counter++;
+        if (hookState.processCounter.contains(Block)) {
+            hookState.processCounter[Block].counter++;
         } else {
-            processCounter[Block].counter = 0;
-            processCounter[Block].blockState = 0;
+            hookState.processCounter[Block].counter = 0;
+            hookState.processCounter[Block].blockState = 0;
         }
 
         uint32_t blockState = *(uint32_t *)((char *)Block + 0x84);
-        if ((processCounter[Block].counter % 500 == 0) || (processCounter[Block].blockState != blockState)) {
-            auto blockName = blockNames[Block];
+        if ((hookState.processCounter[Block].counter % 500 == 0) || (hookState.processCounter[Block].blockState != blockState)) {
+            auto blockName = hookState.blockNames[Block];
             uint32_t mem1 = *(int *)((char *)Block + 0x60);
             int32_t mem2 = *(int *)((char *)Block + 0x18);
             int32_t mem3 = *(int *)((char *)Block + 0x40);
             int32_t mem4 = *(int *)((char *)Block + 0x10);
             uint32_t mem5 = *(int *)((char *)Block + 0x148);
-            processCounter[Block].blockState = blockState;
+            hookState.processCounter[Block].blockState = blockState;
             auto processTime = *(double *)((char *)BlockProcessState + 0x28);
             auto total = mem1 - mem2 + mem3 + mem4;
             spdlog::info("{}, tid {}, process {} ({}), state {}, time {}, mem {} - {} + {} + {} = {} ({}), diff {}",
@@ -315,8 +302,8 @@ namespace Dynamite {
     // used for debugging, see docs/issue_7.md
     int32_t *FoxBlockReloadHook(void *Block, int32_t *param_2) {
         DWORD tid = GetCurrentThreadId();
-        processCounter[Block].counter = 0;
-        auto blockName = blockNames[Block];
+        hookState.processCounter[Block].counter = 0;
+        auto blockName = hookState.blockNames[Block];
         spdlog::info("{}, tid {}, reload {} ({})", __PRETTY_FUNCTION__, tid, blockName, Block);
         return FoxBlockReload(Block, param_2);
     }
@@ -324,20 +311,18 @@ namespace Dynamite {
     // used for debugging, see docs/issue_7.md
     int32_t *FoxBlockUnloadHook(void *Block, int32_t *param_2) {
         DWORD tid = GetCurrentThreadId();
-        processCounter[Block].counter = 0;
-        auto blockName = blockNames[Block];
+        hookState.processCounter[Block].counter = 0;
+        auto blockName = hookState.blockNames[Block];
         auto res = FoxBlockUnload(Block, param_2);
         spdlog::info("{}, tid {}, unload {} ({}), res {}", __PRETTY_FUNCTION__, tid, blockName, Block, *res);
         return res;
     }
 
-    std::string latestGeneratedName;
-
     // used for debugging, see docs/issue_7.md
     void *FoxGenerateUniqueNameHook(void *sharedString, unsigned long long param_2, void *string) {
         DWORD tid = GetCurrentThreadId();
         spdlog::info("{}, tid {}, generate name: {}", __PRETTY_FUNCTION__, tid, *(char **)*(void **)(string));
-        latestGeneratedName = std::string(*(char **)*(void **)(string));
+        hookState.latestGeneratedName = std::string(*(char **)*(void **)(string));
 
         return FoxGenerateUniqueName(sharedString, param_2, string);
     }
@@ -345,22 +330,16 @@ namespace Dynamite {
     // used for debugging, see docs/issue_7.md
     void *FoxBlockHook(void *p1) {
         DWORD tid = GetCurrentThreadId();
-        spdlog::info("{}, tid {}, block: {} ({})", __PRETTY_FUNCTION__, tid, latestGeneratedName, p1);
-        blockNames[p1] = latestGeneratedName;
+        spdlog::info("{}, tid {}, block: {} ({})", __PRETTY_FUNCTION__, tid, hookState.latestGeneratedName, p1);
+        hookState.blockNames[p1] = hookState.latestGeneratedName;
 
         return FoxBlock(p1);
     }
 
     // used for debugging, see docs/issue_7.md
-    int32_t blockStatus(void *block) { return *(int32_t *)((char *)block + 0x80); }
-
-    // used for debugging, see docs/issue_7.md
-    int32_t blockStatus2(void *block) { return *(int32_t *)((char *)block + 0x84); }
-
-    // used for debugging, see docs/issue_7.md
     int32_t *FoxBlockActivateHook(void *Block, int32_t *param_2) {
         DWORD tid = GetCurrentThreadId();
-        auto blockName = blockNames[Block];
+        auto blockName = hookState.blockNames[Block];
         auto q = FoxBlockActivate(Block, param_2);
         spdlog::info("{}, tid {}, activate {} ({}), res {}", __PRETTY_FUNCTION__, tid, blockName, Block, *q);
         spdlog::info("{}, {}, activate block status {} {}", __PRETTY_FUNCTION__, blockName, blockStatus(Block), blockStatus2(Block));
@@ -372,7 +351,7 @@ namespace Dynamite {
         spdlog::info("{} deactivating {}", __PRETTY_FUNCTION__, Block);
         auto q = FoxBlockDeactivate(Block, param_2);
         DWORD tid = GetCurrentThreadId();
-        auto blockName = blockNames[Block];
+        auto blockName = hookState.blockNames[Block];
         spdlog::info(
             "{}, tid {}, deactivate {} ({}), res {}, status {} {}", __PRETTY_FUNCTION__, tid, blockName, Block, *q, blockStatus(Block), blockStatus2(Block));
         return q;
@@ -382,14 +361,14 @@ namespace Dynamite {
     int *FoxBlockLoadHook(void *thisPtr, int *errorCode, uint64_t *pathID, uint32_t count) {
         DWORD tid = GetCurrentThreadId();
         auto pp = pathID;
-        auto blockName = blockNames[thisPtr];
-        if (pathDict.empty()) {
+        auto blockName = hookState.blockNames[thisPtr];
+        if (g_hook->pathDict.empty()) {
             spdlog::info("{}, tid {}, block {} ({}), loading {:x} ({:d})", __PRETTY_FUNCTION__, tid, blockName, thisPtr, *pp, count);
             return FoxBlockLoad(thisPtr, errorCode, pathID, count);
         }
 
         for (int i = 0; i < count; i++) {
-            auto name = pathDict[*pp];
+            auto name = g_hook->pathDict[*pp];
             if (name.empty()) {
                 spdlog::info("{}, tid {}, block {} ({}), loading {:x} ({:d}/{:d})", __PRETTY_FUNCTION__, tid, blockName, thisPtr, *pp, i + 1, count);
             } else {
@@ -397,19 +376,20 @@ namespace Dynamite {
             }
             pp++;
         }
-        auto q = FoxBlockLoad(thisPtr, errorCode, pathID, count);
-        return q;
+
+        const auto res = FoxBlockLoad(thisPtr, errorCode, pathID, count);
+        return res;
     }
 
     // used for debugging, see docs/issue_7.md
-    void *(BlockMemoryAllocTailHook)(void *memBlock, uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag) {
-        auto name = blockNames[memBlock];
+    void *BlockMemoryAllocTailHook(void *memBlock, uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag) {
+        auto name = hookState.blockNames[memBlock];
         spdlog::info("alloc tail: {} ({}), size {}, align {}, category 0x{:x}", name, memBlock, sizeInBytes, alignment, categoryTag);
         return BlockMemoryAllocTail(memBlock, sizeInBytes, alignment, categoryTag);
     }
 
     // used for debugging, see docs/issue_7.md
-    int64_t(__fastcall CreateHostSessionHook)(FobTarget *param) {
+    int64_t CreateHostSessionHook(FobTarget *param) {
         spdlog::info("create host session {}", (void *)param);
         return CreateHostSession(param);
     }
@@ -417,19 +397,17 @@ namespace Dynamite {
     // issue #7, reuse FobTarget instance created by the game
     FobTarget *FobTargetCtorHook(FobTarget *p) {
         //        spdlog::info("fob target ctor: {}", (void *)p);
-        fobTargetCtor = FobTargetCtor(p);
-        return (FobTarget *)fobTargetCtor;
+        hookState.fobTargetCtor = FobTargetCtor(p);
+        return (FobTarget *)hookState.fobTargetCtor;
     }
 
-    bool blockHeapAllocLoginUtilityCalled = false;
-
-    void *BlockHeapAllocHook(uint64_t sizeInBytes, uint64_t alignment, uint32_t categoryTag) {
+    void *BlockHeapAllocHook(const uint64_t sizeInBytes, const uint64_t alignment, const uint32_t categoryTag) {
         if (categoryTag == MEMTAG_TPP_SYSTEM2SCRIPT) {
             // spdlog::info("{}, allocating {} bytes, {} align, category MEMTAG_TPP_SYSTEM2SCRIPT", __PRETTY_FUNCTION__, sizeInBytes, alignment);
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
 
-        if (!cfg.Host) {
+        if (!g_hook->cfg.Host) {
             return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
         }
 
@@ -444,12 +422,12 @@ namespace Dynamite {
 
         // issue #7 workaround, force network allocations on heap when called from lua instead of current block
         // see docs/issue_7.md
-        if (blockHeapAllocLoginUtilityCalled) {
+        if (hookState.blockHeapAllocLoginUtilityCalled) {
             spdlog::info("{}, alloc MEMTAG_TPP_NETWORK force on heap", __PRETTY_FUNCTION__);
             return BlockMemoryAllocHeap(sizeInBytes, alignment, categoryTag);
         }
 
-        blockHeapAllocLoginUtilityCalled = true;
+        hookState.blockHeapAllocLoginUtilityCalled = true;
         spdlog::info("{}, alloc MEMTAG_TPP_NETWORK run as is", __PRETTY_FUNCTION__);
 
         return BlockHeapAlloc(sizeInBytes, alignment, categoryTag);
@@ -457,30 +435,33 @@ namespace Dynamite {
 
     void *CloseSessionHook() {
         spdlog::info("{}, closing session", __PRETTY_FUNCTION__);
-        if (cfg.Host) {
-            hostSessionCreated = false;
+        if (g_hook->cfg.Host) {
+            g_hook->dynamiteCore.SetHostSessionCreated(false);
         }
 
-        dynamiteSyncImpl.Stop();
+        g_hook->dynamiteSyncImpl.Stop();
+        g_hook->dynamiteCore.SetEmblemCreated(false);
+
         return CloseSession();
     }
 
     void ScriptDeclVarsImplSetVarValueHook(void *thisPtr, uint64_t index, uint32_t param_2, uint32_t param_3, uint32_t value) {
-        auto tp = (char *)thisPtr + 0x18;
+        const auto tp = (char *)thisPtr + 0x18;
         auto hash = *(uint32_t *)(*(char **)tp + 0xc + index * 0x18 + -0x4);
 
         spdlog::info("{} {} (0x{:x}) = p1 = 0x{:x}, p2 = 0x{:x}, p3 = 0x{:x}, value = 0x{:x}",
             __PRETTY_FUNCTION__,
-            messageDict[hash],
+            g_hook->messageDict[hash],
             hash,
             index,
             param_2,
             param_3,
             value);
+
         ScriptDeclVarsImplSetVarValue(thisPtr, index, param_2, param_3, value);
     }
 
-    void SoldierRouteAiImplPreUpdateHook(void *thisPtr, uint32_t param_1, void *AiNodeUpdateContext) {
+    void SoldierRouteAiImplPreUpdateHook(void *thisPtr, const uint32_t param_1, void *AiNodeUpdateContext) {
         auto qq = *((char *)AiNodeUpdateContext + 0x26);
         auto v = (unsigned char)qq;
         spdlog::info("{}, {} {:x} {:d}", __PRETTY_FUNCTION__, AiNodeUpdateContext, qq, v);
@@ -489,29 +470,33 @@ namespace Dynamite {
 
     uint32_t RouteGroupImplGetEventIdHook(void *RouteGroupImpl, unsigned short param_1, unsigned short param_2, unsigned short param_3) {
         auto res = RouteGroupImplGetEventId(RouteGroupImpl, param_1, param_2, param_3);
-        auto name = messageDict[res];
         switch (res) {
-        case 0xef94dd47:
-        case 0xd90e0e31:
-        case 0xeafe50df:
-        case 0x596c1d5a:
-        case 0x57c44b72:
-        case 0xa6f6bf5c:
+        case 0xef94dd47: // RelaxedIdleAct
+        case 0xd90e0e31: // RelaxedStandWalkAct
+        case 0xeafe50df: // RelaxedStandIdle
+        case 0x596c1d5a: // RelaxedWalk
+        case 0x57c44b72: // RelaxedWalkAct
+        case 0xa6f6bf5c: // RelaxedRun
             return res;
+        default:
+            break;
         }
+
+        auto name = g_hook->messageDict[res];
         spdlog::info("{}: {} (0x{:x}), {:d}, {:d}, {:d}", __PRETTY_FUNCTION__, name, res, param_1, param_2, param_3);
+
         return res;
     }
 
     fox::QuarkHandle FoxCreateQuarkHook(uint64_t param_1, fox::QuarkDesc *quarkDesc, uint64_t p3) {
         auto res = FoxCreateQuark(param_1, quarkDesc, p3);
-        spdlog::info("{} {} (0x{:x}), p3 {:x}, handle 0x{:x}", __PRETTY_FUNCTION__, pathDict[(uint64_t)quarkDesc], (uint64_t)quarkDesc, p3, res.value);
-        quarkHandles[res.value] = pathDict[(uint64_t)quarkDesc];
+        spdlog::info("{} {} (0x{:x}), p3 {:x}, handle 0x{:x}", __PRETTY_FUNCTION__, g_hook->pathDict[(uint64_t)quarkDesc], (uint64_t)quarkDesc, p3, res.value);
+        hookState.quarkHandles[res.value] = g_hook->pathDict[(uint64_t)quarkDesc];
         return res;
     }
 
     void AiControllerImplAddNodeHook(void *thisPtr, uint32_t param_2, uint64_t quarkHandle, uint32_t param_4) {
-        spdlog::info("{}, p2: {:x}, handle {} (0x{:x}), p4: {:x}", __PRETTY_FUNCTION__, param_2, quarkHandles[quarkHandle], quarkHandle, param_4);
+        spdlog::info("{}, p2: {:x}, handle {} (0x{:x}), p4: {:x}", __PRETTY_FUNCTION__, param_2, hookState.quarkHandles[quarkHandle], quarkHandle, param_4);
         AiControllerImplAddNode(thisPtr, param_2, quarkHandle, param_4);
     }
 
@@ -536,56 +521,64 @@ namespace Dynamite {
     }
 
     unsigned char CoreAiImplGetVehicleRideStateHook(void *thisPtr, uint32_t param_1) {
-        auto res = CoreAiImplGetVehicleRideState(thisPtr, param_1);
+        const auto res = CoreAiImplGetVehicleRideState(thisPtr, param_1);
         spdlog::info("{}, {} -> {}", __PRETTY_FUNCTION__, param_1, static_cast<uint32_t>(res));
+
         return res;
     }
 
     bool CoreAiImplIsVehicleRetainHook(void *thisPtr, uint32_t param_1) {
-        auto res = CoreAiImplIsVehicleRetain(thisPtr, param_1);
+        const auto res = CoreAiImplIsVehicleRetain(thisPtr, param_1);
         spdlog::info("{}, {} -> {}", __PRETTY_FUNCTION__, param_1, res);
+
         return res;
     }
 
     bool SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStepHook(
         void *RouteAiImpl, uint32_t param_1, void *RouteAiKnowledge, bool param_3, bool param_4, bool param_5, bool param_6) {
-        auto res = SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep(RouteAiImpl, param_1, RouteAiKnowledge, param_3, param_4, param_5, param_6);
+        const auto res =
+            SoldierImplRouteAiImplCheckVehicleAndWalkerGearGetInAndOutStep(RouteAiImpl, param_1, RouteAiKnowledge, param_3, param_4, param_5, param_6);
         spdlog::info("{}, p1: {}, p3: {}, p4: {}, p5: {}, p6: {}, res: {}", __PRETTY_FUNCTION__, param_1, param_3, param_4, param_5, param_6, res);
+
         return res;
     }
 
     bool StatusControllerImplIsSetHook(void *StatusControllerImpl, unsigned char param_1) {
-        auto res = StatusControllerImplIsSet(StatusControllerImpl, param_1);
+        const auto res = StatusControllerImplIsSet(StatusControllerImpl, param_1);
         if (param_1 == TppGameStatusFlag::S_IS_ONLINE) {
             spdlog::info("{}, {} -> {}", __PRETTY_FUNCTION__, "S_IS_ONLINE", res);
         }
+
         return res;
     }
 
     void *ScriptDeclVarsImplGetVarHandleWithVarIndexHook(void *ScriptDeclVarsImpl, void *param_1, uint32_t param_2) {
-        auto res = ScriptDeclVarsImplGetVarHandleWithVarIndex(ScriptDeclVarsImpl, param_1, param_2);
+        const auto res = ScriptDeclVarsImplGetVarHandleWithVarIndex(ScriptDeclVarsImpl, param_1, param_2);
 
-        auto varsInfo = GmGetScriptVarInfo();
-        auto tp = (char *)varsInfo + 0x8;
-        auto hash = *(uint32_t *)(*(char **)tp + param_2 * 0x18 + 0x10);
+        const auto varsInfo = GmGetScriptVarInfo();
+        const auto tp = (char *)varsInfo + 0x8;
+        const auto hash = *(uint32_t *)(*(char **)tp + param_2 * 0x18 + 0x10);
 
-        spdlog::info("{} {} 0x{:x} {} {} (0x{:x})", __PRETTY_FUNCTION__, param_1, param_2, res, messageDict[hash], hash);
+        spdlog::info("{} {} 0x{:x} {} {} (0x{:x})", __PRETTY_FUNCTION__, param_1, param_2, res, g_hook->messageDict[hash], hash);
+
         return res;
     }
 
     int32_t BandWidthManagerImplCalcAverageRttOfBetterHalfConnectionHook(void *thisPtr) {
-        auto res = BandWidthManagerImplCalcAverageRttOfBetterHalfConnection(thisPtr);
+        const auto res = BandWidthManagerImplCalcAverageRttOfBetterHalfConnection(thisPtr);
         if (res != 0) {
             spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
         }
+
         return res;
     }
 
     int32_t BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnectionHook(void *thisPtr) {
-        auto res = BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection(thisPtr);
+        const auto res = BandWidthManagerImplCalcAverageLostRateOfBetterHalfConnection(thisPtr);
         if (res != 0) {
             spdlog::info("{}: {}", __PRETTY_FUNCTION__, res);
         }
+
         return res;
     }
 
@@ -605,7 +598,7 @@ namespace Dynamite {
         // spdlog::info("{}: message container {}", __PRETTY_FUNCTION__, *(void **)((char *)MpMuxImpl + 0x468));
         auto res = FoxNioImplMpMuxImplSend(MpMuxImpl, param_1, param_2, param_3, size, SppInfo, param_6);
 
-        if (cfg.debug.muxSendError) {
+        if (g_hook->cfg.debug.muxSendError) {
             if (res < 0) {
                 spdlog::info("{} fail: p1={}, p2={}, p3={}, size={}, p6={}, res {}", __PRETTY_FUNCTION__, param_1, param_2, param_3, size, param_6, res);
             }
@@ -737,8 +730,8 @@ namespace Dynamite {
     }
 
     void *FoxBitStreamWriterPrimitiveWriteHook(void *BitStreamWriter, void *ErrorCode, const uint64_t value, const uint32_t size) {
-        if (recordBinWrites) {
-            varsTotalSize += size;
+        if (hookState.recordBinWrites) {
+            hookState.varsTotalSize += size;
 
             // const auto offset = *(uint32_t *)((char *)BitStreamWriter + 0x10);
             // auto capacity = *(int32_t *)((char *)BitStreamWriter + 0xC);
@@ -810,10 +803,11 @@ namespace Dynamite {
 
     void *FoxNtImplNetworkSystemImplCreateGameSocketHook(void *NetworkSystemImpl, fox::nt::GameSocketDesc *gameSocketDesc) {
         spdlog::info("{}, socket={}, value={}", __PRETTY_FUNCTION__, gameSocketDesc->socketNumber, gameSocketDesc->value);
-        if ((gameSocketDesc->socketNumber == 6) && (gameSocketDesc->value == 1)) {
+        if ((gameSocketDesc->socketNumber == ScriptDeclVarsGameSocketNumber) && (gameSocketDesc->value == 1)) {
             // create socket when ScriptDeclVars creates one
-            dynamiteSyncImpl.Init();
-            dynamiteSyncImpl.SyncInit();
+            // FIXME deprecated??
+            g_hook->dynamiteSyncImpl.Init();
+            g_hook->dynamiteSyncImpl.SyncInit();
         }
         return FoxNtImplNetworkSystemImplCreateGameSocket(NetworkSystemImpl, gameSocketDesc);
     }
@@ -868,7 +862,7 @@ namespace Dynamite {
         auto memberIndex = *(unsigned char *)param_3;
         spdlog::info("{}, member index {}", __PRETTY_FUNCTION__, memberIndex);
 
-        scriptDeclVarsImpl = ScriptDeclVarsImpl;
+        // scriptDeclVarsImpl = ScriptDeclVarsImpl;
 
         auto varCount = *(uint32_t *)((char *)ScriptDeclVarsImpl + -0x10);
         auto syncCount = 0;
@@ -883,24 +877,28 @@ namespace Dynamite {
             offset += 0x18;
         }
 
-        recordBinWrites = true;
+        hookState.recordBinWrites = true;
         TppGmImplScriptDeclVarsImplOnSessionNotify(ScriptDeclVarsImpl, SessionInterface, param_2, param_3);
-        recordBinWrites = false;
+        hookState.recordBinWrites = false;
 
-        spdlog::info(
-            "{}, {} records, syncCount {}, wrote {} bits, will allocate {} bytes", __PRETTY_FUNCTION__, varCount, syncCount, varsTotalSize, varsTotalSize >> 3);
+        spdlog::info("{}, {} records, syncCount {}, wrote {} bits, will allocate {} bytes",
+            __PRETTY_FUNCTION__,
+            varCount,
+            syncCount,
+            hookState.varsTotalSize,
+            hookState.varsTotalSize >> 3);
 
-        if (cfg.Host && syncCount > 0) {
-            dynamiteSyncImpl.SendEmblem();
+        if (g_hook->cfg.Host && syncCount > 0) {
+            g_hook->dynamiteSyncImpl.SendEmblem();
         }
 
-        if (syncCount > 0 && !cfg.Host) {
+        if (syncCount > 0 && !g_hook->cfg.Host) {
             //            dynamiteSyncImpl.WaitForSync();
         } else {
-            dynamiteSyncImpl.Ping();
+            g_hook->dynamiteSyncImpl.Ping();
         }
 
-        varsTotalSize = 0;
+        hookState.varsTotalSize = 0;
     }
 
     void *FoxNtImplSessionImpl2GetMemberInterfaceAtIndexHook(void *SessionImpl2, unsigned char index) {
@@ -909,10 +907,10 @@ namespace Dynamite {
     }
 
     void FoxNtImplGameSocketImplHandleMessageHook(void *GameSocketImpl, void *Buffer, uint32_t fromIndex, void *Buffer2, void *BitStreamReader) {
-        if (GameSocketImpl == dynamiteSyncImpl.gameSocket) {
-            auto uvar2 = *(int32_t *)((char *)GameSocketImpl + 0x10);
-            spdlog::info("{}, handling game socket message ({}), from={}, uvar2={}!", __PRETTY_FUNCTION__, GameSocketImpl, fromIndex, uvar2);
-        }
+        // if (GameSocketImpl == dynamiteSyncImpl.gameSocket) {
+        //     auto uvar2 = *(int32_t *)((char *)GameSocketImpl + 0x10);
+        //     spdlog::info("{}, handling game socket message ({}), from={}, uvar2={}!", __PRETTY_FUNCTION__, GameSocketImpl, fromIndex, uvar2);
+        // }
 
         FoxNtImplGameSocketImplHandleMessage(GameSocketImpl, Buffer, fromIndex, Buffer2, BitStreamReader);
     }
@@ -931,7 +929,7 @@ namespace Dynamite {
         auto socket = *(unsigned short *)((char *)GameSocketImpl + 0x8);
         auto value = *(unsigned short *)((char *)GameSocketImpl + 0x10);
         spdlog::info("{}, ptr={}, freeMem={}, socket={}, value={}", __PRETTY_FUNCTION__, GameSocketImpl, freeMem, socket, value);
-        if ((socket == 6) && (value == 1)) {
+        if ((socket == ScriptDeclVarsGameSocketNumber) && (value == 1)) {
             // delete socket before ScriptDeclVars socket
         }
         FoxNtImplGameSocketImplGameSocketImplDtor(GameSocketImpl, freeMem);
@@ -944,7 +942,9 @@ namespace Dynamite {
 
     void TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitializeHook(void *CamouflageControllerImpl, fox::QuarkDesc *param_1) {
         TppGmPlayerImplAnonymous_namespaceCamouflageControllerImplInitialize(CamouflageControllerImpl, param_1);
-        camouflageControllerImpl = CamouflageControllerImpl;
+        // TODO FIXME
+        // this function must be removed, pointer replaced with GetCamoController call
+        hookState.camouflageControllerImpl = CamouflageControllerImpl;
     }
 
     void FoxNtImplTransceiverManagerImplPeerAddToSendQueueHook(void *Peer, void *PeerCommon) {
@@ -978,9 +978,9 @@ namespace Dynamite {
     }
 
     int32_t FoxNioImplSteamUdpSocketImplSendHook(void *SteamUdpSocketImpl, void *param_1, int param_2, void *SocketInfo, void *Address) {
-        dynamiteSyncImpl.steamUDPAddress = Address;
-        dynamiteSyncImpl.steamUDPSocketInfo = SocketInfo;
-        dynamiteSyncImpl.steamUDPSocket = SteamUdpSocketImpl;
+        g_hook->dynamiteSyncImpl.steamUDPAddress = Address;
+        g_hook->dynamiteSyncImpl.steamUDPSocketInfo = SocketInfo;
+        g_hook->dynamiteSyncImpl.steamUDPSocket = SteamUdpSocketImpl;
 
         auto dumpSize = param_2;
         if (dumpSize > 50) {
@@ -1014,7 +1014,7 @@ namespace Dynamite {
 
         auto bytes = bytes_to_hex(buffer, dumpSize);
         spdlog::debug("{}, bufSize={}, responseSize={}, dump={}", __PRETTY_FUNCTION__, maxBufferSize, responseSize, bytes);
-        dynamiteSyncImpl.RecvRaw(buffer, responseSize);
+        g_hook->dynamiteSyncImpl.RecvRaw(buffer, responseSize);
 
         return responseSize;
     }
@@ -1022,7 +1022,7 @@ namespace Dynamite {
     void *TppUiEmblemImplEmblemEditorSystemImplCreateEmblemParametersHook(void *EmblemEditorSystemImpl, void *ErrorCode, void *EmblemTextureParameters,
         uint32_t *emblemTextureTag, uint32_t *emblemColorL, uint32_t *emblemColorH, char *emblemX, char *emblemY, char *emblemScale, char *emblemRotate,
         unsigned char version, bool param_10) {
-        spdlog::info("{}, emblemTextureTag={:d}, emblemColorL={:d}, emblemColorH={:d}, emblemX={:d}, emblemY={:d}, emblemScale={:d}, emblemRotate={:d}, "
+        spdlog::info("{}, emblemTextureTag={:x}, emblemColorL={:x}, emblemColorH={:d}, emblemX={:d}, emblemY={:d}, emblemScale={:d}, emblemRotate={:d}, "
                      "version={:d}, p10={}",
             __PRETTY_FUNCTION__,
             *emblemTextureTag,
@@ -1050,16 +1050,37 @@ namespace Dynamite {
     }
 
     void FoxNtImplSessionImpl2DeleteMemberHook(void *SessionImpl2, void *Member) {
-        dynamiteSyncImpl.Stop();
+        g_hook->dynamiteSyncImpl.Stop();
         FoxNtImplSessionImpl2DeleteMember(SessionImpl2, Member);
     }
 
     void *FoxImplMessage2MessageBox2ImplSendMessageToSubscribersHook(void *MessageBox2Impl, void *ErrorCode, uint32_t msgID, void *MessageArgs) {
         if (msgID == MESSAGE_DISCONNECT_FROM_HOST) {
             spdlog::info("{}, disconnect from host", __PRETTY_FUNCTION__);
-            dynamiteSyncImpl.Stop();
+            g_hook->dynamiteSyncImpl.Stop();
         }
 
         return FoxImplMessage2MessageBox2ImplSendMessageToSubscribers(MessageBox2Impl, ErrorCode, msgID, MessageArgs);
+    }
+
+    bool TppUiEmblemImplEmblemEditorSystemImplCreateEmblemHook(
+        void *EmblemEditorSystemImpl, uint64_t textureName, uint64_t textureNameSmall, void *EmblemTextureParameters, uint32_t maybe_sizes) {
+
+        spdlog::info("{}, name={:x} ({}), nameSmall={:x} ({}), sizes={}",
+            __PRETTY_FUNCTION__,
+            textureName,
+            g_hook->messageDict[textureName],
+            textureNameSmall,
+            g_hook->messageDict[textureNameSmall],
+            maybe_sizes);
+
+        return TppUiEmblemImplEmblemEditorSystemImplCreateEmblem(EmblemEditorSystemImpl, textureName, textureNameSmall, EmblemTextureParameters, maybe_sizes);
+    }
+
+    // this might be a nice place to wrap up everything
+    void TppGkTppGameKitModuleEndHook(void *TppGameKitModule) {
+        spdlog::info("{}", __PRETTY_FUNCTION__);
+        // dynamiteSyncImpl.Stop();
+        TppGkTppGameKitModuleEnd(TppGameKitModule);
     }
 }

@@ -8,29 +8,6 @@
 #include "lua/lua.h"
 
 namespace Dynamite {
-    extern Config cfg;
-    extern lua_State *luaState;
-    extern bool sessionCreated;
-    extern bool sessionConnected;
-    extern unsigned int offensePlayerID;
-    extern unsigned int defensePlayerID;
-    extern bool nearestEnemyThreadRunning;
-    extern bool stopNearestEnemyThread;
-    extern void StartNearestEnemyThread();
-    extern void *DamageControllerImpl;
-    extern void *MarkerSystemImpl;
-    extern void *SightManagerImpl;
-    extern void *EquipHudSystemImpl;
-    extern bool ignoreMarkerRequests;
-    extern void* fobTargetCtor;
-    extern void *camouflageControllerImpl;
-    extern Vector3 GetPlayerPosition(int index);
-    extern bool hostSessionCreated;
-    extern DynamiteSyncImpl dynamiteSyncImpl;
-
-    extern bool AddLocalDamageHook(void *thisPtr, uint32_t playerIndex, PlayerDamage *Damage);
-    extern ENPCLifeState GetSoldierLifeStatus(int objectID);
-
     void CreateLibs(lua_State *L);
     int l_CreateHostSession(lua_State *L);
     int l_ResetClientSessionStateWithNotification(lua_State *L);
@@ -49,7 +26,9 @@ namespace Dynamite {
     int l_RemoveAllUserMarkers(lua_State *L);
     int l_IgnoreMarkerRequests(lua_State *L);
     int l_AcceptMarkerRequests(lua_State *L);
+    int l_GetPlayerPosition(lua_State *L);
     int l_WarpToPartner(lua_State *L);
+    int l_IsSynchronized(lua_State *L);
     int l_RequestVar(lua_State *L);
     int l_Ping(lua_State *L);
 }
