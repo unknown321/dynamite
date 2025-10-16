@@ -7,7 +7,7 @@
 #include <spdlog/spdlog.h>
 
 namespace Dynamite {
-    void Dynamite::CreateDebugHooks() {
+    void Dynamite::CreateDebugHooks() const {
         spdlog::info("{}", __PRETTY_FUNCTION__);
 
         if (cfg.debug.foxBlock) {
@@ -226,7 +226,7 @@ namespace Dynamite {
         spdlog::info("{} done", __PRETTY_FUNCTION__);
     }
 
-    void Dynamite::CreateHooks() {
+    void Dynamite::CreateHooks() const {
         spdlog::info("{}", __PRETTY_FUNCTION__);
 
         CreateDebugHooks();

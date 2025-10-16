@@ -34,9 +34,9 @@ namespace Dynamite {
 
         void RebaseAddresses();
 
-        void CreateHooks();
+        void CreateHooks() const;
 
-        void CreateDebugHooks();
+        void CreateDebugHooks() const;
 
         void ReadConfig();
 
