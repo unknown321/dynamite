@@ -1,6 +1,6 @@
+#include "dynamite.h"
 #include "patch.h"
 #include <vector>
-#include "dynamite.h"
 
 namespace Dynamite {
     std::vector<Patch> Dynamite::GetPatches() {
@@ -180,6 +180,15 @@ namespace Dynamite {
                 .description = "always apply opponent (or partner) emblem"
                                "tpp::gm::player::impl::Player2Impl::SetEmblemTexture",
             },
+            // {
+            //     .address = 0x1409b9d3b,
+            //     .expected = {0x74, 0x0a}, // JZ LAB_1409b9d47
+            //     .patch = {0xeb, 0x0a},    // JMP LAB_1409b9d47
+            //     .description = "skip IS_ONLINE check for player action status"
+            //                    "allows player to climb wall cracks"
+            //                    "this patch also makes player invisible and cannot be applied"
+            //                    "tpp::gm::player::impl::Player2GameObjectImpl::Player2GameObjectImpl",
+            // },
 
             // {
             //     .address = 0x1413536b6,

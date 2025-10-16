@@ -165,6 +165,8 @@ namespace Dynamite {
     bool TppUiEmblemImplEmblemEditorSystemImplCreateEmblemHook(
         void *EmblemEditorSystemImpl, uint64_t textureName, uint64_t textureNameSmall, void *EmblemTextureParameters, uint32_t maybe_sizes);
     void TppGkTppGameKitModuleEndHook(void *TppGameKitModule);
+    bool TppGmPlayerImplClimbActionPluginImplCheckActionStateHook(void *ClimbActionPluginImpl, uint32_t param_1);
+    int FoxGeoPathResultGetNumPointHook(void *PathResult);
 }
 
 #endif // HOOK_DYNAMITEHOOK_H

@@ -1083,4 +1083,16 @@ namespace Dynamite {
         // dynamiteSyncImpl.Stop();
         TppGkTppGameKitModuleEnd(TppGameKitModule);
     }
+
+    bool TppGmPlayerImplClimbActionPluginImplCheckActionStateHook(void *ClimbActionPluginImpl, uint32_t param_1) { return true; }
+
+    int FoxGeoPathResultGetNumPointHook(void *PathResult) {
+        auto q = *(void**)PathResult;
+        auto v = *(void **)((char *)q+ 0x40);
+        if (v == nullptr) {
+            return 1;
+        }
+
+        return FoxGeoPathResultGetNumPoint(PathResult);
+    }
 }

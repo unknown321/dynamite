@@ -1,5 +1,5 @@
-#include "mgsvtpp_func_typedefs.h"
 #include "dynamite.h"
+#include "mgsvtpp_func_typedefs.h"
 
 namespace Dynamite {
     void Dynamite::SetFuncPtrs() {
@@ -196,5 +196,8 @@ namespace Dynamite {
         TppGkEmblemManagerCreateBlender = (TppGkEmblemManagerCreateBlenderFunc *)addressSet["TppGkEmblemManagerCreateBlender"];
         TppUiEmblemImplEmblemEditorSystemImplIsReady =
             (TppUiEmblemImplEmblemEditorSystemImplIsReadyFunc *)addressSet["TppUiEmblemImplEmblemEditorSystemImplIsReady"];
+        TppGmPlayerImplClimbActionPluginImplCheckActionState =
+            (TppGmPlayerImplClimbActionPluginImplCheckActionStateFunc *)addressSet["TppGmPlayerImplClimbActionPluginImplCheckActionState"];
+        FoxGeoPathResultGetNumPoint = (FoxGeoPathResultGetNumPointFunc *)addressSet["FoxGeoPathResultGetNumPoint"];
     }
 }

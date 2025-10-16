@@ -53,6 +53,8 @@ namespace Dynamite {
         {"TppUiEmblemImplEmblemEditorSystemImplDeleteBlender", 0x146074060},
         {"TppGkEmblemManagerCreateBlender", 0x144d1e170},
         {"TppUiEmblemImplEmblemEditorSystemImplIsReady", 0x14607bd70},
+        {"TppGmPlayerImplClimbActionPluginImplCheckActionState", 0x149876920},
+        {"FoxGeoPathResultGetNumPoint", 0x14ce84090},
 
         {"HashMapFindKey", 0x142ed7be0},
         {"GetQuarkSystemTable", 0x140bff3f0},

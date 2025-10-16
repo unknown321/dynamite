@@ -359,6 +359,10 @@ typedef bool(__thiscall TppGkEmblemManagerCreateBlenderFunc)(void *EmblemManager
 
 typedef bool(__thiscall TppUiEmblemImplEmblemEditorSystemImplIsReadyFunc)(void *EmblemEditorSystemImpl);
 
+typedef bool(__thiscall TppGmPlayerImplClimbActionPluginImplCheckActionStateFunc)(void *ClimbActionPluginImpl, uint32_t param_1);
+
+typedef int(__thiscall FoxGeoPathResultGetNumPointFunc)(void *PathResult);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -530,4 +534,6 @@ extern TppGkTppGameKitModuleEndFunc *TppGkTppGameKitModuleEnd;
 extern TppUiEmblemImplEmblemEditorSystemImplDeleteBlenderFunc *TppUiEmblemImplEmblemEditorSystemImplDeleteBlender;
 extern TppGkEmblemManagerCreateBlenderFunc *TppGkEmblemManagerCreateBlender;
 extern TppUiEmblemImplEmblemEditorSystemImplIsReadyFunc *TppUiEmblemImplEmblemEditorSystemImplIsReady;
+extern TppGmPlayerImplClimbActionPluginImplCheckActionStateFunc *TppGmPlayerImplClimbActionPluginImplCheckActionState;
+extern FoxGeoPathResultGetNumPointFunc *FoxGeoPathResultGetNumPoint;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

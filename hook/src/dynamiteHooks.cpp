@@ -324,6 +324,12 @@ namespace Dynamite {
         CREATE_HOOK(TppUiEmblemImplEmblemEditorSystemImplCreateEmblem)
         ENABLEHOOK(TppUiEmblemImplEmblemEditorSystemImplCreateEmblem)
 
+        CREATE_HOOK(TppGmPlayerImplClimbActionPluginImplCheckActionState)
+        ENABLEHOOK(TppGmPlayerImplClimbActionPluginImplCheckActionState)
+
+        CREATE_HOOK(FoxGeoPathResultGetNumPoint)
+        ENABLEHOOK(FoxGeoPathResultGetNumPoint)
+
         // clang-format off
         {
             // these must go together to keep track of bytes written
