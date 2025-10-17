@@ -176,7 +176,7 @@ Steps:
 <thead>
 <th>#</th><th>Name</th><th>Can be finished?</th><th>Issues</th>
 </thead>
-<tr><td>1</td><td>PHANTOM LIMBS</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
+<tr><td>1</td><td>PHANTOM LIMBS</td><td>✔</td><td></td></tr>
 <tr><td>3</td><td>A HERO’S WAY</td><td>✔</td><td></td></tr>
 <tr><td>4</td><td>C2W</td><td>✔</td><td></td></tr>
 <tr><td>5</td><td>OVER THE FENCE</td><td>✔</td><td>prisoner repeats his lines over and over for host</td>
@@ -184,28 +184,28 @@ Steps:
 <tr><td>7</td><td>RED BRASS</td><td>✔</td><td>commanders don't move from their spawn points (<a href="https://github.com/unknown321/dynamite/issues/40" target="_blank">#40</a>)</td></tr>
 <tr><td>8</td><td>OCCUPATION FORCES</td><td>✔</td><td>third tank spawn only for host (<a href="https://github.com/unknown321/dynamite/issues/19" target="_blank">#19</a>)</td></tr>
 <tr><td>9</td><td>BACKUP, BACK DOWN</td><td>✔</td><td></td></tr>
-<tr><td>10</td><td>ANGEL WITH BROKEN WINGS</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
+<tr><td>10</td><td>ANGEL WITH BROKEN WINGS</td><td>✔</td><td></td></tr>
 <tr class="warning-row"><td>11</td><td>CLOAKED IN SILENCE</td><td>?</td><td>boss is local</td></tr>
 <tr><td>12</td><td>HELLBOUND</td><td>✔</td><td>possible black screen after finishing the mission (<a href="https://github.com/unknown321/dynamite/issues/70" target="_blank">#70</a>)</td>
 <tr><td>13</td><td>PITCH DARK</td><td>✔</td><td>mission may abort on start (out of mission area) if partner connects too late (<a href="https://github.com/unknown321/dynamite/issues/3" target="_blank">#3</a>)</td></tr>
-<tr><td>14</td><td>LINGUA FRANCA</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), interrogation never starts (<a href="https://github.com/unknown321/dynamite/issues/83" target="_blank">#83</a>)</td></tr>
+<tr><td>14</td><td>LINGUA FRANCA</td><td>✔</td><td>interrogation never starts (<a href="https://github.com/unknown321/dynamite/issues/83" target="_blank">#83</a>)</td></tr>
 <tr><td>15</td><td>FOOTPRINTS OF PHANTOMS</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
 <tr class="warning-row"><td>16</td><td>TRAITORS’ CARAVAN</td><td>?</td><td>skulls spawn only for one player (<a href="https://github.com/unknown321/dynamite/issues/41" target="_blank">#41</a>), no armored vehicle (<a href="https://github.com/unknown321/dynamite/issues/42" target="_blank">#42</a>)</td></tr>
 <tr><td>17</td><td>RESCUE THE INTEL AGENTS</td><td>✔</td><td>there may be some confusion with prisoner extraction order</td></tr>
-<tr><td>18</td><td>BLOOD RUNS DEEP</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), various kid sync issues</td></tr>
+<tr><td>18</td><td>BLOOD RUNS DEEP</td><td>✔</td><td>various kid sync issues</td></tr>
 <tr><td>19</td><td>ON THE TRAIL</td><td>✔</td><td>various vehicle bugs</td></tr>
 <tr><td>20</td><td>VOICES</td><td>✔</td><td></td></tr>
 <tr><td>21</td><td>THE WAR ECONOMY</td><td>✔</td><td></td></tr>
-<tr><td>23</td><td>THE WHITE MAMBA</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), boss is local</td></tr>
-<tr><td>24</td><td>CLOSE CONTACT</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
-<tr><td>25</td><td>AIM TRUE, YE VENGEFUL</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
-<tr><td>26</td><td>HUNTING DOWN</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
+<tr><td>23</td><td>THE WHITE MAMBA</td><td>✔</td><td>boss is local</td></tr>
+<tr><td>24</td><td>CLOSE CONTACT</td><td>✔</td><td></td></tr>
+<tr><td>25</td><td>AIM TRUE, YE VENGEFUL</td><td>✔</td><td></td></tr>
+<tr><td>26</td><td>HUNTING DOWN</td><td>✔</td><td></td></tr>
 <tr><td>27</td><td>ROOT CAUSE</td><td>✔</td><td></td></tr>
 <tr class="warning-row"><td>28</td><td>CODE TALKER</td><td>?</td><td>client cannot pick up Code Talker (<a href="https://github.com/unknown321/dynamite/issues/15" target="_blank">#15</a>)</td>
 <tr class="warning-row"><td>29</td><td>METALLIC ARCHAEA</td><td>?</td><td></td></tr>
 <tr class="warning-row"><td>30</td><td>SKULL FACE</td><td>?</td><td></td></tr>
 <tr class="warning-row"><td>31</td><td>SAHELANTHROPUS</td><td>?</td><td>boss is local</td></tr>
-<tr><td>32</td><td>TO KNOW TOO MUCH</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>), walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
+<tr><td>32</td><td>TO KNOW TOO MUCH</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
 <tr class="warning-row"><td>35</td><td>CURSED LEGACY</td><td>?</td><td></td></tr>
 <tr><td>38</td><td>EXTRAORDINARY</td><td>✔</td><td>film canister unable to be picked up by client</td></tr>
 <tr class="warning-row"><td>41</td><td>PROXY WAR WITHOUT END</td><td>?</td><td></td></tr>

@@ -3448,6 +3448,27 @@ function e.EstablishedMissionClear()
 		)
 	end
 	e.systemCallbacks.OnEstablishMissionClear(svars.mis_missionClearType)
+
+    if gvars.mis_nextMissionCodeForMissionClear == nil or gvars.mis_nextMissionCodeForMissionClear == 0 then
+        local missionClearType = TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER
+        local nextMissionId = TppDefine.SYS_MISSION_ID.AFGH_HELI
+        if TppLocation.IsAfghan() then
+            missionClearType = TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER
+            nextMissionId = TppDefine.SYS_MISSION_ID.AFGH_HELI
+        elseif TppLocation.IsMiddleAfrica() then
+            missionClearType = TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER
+            nextMissionId = TppDefine.SYS_MISSION_ID.MAFR_HELI
+        elseif TppLocation.IsMotherBase() then
+            missionClearType = TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER
+            nextMissionId = TppDefine.SYS_MISSION_ID.MTBS_HELI
+        else
+            missionClearType = TppDefine.MISSION_CLEAR_TYPE.RIDE_ON_HELICOPTER
+            nextMissionId = TppDefine.SYS_MISSION_ID.AFGH_HELI
+        end
+
+        e.SetNextMissionCodeForMissionClear(nextMissionId)
+        e.SetMissionClearState(missionClearType)
+    end
 end
 function e.OnMissionGameEndFadeOutFinish()
 	local n = e.IsHelicopterSpace(gvars.mis_nextMissionCodeForMissionClear)
