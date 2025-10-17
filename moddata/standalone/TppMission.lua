@@ -4226,6 +4226,9 @@ function e.GetObjectiveRadioOption(n)
 	return e
 end
 function e.OnMissionStart()
+    local helpers = require("helpers")
+    helpers.log("TppMission.OnMissionStart, code " .. tostring(vars.missionCode))
+
 	if e.IsMissionStart() then
 		gvars.mis_quietCallCountOnMissionStart = vars.buddyCallCount[BuddyType.QUIET]
 		if vars.buddyType == BuddyType.QUIET then
