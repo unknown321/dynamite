@@ -178,7 +178,7 @@ Steps:
 </thead>
 <tr><td>1</td><td>PHANTOM LIMBS</td><td>✔</td><td>client loads into mission again (<a href="https://github.com/unknown321/dynamite/issues/12" target="_blank">#12</a>)</td></tr>
 <tr><td>3</td><td>A HERO’S WAY</td><td>✔</td><td></td></tr>
-<tr><td>4</td><td>C2W</td><td>✔</td><td>mission must be finished by player who completed 3/3 objectives (<a href="https://github.com/unknown321/dynamite/issues/80" target="_blank">#80</a>)</td></tr>
+<tr><td>4</td><td>C2W</td><td>✔</td><td></td></tr>
 <tr><td>5</td><td>OVER THE FENCE</td><td>✔</td><td>prisoner repeats his lines over and over for host</td>
 <tr class="error-row"><td>6</td><td>WHERE DO THE BEES SLEEP?</td><td>❌</td><td>skulls don't spawn (<a href="https://github.com/unknown321/dynamite/issues/55" target="_blank">#55</a>), client cannot pick up honey bee (<a href="https://github.com/unknown321/dynamite/issues/71" target="_blank">#71</a>)</td></tr>
 <tr><td>7</td><td>RED BRASS</td><td>✔</td><td>commanders don't move from their spawn points (<a href="https://github.com/unknown321/dynamite/issues/40" target="_blank">#40</a>)</td></tr>
