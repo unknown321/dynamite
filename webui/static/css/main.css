@@ -238,3 +238,8 @@ td.profileLink {
 .table-missions tr:hover:not(.warning-row):not(.error-row) {
     background: #e8f5e8;
 }
+
+a.no-visited:visited {
+    color: rgb(0,0,238);!important;
+    text-decoration: none;
+}
