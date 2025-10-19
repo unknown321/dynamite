@@ -63,13 +63,6 @@ namespace Dynamite {
                                "tpp::ui::hud::impl::TppUIFobResultImpl::UpdateFobResult",
             },
             {
-                .address = 0x145ccff85,
-                .expected = {0x74, 0x09}, // JZ 0x145ccff90
-                .patch = {0x48, 0x90},    // NOP
-                .description = "Skip Resume Game prompt"
-                               "tpp::ui::menu::LoadingTipsEv::UpdateActPhase",
-            },
-            {
                 .address = 0x144e42a62,
                 .expected = {0x0f, 0x094, 0xd0}, // SETZ AL
                 .patch = {0x40, 0xb0, 0x01},     // MOV AL, 0x01

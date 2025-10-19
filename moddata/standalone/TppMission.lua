@@ -4046,6 +4046,7 @@ function e.Load(n, i, e)
 	else
 		gvars.waitLoadingTipsEnd = true
 	end
+	gvars.waitLoadingTipsEnd = false
 	TppMain.EnablePause()
 	TppMain.EnableBlackLoading(s)
 	if not TppEnemy.IsLoadedDefaultSoldier2CommonPackage() then
@@ -4248,6 +4249,7 @@ function e.GetObjectiveRadioOption(n)
 end
 function e.OnMissionStart()
     local helpers = require("helpers")
+    Dynamite.Log("TppMission.OnMissionStart, code " .. tostring(vars.missionCode))
     helpers.log("TppMission.OnMissionStart, code " .. tostring(vars.missionCode))
 
 	if e.IsMissionStart() then
