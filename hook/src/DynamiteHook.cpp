@@ -276,8 +276,8 @@ namespace Dynamite {
             uint32_t mem5 = *(int *)((char *)Block + 0x148);
             hookState.processCounter[Block].blockState = blockState;
             auto processTime = *(double *)((char *)BlockProcessState + 0x28);
-            auto total = mem1 - mem2 + mem3 + mem4;
-            spdlog::info("{}, tid {}, process {} ({}), state {}, time {}, mem {} - {} + {} + {} = {} ({}), diff {}",
+            int64_t total = mem1 - mem2 + mem3 + mem4;
+            spdlog::info("{}, tid {}, process {} ({}), state {}, time {}, mem {} - {} + {} + {} = {} ({})",
                 __PRETTY_FUNCTION__,
                 tid,
                 blockName,
@@ -289,8 +289,7 @@ namespace Dynamite {
                 mem3,
                 mem4,
                 total,
-                mem5,
-                mem5 - total);
+                mem5);
         }
 
         //        if ((uint)((*(int *)(param_1 + 0x60) - *(int *)(param_1 + 0x18)) + *(int *)(param_1 + 0x40) +
