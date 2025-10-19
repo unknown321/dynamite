@@ -31,6 +31,7 @@ namespace Dynamite {
     int l_IsSynchronized(lua_State *L);
     int l_RequestVar(lua_State *L);
     int l_Ping(lua_State *L);
+    int l_Log(lua_State *L);
 }
 
 #endif // HOOK_DYNAMITELUA_H

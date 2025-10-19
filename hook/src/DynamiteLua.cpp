@@ -327,6 +327,20 @@ namespace Dynamite {
         return 0;
     }
 
+    int l_Log(lua_State *L) {
+        size_t len;
+        const auto str = luaL_checklstring(L, 1, &len);
+        if (len < 1) {
+            spdlog::error("{}, str is empty", __PRETTY_FUNCTION__);
+            return 0;
+        }
+
+        spdlog::info("[lua] {}", str);
+
+        return 0;
+    }
+
+
     // int l_GetCamoRate(lua_State *L) {
     //     // wrong!
     //     // auto lvar8 = *(uint32_t *)((char *)camouflageControllerImpl + 0x38);
@@ -359,6 +373,7 @@ namespace Dynamite {
             {"IsSynchronized", l_IsSynchronized},
             {"RequestVar", l_RequestVar},
             {"Ping", l_Ping},
+            {"Log", l_Log},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);
