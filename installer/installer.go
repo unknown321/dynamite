@@ -179,7 +179,7 @@ func packVendor(baseDir string) error {
 		fn, _ := dict.GetByHash(hash)
 		prevFile := filepath.Join(baseDir, fn)
 		if _, err = os.Stat(prevFile); err == nil {
-			slog.Info("removing", "file", e.Source.NameInQar, "onDisk", prevFile)
+			slog.Info("removing existing file in qar", "file", e.Source.NameInQar, "onDisk", prevFile)
 			_ = os.Remove(prevFile)
 		}
 
@@ -187,7 +187,7 @@ func packVendor(baseDir string) error {
 		for k, v := range qq.Entries {
 			if v.Header.NameHashForPacking == hash {
 				qq.Entries[k].Header.FilePath = e.Source.NameInQar
-				slog.Info("found existing file", "name", e.Source.NameInQar, "onDisk", prevFile)
+				slog.Info("found existing entry in qar", "name", e.Source.NameInQar, "onDisk", prevFile)
 				found = true
 				break
 			}
@@ -311,7 +311,7 @@ func replaceFiles(outdir string) error {
 			return err
 		}
 
-		for _, add := range f.Add {
+		for _, add := range f.Replace {
 			for i, e := range sourceFpk.Entries {
 				if e.FilePath.Data == add.FileName {
 					slog.Info("replacing", "name", add.FileName, "fpk", f.Source.NameInQar)
@@ -322,9 +322,19 @@ func replaceFiles(outdir string) error {
 
 					slog.Info("replaced", "file", add.FileName, "fpk", f.Source.NameInQar, "source dat", f.Source.SourceQar)
 					break
-
 				}
 			}
+		}
+
+		for _, add := range f.Add {
+			entry := fpk.Entry{}
+			entry.FilePath.Data = add.FileName
+			entry.Data, err = moddata.ModData.ReadFile(add.SourceFile)
+			if err != nil {
+				return fmt.Errorf("add to fpk, source file %s not found: %w", add.SourceFile, err)
+			}
+			sourceFpk.Entries = append(sourceFpk.Entries, entry)
+			slog.Info("added", "file", add.FileName, "fpk", f.Source.NameInQar, "source dat", f.Source.SourceQar)
 		}
 
 		// TODO less loops?

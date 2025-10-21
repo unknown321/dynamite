@@ -1093,6 +1093,7 @@ function e.MissionGameEnd(n)
 			TppNetworkUtil.SessionDisconnectPreparingMembers()
 			TppNetworkUtil.CloseSession()
 			Dynamite.ResetClientSessionState()
+			Dynamite.MissionComplete()
 		end
 	end
 end
@@ -1236,6 +1237,11 @@ function e.OnEndMissionReward()
 		end
 	end
 	e.ResetNeedWaitMissionInitialize()
+
+	Dynamite.Log("Donated: " .. tostring(Dynamite.Donated()) .. ", missions completed: " .. tostring(Dynamite.GetMissionsCompleted()))
+	if not Dynamite.Donated() and Dynamite.GetMissionsCompleted() % 3 == 0 and Dynamite.GetMissionsCompleted() > 0 then
+		TppUiCommand.ShowPopup("dynamite_donate", Popup.TYPE_ONE_BUTTON)
+	end
 end
 function e.MissionFinalize(n)
 	local a, r, i, t, o, l
@@ -4249,8 +4255,8 @@ function e.GetObjectiveRadioOption(n)
 end
 function e.OnMissionStart()
     local helpers = require("helpers")
-    Dynamite.Log("TppMission.OnMissionStart, code " .. tostring(vars.missionCode))
-    helpers.log("TppMission.OnMissionStart, code " .. tostring(vars.missionCode))
+    Dynamite.Log("TppMission.OnMissionStart, mission code " .. tostring(vars.missionCode))
+    helpers.log("TppMission.OnMissionStart, mission code " .. tostring(vars.missionCode))
 
 	if e.IsMissionStart() then
 		gvars.mis_quietCallCountOnMissionStart = vars.buddyCallCount[BuddyType.QUIET]

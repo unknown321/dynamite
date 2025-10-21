@@ -5,6 +5,6 @@ vendor
 *.fox2
 *.fpk
 *.fpkd
-*.json
 cache
 moddata/test
+*.lng2
