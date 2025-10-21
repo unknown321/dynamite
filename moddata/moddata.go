@@ -1016,6 +1016,97 @@ var ReplaceInFPK = []UpdateInFpk{
 			},
 		},
 	},
+	{
+		Source: FileFromQar{
+			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
+			NameInQar: "/Assets/tpp/pack/ui/lang/lang_default_data_ger.fpk",
+		},
+		Compressed: true,
+		Add: []FileToAdd{
+			{
+				SourceFile: "tl/dynamite_ger_fpk/Assets/tpp/lang/ui/dynamite/dynamite_ger.lng2",
+				FileName:   "/Assets/tpp/lang/ui/dynamite/dynamite_ger.lng2",
+			},
+		},
+	},
+	{
+		Source: FileFromQar{
+			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
+			NameInQar: "/Assets/tpp/pack/ui/lang/lang_default_data_jpn.fpk",
+		},
+		Compressed: true,
+		Add: []FileToAdd{
+			{
+				SourceFile: "tl/dynamite_jpn_fpk/Assets/tpp/lang/ui/dynamite/dynamite_jpn.lng2",
+				FileName:   "/Assets/tpp/lang/ui/dynamite/dynamite_jpn.lng2",
+			},
+		},
+	},
+	{
+		Source: FileFromQar{
+			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
+			NameInQar: "/Assets/tpp/pack/ui/lang/lang_default_data_fre.fpk",
+		},
+		Compressed: true,
+		Add: []FileToAdd{
+			{
+				SourceFile: "tl/dynamite_fre_fpk/Assets/tpp/lang/ui/dynamite/dynamite_fre.lng2",
+				FileName:   "/Assets/tpp/lang/ui/dynamite/dynamite_fre.lng2",
+			},
+		},
+	},
+	{
+		Source: FileFromQar{
+			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
+			NameInQar: "/Assets/tpp/pack/ui/lang/lang_default_data_por.fpk",
+		},
+		Compressed: true,
+		Add: []FileToAdd{
+			{
+				SourceFile: "tl/dynamite_por_fpk/Assets/tpp/lang/ui/dynamite/dynamite_por.lng2",
+				FileName:   "/Assets/tpp/lang/ui/dynamite/dynamite_por.lng2",
+			},
+		},
+	},
+	{
+		Source: FileFromQar{
+			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
+			NameInQar: "/Assets/tpp/pack/ui/lang/lang_default_data_spa.fpk",
+		},
+		Compressed: true,
+		Add: []FileToAdd{
+			{
+				SourceFile: "tl/dynamite_spa_fpk/Assets/tpp/lang/ui/dynamite/dynamite_spa.lng2",
+				FileName:   "/Assets/tpp/lang/ui/dynamite/dynamite_spa.lng2",
+			},
+		},
+	},
+	{
+		Source: FileFromQar{
+			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
+			NameInQar: "/Assets/tpp/pack/ui/lang/lang_default_data_rus.fpk",
+		},
+		Compressed: true,
+		Add: []FileToAdd{
+			{
+				SourceFile: "tl/dynamite_rus_fpk/Assets/tpp/lang/ui/dynamite/dynamite_rus.lng2",
+				FileName:   "/Assets/tpp/lang/ui/dynamite/dynamite_rus.lng2",
+			},
+		},
+	},
+	{
+		Source: FileFromQar{
+			SourceQar: filepath.Join("master", "0", "00.dat.vendor"),
+			NameInQar: "/Assets/tpp/pack/ui/lang/lang_default_data_ita.fpk",
+		},
+		Compressed: true,
+		Add: []FileToAdd{
+			{
+				SourceFile: "tl/dynamite_ita_fpk/Assets/tpp/lang/ui/dynamite/dynamite_ita.lng2",
+				FileName:   "/Assets/tpp/lang/ui/dynamite/dynamite_ita.lng2",
+			},
+		},
+	},
 }
 
 var ReplaceInQAR = []AddToQar{

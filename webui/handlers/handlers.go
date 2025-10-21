@@ -406,6 +406,63 @@ func Docs(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func MissionList(w http.ResponseWriter, r *http.Request) {
+	p := pageData{
+		Config:    nil,
+		Version:   &Version,
+		Keys:      nil,
+		Examples:  nil,
+		MetaTag:   "",
+		HasUpdate: HasUpdate,
+		Flavor:    currentFlavor,
+	}
+
+	if err := tmpl.ExecuteTemplate(w, "missionlist.tmpl", p); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func Donate(w http.ResponseWriter, r *http.Request) {
+	p := pageData{
+		Config:    Config,
+		Version:   &Version,
+		Keys:      nil,
+		Examples:  nil,
+		MetaTag:   "",
+		HasUpdate: HasUpdate,
+		Flavor:    currentFlavor,
+	}
+
+	if err := tmpl.ExecuteTemplate(w, "donate.tmpl", p); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func Donated(w http.ResponseWriter, r *http.Request) {
+	p := pageData{
+		Config:    nil,
+		Version:   &Version,
+		Keys:      nil,
+		Examples:  nil,
+		MetaTag:   "",
+		HasUpdate: HasUpdate,
+		Flavor:    currentFlavor,
+	}
+
+	Config.Dynamite.Donated = true
+	if err := Config.Save(); err != nil {
+		http.Error(w, fmt.Sprintf("cannot save config: %s", err.Error()), http.StatusInternalServerError)
+		return
+	}
+
+	if err := tmpl.ExecuteTemplate(w, "donated.tmpl", p); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
 func License(w http.ResponseWriter, r *http.Request) {
 	p := pageData{
 		Config:    nil,

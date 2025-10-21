@@ -13,7 +13,7 @@ THIS LIST IS OUTDATED
     -10070 : 12 - HELLBOUND - infinite loading after first cutscene, works after restarting the game
     +10080 : 13 - PITCH DARK - loads
     +10086 : 14 - LINGUA FRANCA - loads, works?
-    +10082 : 15 - FOOTPRINTS OF PHANTOMS - loads, works?
+    +10082 : 15 - FOOTPRINTS OF PHANTOMS - loads, works
     +10090 : 16 - TRAITORS’ CARAVAN - loads, works?
     +10091 : 17 - RESCUE THE INTEL AGENTS - loads, landing zone is slightly off for each player? spawned in some distance from host
     +10100 : 18 - BLOOD RUNS DEEP - loads, works?

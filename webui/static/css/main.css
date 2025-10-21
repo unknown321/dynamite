@@ -235,7 +235,15 @@ td.profileLink {
     background: #ffcdd2;
 }
 
-.table-missions tr:hover:not(.warning-row):not(.error-row) {
+.table-missions tr.skipped-row {
+    background: #dddddd;
+}
+
+.table-missions tr.skipped-row:hover {
+    background: #999999;
+}
+
+.table-missions tr:hover:not(.warning-row):not(.error-row):not(.skipped-row) {
     background: #e8f5e8;
 }
 

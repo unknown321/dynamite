@@ -40,6 +40,9 @@ func Run(address string, conf *config.Config) {
 	mux.HandleFunc("/stop", handlers.Stop)
 	mux.HandleFunc("/save-config", handlers.Save)
 	mux.HandleFunc("/docs", handlers.Docs)
+	mux.HandleFunc("/missionlist", handlers.MissionList)
+	mux.HandleFunc("/donate", handlers.Donate)
+	mux.HandleFunc("/donated", handlers.Donated)
 	mux.HandleFunc("/license", handlers.License)
 	mux.HandleFunc("/status", handlers.Status)
 	mux.HandleFunc("/healthcheck", func(writer http.ResponseWriter, request *http.Request) {

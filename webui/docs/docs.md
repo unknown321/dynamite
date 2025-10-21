@@ -5,7 +5,7 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
 
 <!-- TOC -->
 * [Usage](#usage)
-* [I WANT TO PLAY NOW HOW DO I PLAY](#i-want-to-play-now-how-do-i-play)
+* [I need a video](#i-need-a-video)
 * [I am capable of reading](#i-am-capable-of-reading)
     * [Requirements](#requirements)
     * [Configuration](#configuration)
@@ -18,7 +18,6 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
     * [Updating](#updating)
     * [Playing](#playing)
       * [Mission list](#mission-list)
-      * [EXTREME versions, tutorial missions and script-heavy missions are not included:](#extreme-versions-tutorial-missions-and-script-heavy-missions-are-not-included)
       * [Host](#host)
       * [Client](#client)
     * [Issues](#issues)
@@ -31,9 +30,9 @@ dynamite is a 2 player co-op mod for Metal Gear Solid V: The Phantom Pain in ear
     * [License](#license)
 <!-- TOC -->
 
-# I WANT TO PLAY NOW HOW DO I PLAY
+# I need a video
 
-Follow this guide: <a href="https://www.youtube.com/watch?v=SvePtu07XVY" target="_blank">link</a>
+Follow this guide: <a href="https://www.youtube.com/watch?v=SvePtu07XVY" target="_blank">link</a>.
 
 # I am capable of reading
 
@@ -166,85 +165,13 @@ Steps:
 1. Agree on roles (host/client)
 2. Configure dynamite
 3. Launch the game
-4. Choose working mission from list below and tell it to your partner
+4. Choose working mission from <a href="/missionlist>list</a> and tell it to your partner
 
 ---
 
 #### Mission list
 
-<table class="table-missions">
-<thead>
-<th>#</th><th>Name</th><th>Can be finished?</th><th>Issues</th>
-</thead>
-<tr><td>1</td><td>PHANTOM LIMBS</td><td>✔</td><td></td></tr>
-<tr><td>3</td><td>A HERO’S WAY</td><td>✔</td><td></td></tr>
-<tr><td>4</td><td>C2W</td><td>✔</td><td></td></tr>
-<tr><td>5</td><td>OVER THE FENCE</td><td>✔</td><td>prisoner repeats his lines over and over for host</td>
-<tr class="error-row"><td>6</td><td>WHERE DO THE BEES SLEEP?</td><td>❌</td><td>skulls don't spawn (<a href="https://github.com/unknown321/dynamite/issues/55" target="_blank">#55</a>), client cannot pick up honey bee (<a href="https://github.com/unknown321/dynamite/issues/71" target="_blank">#71</a>)</td></tr>
-<tr><td>7</td><td>RED BRASS</td><td>✔</td><td>commanders don't move from their spawn points (<a href="https://github.com/unknown321/dynamite/issues/40" target="_blank">#40</a>)</td></tr>
-<tr><td>8</td><td>OCCUPATION FORCES</td><td>✔</td><td>third tank spawn only for host (<a href="https://github.com/unknown321/dynamite/issues/19" target="_blank">#19</a>)</td></tr>
-<tr><td>9</td><td>BACKUP, BACK DOWN</td><td>✔</td><td></td></tr>
-<tr><td>10</td><td>ANGEL WITH BROKEN WINGS</td><td>✔</td><td></td></tr>
-<tr class="warning-row"><td>11</td><td>CLOAKED IN SILENCE</td><td>?</td><td>boss is local</td></tr>
-<tr><td>12</td><td>HELLBOUND</td><td>✔</td><td></td>
-<tr><td>13</td><td>PITCH DARK</td><td>✔</td><td>mission may abort on start (out of mission area) if partner connects too late (<a href="https://github.com/unknown321/dynamite/issues/3" target="_blank">#3</a>)</td></tr>
-<tr><td>14</td><td>LINGUA FRANCA</td><td>✔</td><td>interrogation never starts (<a href="https://github.com/unknown321/dynamite/issues/83" target="_blank">#83</a>)</td></tr>
-<tr><td>15</td><td>FOOTPRINTS OF PHANTOMS</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
-<tr class="warning-row"><td>16</td><td>TRAITORS’ CARAVAN</td><td>?</td><td>skulls spawn only for one player (<a href="https://github.com/unknown321/dynamite/issues/41" target="_blank">#41</a>), no armored vehicle (<a href="https://github.com/unknown321/dynamite/issues/42" target="_blank">#42</a>)</td></tr>
-<tr><td>17</td><td>RESCUE THE INTEL AGENTS</td><td>✔</td><td>there may be some confusion with prisoner extraction order</td></tr>
-<tr><td>18</td><td>BLOOD RUNS DEEP</td><td>✔</td><td>various kid sync issues</td></tr>
-<tr><td>19</td><td>ON THE TRAIL</td><td>✔</td><td>various vehicle bugs</td></tr>
-<tr><td>20</td><td>VOICES</td><td>✔</td><td></td></tr>
-<tr><td>21</td><td>THE WAR ECONOMY</td><td>✔</td><td></td></tr>
-<tr><td>23</td><td>THE WHITE MAMBA</td><td>✔</td><td>boss is local</td></tr>
-<tr><td>24</td><td>CLOSE CONTACT</td><td>✔</td><td></td></tr>
-<tr><td>25</td><td>AIM TRUE, YE VENGEFUL</td><td>✔</td><td></td></tr>
-<tr><td>26</td><td>HUNTING DOWN</td><td>✔</td><td></td></tr>
-<tr><td>27</td><td>ROOT CAUSE</td><td>✔</td><td></td></tr>
-<tr class="warning-row"><td>28</td><td>CODE TALKER</td><td>?</td><td>client cannot pick up Code Talker (<a href="https://github.com/unknown321/dynamite/issues/15" target="_blank">#15</a>)</td>
-<tr class="warning-row"><td>29</td><td>METALLIC ARCHAEA</td><td>?</td><td></td></tr>
-<tr class="warning-row"><td>30</td><td>SKULL FACE</td><td>?</td><td></td></tr>
-<tr class="warning-row"><td>31</td><td>SAHELANTHROPUS</td><td>?</td><td>boss is local</td></tr>
-<tr><td>32</td><td>TO KNOW TOO MUCH</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
-<tr class="warning-row"><td>35</td><td>CURSED LEGACY</td><td>?</td><td></td></tr>
-<tr><td>38</td><td>EXTRAORDINARY</td><td>✔</td><td>film canister unable to be picked up by client</td></tr>
-<tr class="warning-row"><td>41</td><td>PROXY WAR WITHOUT END</td><td>?</td><td></td></tr>
-<tr><td>43</td><td>SHINING LIGHTS, EVEN IN DEATH</td><td>✔</td><td>crash if you skip any of post-landing cutscenes (<a href="https://github.com/unknown321/dynamite/issues/16" target="_blank">#16</a>), NPCs have default poses sometimes (<a href="https://github.com/unknown321/dynamite/issues/78" target="_blank">#78</a>)</td></tr>
-<tr class="warning-row"><td>45</td><td>A QUIET EXIT</td><td>?</td><td></td></tr>
-</table>
-
-A good (read: tested) choice is Mission 5, OVER THE FENCE.
-
-Missions marked with `?` are not confirmed to be playable to the end. Report if they are working on 
-<a href="https://github.com/unknown321/dynamite/issues" target="_blank">GitHub</a> or
-<a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>, `modding-showcase`
-channel, `dynamite` thread.
-
-#### EXTREME versions, tutorial missions and script-heavy missions are not included:
-
-<details>
-<summary>Click me</summary>
-
-```
-    PROLOGUE: AWAKENING
-    2 - DIAMOND DOGS
-    22 - RETAKE THE PLATFORM
-    33 - [SUBSISTENCE] C2W
-    34 - [EXTREME] BACKUP, BACK DOWN
-    36 - [TOTAL STEALTH] FOOTPRINTS OF PHANTOMS
-    37 - [EXTREME] TRAITORS’ CARAVAN
-    39 - [TOTAL STEALTH] OVER THE FENCE
-    40 - [EXTREME] CLOAKED IN SILENCE
-    42 - [EXTREME] METALLIC ARCHAEA
-    44 - [TOTAL STEALTH] PITCH DARK
-    47 - [TOTAL STEALTH] THE WAR ECONOMY
-    48 - [EXTREME] CODE TALKER
-    49 - [SUBSISTENCE] OCCUPATION FORCES
-    50 - [EXTREME] SAHELANTHROPUS
-    46 - TRUTH: THE MAN WHO SOLD THE WORLD
-```
-
-</details>
+Click <a href="/missionlist">here</a> for full mission list.
 
 ---
 
@@ -281,7 +208,7 @@ Video: <a href="https://youtu.be/rJOufW-rp9g" target="_blank">Link</a>
 **Notes:**
 
 - Due to various issues (see below) players respawn 10 seconds after death instead of failing the mission
-- To finish the mission, all players must exfiltrate the hot zone
+- To finish the mission, at least one player must exfiltrate the hot zone
 - Fultoning other players results in mission failure
 - Restarting mission from pause menu results in infinite loading
 - Host may have to wait up to 30 seconds to reach the results menu

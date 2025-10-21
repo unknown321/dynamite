@@ -109,6 +109,7 @@ type Dynamite struct {
 	Version              int64
 	SkipConfig           bool
 	DocsRead             bool
+	Donated              bool
 }
 
 type MasterServer struct {

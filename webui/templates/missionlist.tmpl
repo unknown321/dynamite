@@ -1,0 +1,70 @@
+{{ template "header" . }}
+
+<h2>Mission list</h2>
+
+<p>A good (read: tested) choice for first coop experience is Mission 5, OVER THE FENCE.</p>
+
+<p>Missions marked with `?` are not confirmed to be playable to the end. Report if they are working on
+<a href="https://github.com/unknown321/dynamite/issues" target="_blank">GitHub</a> or
+<a href="https://discord.gg/3XwAsWV" target="_blank">Modders' Heaven Discord</a>, "modding-showcase" -> "dynamite" thread.</p>
+
+<p>Gray rows = disabled missions, which are not enabled for various reasons.</p>
+
+<table class="table-missions">
+<thead>
+<th>#</th><th>Name</th><th>Can be finished?</th><th>Issues</th>
+</thead>
+<tr class="skipped-row"><td></td><td>PROLOGUE: AWAKENING</td><td>-</td><td>Heavily scripted story mission</td></tr>
+<tr><td>1</td><td>PHANTOM LIMBS</td><td>✔</td><td></td></tr>
+<tr class="skipped-row"><td>2</td><td>DIAMOND DOGS</td><td>-</td><td>Tutorial mission</td></tr>
+<tr><td>3</td><td>A HERO’S WAY</td><td>✔</td><td></td></tr>
+<tr><td>4</td><td>C2W</td><td>✔</td><td></td></tr>
+<tr><td>5</td><td>OVER THE FENCE</td><td>✔</td><td>prisoner repeats his lines over and over for host</td>
+<tr class="error-row"><td>6</td><td>WHERE DO THE BEES SLEEP?</td><td>❌</td><td>skulls don't spawn (<a href="https://github.com/unknown321/dynamite/issues/55" target="_blank">#55</a>), client cannot pick up honey bee (<a href="https://github.com/unknown321/dynamite/issues/71" target="_blank">#71</a>)</td></tr>
+<tr><td>7</td><td>RED BRASS</td><td>✔</td><td>commanders don't move from their spawn points (<a href="https://github.com/unknown321/dynamite/issues/40" target="_blank">#40</a>)</td></tr>
+<tr><td>8</td><td>OCCUPATION FORCES</td><td>✔</td><td>third tank spawn only for host (<a href="https://github.com/unknown321/dynamite/issues/19" target="_blank">#19</a>)</td></tr>
+<tr><td>9</td><td>BACKUP, BACK DOWN</td><td>✔</td><td></td></tr>
+<tr><td>10</td><td>ANGEL WITH BROKEN WINGS</td><td>✔</td><td></td></tr>
+<tr class="warning-row"><td>11</td><td>CLOAKED IN SILENCE</td><td>?</td><td>boss is local</td></tr>
+<tr><td>12</td><td>HELLBOUND</td><td>✔</td><td></td>
+<tr><td>13</td><td>PITCH DARK</td><td>✔</td><td>mission may abort on start (out of mission area) if partner connects too late (<a href="https://github.com/unknown321/dynamite/issues/3" target="_blank">#3</a>)</td></tr>
+<tr><td>14</td><td>LINGUA FRANCA</td><td>✔</td><td>interrogation never starts (<a href="https://github.com/unknown321/dynamite/issues/83" target="_blank">#83</a>)</td></tr>
+<tr><td>15</td><td>FOOTPRINTS OF PHANTOMS</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
+<tr class="warning-row"><td>16</td><td>TRAITORS’ CARAVAN</td><td>?</td><td>skulls spawn only for one player (<a href="https://github.com/unknown321/dynamite/issues/41" target="_blank">#41</a>), no armored vehicle (<a href="https://github.com/unknown321/dynamite/issues/42" target="_blank">#42</a>)</td></tr>
+<tr><td>17</td><td>RESCUE THE INTEL AGENTS</td><td>✔</td><td>there may be some confusion with prisoner extraction order</td></tr>
+<tr><td>18</td><td>BLOOD RUNS DEEP</td><td>✔</td><td>various kid sync issues</td></tr>
+<tr><td>19</td><td>ON THE TRAIL</td><td>✔</td><td>various vehicle bugs</td></tr>
+<tr><td>20</td><td>VOICES</td><td>✔</td><td></td></tr>
+<tr><td>21</td><td>THE WAR ECONOMY</td><td>✔</td><td></td></tr>
+<tr class="skipped-row"><td>22</td><td>RETAKE THE PLATFORM</td><td>-</td><td>FOB tutorial mission with instant failure condition</td></tr>
+<tr><td>23</td><td>THE WHITE MAMBA</td><td>✔</td><td>boss is local</td></tr>
+<tr><td>24</td><td>CLOSE CONTACT</td><td>✔</td><td></td></tr>
+<tr><td>25</td><td>AIM TRUE, YE VENGEFUL</td><td>✔</td><td></td></tr>
+<tr><td>26</td><td>HUNTING DOWN</td><td>✔</td><td></td></tr>
+<tr><td>27</td><td>ROOT CAUSE</td><td>✔</td><td></td></tr>
+<tr class="warning-row"><td>28</td><td>CODE TALKER</td><td>?</td><td>client cannot pick up Code Talker (<a href="https://github.com/unknown321/dynamite/issues/15" target="_blank">#15</a>)</td>
+<tr class="warning-row"><td>29</td><td>METALLIC ARCHAEA</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>30</td><td>SKULL FACE</td><td>?</td><td></td></tr>
+<tr class="warning-row"><td>31</td><td>SAHELANTHROPUS</td><td>?</td><td>boss is local</td></tr>
+<tr><td>32</td><td>TO KNOW TOO MUCH</td><td>✔</td><td>walker gears are not fultonable (<a href="https://github.com/unknown321/dynamite/issues/21" target="_blank">#21</a>)</td></tr>
+<tr class="skipped-row"><td>33</td><td>[SUBSISTENCE] C2W</td><td>-</td><td>Subsistence version of #4</td></tr>
+<tr class="skipped-row"><td>34</td><td>[EXTREME] BACKUP, BACK DOWN</td><td>-</td><td>Extreme version of #9</td></tr>
+<tr class="warning-row"><td>35</td><td>CURSED LEGACY</td><td>?</td><td></td></tr>
+<tr class="skipped-row"><td>36</td><td>[TOTAL STEALTH] FOOTPRINTS OF PHANTOMS</td><td>-</td><td>Total stealth version of #15 with instant failure condition</td></tr>
+<tr class="skipped-row"><td>37</td><td>[EXTREME] TRAITORS’ CARAVAN</td><td>-</td><td>Extreme version of #16</td></tr>
+<tr><td>38</td><td>EXTRAORDINARY</td><td>✔</td><td>film canister unable to be picked up by client</td></tr>
+<tr class="skipped-row"><td>39</td><td>[TOTAL STEALTH] OVER THE FENCE</td><td>-</td><td>Total stealth version of #5 with instant failure condition</td></tr>
+<tr class="skipped-row"><td>40</td><td>[EXTREME] CLOAKED IN SILENCE</td><td>-</td><td>Extreme version of #11</td></tr>
+<tr class="warning-row"><td>41</td><td>PROXY WAR WITHOUT END</td><td>?</td><td></td></tr>
+<tr class="skipped-row"><td>42</td><td>[EXTREME] METALLIC ARCHAEA</td><td>-</td><td>Extreme version of #29</td></tr>
+<tr><td>43</td><td>SHINING LIGHTS, EVEN IN DEATH</td><td>✔</td><td>crash if you skip any of post-landing cutscenes (<a href="https://github.com/unknown321/dynamite/issues/16" target="_blank">#16</a>), NPCs have default poses sometimes (<a href="https://github.com/unknown321/dynamite/issues/78" target="_blank">#78</a>)</td></tr>
+<tr class="skipped-row"><td>44</td><td>[TOTAL STEALTH] PITCH DARK</td><td>-</td><td>Total stealth version of #13 with instant failure condition</td></tr>
+<tr class="warning-row"><td>45</td><td>A QUIET EXIT</td><td>?</td><td></td></tr>
+<tr class="skipped-row"><td>46</td><td>TRUTH: THE MAN WHO SOLD THE WORLD</td><td>-</td><td>Heavily scripted story mission</td></tr>
+<tr class="skipped-row"><td>47</td><td>[TOTAL STEALTH] THE WAR ECONOMY</td><td>-</td><td>Total stealth version of #21 with instant failure condition</td></tr>
+<tr class="skipped-row"><td>48</td><td>[EXTREME] CODE TALKER</td><td>-</td><td>Extreme version of #28</td></tr>
+<tr class="skipped-row"><td>49</td><td>[SUBSISTENCE] OCCUPATION FORCES</td><td>-</td><td>Subsistence version of #8</td></tr>
+<tr class="skipped-row"><td>50</td><td>[EXTREME] SAHELANTHROPUS</td><td>-</td><td>Extreme version of #31</td></tr>
+</table>
+
+{{ template "footer" . }}

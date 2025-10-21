@@ -2,13 +2,14 @@ package main
 
 import (
 	"bytes"
+	html2 "html"
+	"os"
+	"strings"
+
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/renderer/html"
-	html2 "html"
-	"os"
-	"strings"
 )
 
 func generate() {
