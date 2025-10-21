@@ -1094,4 +1094,10 @@ namespace Dynamite {
 
         return FoxGeoPathResultGetNumPoint(PathResult);
     }
+
+    void TppUiUtilityChangeLanguageHook(int param_1) {
+        spdlog::info("{}, langID {}", __PRETTY_FUNCTION__, param_1);
+        TppUiUtilityChangeLanguage(param_1);
+        TppUiMenuUiCommonDataManagerLoadLanguageBlock(0x5228f70f3baa9166);
+    }
 }

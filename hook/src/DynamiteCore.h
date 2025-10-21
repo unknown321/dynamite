@@ -11,7 +11,8 @@
 namespace Dynamite {
     class DynamiteCore {
       public:
-        void WithConfig(Config*);
+        DynamiteCore();
+        void WithConfig(Config *);
 
         int GetMemberCount() const;
         int GetNearestPlayer() const;
@@ -37,6 +38,8 @@ namespace Dynamite {
         bool GetSessionConnected() const;
         void SetEmblemCreated(bool v);
         bool GetEmblemCreated() const;
+        void MissionComplete();
+        uint32_t GetMissionsCompleted() const;
 
       private:
         bool sessionCreated = false;
@@ -47,6 +50,8 @@ namespace Dynamite {
         unsigned int defensePlayerID = 15;
         Config *cfg = nullptr;
         std::jthread nearestPlayerThread;
+        uint32_t missionsCompleted = 0;
+        std::filesystem::path missionsFilename = std::filesystem::path("dynamite") / std::filesystem::path("missions.txt");
     };
 }
 

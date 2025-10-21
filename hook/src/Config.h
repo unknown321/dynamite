@@ -40,6 +40,7 @@ class Config {
     std::vector<uint64_t> blacklist = {};
     std::vector<uint64_t> whitelist = {};
     debug debug = {};
+    bool donated = false;
 
     bool Read(ConfigValidateResult *);
     static bool ValidateKeys(const mINI::INIStructure &, ConfigValidateResult *);

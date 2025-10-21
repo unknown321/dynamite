@@ -128,6 +128,8 @@ bool Config::Read(ConfigValidateResult *r) {
         }
     }
 
+    this->donated = ini.get("Dynamite").get("Donated") == "true";
+
     auto dbg = ini.has("Debug");
     if (dbg) {
         auto fb = ini.get("Debug").get("FoxBlock");
@@ -168,7 +170,7 @@ bool Config::Read(ConfigValidateResult *r) {
 }
 
 void Config::Log() {
-    spdlog::info("Host: {0:d}", this->Host);
+    spdlog::info("Host: {}", this->Host);
     spdlog::info("HostID: {0:d}", this->HostSteamID);
     spdlog::info("Master server URL: {}", this->MasterServerURL);
     for (const auto &steamID : this->whitelist) {
@@ -178,6 +180,8 @@ void Config::Log() {
     for (const auto &steamID : this->blacklist) {
         spdlog::info("Blacklist entry: {0:d}", steamID);
     }
+
+    spdlog::info("Donated: {}", this->donated);
 
     spdlog::info("debug.FoxBlock: {}", this->debug.foxBlock);
     spdlog::info("debug.FoxBlockProcess: {}", this->debug.foxBlockProcess);

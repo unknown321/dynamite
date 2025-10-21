@@ -199,5 +199,8 @@ namespace Dynamite {
         TppGmPlayerImplClimbActionPluginImplCheckActionState =
             (TppGmPlayerImplClimbActionPluginImplCheckActionStateFunc *)addressSet["TppGmPlayerImplClimbActionPluginImplCheckActionState"];
         FoxGeoPathResultGetNumPoint = (FoxGeoPathResultGetNumPointFunc *)addressSet["FoxGeoPathResultGetNumPoint"];
+        TppUiMenuUiCommonDataManagerLoadLanguageBlock =
+            (TppUiMenuUiCommonDataManagerLoadLanguageBlockFunc *)addressSet["TppUiMenuUiCommonDataManagerLoadLanguageBlock"];
+        TppUiUtilityChangeLanguage = (TppUiUtilityChangeLanguageFunc *)addressSet["TppUiUtilityChangeLanguage"];
     }
 }

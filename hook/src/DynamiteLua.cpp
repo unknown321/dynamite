@@ -340,6 +340,24 @@ namespace Dynamite {
         return 0;
     }
 
+    int l_Donated(lua_State *L) {
+        lua_pushboolean(L, g_hook->cfg.donated);
+
+        return 1;
+    }
+
+    int l_MissionComplete(lua_State *L) {
+        g_hook->dynamiteCore.MissionComplete();
+
+        return 0;
+    }
+
+    int l_GetMissionsCompleted(lua_State *L) {
+        lua_pushinteger(L, g_hook->dynamiteCore.GetMissionsCompleted());
+
+        return 1;
+    }
+
 
     // int l_GetCamoRate(lua_State *L) {
     //     // wrong!
@@ -374,6 +392,9 @@ namespace Dynamite {
             {"RequestVar", l_RequestVar},
             {"Ping", l_Ping},
             {"Log", l_Log},
+            {"Donated", l_Donated},
+            {"MissionComplete", l_MissionComplete},
+            {"GetMissionsCompleted", l_GetMissionsCompleted},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);

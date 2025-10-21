@@ -363,6 +363,10 @@ typedef bool(__thiscall TppGmPlayerImplClimbActionPluginImplCheckActionStateFunc
 
 typedef int(__thiscall FoxGeoPathResultGetNumPointFunc)(void *PathResult);
 
+typedef bool(__cdecl TppUiMenuUiCommonDataManagerLoadLanguageBlockFunc)(uint64_t PathId);
+
+typedef void(__cdecl TppUiUtilityChangeLanguageFunc)(int param_1);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -536,4 +540,6 @@ extern TppGkEmblemManagerCreateBlenderFunc *TppGkEmblemManagerCreateBlender;
 extern TppUiEmblemImplEmblemEditorSystemImplIsReadyFunc *TppUiEmblemImplEmblemEditorSystemImplIsReady;
 extern TppGmPlayerImplClimbActionPluginImplCheckActionStateFunc *TppGmPlayerImplClimbActionPluginImplCheckActionState;
 extern FoxGeoPathResultGetNumPointFunc *FoxGeoPathResultGetNumPoint;
+extern TppUiMenuUiCommonDataManagerLoadLanguageBlockFunc *TppUiMenuUiCommonDataManagerLoadLanguageBlock;
+extern TppUiUtilityChangeLanguageFunc *TppUiUtilityChangeLanguage;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

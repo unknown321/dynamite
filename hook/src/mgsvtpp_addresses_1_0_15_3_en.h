@@ -144,6 +144,8 @@ namespace Dynamite {
         {"FoxNioImplSppSocketImplSendImpl", 0x141a57b00},
         {"FoxNioImplSteamUdpSocketImplSend", 0x14c4044f0},
         {"FoxNioImplSteamUdpSocketImplRecv", 0x14c4042c0},
+        {"TppUiMenuUiCommonDataManagerLoadLanguageBlock", 0x145bddb50},
+        {"TppUiUtilityChangeLanguage", 0x14090f130},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},

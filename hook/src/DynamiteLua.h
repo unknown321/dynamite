@@ -1,10 +1,6 @@
 #ifndef HOOK_DYNAMITELUA_H
 #define HOOK_DYNAMITELUA_H
 
-#include "Config.h"
-#include "DynamiteSyncImpl/DynamiteSyncImpl.h"
-#include "Tpp/PlayerDamage.h"
-#include "Tpp/TppNPCLifeState.h"
 #include "lua/lua.h"
 
 namespace Dynamite {
@@ -32,6 +28,9 @@ namespace Dynamite {
     int l_RequestVar(lua_State *L);
     int l_Ping(lua_State *L);
     int l_Log(lua_State *L);
+    int l_Donated(lua_State *L);
+    int l_MissionComplete(lua_State *L);
+    int l_GetMissionsCompleted(lua_State *L);
 }
 
 #endif // HOOK_DYNAMITELUA_H

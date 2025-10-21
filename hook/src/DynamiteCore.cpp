@@ -12,6 +12,16 @@
 #include <spdlog/spdlog.h>
 
 namespace Dynamite {
+    DynamiteCore::DynamiteCore() {
+        if (!std::filesystem::exists(missionsFilename)) {
+            missionsCompleted = 0;
+        } else {
+            std::ifstream missionsFile(missionsFilename);
+            missionsFile >> missionsCompleted;
+            missionsFile.close();
+        }
+    }
+
     void DynamiteCore::WithConfig(Config *c) { cfg = c; }
 
     // essentially tpp::gm::tool::`anonymous_namespace'::GetSessionMemberCount
@@ -491,7 +501,20 @@ namespace Dynamite {
 
     bool DynamiteCore::GetSessionConnected() const { return sessionConnected; }
 
-    void DynamiteCore::SetEmblemCreated(bool v) { emblemCreated = v; }
+    void DynamiteCore::SetEmblemCreated(const bool v) { emblemCreated = v; }
 
     bool DynamiteCore::GetEmblemCreated() const { return emblemCreated; }
+
+    void DynamiteCore::MissionComplete() {
+        missionsCompleted++;
+        std::ofstream missionFile;
+        missionFile.open(missionsFilename);
+        missionFile << missionsCompleted;
+        missionFile.close();
+    }
+
+    uint32_t DynamiteCore::GetMissionsCompleted() const {
+        return missionsCompleted;
+    }
+
 }

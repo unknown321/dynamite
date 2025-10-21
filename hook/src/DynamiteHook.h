@@ -167,6 +167,7 @@ namespace Dynamite {
     void TppGkTppGameKitModuleEndHook(void *TppGameKitModule);
     bool TppGmPlayerImplClimbActionPluginImplCheckActionStateHook(void *ClimbActionPluginImpl, uint32_t param_1);
     int FoxGeoPathResultGetNumPointHook(void *PathResult);
+    void TppUiUtilityChangeLanguageHook(int param_1);
 }
 
 #endif // HOOK_DYNAMITEHOOK_H
