@@ -1,0 +1,12 @@
+{
+  "type": "Lng",
+  "version": 3,
+  "endianness": "BE",
+  "entries": [
+    {
+      "lang_id": "dynamite_donate",
+      "color": 5,
+      "value": "Merci d'utiliser dynamite! Si vous avez apprécié votre expérience en coopératif, veuillez envisager de faire un don.\n\nVous pouvez trouver les liens de donation (et désactiver cette fenêtre) dans l'interface de l'installateur.\n\n(Vous pouvez continuer à jouer en coopératif comme avant, ce message est une humble demande)."
+    }
+  ]
+}

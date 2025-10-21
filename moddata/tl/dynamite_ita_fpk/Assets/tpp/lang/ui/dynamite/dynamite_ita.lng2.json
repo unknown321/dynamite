@@ -1,0 +1,12 @@
+{
+  "type": "Lng",
+  "version": 3,
+  "endianness": "BE",
+  "entries": [
+    {
+      "lang_id": "dynamite_donate",
+      "color": 5,
+      "value": "Grazie per usare dynamite! Se hai apprezzato la tua esperienza in co-op, ti invitiamo a considerare una donazione.\n\nPuoi trovare i link per le donazioni (e disattivare questo popup) nell'interfaccia dell'installer.\n\n(Puoi continuare a giocare in co-op esattamente come prima, questo messaggio è una gentile richiesta)."
+    }
+  ]
+}

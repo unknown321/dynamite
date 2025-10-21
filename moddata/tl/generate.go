@@ -14,6 +14,13 @@ import (
 
 var langs = []string{
 	"eng",
+	"ger",
+	"ita",
+	"jpn",
+	"fre",
+	"por",
+	"spa",
+	"rus",
 }
 
 var foxFile = "/Assets/tpp/ui/dynamite/lang_dynamite_eng.fox2.xml"
