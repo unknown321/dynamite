@@ -173,6 +173,20 @@ namespace Dynamite {
                 .description = "always apply opponent (or partner) emblem"
                                "tpp::gm::player::impl::Player2Impl::SetEmblemTexture",
             },
+            {
+                .address = 0x149c1758d,
+                .expected = {0x72, 0xf7}, // JC LAB_149c17586
+                .patch = {0x48, 0x90},    // NOP
+                .description = "exit motion fixing loop immediately"
+                               "tpp::gm::player::impl::RideWalkerGearActionImpl::SyncMotionWithWalkerGearMotion",
+            },
+            {
+                .address = 0x14a62cf4e,
+                .expected = {0x74, 0x7b}, // JZ LAB_14a62cfcb
+                .patch = {0xeb, 0x7b},    // JMP LAB_14a62cfcb
+                .description = "skip walker gear equip sync handling"
+                               "tpp::gm::walkergear::impl::ActionCoreImpl::ReceiveEquipInfo",
+            },
             // {
             //     .address = 0x1409b9d3b,
             //     .expected = {0x74, 0x0a}, // JZ LAB_1409b9d47
