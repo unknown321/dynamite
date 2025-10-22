@@ -7,6 +7,11 @@
       "lang_id": "dynamite_donate",
       "color": 5,
       "value": "Obrigado por usar dynamite! Se você curtiu sua experiência no co-op, por favor considere fazer uma doação.\n\nVocê pode encontrar os links para doação (e desativar este popup) na interface do instalador.\n\n(Você pode continuar jogando no co-op igual antes, esta mensagem é um pedido humilde)."
+    },
+    {
+      "lang_id": "dynamite_connection_established",
+      "color": 5,
+      "value": "Conexão co-op estabelecida"
     }
   ]
 }

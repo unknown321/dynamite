@@ -134,7 +134,7 @@ namespace Dynamite {
         if (!g_hook->dynamiteCore.GetSessionConnected()) {
             lua_getglobal(hookState.luaState, "TppUiCommand");
             lua_getfield(hookState.luaState, -1, "AnnounceLogView");
-            const auto text = "Co-op connection established\0";
+            const auto text = "dynamite_connection_established\0";
             lua_pushstring(hookState.luaState, text);
             lua_pcall(hookState.luaState, 1, 0, 0);
 

@@ -7,6 +7,11 @@
       "lang_id": "dynamite_donate",
       "color": 5,
       "value": "dynamiteをご利用いただきありがとうございます！Co-op体験をお楽しみいただけましたら、寄付をご検討ください。\n\n寄付リンク（およびこのポップアップの無効化）はインストーラーのインターフェースにあります。\n\n（これまで通りCo-opでプレイを続けていただけます。このメッセージは謙虚なお願いです）。"
+    },
+    {
+      "lang_id": "dynamite_connection_established",
+      "color": 5,
+      "value": "協力プレイ接続確立"
     }
   ]
 }

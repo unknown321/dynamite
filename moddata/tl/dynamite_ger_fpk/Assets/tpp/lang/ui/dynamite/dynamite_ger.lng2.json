@@ -7,6 +7,11 @@
       "lang_id": "dynamite_donate",
       "color": 5,
       "value": "Danke, dass du dynamite nutzt! Wenn dir deine Co-Op-Erfahrung gefallen hat, erwäge bitte eine Spende.\n\nDie Spendenlinks (und die Option zum Deaktivieren dieses Popups) findest du in der Installer-Oberfläche.\n\n(Du kannst weiterhin wie zuvor im Co-Op spielen, diese Nachricht ist eine besondere Bitte)."
+    },
+    {
+      "lang_id": "dynamite_connection_established",
+      "color": 5,
+      "value": "Co-op-Verbindung hergestellt"
     }
   ]
 }
