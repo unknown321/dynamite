@@ -39,6 +39,7 @@ struct HookState {
     void *markerSystemImpl = nullptr;
     void *equipHudSystemImpl = nullptr;
     void *sightManagerImpl = nullptr;
+    void *equipControllerImpl = nullptr;
 
     std::map<void *, BlockInfo> processCounter{};
     std::map<void *, std::string> blockNames{};
@@ -168,6 +169,7 @@ namespace Dynamite {
     bool TppGmPlayerImplClimbActionPluginImplCheckActionStateHook(void *ClimbActionPluginImpl, uint32_t param_1);
     int FoxGeoPathResultGetNumPointHook(void *PathResult);
     void TppUiUtilityChangeLanguageHook(int param_1);
+    void TppGmPlayerImplEquipControllerImplInitializeHook(void *EquipControllerImpl, fox::QuarkDesc *param_1);
 }
 
 #endif // HOOK_DYNAMITEHOOK_H

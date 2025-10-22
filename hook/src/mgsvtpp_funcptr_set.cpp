@@ -202,5 +202,9 @@ namespace Dynamite {
         TppUiMenuUiCommonDataManagerLoadLanguageBlock =
             (TppUiMenuUiCommonDataManagerLoadLanguageBlockFunc *)addressSet["TppUiMenuUiCommonDataManagerLoadLanguageBlock"];
         TppUiUtilityChangeLanguage = (TppUiUtilityChangeLanguageFunc *)addressSet["TppUiUtilityChangeLanguage"];
+        TppGmPlayerImplEquipControllerImplInitialize =
+            (TppGmPlayerImplEquipControllerImplInitializeFunc *)addressSet["TppGmPlayerImplEquipControllerImplInitialize"];
+        TppGmPlayerImplEquipControllerImplGetEquipIdSlot =
+            (TppGmPlayerImplEquipControllerImplGetEquipIdSlotFunc *)addressSet["TppGmPlayerImplEquipControllerImplGetEquipIdSlot"];
     }
 }

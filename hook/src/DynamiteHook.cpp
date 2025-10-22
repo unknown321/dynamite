@@ -1100,4 +1100,9 @@ namespace Dynamite {
         TppUiUtilityChangeLanguage(param_1);
         TppUiMenuUiCommonDataManagerLoadLanguageBlock(0x5228f70f3baa9166);
     }
+
+    void TppGmPlayerImplEquipControllerImplInitializeHook(void *EquipControllerImpl, fox::QuarkDesc *param_1) {
+        TppGmPlayerImplEquipControllerImplInitialize(EquipControllerImpl, param_1);
+        hookState.equipControllerImpl = (char*)EquipControllerImpl + 0x20;
+    }
 }

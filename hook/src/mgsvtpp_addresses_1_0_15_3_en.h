@@ -146,6 +146,8 @@ namespace Dynamite {
         {"FoxNioImplSteamUdpSocketImplRecv", 0x14c4042c0},
         {"TppUiMenuUiCommonDataManagerLoadLanguageBlock", 0x145bddb50},
         {"TppUiUtilityChangeLanguage", 0x14090f130},
+        {"TppGmPlayerImplEquipControllerImplInitialize", 0x149a02ca0},
+        {"TppGmPlayerImplEquipControllerImplGetEquipIdSlot", 0x1411add10},
 
         {"BlockHeapAlloc", 0x143264660},
         {"BlockHeapFree", 0x1432651b0},

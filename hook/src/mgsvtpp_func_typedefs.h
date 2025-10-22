@@ -367,6 +367,11 @@ typedef bool(__cdecl TppUiMenuUiCommonDataManagerLoadLanguageBlockFunc)(uint64_t
 
 typedef void(__cdecl TppUiUtilityChangeLanguageFunc)(int param_1);
 
+typedef void(__thiscall TppGmPlayerImplEquipControllerImplInitializeFunc)(void *EquipControllerImpl, fox::QuarkDesc *param_1);
+
+typedef unsigned short(__thiscall TppGmPlayerImplEquipControllerImplGetEquipIdSlotFunc)(
+    void *EquipControllerImpl, uint32_t playerID, uint32_t slotType, uint32_t indexInSlot);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -542,4 +547,6 @@ extern TppGmPlayerImplClimbActionPluginImplCheckActionStateFunc *TppGmPlayerImpl
 extern FoxGeoPathResultGetNumPointFunc *FoxGeoPathResultGetNumPoint;
 extern TppUiMenuUiCommonDataManagerLoadLanguageBlockFunc *TppUiMenuUiCommonDataManagerLoadLanguageBlock;
 extern TppUiUtilityChangeLanguageFunc *TppUiUtilityChangeLanguage;
+extern TppGmPlayerImplEquipControllerImplInitializeFunc *TppGmPlayerImplEquipControllerImplInitialize;
+extern TppGmPlayerImplEquipControllerImplGetEquipIdSlotFunc *TppGmPlayerImplEquipControllerImplGetEquipIdSlot;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

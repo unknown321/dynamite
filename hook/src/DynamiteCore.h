@@ -40,6 +40,8 @@ namespace Dynamite {
         bool GetEmblemCreated() const;
         void MissionComplete();
         uint32_t GetMissionsCompleted() const;
+        static unsigned short GetActiveEquipmentID(uint32_t playerID);
+        static unsigned short GetEquipIDInSlot(uint32_t playerID, uint32_t slotID, uint32_t index);
 
       private:
         bool sessionCreated = false;

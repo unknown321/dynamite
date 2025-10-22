@@ -884,7 +884,7 @@ end
 
 this.CheckGetHoneyBee = function()
 	Fox.Log("check Player have a Honey Bee.")
-	if vars.weapons[TppDefine.WEAPONSLOT.PRIMARY_BACK] == HONEY_BEE_ID then
+	if Dynamite.GetEquipIDInSlot(0, TppDefine.WEAPONSLOT.PRIMARY_BACK, 0) == HONEY_BEE_ID or Dynamite.GetEquipIDInSlot(1, TppDefine.WEAPONSLOT.PRIMARY_BACK, 0) == HONEY_BEE_ID then
 		return true
 	else
 		return false

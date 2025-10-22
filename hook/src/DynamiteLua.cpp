@@ -358,6 +358,25 @@ namespace Dynamite {
         return 1;
     }
 
+    int l_GetActiveEquipmentID(lua_State *L) {
+        g_hook->dynamiteCore.GetActiveEquipmentID(0);
+
+        return 0;
+    }
+
+    int l_GetEquipIDInSlot(lua_State *L) {
+        const int playerID = luaL_checkinteger(L, 1);
+        const int slot = luaL_checkinteger(L, 2);
+        const int index = luaL_checkinteger(L, 3);
+
+        const auto res = g_hook->dynamiteCore.GetEquipIDInSlot(playerID, slot, index);
+
+        spdlog::info("{}, playerID={}, slot={}, index={}, equipID={}", __PRETTY_FUNCTION__, playerID, slot, index, res);
+
+        lua_pushinteger(L, res);
+
+        return 1;
+    }
 
     // int l_GetCamoRate(lua_State *L) {
     //     // wrong!
@@ -395,6 +414,8 @@ namespace Dynamite {
             {"Donated", l_Donated},
             {"MissionComplete", l_MissionComplete},
             {"GetMissionsCompleted", l_GetMissionsCompleted},
+            {"GetEquipment", l_GetActiveEquipmentID},
+            {"GetEquipIDInSlot", l_GetEquipIDInSlot},
             {nullptr, nullptr},
         };
         luaI_openlib(L, "Dynamite", libFuncs, 0);
