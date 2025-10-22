@@ -12,6 +12,41 @@
       "lang_id": "dynamite_connection_established",
       "color": 5,
       "value": "Conexión cooperativa establecida"
+    },
+    {
+      "lang_id": "dynamite_created_host_session",
+      "color": 5,
+      "value": "Sesión de anfitrión creada"
+    },
+    {
+      "lang_id": "dynamite_created_client_session",
+      "color": 5,
+      "value": "Sesión de cliente creada"
+    },
+    {
+      "lang_id": "dynamite_session_status_reset",
+      "color": 5,
+      "value": "Estado de sesión reiniciado"
+    },
+    {
+      "lang_id": "dynamite_host_connect_attempt",
+      "color": 5,
+      "value": "Intentando conexión de cliente como anfitrión, ¡se supone que no debes hacer eso!"
+    },
+    {
+      "lang_id": "dynamite_establishing_connection",
+      "color": 5,
+      "value": "Estableciendo conexión cooperativa..."
+    },
+    {
+      "lang_id": "dynamite_connection_failed",
+      "color": 5,
+      "value": "Error al crear la sesión cooperativa, inténtalo de nuevo"
+    },
+    {
+      "lang_id": "dynamite_warp_no_player",
+      "color": 5,
+      "value": "No hay jugador al que teletransportarse"
     }
   ]
 }

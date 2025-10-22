@@ -12,6 +12,41 @@
       "lang_id": "dynamite_connection_established",
       "color": 5,
       "value": "Кооперативное соединение установлено"
+    },
+    {
+      "lang_id": "dynamite_created_host_session",
+      "color": 5,
+      "value": "Хост-сессия создана"
+    },
+    {
+      "lang_id": "dynamite_created_client_session",
+      "color": 5,
+      "value": "Клиент-сессия создана"
+    },
+    {
+      "lang_id": "dynamite_session_status_reset",
+      "color": 5,
+      "value": "Статус сессии сброшен"
+    },
+    {
+      "lang_id": "dynamite_host_connect_attempt",
+      "color": 5,
+      "value": "Попытка клиентского подключения в качестве хоста, так делать не следует!"
+    },
+    {
+      "lang_id": "dynamite_establishing_connection",
+      "color": 5,
+      "value": "Установка кооперативного соединения..."
+    },
+    {
+      "lang_id": "dynamite_connection_failed",
+      "color": 5,
+      "value": "Не удалось создать кооперативную сессию, попробуйте снова"
+    },
+    {
+      "lang_id": "dynamite_warp_no_player",
+      "color": 5,
+      "value": "Нет игрока для телепортации"
     }
   ]
 }

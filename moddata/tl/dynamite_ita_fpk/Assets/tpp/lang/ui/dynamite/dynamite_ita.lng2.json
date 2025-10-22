@@ -12,6 +12,41 @@
       "lang_id": "dynamite_connection_established",
       "color": 5,
       "value": "Connessione co-op stabilita"
+    },
+    {
+      "lang_id": "dynamite_created_host_session",
+      "color": 5,
+      "value": "Sessione host creata"
+    },
+    {
+      "lang_id": "dynamite_created_client_session",
+      "color": 5,
+      "value": "Sessione client creata"
+    },
+    {
+      "lang_id": "dynamite_session_status_reset",
+      "color": 5,
+      "value": "Stato della sessione reimpostato"
+    },
+    {
+      "lang_id": "dynamite_host_connect_attempt",
+      "color": 5,
+      "value": "Tentativo di connessione client come host, non dovresti farlo!"
+    },
+    {
+      "lang_id": "dynamite_establishing_connection",
+      "color": 5,
+      "value": "Stabilendo la connessione co-op..."
+    },
+    {
+      "lang_id": "dynamite_connection_failed",
+      "color": 5,
+      "value": "Impossibile creare la sessione co-op, riprova"
+    },
+    {
+      "lang_id": "dynamite_warp_no_player",
+      "color": 5,
+      "value": "Nessun giocatore a cui teletrasportarsi"
     }
   ]
 }

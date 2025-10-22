@@ -12,6 +12,41 @@
       "lang_id": "dynamite_connection_established",
       "color": 5,
       "value": "協力プレイ接続確立"
+    },
+    {
+      "lang_id": "dynamite_created_host_session",
+      "color": 5,
+      "value": "ホストセッションを作成しました"
+    },
+    {
+      "lang_id": "dynamite_created_client_session",
+      "color": 5,
+      "value": "クライアントセッションを作成しました"
+    },
+    {
+      "lang_id": "dynamite_session_status_reset",
+      "color": 5,
+      "value": "セッションステータスをリセットしました"
+    },
+    {
+      "lang_id": "dynamite_host_connect_attempt",
+      "color": 5,
+      "value": "ホストとしてクライアント接続を試みています。これは想定されていない動作です！"
+    },
+    {
+      "lang_id": "dynamite_establishing_connection",
+      "color": 5,
+      "value": "協力プレイ接続を確立中..."
+    },
+    {
+      "lang_id": "dynamite_connection_failed",
+      "color": 5,
+      "value": "協力プレイセッションの作成に失敗しました。再試行してください"
+    },
+    {
+      "lang_id": "dynamite_warp_no_player",
+      "color": 5,
+      "value": "ワープ対象のプレイヤーがいません"
     }
   ]
 }

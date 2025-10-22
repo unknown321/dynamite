@@ -25,7 +25,7 @@ namespace Dynamite {
         if (g_hook->dynamiteCore.GetHostSessionCreated()) {
             lua_getglobal(L, "TppUiCommand");
             lua_getfield(L, -1, "AnnounceLogView");
-            const auto text = "Created host session\0";
+            const auto text = "dynamite_created_host_session\0";
             lua_pushstring(L, text);
             lua_pcall(L, 1, 0, 0);
 
@@ -41,7 +41,7 @@ namespace Dynamite {
 
         lua_getglobal(L, "TppUiCommand");
         lua_getfield(L, -1, "AnnounceLogView");
-        const auto text = "Created host session\0";
+        const auto text = "dynamite_created_host_session\0";
         lua_pushstring(L, text);
         lua_pcall(L, 1, 0, 0);
 
@@ -56,7 +56,7 @@ namespace Dynamite {
 
         lua_getglobal(L, "TppUiCommand");
         lua_getfield(L, -1, "AnnounceLogView");
-        const auto text = "Session status reset\0";
+        const auto text = "dynamite_session_status_reset\0";
         lua_pushstring(L, text);
         lua_pcall(L, 1, 0, 0);
 
@@ -78,7 +78,7 @@ namespace Dynamite {
     int l_CreateClientSession(lua_State *L) {
         spdlog::info(__PRETTY_FUNCTION__);
         if (g_hook->cfg.Host) {
-            const auto text = "Attempting client connection as a host, you are not supposed to do that!\0";
+            const auto text = "dynamite_host_connect_attempt\0";
             spdlog::warn(text);
             lua_pushstring(L, text);
             l_AnnounceLogView(L);
@@ -110,7 +110,7 @@ namespace Dynamite {
         BlockHeapFree(ff);
         BlockHeapFree(connectInfo);
 
-        auto text = "Establishing co-op connection...\0";
+        auto text = "dynamite_establishing_connection\0";
         spdlog::info(text);
 
         if (res == 1) {
@@ -121,7 +121,7 @@ namespace Dynamite {
             return 1;
         }
 
-        text = "Failed to create co-op session, try again\0";
+        text = "dynamite_connection_failed\0";
         spdlog::error(text);
 
         lua_pushstring(L, text);
@@ -257,7 +257,7 @@ namespace Dynamite {
 
             lua_getglobal(L, "TppUiCommand");
             lua_getfield(L, -1, "AnnounceLogView");
-            const auto text = "No player to warp to\0";
+            const auto text = "dynamite_warp_no_player\0";
             lua_pushstring(L, text);
             lua_pcall(L, 1, 0, 0);
 
