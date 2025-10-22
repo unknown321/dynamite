@@ -24,7 +24,7 @@ namespace Dynamite {
 
         if (g_hook->dynamiteCore.GetHostSessionCreated()) {
             lua_getglobal(L, "TppUiCommand");
-            lua_getfield(L, -1, "AnnounceLogView");
+            lua_getfield(L, -1, "AnnounceLogViewLangId");
             const auto text = "dynamite_created_host_session\0";
             lua_pushstring(L, text);
             lua_pcall(L, 1, 0, 0);
@@ -40,7 +40,7 @@ namespace Dynamite {
         g_hook->dynamiteCore.SetHostSessionCreated(res > 0);
 
         lua_getglobal(L, "TppUiCommand");
-        lua_getfield(L, -1, "AnnounceLogView");
+        lua_getfield(L, -1, "AnnounceLogViewLangId");
         const auto text = "dynamite_created_host_session\0";
         lua_pushstring(L, text);
         lua_pcall(L, 1, 0, 0);
@@ -55,7 +55,7 @@ namespace Dynamite {
         l_ResetClientSessionState(L);
 
         lua_getglobal(L, "TppUiCommand");
-        lua_getfield(L, -1, "AnnounceLogView");
+        lua_getfield(L, -1, "AnnounceLogViewLangId");
         const auto text = "dynamite_session_status_reset\0";
         lua_pushstring(L, text);
         lua_pcall(L, 1, 0, 0);
@@ -81,7 +81,7 @@ namespace Dynamite {
             const auto text = "dynamite_host_connect_attempt\0";
             spdlog::warn(text);
             lua_pushstring(L, text);
-            l_AnnounceLogView(L);
+            TppUiUiCommandAnnounceLogViewLangId(L);
 
             return 1;
         }
@@ -115,7 +115,7 @@ namespace Dynamite {
 
         if (res == 1) {
             lua_pushstring(L, text);
-            l_AnnounceLogView(L);
+            TppUiUiCommandAnnounceLogViewLangId(L);
             g_hook->dynamiteCore.SetSessionCreated(res);
 
             return 1;
@@ -125,7 +125,7 @@ namespace Dynamite {
         spdlog::error(text);
 
         lua_pushstring(L, text);
-        l_AnnounceLogView(L);
+        TppUiUiCommandAnnounceLogViewLangId(L);
 
         g_hook->dynamiteCore.SetSessionCreated(res);
 
@@ -256,7 +256,7 @@ namespace Dynamite {
             spdlog::info("{}, no player to warp to ({} players)", __PRETTY_FUNCTION__, count);
 
             lua_getglobal(L, "TppUiCommand");
-            lua_getfield(L, -1, "AnnounceLogView");
+            lua_getfield(L, -1, "AnnounceLogViewLangId");
             const auto text = "dynamite_warp_no_player\0";
             lua_pushstring(L, text);
             lua_pcall(L, 1, 0, 0);
@@ -291,7 +291,8 @@ namespace Dynamite {
 
         gameObject = (char *)gameObject + 0x20;
 
-        spdlog::info("{}, player {} warping to partner {}, position {}, {}, {}", __PRETTY_FUNCTION__, playerID, partnerID, partnerPos.x, partnerPos.y, partnerPos.z);
+        spdlog::info(
+            "{}, player {} warping to partner {}, position {}, {}, {}", __PRETTY_FUNCTION__, playerID, partnerID, partnerPos.x, partnerPos.y, partnerPos.z);
 
         Player2GameObjectImplWarp(gameObject, playerID, &partnerPos, &rot, true);
 

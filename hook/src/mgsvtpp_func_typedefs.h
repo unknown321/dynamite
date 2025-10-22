@@ -392,6 +392,7 @@ extern lua_pushnumberFunc *lua_pushnumber;
 
 // tpp lua functions (TppUiCommand.AnnounceLogView)
 extern lua_CFunction l_AnnounceLogView;
+extern lua_CFunction TppUiUiCommandAnnounceLogViewLangId;
 extern FoxLuaPushVector3Func *FoxLuaPushVector3;
 extern FoxLuaPushQuatFunc *FoxLuaPushQuat;
 

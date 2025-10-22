@@ -105,6 +105,7 @@ namespace Dynamite {
         BandWidthManagerImplStartLimitState = (BandWidthManagerImplStartLimitStateFunc *)addressSet["BandWidthManagerImplStartLimitState"];
 
         l_AnnounceLogView = (lua_CFunction)addressSet["l_AnnounceLogView"];
+        TppUiUiCommandAnnounceLogViewLangId = (lua_CFunction)addressSet["TppUiUiCommandAnnounceLogViewLangId"];
         FoxLuaPushVector3 = (FoxLuaPushVector3Func *)addressSet["FoxLuaPushVector3"];
         FoxLuaPushQuat = (FoxLuaPushQuatFunc *)addressSet["FoxLuaPushQuat"];
         FoxNioMpMessageContainerGetFreeSize = (FoxNioMpMessageContainerGetFreeSizeFunc *)addressSet["FoxNioMpMessageContainerGetFreeSize"];

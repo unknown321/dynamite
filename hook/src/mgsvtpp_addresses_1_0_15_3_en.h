@@ -167,6 +167,7 @@ namespace Dynamite {
         {"FoxLuaPushVector3", 0x143257590},
         {"FoxLuaPushQuat", 0x143256e30},
         {"l_AnnounceLogView", 0x145d5ded0},
+        {"TppUiUiCommandAnnounceLogViewLangId", 0x1408cc280},
 
         {"lua_pushinteger", 0x14c1e6ef0},
         {"lua_pushstring", 0x14c1e7ee0},

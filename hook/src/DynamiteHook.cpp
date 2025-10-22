@@ -133,7 +133,7 @@ namespace Dynamite {
     void UpdateClientEstablishedHook(void *param) {
         if (!g_hook->dynamiteCore.GetSessionConnected()) {
             lua_getglobal(hookState.luaState, "TppUiCommand");
-            lua_getfield(hookState.luaState, -1, "AnnounceLogView");
+            lua_getfield(hookState.luaState, -1, "AnnounceLogViewLangId");
             const auto text = "dynamite_connection_established\0";
             lua_pushstring(hookState.luaState, text);
             lua_pcall(hookState.luaState, 1, 0, 0);
