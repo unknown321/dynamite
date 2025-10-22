@@ -330,6 +330,9 @@ namespace Dynamite {
         CREATE_HOOK(FoxGeoPathResultGetNumPoint)
         ENABLEHOOK(FoxGeoPathResultGetNumPoint)
 
+        CREATE_HOOK(TppGmPlayerImplEquipControllerImplInitialize)
+        ENABLEHOOK(TppGmPlayerImplEquipControllerImplInitialize)
+
         // clang-format off
         {
             // these must go together to keep track of bytes written
