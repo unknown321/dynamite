@@ -206,6 +206,21 @@ namespace Dynamite {
         return 0;
     }
 
+    int l_AddObjectMarker(lua_State *L) {
+        const auto x = luaL_checknumber(L, 1);
+        const auto y = luaL_checknumber(L, 2);
+        const auto z = luaL_checknumber(L, 3);
+        const auto id = luaL_checknumber(L, 4);
+        auto vv = Vector3{
+            .x = static_cast<float>(x),
+            .y = static_cast<float>(y),
+            .z = static_cast<float>(z),
+        };
+
+        auto ok = Marker2SystemImplPlacedUserMarkerFollow(hookState.markerSystemImpl, &vv, id);
+        return 0;
+    }
+
     int l_RemoveMarker(lua_State *L) {
         const auto i = luaL_checkinteger(L, 1);
         Marker2SystemImplRemovedUserMarker(hookState.markerSystemImpl, i);
@@ -400,6 +415,7 @@ namespace Dynamite {
             {"GetDefensePlayerIndex", l_GetDefensePlayerIndex},
             {"GetSoldierLifeStatus", l_GetSoldierLifeStatus},
             {"AddFixedMarker", l_AddFixedMarker},
+            {"AddObjectMarker", l_AddObjectMarker},
             {"RemoveMarker", l_RemoveMarker},
             {"RemoveAllUserMarkers", l_RemoveAllUserMarkers},
             {"IgnoreMarkerRequests", l_IgnoreMarkerRequests},
