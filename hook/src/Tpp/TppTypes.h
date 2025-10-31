@@ -1,6 +1,7 @@
 #ifndef HOOK_TPPTYPES_H
 #define HOOK_TPPTYPES_H
 
+#include <string>
 #include <cstdint>
 
 enum TppVarType {
@@ -65,6 +66,7 @@ struct Vector3 {
     float w = 0;
 
     bool Valid();
+    std::string ToString();
 };
 #pragma pack(pop)
 
