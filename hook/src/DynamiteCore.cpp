@@ -513,9 +513,7 @@ namespace Dynamite {
         missionFile.close();
     }
 
-    uint32_t DynamiteCore::GetMissionsCompleted() const {
-        return missionsCompleted;
-    }
+    uint32_t DynamiteCore::GetMissionsCompleted() const { return missionsCompleted; }
 
     unsigned short DynamiteCore::GetActiveEquipmentID(const uint32_t playerID) {
         if (hookState.equipControllerImpl == nullptr) {
@@ -524,19 +522,19 @@ namespace Dynamite {
         }
 
         spdlog::info("{}, {}", __PRETTY_FUNCTION__, hookState.equipControllerImpl);
-        auto base = *(uint64_t *)((char*)hookState.equipControllerImpl + 0x18);
+        auto base = *(uint64_t *)((char *)hookState.equipControllerImpl + 0x18);
         if (base == 0) {
             spdlog::error("{}, base is null", __PRETTY_FUNCTION__);
             return 0;
         }
 
-        auto base1 = *(uint64_t*)(base + 0x60);
+        auto base1 = *(uint64_t *)(base + 0x60);
         if (base1 == 0) {
             spdlog::error("{}, base1 is null", __PRETTY_FUNCTION__);
             return 0;
         }
 
-        auto base2 = *(uint64_t*)(base1 + 0xc0);
+        auto base2 = *(uint64_t *)(base1 + 0xc0);
         if (base2 == 0) {
             spdlog::error("{}, base2 is null", __PRETTY_FUNCTION__);
             return 0;
@@ -544,7 +542,7 @@ namespace Dynamite {
 
         const auto weaponsAddr = playerID * 0x3a + base2;
         spdlog::info("{}, {}", __PRETTY_FUNCTION__, *(unsigned short *)weaponsAddr);
-        return *(unsigned short*)weaponsAddr;
+        return *(unsigned short *)weaponsAddr;
     }
 
     unsigned short DynamiteCore::GetEquipIDInSlot(uint32_t playerID, uint32_t slotID, uint32_t index) {
