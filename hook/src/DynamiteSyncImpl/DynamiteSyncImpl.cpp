@@ -887,16 +887,16 @@ namespace Dynamite {
         }
 
         // spdlog::info("{}: {} {}", __PRETTY_FUNCTION__, size, bytes_to_hex(buf, size));
-        //    auto wrapper = DynamiteMessage::GetMessageWrapper(buf);
-        //    switch (wrapper->msg_type()) {
-        //    case DynamiteMessage::Message_SyncVar: {
-        //        spdlog::info("{}, sync var", __PRETTY_FUNCTION__);
-        //        HandleSyncVar(wrapper);
-        //        break;
-        //    }
-        //    default:
-        //        break;
-        //    }
+        // auto wrapper = DynamiteMessage::GetMessageWrapper(buf);
+        // switch (wrapper->msg_type()) {
+        // case DynamiteMessage::Message_SendBossQuietSetActionTask: {
+        //     spdlog::info("{}, sync var", __PRETTY_FUNCTION__);
+        //     HandleSendBossquietSetActionTask(wrapper);
+        //     break;
+        // }
+        // default:
+        //     break;
+        // }
 
         auto target = 0;
         if (g_hook->cfg.Host) {
@@ -965,6 +965,17 @@ namespace Dynamite {
             return false;
         }
 
+        // auto wrapper = DynamiteMessage::GetMessageWrapper(buf);
+        // switch (wrapper->msg_type()) {
+        // case DynamiteMessage::Message_SendBossQuietSetActionTask: {
+        //     spdlog::info("{}, test handling", __PRETTY_FUNCTION__);
+        //     HandleSendBossquietSetActionTask(wrapper);
+        //     break;
+        // }
+        // default:
+        //     break;
+        // }
+
         auto bfSize = size + sizeof(DYNAMITE_RAW_HEADER);
         const auto newBuf = malloc(bfSize);
         if (newBuf == nullptr) {
@@ -1013,8 +1024,8 @@ namespace Dynamite {
         }
 
         auto wrapper = DynamiteMessage::GetMessageWrapper(this->updateBuffer);
-        spdlog::info("{}, incoming packet {}, have {}", __PRETTY_FUNCTION__, wrapper->packet_num(), packetSeen);
         if (wrapper->packet_num() <= packetSeen) {
+            spdlog::info("{}, incoming packet {}, have {}, ignoring", __PRETTY_FUNCTION__, wrapper->packet_num(), packetSeen);
             return false;
         }
 
@@ -1051,5 +1062,5 @@ namespace Dynamite {
         }
 
         return true;
-    };
+    }
 }
