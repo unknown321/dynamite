@@ -65,7 +65,7 @@ namespace Dynamite {
     }
 
     bool SightManagerImplSetMarkerHook(void *thisPtr, unsigned short objectID, float duration) {
-        spdlog::info("{}, SightManagerImpl={}, objectID={}, duration={}", __PRETTY_FUNCTION__, thisPtr, objectID, duration);
+        spdlog::info("{}, objectID={}, duration={}", __PRETTY_FUNCTION__, objectID, duration);
         // this is a player object
         if (objectID <= SESSION_CLIENTS_MAX) {
             duration = 9999999;
@@ -93,6 +93,7 @@ namespace Dynamite {
         if ((g_hook->cfg.whitelist.empty()) && (g_hook->cfg.blacklist.empty())) {
             spdlog::info("{}: Connection accepted", __PRETTY_FUNCTION__);
             SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
+            g_hook->dynamiteSyncImpl.packetSeen = 0;
             return;
         }
 
@@ -110,7 +111,9 @@ namespace Dynamite {
                 return;
             }
 
+            spdlog::info("{}: Connection accepted (whitelist match)", __PRETTY_FUNCTION__);
             SteamUdpSocketImplOnP2PSessionRequest(thisPtr, request);
+            g_hook->dynamiteSyncImpl.packetSeen = 0;
             return;
         }
 
@@ -1087,8 +1090,8 @@ namespace Dynamite {
     bool TppGmPlayerImplClimbActionPluginImplCheckActionStateHook(void *ClimbActionPluginImpl, uint32_t param_1) { return true; }
 
     int FoxGeoPathResultGetNumPointHook(void *PathResult) {
-        auto q = *(void**)PathResult;
-        auto v = *(void **)((char *)q+ 0x40);
+        auto q = *(void **)PathResult;
+        auto v = *(void **)((char *)q + 0x40);
         if (v == nullptr) {
             return 1;
         }
