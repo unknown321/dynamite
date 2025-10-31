@@ -9,6 +9,10 @@
 #include "lua/lua.h"
 #include "windows.h"
 
+#include "Tpp/BossQuietActionCommand.h"
+#include "Tpp/BossQuietActionControllerImplWork.h"
+#include "Tpp/BossQuietActionTask.h"
+#include "Tpp/TppGmBossquietLifeControllerWork.h"
 #include "dynamite.h"
 
 #include <map>
@@ -40,6 +44,11 @@ struct HookState {
     void *equipHudSystemImpl = nullptr;
     void *sightManagerImpl = nullptr;
     void *equipControllerImpl = nullptr;
+    void *bossQuietImplActionController = nullptr;
+    BossQuietDamage outgoingBossQuietDamage{};
+    BossQuietDamage incomingBossQuietDamage{
+        .entityIndex = -1,
+    };
 
     std::map<void *, BlockInfo> processCounter{};
     std::map<void *, std::string> blockNames{};
@@ -170,6 +179,16 @@ namespace Dynamite {
     int FoxGeoPathResultGetNumPointHook(void *PathResult);
     void TppUiUtilityChangeLanguageHook(int param_1);
     void TppGmPlayerImplEquipControllerImplInitializeHook(void *EquipControllerImpl, fox::QuarkDesc *param_1);
+    void TppGmBossquietImplActionControllerImplSetCommandHook(void *ActionControllerImpl, uint32_t entityIndex, BossQuietActionCommand *ActionCommand);
+    void TppGmBossquietImplActionControllerImplSetExtraActionCommandHook(void *ActionControllerImpl, uint32_t entityIndex, void *ExtraActionCommand);
+    void TppGmBossquietImplActionControllerImplSetNextActionTaskHook(void *ActionControllerImpl, uint32_t entityIndex, BossQuietImplActionControllerImplWork *work);
+    void TppGmBossquietImplActionControllerImplSetActionTaskHook(
+        void *ActionControllerImpl, uint32_t entityIndex, BossQuietImplActionControllerImplWork *work, BossQuietActionTask *task);
+    void TppGmBossquietImplActionControllerImplInitializeHook(void *ActionControllerImpl, fox::QuarkDesc *param_1);
+    void TppGmBossquietImplRecoveryAiImplStepMoveHook(void *RecoveryAiImpl, uint32_t entityIndex, uint32_t StepProc, unsigned char *RecoveryAiKnowledge);
+    bool TppGmBossquietImplCloseCombatAiImplRequestMoveActionHook(void *CloseCombatAiImpl, uint32_t param_1, void *Work);
+    void TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLifeHook(
+        void *LifeControllerImpl, TppGmBossquietLifeControllerWork *work, uint32_t entityIndex, float param_3);
 }
 
 #endif // HOOK_DYNAMITEHOOK_H

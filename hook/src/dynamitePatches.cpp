@@ -187,6 +187,27 @@ namespace Dynamite {
                 .description = "skip walker gear equip sync handling"
                                "tpp::gm::walkergear::impl::ActionCoreImpl::ReceiveEquipInfo",
             },
+            {
+                .address = 0x1417cce2a,
+                .expected = {0x0f, 0x85, 0xe0, 0x00, 0x00, 0x00}, // JNZ LAB_1417ccf10
+                .patch = {0x48, 0xe9, 0xe0, 0x00, 0x00, 0x00},    // JMP LAB_1417ccf10
+                .description = "Boss Quiet always jumps instead of running"
+                               "tpp::gm::bossquiet::impl::CombatAiImpl::StepMove",
+            },
+            {
+                .address = 0x1417ccd72,
+                .expected = {0x0f, 0x85, 0xab, 0x01, 0x00, 0x00}, // JNZ LAB_1417ccf23
+                .patch = {0x0f, 0x85, 0x74, 0x01, 0x00, 0x00},    // JNZ LAB_1417cceec
+                .description = "Boss Quiet always jumps instead of running, patch 2"
+                               "tpp::gm::bossquiet::impl::CombatAiImpl::StepMove",
+            },
+            {
+                .address = 0x1417d54f7,
+                .expected = {0x0f, 0x84, 0xf9, 0x02, 0x00, 0x00}, // JZ LAB_1417d57f6
+                .patch = {0x66, 0x48, 0x90, 0x66, 0x48, 0x90},    // NOP NOP
+                .description = "ignore host check to always process Boss Quiet damage locally"
+                               "tpp::gm::bossquiet::impl::`anonymous_namespace'::DamageHandlerImpl::ProcessDamages",
+            },
             // {
             //     .address = 0x1409b9d3b,
             //     .expected = {0x74, 0x0a}, // JZ LAB_1409b9d47

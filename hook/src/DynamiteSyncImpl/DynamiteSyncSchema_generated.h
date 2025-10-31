@@ -15,6 +15,9 @@ static_assert(FLATBUFFERS_VERSION_MAJOR == 25 &&
 
 namespace DynamiteMessage {
 
+struct MessageWrapper;
+struct MessageWrapperBuilder;
+
 struct Vec3;
 
 struct Ping;
@@ -67,8 +70,20 @@ struct EmblemInfo;
 struct SendEmblem;
 struct SendEmblemBuilder;
 
-struct MessageWrapper;
-struct MessageWrapperBuilder;
+struct SendBossQuietActionCommand;
+struct SendBossQuietActionCommandBuilder;
+
+struct SendBossQuietExtraActionCommand;
+struct SendBossQuietExtraActionCommandBuilder;
+
+struct SendBossQuietSetNextActionTask;
+struct SendBossQuietSetNextActionTaskBuilder;
+
+struct SendBossQuietSetActionTask;
+struct SendBossQuietSetActionTaskBuilder;
+
+struct SendBossQuietDamage;
+struct SendBossQuietDamageBuilder;
 
 enum Message : uint8_t {
   Message_NONE = 0,
@@ -80,11 +95,16 @@ enum Message : uint8_t {
   Message_SyncVar = 6,
   Message_RequestVar = 7,
   Message_SendEmblem = 8,
+  Message_SendBossQuietActionCommand = 9,
+  Message_SendBossQuietExtraActionCommand = 10,
+  Message_SendBossQuietSetNextActionTask = 11,
+  Message_SendBossQuietSetActionTask = 12,
+  Message_SendBossQuietDamage = 13,
   Message_MIN = Message_NONE,
-  Message_MAX = Message_SendEmblem
+  Message_MAX = Message_SendBossQuietDamage
 };
 
-inline const Message (&EnumValuesMessage())[9] {
+inline const Message (&EnumValuesMessage())[14] {
   static const Message values[] = {
     Message_NONE,
     Message_Ping,
@@ -94,13 +114,18 @@ inline const Message (&EnumValuesMessage())[9] {
     Message_SetSightMarker,
     Message_SyncVar,
     Message_RequestVar,
-    Message_SendEmblem
+    Message_SendEmblem,
+    Message_SendBossQuietActionCommand,
+    Message_SendBossQuietExtraActionCommand,
+    Message_SendBossQuietSetNextActionTask,
+    Message_SendBossQuietSetActionTask,
+    Message_SendBossQuietDamage
   };
   return values;
 }
 
 inline const char * const *EnumNamesMessage() {
-  static const char * const names[10] = {
+  static const char * const names[15] = {
     "NONE",
     "Ping",
     "AddFixedUserMarker",
@@ -110,13 +135,18 @@ inline const char * const *EnumNamesMessage() {
     "SyncVar",
     "RequestVar",
     "SendEmblem",
+    "SendBossQuietActionCommand",
+    "SendBossQuietExtraActionCommand",
+    "SendBossQuietSetNextActionTask",
+    "SendBossQuietSetActionTask",
+    "SendBossQuietDamage",
     nullptr
   };
   return names;
 }
 
 inline const char *EnumNameMessage(Message e) {
-  if (::flatbuffers::IsOutRange(e, Message_NONE, Message_SendEmblem)) return "";
+  if (::flatbuffers::IsOutRange(e, Message_NONE, Message_SendBossQuietDamage)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesMessage()[index];
 }
@@ -155,6 +185,26 @@ template<> struct MessageTraits<DynamiteMessage::RequestVar> {
 
 template<> struct MessageTraits<DynamiteMessage::SendEmblem> {
   static const Message enum_value = Message_SendEmblem;
+};
+
+template<> struct MessageTraits<DynamiteMessage::SendBossQuietActionCommand> {
+  static const Message enum_value = Message_SendBossQuietActionCommand;
+};
+
+template<> struct MessageTraits<DynamiteMessage::SendBossQuietExtraActionCommand> {
+  static const Message enum_value = Message_SendBossQuietExtraActionCommand;
+};
+
+template<> struct MessageTraits<DynamiteMessage::SendBossQuietSetNextActionTask> {
+  static const Message enum_value = Message_SendBossQuietSetNextActionTask;
+};
+
+template<> struct MessageTraits<DynamiteMessage::SendBossQuietSetActionTask> {
+  static const Message enum_value = Message_SendBossQuietSetActionTask;
+};
+
+template<> struct MessageTraits<DynamiteMessage::SendBossQuietDamage> {
+  static const Message enum_value = Message_SendBossQuietDamage;
 };
 
 bool VerifyMessage(::flatbuffers::Verifier &verifier, const void *obj, Message type);
@@ -250,6 +300,39 @@ template<> struct ArrayValuesTraits<DynamiteMessage::Uint16> {
 bool VerifyArrayValues(::flatbuffers::Verifier &verifier, const void *obj, ArrayValues type);
 bool VerifyArrayValuesVector(::flatbuffers::Verifier &verifier, const ::flatbuffers::Vector<::flatbuffers::Offset<void>> *values, const ::flatbuffers::Vector<uint8_t> *types);
 
+enum BossQuietNextActionTaskActionCondition : int8_t {
+  BossQuietNextActionTaskActionCondition_out_of_nav = 0,
+  BossQuietNextActionTaskActionCondition_in_nav_with_state = 1,
+  BossQuietNextActionTaskActionCondition_in_nav_without_state = 2,
+  BossQuietNextActionTaskActionCondition_MIN = BossQuietNextActionTaskActionCondition_out_of_nav,
+  BossQuietNextActionTaskActionCondition_MAX = BossQuietNextActionTaskActionCondition_in_nav_without_state
+};
+
+inline const BossQuietNextActionTaskActionCondition (&EnumValuesBossQuietNextActionTaskActionCondition())[3] {
+  static const BossQuietNextActionTaskActionCondition values[] = {
+    BossQuietNextActionTaskActionCondition_out_of_nav,
+    BossQuietNextActionTaskActionCondition_in_nav_with_state,
+    BossQuietNextActionTaskActionCondition_in_nav_without_state
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesBossQuietNextActionTaskActionCondition() {
+  static const char * const names[4] = {
+    "out_of_nav",
+    "in_nav_with_state",
+    "in_nav_without_state",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameBossQuietNextActionTaskActionCondition(BossQuietNextActionTaskActionCondition e) {
+  if (::flatbuffers::IsOutRange(e, BossQuietNextActionTaskActionCondition_out_of_nav, BossQuietNextActionTaskActionCondition_in_nav_without_state)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesBossQuietNextActionTaskActionCondition()[index];
+}
+
 FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vec3 FLATBUFFERS_FINAL_CLASS {
  private:
   float x_;
@@ -331,6 +414,160 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) EmblemInfo FLATBUFFERS_FINAL_CLASS {
   }
 };
 FLATBUFFERS_STRUCT_END(EmblemInfo, 64);
+
+struct MessageWrapper FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef MessageWrapperBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_PACKET_NUM = 4,
+    VT_MSG_TYPE = 6,
+    VT_MSG = 8
+  };
+  uint32_t packet_num() const {
+    return GetField<uint32_t>(VT_PACKET_NUM, 0);
+  }
+  DynamiteMessage::Message msg_type() const {
+    return static_cast<DynamiteMessage::Message>(GetField<uint8_t>(VT_MSG_TYPE, 0));
+  }
+  const void *msg() const {
+    return GetPointer<const void *>(VT_MSG);
+  }
+  template<typename T> const T *msg_as() const;
+  const DynamiteMessage::Ping *msg_as_Ping() const {
+    return msg_type() == DynamiteMessage::Message_Ping ? static_cast<const DynamiteMessage::Ping *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::AddFixedUserMarker *msg_as_AddFixedUserMarker() const {
+    return msg_type() == DynamiteMessage::Message_AddFixedUserMarker ? static_cast<const DynamiteMessage::AddFixedUserMarker *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::AddFollowUserMarker *msg_as_AddFollowUserMarker() const {
+    return msg_type() == DynamiteMessage::Message_AddFollowUserMarker ? static_cast<const DynamiteMessage::AddFollowUserMarker *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::RemoveUserMarker *msg_as_RemoveUserMarker() const {
+    return msg_type() == DynamiteMessage::Message_RemoveUserMarker ? static_cast<const DynamiteMessage::RemoveUserMarker *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::SetSightMarker *msg_as_SetSightMarker() const {
+    return msg_type() == DynamiteMessage::Message_SetSightMarker ? static_cast<const DynamiteMessage::SetSightMarker *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::SyncVar *msg_as_SyncVar() const {
+    return msg_type() == DynamiteMessage::Message_SyncVar ? static_cast<const DynamiteMessage::SyncVar *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::RequestVar *msg_as_RequestVar() const {
+    return msg_type() == DynamiteMessage::Message_RequestVar ? static_cast<const DynamiteMessage::RequestVar *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::SendEmblem *msg_as_SendEmblem() const {
+    return msg_type() == DynamiteMessage::Message_SendEmblem ? static_cast<const DynamiteMessage::SendEmblem *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::SendBossQuietActionCommand *msg_as_SendBossQuietActionCommand() const {
+    return msg_type() == DynamiteMessage::Message_SendBossQuietActionCommand ? static_cast<const DynamiteMessage::SendBossQuietActionCommand *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::SendBossQuietExtraActionCommand *msg_as_SendBossQuietExtraActionCommand() const {
+    return msg_type() == DynamiteMessage::Message_SendBossQuietExtraActionCommand ? static_cast<const DynamiteMessage::SendBossQuietExtraActionCommand *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::SendBossQuietSetNextActionTask *msg_as_SendBossQuietSetNextActionTask() const {
+    return msg_type() == DynamiteMessage::Message_SendBossQuietSetNextActionTask ? static_cast<const DynamiteMessage::SendBossQuietSetNextActionTask *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::SendBossQuietSetActionTask *msg_as_SendBossQuietSetActionTask() const {
+    return msg_type() == DynamiteMessage::Message_SendBossQuietSetActionTask ? static_cast<const DynamiteMessage::SendBossQuietSetActionTask *>(msg()) : nullptr;
+  }
+  const DynamiteMessage::SendBossQuietDamage *msg_as_SendBossQuietDamage() const {
+    return msg_type() == DynamiteMessage::Message_SendBossQuietDamage ? static_cast<const DynamiteMessage::SendBossQuietDamage *>(msg()) : nullptr;
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_PACKET_NUM, 4) &&
+           VerifyField<uint8_t>(verifier, VT_MSG_TYPE, 1) &&
+           VerifyOffset(verifier, VT_MSG) &&
+           VerifyMessage(verifier, msg(), msg_type()) &&
+           verifier.EndTable();
+  }
+};
+
+template<> inline const DynamiteMessage::Ping *MessageWrapper::msg_as<DynamiteMessage::Ping>() const {
+  return msg_as_Ping();
+}
+
+template<> inline const DynamiteMessage::AddFixedUserMarker *MessageWrapper::msg_as<DynamiteMessage::AddFixedUserMarker>() const {
+  return msg_as_AddFixedUserMarker();
+}
+
+template<> inline const DynamiteMessage::AddFollowUserMarker *MessageWrapper::msg_as<DynamiteMessage::AddFollowUserMarker>() const {
+  return msg_as_AddFollowUserMarker();
+}
+
+template<> inline const DynamiteMessage::RemoveUserMarker *MessageWrapper::msg_as<DynamiteMessage::RemoveUserMarker>() const {
+  return msg_as_RemoveUserMarker();
+}
+
+template<> inline const DynamiteMessage::SetSightMarker *MessageWrapper::msg_as<DynamiteMessage::SetSightMarker>() const {
+  return msg_as_SetSightMarker();
+}
+
+template<> inline const DynamiteMessage::SyncVar *MessageWrapper::msg_as<DynamiteMessage::SyncVar>() const {
+  return msg_as_SyncVar();
+}
+
+template<> inline const DynamiteMessage::RequestVar *MessageWrapper::msg_as<DynamiteMessage::RequestVar>() const {
+  return msg_as_RequestVar();
+}
+
+template<> inline const DynamiteMessage::SendEmblem *MessageWrapper::msg_as<DynamiteMessage::SendEmblem>() const {
+  return msg_as_SendEmblem();
+}
+
+template<> inline const DynamiteMessage::SendBossQuietActionCommand *MessageWrapper::msg_as<DynamiteMessage::SendBossQuietActionCommand>() const {
+  return msg_as_SendBossQuietActionCommand();
+}
+
+template<> inline const DynamiteMessage::SendBossQuietExtraActionCommand *MessageWrapper::msg_as<DynamiteMessage::SendBossQuietExtraActionCommand>() const {
+  return msg_as_SendBossQuietExtraActionCommand();
+}
+
+template<> inline const DynamiteMessage::SendBossQuietSetNextActionTask *MessageWrapper::msg_as<DynamiteMessage::SendBossQuietSetNextActionTask>() const {
+  return msg_as_SendBossQuietSetNextActionTask();
+}
+
+template<> inline const DynamiteMessage::SendBossQuietSetActionTask *MessageWrapper::msg_as<DynamiteMessage::SendBossQuietSetActionTask>() const {
+  return msg_as_SendBossQuietSetActionTask();
+}
+
+template<> inline const DynamiteMessage::SendBossQuietDamage *MessageWrapper::msg_as<DynamiteMessage::SendBossQuietDamage>() const {
+  return msg_as_SendBossQuietDamage();
+}
+
+struct MessageWrapperBuilder {
+  typedef MessageWrapper Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_packet_num(uint32_t packet_num) {
+    fbb_.AddElement<uint32_t>(MessageWrapper::VT_PACKET_NUM, packet_num, 0);
+  }
+  void add_msg_type(DynamiteMessage::Message msg_type) {
+    fbb_.AddElement<uint8_t>(MessageWrapper::VT_MSG_TYPE, static_cast<uint8_t>(msg_type), 0);
+  }
+  void add_msg(::flatbuffers::Offset<void> msg) {
+    fbb_.AddOffset(MessageWrapper::VT_MSG, msg);
+  }
+  explicit MessageWrapperBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<MessageWrapper> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<MessageWrapper>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<MessageWrapper> CreateMessageWrapper(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t packet_num = 0,
+    DynamiteMessage::Message msg_type = DynamiteMessage::Message_NONE,
+    ::flatbuffers::Offset<void> msg = 0) {
+  MessageWrapperBuilder builder_(_fbb);
+  builder_.add_msg(msg);
+  builder_.add_packet_num(packet_num);
+  builder_.add_msg_type(msg_type);
+  return builder_.Finish();
+}
 
 struct Ping FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   typedef PingBuilder Builder;
@@ -1242,122 +1479,348 @@ inline ::flatbuffers::Offset<SendEmblem> CreateSendEmblem(
   return builder_.Finish();
 }
 
-struct MessageWrapper FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
-  typedef MessageWrapperBuilder Builder;
+struct SendBossQuietActionCommand FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SendBossQuietActionCommandBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_PACKET_NUM = 4,
-    VT_MSG_TYPE = 6,
-    VT_MSG = 8
+    VT_PARAM_1 = 4,
+    VT_ACTION_COMMAND = 6
   };
-  uint32_t packet_num() const {
-    return GetField<uint32_t>(VT_PACKET_NUM, 0);
+  uint32_t param_1() const {
+    return GetField<uint32_t>(VT_PARAM_1, 0);
   }
-  DynamiteMessage::Message msg_type() const {
-    return static_cast<DynamiteMessage::Message>(GetField<uint8_t>(VT_MSG_TYPE, 0));
-  }
-  const void *msg() const {
-    return GetPointer<const void *>(VT_MSG);
-  }
-  template<typename T> const T *msg_as() const;
-  const DynamiteMessage::Ping *msg_as_Ping() const {
-    return msg_type() == DynamiteMessage::Message_Ping ? static_cast<const DynamiteMessage::Ping *>(msg()) : nullptr;
-  }
-  const DynamiteMessage::AddFixedUserMarker *msg_as_AddFixedUserMarker() const {
-    return msg_type() == DynamiteMessage::Message_AddFixedUserMarker ? static_cast<const DynamiteMessage::AddFixedUserMarker *>(msg()) : nullptr;
-  }
-  const DynamiteMessage::AddFollowUserMarker *msg_as_AddFollowUserMarker() const {
-    return msg_type() == DynamiteMessage::Message_AddFollowUserMarker ? static_cast<const DynamiteMessage::AddFollowUserMarker *>(msg()) : nullptr;
-  }
-  const DynamiteMessage::RemoveUserMarker *msg_as_RemoveUserMarker() const {
-    return msg_type() == DynamiteMessage::Message_RemoveUserMarker ? static_cast<const DynamiteMessage::RemoveUserMarker *>(msg()) : nullptr;
-  }
-  const DynamiteMessage::SetSightMarker *msg_as_SetSightMarker() const {
-    return msg_type() == DynamiteMessage::Message_SetSightMarker ? static_cast<const DynamiteMessage::SetSightMarker *>(msg()) : nullptr;
-  }
-  const DynamiteMessage::SyncVar *msg_as_SyncVar() const {
-    return msg_type() == DynamiteMessage::Message_SyncVar ? static_cast<const DynamiteMessage::SyncVar *>(msg()) : nullptr;
-  }
-  const DynamiteMessage::RequestVar *msg_as_RequestVar() const {
-    return msg_type() == DynamiteMessage::Message_RequestVar ? static_cast<const DynamiteMessage::RequestVar *>(msg()) : nullptr;
-  }
-  const DynamiteMessage::SendEmblem *msg_as_SendEmblem() const {
-    return msg_type() == DynamiteMessage::Message_SendEmblem ? static_cast<const DynamiteMessage::SendEmblem *>(msg()) : nullptr;
+  const ::flatbuffers::Vector<int8_t> *action_command() const {
+    return GetPointer<const ::flatbuffers::Vector<int8_t> *>(VT_ACTION_COMMAND);
   }
   bool Verify(::flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<uint32_t>(verifier, VT_PACKET_NUM, 4) &&
-           VerifyField<uint8_t>(verifier, VT_MSG_TYPE, 1) &&
-           VerifyOffset(verifier, VT_MSG) &&
-           VerifyMessage(verifier, msg(), msg_type()) &&
+           VerifyField<uint32_t>(verifier, VT_PARAM_1, 4) &&
+           VerifyOffset(verifier, VT_ACTION_COMMAND) &&
+           verifier.VerifyVector(action_command()) &&
            verifier.EndTable();
   }
 };
 
-template<> inline const DynamiteMessage::Ping *MessageWrapper::msg_as<DynamiteMessage::Ping>() const {
-  return msg_as_Ping();
-}
-
-template<> inline const DynamiteMessage::AddFixedUserMarker *MessageWrapper::msg_as<DynamiteMessage::AddFixedUserMarker>() const {
-  return msg_as_AddFixedUserMarker();
-}
-
-template<> inline const DynamiteMessage::AddFollowUserMarker *MessageWrapper::msg_as<DynamiteMessage::AddFollowUserMarker>() const {
-  return msg_as_AddFollowUserMarker();
-}
-
-template<> inline const DynamiteMessage::RemoveUserMarker *MessageWrapper::msg_as<DynamiteMessage::RemoveUserMarker>() const {
-  return msg_as_RemoveUserMarker();
-}
-
-template<> inline const DynamiteMessage::SetSightMarker *MessageWrapper::msg_as<DynamiteMessage::SetSightMarker>() const {
-  return msg_as_SetSightMarker();
-}
-
-template<> inline const DynamiteMessage::SyncVar *MessageWrapper::msg_as<DynamiteMessage::SyncVar>() const {
-  return msg_as_SyncVar();
-}
-
-template<> inline const DynamiteMessage::RequestVar *MessageWrapper::msg_as<DynamiteMessage::RequestVar>() const {
-  return msg_as_RequestVar();
-}
-
-template<> inline const DynamiteMessage::SendEmblem *MessageWrapper::msg_as<DynamiteMessage::SendEmblem>() const {
-  return msg_as_SendEmblem();
-}
-
-struct MessageWrapperBuilder {
-  typedef MessageWrapper Table;
+struct SendBossQuietActionCommandBuilder {
+  typedef SendBossQuietActionCommand Table;
   ::flatbuffers::FlatBufferBuilder &fbb_;
   ::flatbuffers::uoffset_t start_;
-  void add_packet_num(uint32_t packet_num) {
-    fbb_.AddElement<uint32_t>(MessageWrapper::VT_PACKET_NUM, packet_num, 0);
+  void add_param_1(uint32_t param_1) {
+    fbb_.AddElement<uint32_t>(SendBossQuietActionCommand::VT_PARAM_1, param_1, 0);
   }
-  void add_msg_type(DynamiteMessage::Message msg_type) {
-    fbb_.AddElement<uint8_t>(MessageWrapper::VT_MSG_TYPE, static_cast<uint8_t>(msg_type), 0);
+  void add_action_command(::flatbuffers::Offset<::flatbuffers::Vector<int8_t>> action_command) {
+    fbb_.AddOffset(SendBossQuietActionCommand::VT_ACTION_COMMAND, action_command);
   }
-  void add_msg(::flatbuffers::Offset<void> msg) {
-    fbb_.AddOffset(MessageWrapper::VT_MSG, msg);
-  }
-  explicit MessageWrapperBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit SendBossQuietActionCommandBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<MessageWrapper> Finish() {
+  ::flatbuffers::Offset<SendBossQuietActionCommand> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<MessageWrapper>(end);
+    auto o = ::flatbuffers::Offset<SendBossQuietActionCommand>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<MessageWrapper> CreateMessageWrapper(
+inline ::flatbuffers::Offset<SendBossQuietActionCommand> CreateSendBossQuietActionCommand(
     ::flatbuffers::FlatBufferBuilder &_fbb,
-    uint32_t packet_num = 0,
-    DynamiteMessage::Message msg_type = DynamiteMessage::Message_NONE,
-    ::flatbuffers::Offset<void> msg = 0) {
-  MessageWrapperBuilder builder_(_fbb);
-  builder_.add_msg(msg);
-  builder_.add_packet_num(packet_num);
-  builder_.add_msg_type(msg_type);
+    uint32_t param_1 = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<int8_t>> action_command = 0) {
+  SendBossQuietActionCommandBuilder builder_(_fbb);
+  builder_.add_action_command(action_command);
+  builder_.add_param_1(param_1);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<SendBossQuietActionCommand> CreateSendBossQuietActionCommandDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t param_1 = 0,
+    const std::vector<int8_t> *action_command = nullptr) {
+  auto action_command__ = action_command ? _fbb.CreateVector<int8_t>(*action_command) : 0;
+  return DynamiteMessage::CreateSendBossQuietActionCommand(
+      _fbb,
+      param_1,
+      action_command__);
+}
+
+struct SendBossQuietExtraActionCommand FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SendBossQuietExtraActionCommandBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_PARAM_1 = 4,
+    VT_ACTION_COMMAND = 6
+  };
+  uint32_t param_1() const {
+    return GetField<uint32_t>(VT_PARAM_1, 0);
+  }
+  const ::flatbuffers::Vector<uint8_t> *action_command() const {
+    return GetPointer<const ::flatbuffers::Vector<uint8_t> *>(VT_ACTION_COMMAND);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_PARAM_1, 4) &&
+           VerifyOffset(verifier, VT_ACTION_COMMAND) &&
+           verifier.VerifyVector(action_command()) &&
+           verifier.EndTable();
+  }
+};
+
+struct SendBossQuietExtraActionCommandBuilder {
+  typedef SendBossQuietExtraActionCommand Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_param_1(uint32_t param_1) {
+    fbb_.AddElement<uint32_t>(SendBossQuietExtraActionCommand::VT_PARAM_1, param_1, 0);
+  }
+  void add_action_command(::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> action_command) {
+    fbb_.AddOffset(SendBossQuietExtraActionCommand::VT_ACTION_COMMAND, action_command);
+  }
+  explicit SendBossQuietExtraActionCommandBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SendBossQuietExtraActionCommand> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SendBossQuietExtraActionCommand>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SendBossQuietExtraActionCommand> CreateSendBossQuietExtraActionCommand(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t param_1 = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> action_command = 0) {
+  SendBossQuietExtraActionCommandBuilder builder_(_fbb);
+  builder_.add_action_command(action_command);
+  builder_.add_param_1(param_1);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<SendBossQuietExtraActionCommand> CreateSendBossQuietExtraActionCommandDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t param_1 = 0,
+    const std::vector<uint8_t> *action_command = nullptr) {
+  auto action_command__ = action_command ? _fbb.CreateVector<uint8_t>(*action_command) : 0;
+  return DynamiteMessage::CreateSendBossQuietExtraActionCommand(
+      _fbb,
+      param_1,
+      action_command__);
+}
+
+struct SendBossQuietSetNextActionTask FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SendBossQuietSetNextActionTaskBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_PARAM_1 = 4,
+    VT_ACTION_TASK = 6,
+    VT_ACTION_TYPE = 8
+  };
+  uint32_t param_1() const {
+    return GetField<uint32_t>(VT_PARAM_1, 0);
+  }
+  const ::flatbuffers::Vector<uint8_t> *action_task() const {
+    return GetPointer<const ::flatbuffers::Vector<uint8_t> *>(VT_ACTION_TASK);
+  }
+  DynamiteMessage::BossQuietNextActionTaskActionCondition action_type() const {
+    return static_cast<DynamiteMessage::BossQuietNextActionTaskActionCondition>(GetField<int8_t>(VT_ACTION_TYPE, 0));
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_PARAM_1, 4) &&
+           VerifyOffset(verifier, VT_ACTION_TASK) &&
+           verifier.VerifyVector(action_task()) &&
+           VerifyField<int8_t>(verifier, VT_ACTION_TYPE, 1) &&
+           verifier.EndTable();
+  }
+};
+
+struct SendBossQuietSetNextActionTaskBuilder {
+  typedef SendBossQuietSetNextActionTask Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_param_1(uint32_t param_1) {
+    fbb_.AddElement<uint32_t>(SendBossQuietSetNextActionTask::VT_PARAM_1, param_1, 0);
+  }
+  void add_action_task(::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> action_task) {
+    fbb_.AddOffset(SendBossQuietSetNextActionTask::VT_ACTION_TASK, action_task);
+  }
+  void add_action_type(DynamiteMessage::BossQuietNextActionTaskActionCondition action_type) {
+    fbb_.AddElement<int8_t>(SendBossQuietSetNextActionTask::VT_ACTION_TYPE, static_cast<int8_t>(action_type), 0);
+  }
+  explicit SendBossQuietSetNextActionTaskBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SendBossQuietSetNextActionTask> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SendBossQuietSetNextActionTask>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SendBossQuietSetNextActionTask> CreateSendBossQuietSetNextActionTask(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t param_1 = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> action_task = 0,
+    DynamiteMessage::BossQuietNextActionTaskActionCondition action_type = DynamiteMessage::BossQuietNextActionTaskActionCondition_out_of_nav) {
+  SendBossQuietSetNextActionTaskBuilder builder_(_fbb);
+  builder_.add_action_task(action_task);
+  builder_.add_param_1(param_1);
+  builder_.add_action_type(action_type);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<SendBossQuietSetNextActionTask> CreateSendBossQuietSetNextActionTaskDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t param_1 = 0,
+    const std::vector<uint8_t> *action_task = nullptr,
+    DynamiteMessage::BossQuietNextActionTaskActionCondition action_type = DynamiteMessage::BossQuietNextActionTaskActionCondition_out_of_nav) {
+  auto action_task__ = action_task ? _fbb.CreateVector<uint8_t>(*action_task) : 0;
+  return DynamiteMessage::CreateSendBossQuietSetNextActionTask(
+      _fbb,
+      param_1,
+      action_task__,
+      action_type);
+}
+
+struct SendBossQuietSetActionTask FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SendBossQuietSetActionTaskBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_PARAM_1 = 4,
+    VT_TASK = 6
+  };
+  uint32_t param_1() const {
+    return GetField<uint32_t>(VT_PARAM_1, 0);
+  }
+  const ::flatbuffers::Vector<uint8_t> *task() const {
+    return GetPointer<const ::flatbuffers::Vector<uint8_t> *>(VT_TASK);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint32_t>(verifier, VT_PARAM_1, 4) &&
+           VerifyOffset(verifier, VT_TASK) &&
+           verifier.VerifyVector(task()) &&
+           verifier.EndTable();
+  }
+};
+
+struct SendBossQuietSetActionTaskBuilder {
+  typedef SendBossQuietSetActionTask Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_param_1(uint32_t param_1) {
+    fbb_.AddElement<uint32_t>(SendBossQuietSetActionTask::VT_PARAM_1, param_1, 0);
+  }
+  void add_task(::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> task) {
+    fbb_.AddOffset(SendBossQuietSetActionTask::VT_TASK, task);
+  }
+  explicit SendBossQuietSetActionTaskBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SendBossQuietSetActionTask> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SendBossQuietSetActionTask>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SendBossQuietSetActionTask> CreateSendBossQuietSetActionTask(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t param_1 = 0,
+    ::flatbuffers::Offset<::flatbuffers::Vector<uint8_t>> task = 0) {
+  SendBossQuietSetActionTaskBuilder builder_(_fbb);
+  builder_.add_task(task);
+  builder_.add_param_1(param_1);
+  return builder_.Finish();
+}
+
+inline ::flatbuffers::Offset<SendBossQuietSetActionTask> CreateSendBossQuietSetActionTaskDirect(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    uint32_t param_1 = 0,
+    const std::vector<uint8_t> *task = nullptr) {
+  auto task__ = task ? _fbb.CreateVector<uint8_t>(*task) : 0;
+  return DynamiteMessage::CreateSendBossQuietSetActionTask(
+      _fbb,
+      param_1,
+      task__);
+}
+
+struct SendBossQuietDamage FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+  typedef SendBossQuietDamageBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ENTITY_INDEX = 4,
+    VT_CURRENT_LIFE = 6,
+    VT_LIFE_DAMAGE = 8,
+    VT_CURRENT_STAMINA = 10,
+    VT_STAMINA_DAMAGE = 12
+  };
+  int16_t entity_index() const {
+    return GetField<int16_t>(VT_ENTITY_INDEX, 0);
+  }
+  uint16_t current_life() const {
+    return GetField<uint16_t>(VT_CURRENT_LIFE, 0);
+  }
+  uint16_t life_damage() const {
+    return GetField<uint16_t>(VT_LIFE_DAMAGE, 0);
+  }
+  uint16_t current_stamina() const {
+    return GetField<uint16_t>(VT_CURRENT_STAMINA, 0);
+  }
+  uint16_t stamina_damage() const {
+    return GetField<uint16_t>(VT_STAMINA_DAMAGE, 0);
+  }
+  bool Verify(::flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int16_t>(verifier, VT_ENTITY_INDEX, 2) &&
+           VerifyField<uint16_t>(verifier, VT_CURRENT_LIFE, 2) &&
+           VerifyField<uint16_t>(verifier, VT_LIFE_DAMAGE, 2) &&
+           VerifyField<uint16_t>(verifier, VT_CURRENT_STAMINA, 2) &&
+           VerifyField<uint16_t>(verifier, VT_STAMINA_DAMAGE, 2) &&
+           verifier.EndTable();
+  }
+};
+
+struct SendBossQuietDamageBuilder {
+  typedef SendBossQuietDamage Table;
+  ::flatbuffers::FlatBufferBuilder &fbb_;
+  ::flatbuffers::uoffset_t start_;
+  void add_entity_index(int16_t entity_index) {
+    fbb_.AddElement<int16_t>(SendBossQuietDamage::VT_ENTITY_INDEX, entity_index, 0);
+  }
+  void add_current_life(uint16_t current_life) {
+    fbb_.AddElement<uint16_t>(SendBossQuietDamage::VT_CURRENT_LIFE, current_life, 0);
+  }
+  void add_life_damage(uint16_t life_damage) {
+    fbb_.AddElement<uint16_t>(SendBossQuietDamage::VT_LIFE_DAMAGE, life_damage, 0);
+  }
+  void add_current_stamina(uint16_t current_stamina) {
+    fbb_.AddElement<uint16_t>(SendBossQuietDamage::VT_CURRENT_STAMINA, current_stamina, 0);
+  }
+  void add_stamina_damage(uint16_t stamina_damage) {
+    fbb_.AddElement<uint16_t>(SendBossQuietDamage::VT_STAMINA_DAMAGE, stamina_damage, 0);
+  }
+  explicit SendBossQuietDamageBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  ::flatbuffers::Offset<SendBossQuietDamage> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = ::flatbuffers::Offset<SendBossQuietDamage>(end);
+    return o;
+  }
+};
+
+inline ::flatbuffers::Offset<SendBossQuietDamage> CreateSendBossQuietDamage(
+    ::flatbuffers::FlatBufferBuilder &_fbb,
+    int16_t entity_index = 0,
+    uint16_t current_life = 0,
+    uint16_t life_damage = 0,
+    uint16_t current_stamina = 0,
+    uint16_t stamina_damage = 0) {
+  SendBossQuietDamageBuilder builder_(_fbb);
+  builder_.add_stamina_damage(stamina_damage);
+  builder_.add_current_stamina(current_stamina);
+  builder_.add_life_damage(life_damage);
+  builder_.add_current_life(current_life);
+  builder_.add_entity_index(entity_index);
   return builder_.Finish();
 }
 
@@ -1396,6 +1859,26 @@ inline bool VerifyMessage(::flatbuffers::Verifier &verifier, const void *obj, Me
     }
     case Message_SendEmblem: {
       auto ptr = reinterpret_cast<const DynamiteMessage::SendEmblem *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case Message_SendBossQuietActionCommand: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::SendBossQuietActionCommand *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case Message_SendBossQuietExtraActionCommand: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::SendBossQuietExtraActionCommand *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case Message_SendBossQuietSetNextActionTask: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::SendBossQuietSetNextActionTask *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case Message_SendBossQuietSetActionTask: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::SendBossQuietSetActionTask *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    case Message_SendBossQuietDamage: {
+      auto ptr = reinterpret_cast<const DynamiteMessage::SendBossQuietDamage *>(obj);
       return verifier.VerifyTable(ptr);
     }
     default: return true;

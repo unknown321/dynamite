@@ -333,6 +333,30 @@ namespace Dynamite {
         CREATE_HOOK(TppGmPlayerImplEquipControllerImplInitialize)
         ENABLEHOOK(TppGmPlayerImplEquipControllerImplInitialize)
 
+        CREATE_HOOK(TppGmBossquietImplActionControllerImplSetCommand)
+        ENABLEHOOK(TppGmBossquietImplActionControllerImplSetCommand)
+
+        CREATE_HOOK(TppGmBossquietImplActionControllerImplSetExtraActionCommand)
+        ENABLEHOOK(TppGmBossquietImplActionControllerImplSetExtraActionCommand)
+
+        CREATE_HOOK(TppGmBossquietImplActionControllerImplSetNextActionTask)
+        ENABLEHOOK(TppGmBossquietImplActionControllerImplSetNextActionTask)
+
+        CREATE_HOOK(TppGmBossquietImplActionControllerImplSetActionTask)
+        ENABLEHOOK(TppGmBossquietImplActionControllerImplSetActionTask)
+
+        CREATE_HOOK(TppGmBossquietImplActionControllerImplInitialize)
+        ENABLEHOOK(TppGmBossquietImplActionControllerImplInitialize)
+
+        CREATE_HOOK(TppGmBossquietImplCloseCombatAiImplRequestMoveAction)
+        ENABLEHOOK(TppGmBossquietImplCloseCombatAiImplRequestMoveAction)
+
+        CREATE_HOOK(TppGmBossquietImplRecoveryAiImplStepMove)
+        ENABLEHOOK(TppGmBossquietImplRecoveryAiImplStepMove)
+
+        CREATE_HOOK(TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLife)
+        ENABLEHOOK(TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLife)
+
         // clang-format off
         {
             // these must go together to keep track of bytes written

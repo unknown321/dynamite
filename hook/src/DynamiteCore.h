@@ -1,8 +1,10 @@
 #ifndef HOOK_DYNAMITECORE_H
 #define HOOK_DYNAMITECORE_H
+#include "BossQuietNextActionTaskActionCondition.h"
 #include "Config.h"
 #include "EmblemInfo.h"
 #include "ScriptVarResult.h"
+#include "Tpp/BossQuietActionTask.h"
 #include "Tpp/TppNPCLifeState.h"
 #include "Tpp/TppTypes.h"
 
@@ -42,6 +44,7 @@ namespace Dynamite {
         uint32_t GetMissionsCompleted() const;
         static unsigned short GetActiveEquipmentID(uint32_t playerID);
         static unsigned short GetEquipIDInSlot(uint32_t playerID, uint32_t slotID, uint32_t index);
+        void BossQuietSetNextActionTask(uint32_t param_1, BossQuietActionTask *actionTask, BossQuietNextActionTaskActionCondition actionType) const;
 
       private:
         bool sessionCreated = false;

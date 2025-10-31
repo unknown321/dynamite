@@ -164,6 +164,7 @@ bool Config::Read(ConfigValidateResult *r) {
         this->debug.nioDetailed = ini.get("Debug").get("NioDetailed") == "true";
         this->debug.muxSendError = ini.get("Debug").get("MuxSendError") == "true";
         this->debug.dynamiteMsg = ini.get("Debug").get("DynamiteMsg") == "true";
+        this->debug.bossQuiet = ini.get("Debug").get("BossQuiet") == "true";
     }
 
     return true;
@@ -203,4 +204,5 @@ void Config::Log() {
     spdlog::info("debug.NioDetailed: {}", this->debug.nioDetailed);
     spdlog::info("debug.MuxSendError: {}", this->debug.muxSendError);
     spdlog::info("debug.DynamiteMsg: {}", this->debug.dynamiteMsg);
+    spdlog::info("debug.BossQuiet: {}", this->debug.bossQuiet);
 }

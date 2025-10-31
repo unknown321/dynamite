@@ -207,5 +207,56 @@ namespace Dynamite {
             (TppGmPlayerImplEquipControllerImplInitializeFunc *)addressSet["TppGmPlayerImplEquipControllerImplInitialize"];
         TppGmPlayerImplEquipControllerImplGetEquipIdSlot =
             (TppGmPlayerImplEquipControllerImplGetEquipIdSlotFunc *)addressSet["TppGmPlayerImplEquipControllerImplGetEquipIdSlot"];
+        TppGmBossquietImplActionControllerImplSetCommand =
+            (TppGmBossquietImplActionControllerImplSetCommandFunc *)addressSet["TppGmBossquietImplActionControllerImplSetCommand"];
+        TppGmBossquietImplActionControllerImplSetExtraActionCommand =
+            (TppGmBossquietImplActionControllerImplSetExtraActionCommandFunc *)addressSet["TppGmBossquietImplActionControllerImplSetExtraActionCommand"];
+        TppGmLiquidImplActionControllerImplSetActionTaskCompleted =
+            (TppGmLiquidImplActionControllerImplSetActionTaskCompletedFunc *)addressSet["TppGmLiquidImplActionControllerImplSetActionTaskCompleted"];
+        TppGmBossquietImplActionControllerImplSetActionTask =
+            (TppGmBossquietImplActionControllerImplSetActionTaskFunc *)addressSet["TppGmBossquietImplActionControllerImplSetActionTask"];
+        TppGmBossquietImplActionControllerImplSetNextActionTask =
+            (TppGmBossquietImplActionControllerImplSetNextActionTaskFunc *)addressSet["TppGmBossquietImplActionControllerImplSetNextActionTask"];
+        TppGmBossquietImplActionControllerImplInitialize =
+            (TppGmBossquietImplActionControllerImplInitializeFunc *)addressSet["TppGmBossquietImplActionControllerImplInitialize"];
+        TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommand = (TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommandFunc *)
+            addressSet["TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommand"];
+        TppGmImplNavigationController2ImplGetNavigator =
+            (TppGmImplNavigationController2ImplGetNavigatorFunc *)addressSet["TppGmImplNavigationController2ImplGetNavigator"];
+        TppGmImplNavigationController2ImplIsCurrentRequestPrepared =
+            (TppGmImplNavigationController2ImplIsCurrentRequestPreparedFunc *)addressSet["TppGmImplNavigationController2ImplIsCurrentRequestPrepared"];
+        TppGmBossquietImplActionControllerImplCheckUseOutOfNavJump =
+            (TppGmBossquietImplActionControllerImplCheckUseOutOfNavJumpFunc *)addressSet["TppGmBossquietImplActionControllerImplCheckUseOutOfNavJump"];
+        TppGmImplNavigationController2ImplGetPath = (TppGmImplNavigationController2ImplGetPathFunc *)addressSet["TppGmImplNavigationController2ImplGetPath"];
+        TppGmImplNavigationController2ImplGetResultState =
+            (TppGmImplNavigationController2ImplGetResultStateFunc *)addressSet["TppGmImplNavigationController2ImplGetResultState"];
+        TppGmBossquietImplSnipeManagerImplGetOptimalLandingPosition =
+            (TppGmBossquietImplSnipeManagerImplGetOptimalLandingPositionFunc *)addressSet["TppGmBossquietImplSnipeManagerImplGetOptimalLandingPosition"];
+        TppGmSahelanActionTaskoperatorAssign = (TppGmSahelanActionTaskoperatorAssignFunc *)addressSet["TppGmSahelanActionTaskoperatorAssign"];
+        TppGmBossquietImplActionControllerImplUpdateActionTask =
+            (TppGmBossquietImplActionControllerImplUpdateActionTaskFunc *)addressSet["TppGmBossquietImplActionControllerImplUpdateActionTask"];
+        TppGmBossquietImplActionControllerImplUpdate =
+            (TppGmBossquietImplActionControllerImplUpdateFunc *)addressSet["TppGmBossquietImplActionControllerImplUpdate"];
+        TppGmBossquietImplBasicAction2ImplPolling = (TppGmBossquietImplBasicAction2ImplPollingFunc *)addressSet["TppGmBossquietImplBasicAction2ImplPolling"];
+        TppGmBossquietImplActionControllerImplUpdateCommandForSingle =
+            (TppGmBossquietImplActionControllerImplUpdateCommandForSingleFunc *)addressSet["TppGmBossquietImplActionControllerImplUpdateCommandForSingle"];
+        TppGmBossquietImplBasicAction2ImplGetNextPositionInMoving =
+            (TppGmBossquietImplBasicAction2ImplGetNextPositionInMovingFunc *)addressSet["TppGmBossquietImplBasicAction2ImplGetNextPositionInMoving"];
+        TppGmBossquietImplCloseCombatAiImplStepMove =
+            (TppGmBossquietImplCloseCombatAiImplStepMoveFunc *)addressSet["TppGmBossquietImplCloseCombatAiImplStepMove"];
+        TppGmBossquietImplCombatAiImplRequestMoveAction =
+            (TppGmBossquietImplCombatAiImplRequestMoveActionFunc *)addressSet["TppGmBossquietImplCombatAiImplRequestMoveAction"];
+        TppGmBossquietImplRecoveryAiImplStepMove = (TppGmBossquietImplRecoveryAiImplStepMoveFunc *)addressSet["TppGmBossquietImplRecoveryAiImplStepMove"];
+        TppGmBossquietImplSearchAiImplStepMove = (TppGmBossquietImplSearchAiImplStepMoveFunc *)addressSet["TppGmBossquietImplSearchAiImplStepMove"];
+        TppGmBossquietImplSearchAiImplRequestMoveAction =
+            (TppGmBossquietImplSearchAiImplRequestMoveActionFunc *)addressSet["TppGmBossquietImplSearchAiImplRequestMoveAction"];
+        TppGmBossquietImplRecoveryAiImplRequestMoveAction =
+            (TppGmBossquietImplRecoveryAiImplRequestMoveActionFunc *)addressSet["TppGmBossquietImplRecoveryAiImplRequestMoveAction"];
+        TppGmBossquietImplCloseCombatAiImplRequestMoveAction =
+            (TppGmBossquietImplCloseCombatAiImplRequestMoveActionFunc *)addressSet["TppGmBossquietImplCloseCombatAiImplRequestMoveAction"];
+        TppGmBossquietImplAvoidAiImplSetJumpPoint = (TppGmBossquietImplAvoidAiImplSetJumpPointFunc *)addressSet["TppGmBossquietImplAvoidAiImplSetJumpPoint"];
+        TppGmImplAiControllerImplGetCoreKnowledge = (TppGmImplAiControllerImplGetCoreKnowledgeFunc *)addressSet["TppGmImplAiControllerImplGetCoreKnowledge"];
+        TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLife = (TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLifeFunc *)
+            addressSet["TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLife"];
     }
 }

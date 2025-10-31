@@ -554,4 +554,54 @@ namespace Dynamite {
         return TppGmPlayerImplEquipControllerImplGetEquipIdSlot(hookState.equipControllerImpl, playerID, slotID, index);
     }
 
+    void DynamiteCore::BossQuietSetNextActionTask(uint32_t param_1, BossQuietActionTask *actionTask, BossQuietNextActionTaskActionCondition actionType) const {
+        if (cfg->debug.bossQuiet) {
+            spdlog::info("{}, taskId={}, anotherType={}, param1={}, actionType={}",
+                __PRETTY_FUNCTION__,
+                actionTask->actionType_0xac,
+                actionTask->anotherType_0xa8,
+                param_1,
+                (int)actionType);
+        }
+
+        if (hookState.bossQuietImplActionController == nullptr) {
+            spdlog::error("{}, bossQuietImplActionController is nullptr");
+            return;
+        }
+
+        const auto o1 = (char *)hookState.bossQuietImplActionController + 0x20;
+        const auto work = (BossQuietImplActionControllerImplWork *)(void **)(o1 + 0x48);
+
+        if (actionType == BossQuietNextActionTaskActionCondition::out_of_nav) {
+            const auto currentTask = (BossQuietActionTask *)(*(uint64_t *)((char *)hookState.bossQuietImplActionController + 0x60) + param_1 * 0xb0);
+
+            TppGmSahelanActionTaskoperatorAssign(currentTask, actionTask);
+            work->field8_0x180 = work->field8_0x180 + 1;
+            if (work->field8_0x180 == -1) {
+                work->field8_0x180 = 0;
+            }
+
+            currentTask->anotherType_0xa8 = work->field8_0x180;
+            work->field7_0x17e = work->field7_0x17e | 0x40c;
+
+            return;
+        }
+
+        if (actionType == BossQuietNextActionTaskActionCondition::in_nav_with_state) {
+            TppGmBossquietImplActionControllerImplSetActionTask(hookState.bossQuietImplActionController, param_1, work, actionTask);
+            work->field5_0x178 = actionTask->field14_0xa4;
+            work->field7_0x17e = work->field7_0x17e | 0x404;
+
+            return;
+        }
+
+        if (actionType == BossQuietNextActionTaskActionCondition::in_nav_without_state) {
+            TppGmBossquietImplActionControllerImplSetActionTask(hookState.bossQuietImplActionController, param_1, work, actionTask);
+            work->field5_0x178 = actionTask->field14_0xa4;
+            work->field7_0x17e = work->field7_0x17e | 4;
+
+            return;
+        }
+    }
+
 }

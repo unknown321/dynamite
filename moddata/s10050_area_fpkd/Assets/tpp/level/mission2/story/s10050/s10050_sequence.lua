@@ -134,57 +134,426 @@ end
 
 
 this.saveVarsList = {
-	deathBulletCount		= 0,
-	restoreState			= "None",	
-	
-	
-	isLostPlayer			= false,	
-	isUseDeathBullet		= false,	
+    {
+        name = "deathBulletCount",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_UINT32,
+        value = 0,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "restoreState",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_UINT32,
+        value = StrCode32("None"),
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
 
-	
-	isKillMode				= false,	
-	isQuietDown				= false,
-	isPlayerStayInDemoTrap	= false,	
-	isPlayerRideSomething	= false,	
-	isPermitFultonRadio		= false,	
-	isPlayerRideHeliWithQ	= false,	
-	isQuietCarried			= false,
-	isQuietRideHeli			= false,	
-	isHeliClear				= false,	
-	isQuietDead				= false,
-	
-	
-	isQuietInjured			= false,
-	
-	
-	isBreakPrst_1_A			= false,
-	isBreakPrst_1_B			= false,
-	isBreakPrst_2_A			= false,
-	isBreakPrst_2_B			= false,
-	isBreakPrst_3_A			= false,
-	isBreakPrst_3_B			= false,
-	isBreakPrst_4_A			= false,
-	isBreakPrst_4_B			= false,
-	isBreakPrst_5_A			= false,
-	isBreakPrst_5_B			= false,
-	isBreakPrst_6_A			= false,
-	isBreakPrst_6_B			= false,
-	isBreakPrst_7_A			= false,
-	isBreakPrst_7_B			= false,
-	isBreakPrst_8_A			= false,
-	isBreakPrst_8_B			= false,
 
-	
-	isQuietReady				= false,	
-	isPlayerStayInRestrictTrap	= false,	
-	isRideOffInDemoTrap			= false,	
-	isFirstTimeErase			= false,	
-	isFirstTimeAntiHeli			= false,	
-	isFinishKillGame			= false,	
-	isRecovery					= false,	
-	isMarked					= false,	
-	isStayStartPos				= false,	
-	isPlayAvoidQuiet_1			= false,	
+    {
+        name = "isLostPlayer",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isUseDeathBullet",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+
+
+    {
+        name = "isKillMode",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isQuietDown",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isPlayerStayInDemoTrap",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isPlayerRideSomething",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isPermitFultonRadio",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isPlayerRideHeliWithQ",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = true,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isQuietCarried",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = true,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isQuietRideHeli",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = true,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isHeliClear",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = true,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isQuietDead",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = true,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+
+
+    {
+        name = "isQuietInjured",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+
+
+    {
+        name = "isBreakPrst_1_A",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_1_B",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_2_A",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_2_B",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_3_A",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_3_B",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_4_A",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_4_B",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_5_A",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_5_B",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_6_A",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_6_B",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_7_A",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_7_B",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_8_A",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isBreakPrst_8_B",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+
+
+    {
+        name = "isQuietReady",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = true,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isPlayerStayInRestrictTrap",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isRideOffInDemoTrap",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isFirstTimeErase",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isFirstTimeAntiHeli",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isFinishKillGame",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isRecovery",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isMarked",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isStayStartPos",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
+    {
+        name = "isPlayAvoidQuiet_1",
+        arraySize = 1,
+        type = TppScriptVars.TYPE_BOOL,
+        value = false,
+        save = true,
+        sync = false,
+        wait = false,
+        category = TppScriptVars.CATEGORY_MISSION
+    },
 }
 
 

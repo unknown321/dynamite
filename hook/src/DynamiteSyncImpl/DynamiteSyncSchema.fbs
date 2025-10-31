@@ -9,7 +9,19 @@ union Message {
    SyncVar,
    RequestVar,
    SendEmblem,
+   SendBossQuietActionCommand,
+   SendBossQuietExtraActionCommand,
+   SendBossQuietSetNextActionTask,
+   SendBossQuietSetActionTask,
+   SendBossQuietDamage
 }
+
+table MessageWrapper {
+  packet_num: uint32;
+  msg: Message;
+}
+
+root_type MessageWrapper;
 
 struct Vec3 {
     x: float32;
@@ -109,9 +121,38 @@ table SendEmblem {
     emblem_info: EmblemInfo;
 }
 
-table MessageWrapper {
-  packet_num: uint32;
-  msg: Message;
+table SendBossQuietActionCommand {
+    param_1: uint32;
+    action_command: [byte];
 }
 
-root_type MessageWrapper;
+table SendBossQuietExtraActionCommand {
+    param_1: uint32;
+    action_command: [ubyte];
+}
+
+enum BossQuietNextActionTaskActionCondition:byte {
+    out_of_nav,
+    in_nav_with_state,
+    in_nav_without_state,
+}
+
+table SendBossQuietSetNextActionTask {
+    param_1: uint32;
+    action_task: [ubyte];
+    action_type: BossQuietNextActionTaskActionCondition;
+}
+
+
+table SendBossQuietSetActionTask {
+    param_1: uint32;
+    task: [ubyte];
+}
+
+table SendBossQuietDamage {
+    entity_index: short;
+    current_life: ushort;
+    life_damage: ushort;
+    current_stamina: ushort;
+    stamina_damage: ushort;
+}

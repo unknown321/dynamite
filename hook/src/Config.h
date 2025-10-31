@@ -30,6 +30,7 @@ struct debug {
     bool nioDetailed;
     bool muxSendError;
     bool dynamiteMsg;
+    bool bossQuiet;
 };
 
 class Config {

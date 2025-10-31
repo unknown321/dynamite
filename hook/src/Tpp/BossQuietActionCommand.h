@@ -1,0 +1,8 @@
+#ifndef HOOK_BOSSQUIETACTIONCOMMAND_H
+#define HOOK_BOSSQUIETACTIONCOMMAND_H
+
+struct BossQuietActionCommand {
+    char data[176];
+};
+
+#endif // HOOK_BOSSQUIETACTIONCOMMAND_H

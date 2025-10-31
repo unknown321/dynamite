@@ -1,7 +1,11 @@
 #ifndef HOOK_MGSVTPP_FUNC_TYPEDEFS_H
 #define HOOK_MGSVTPP_FUNC_TYPEDEFS_H
 
+#include "Tpp/BossQuietActionCommand.h"
+#include "Tpp/BossQuietActionControllerImplWork.h"
+#include "Tpp/BossQuietActionTask.h"
 #include "Tpp/PlayerDamage.h"
+#include "Tpp/TppGmBossquietLifeControllerWork.h"
 #include "Tpp/TppTypes.h"
 #include "lua/lauxlib.h"
 #include "lua/lua.h"
@@ -372,6 +376,81 @@ typedef void(__thiscall TppGmPlayerImplEquipControllerImplInitializeFunc)(void *
 typedef unsigned short(__thiscall TppGmPlayerImplEquipControllerImplGetEquipIdSlotFunc)(
     void *EquipControllerImpl, uint32_t playerID, uint32_t slotType, uint32_t indexInSlot);
 
+typedef void(__thiscall TppGmBossquietImplActionControllerImplSetCommandFunc)(
+    void *ActionControllerImpl, uint32_t param_1, BossQuietActionCommand *ActionCommand);
+
+typedef void(__thiscall TppGmBossquietImplActionControllerImplSetExtraActionCommandFunc)(
+    void *ActionControllerImpl, uint32_t param_1, void *ExtraActionCommand);
+
+typedef void(__thiscall TppGmLiquidImplActionControllerImplSetActionTaskCompletedFunc)(void *ActionControllerImpl, uint32_t param_1, unsigned short param_2);
+
+typedef void(__thiscall TppGmBossquietImplActionControllerImplSetActionTaskFunc)(
+    void *ActionControllerImpl, uint32_t param_1, BossQuietImplActionControllerImplWork *work, BossQuietActionTask *task);
+
+typedef void(__thiscall TppGmBossquietImplActionControllerImplSetNextActionTaskFunc)(
+    void *ActionControllerImpl, uint32_t param_1, BossQuietImplActionControllerImplWork *work);
+
+typedef void(__thiscall TppGmBossquietImplActionControllerImplInitializeFunc)(void *ActionControllerImpl, fox::QuarkDesc *param_1);
+
+typedef void(__thiscall TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommandFunc)(
+    void *ActionControllerImpl, BossQuietActionTask *param_1, BossQuietActionCommand *param_2);
+
+typedef void *(__thiscall TppGmImplNavigationController2ImplGetNavigatorFunc)(void *NavigationController2Impl, uint32_t param_1);
+
+typedef bool(__thiscall TppGmImplNavigationController2ImplIsCurrentRequestPreparedFunc)(void *NavigationController2Impl, uint32_t param_1);
+
+typedef bool(__thiscall TppGmBossquietImplActionControllerImplCheckUseOutOfNavJumpFunc)(
+    void *ActionControllerImpl, uint32_t param_1, void *NavigationController, void *SnipeManager, Vector3 *param_4);
+
+typedef void *(__thiscall TppGmImplNavigationController2ImplGetPathFunc)(void *NavigationController2Impl, uint32_t param_1);
+
+typedef unsigned char(__thiscall TppGmImplNavigationController2ImplGetResultStateFunc)(void *NavigationController2Impl, uint32_t param_1);
+
+typedef Vector3 *(__thiscall TppGmBossquietImplSnipeManagerImplGetOptimalLandingPositionFunc)(
+    void *SnipeManagerImpl, Vector3 *ret, uint32_t param_1, Vector3 *param_2, Vector3 *param_3);
+
+typedef BossQuietActionTask *(__thiscall TppGmSahelanActionTaskoperatorAssignFunc)(BossQuietActionTask *t1, BossQuietActionTask *t2);
+
+typedef void(__thiscall TppGmBossquietImplActionControllerImplUpdateActionTaskFunc)(
+    void *ActionControllerImpl, uint32_t param_1, BossQuietImplActionControllerImplWork *work, BossQuietActionTask *actionTask);
+
+typedef void(__thiscall TppGmBossquietImplActionControllerImplUpdateFunc)(void *ActionControllerImpl);
+
+typedef bool(__thiscall TppGmBossquietImplBasicAction2ImplPollingFunc)(void *BasicAction2Impl, uint32_t param_1);
+
+typedef void(__thiscall TppGmBossquietImplActionControllerImplUpdateCommandForSingleFunc)(
+    void *ActionControllerImpl, uint32_t param_1, BossQuietImplActionControllerImplWork *Work, void *GameObjectInfo);
+
+typedef bool(__thiscall TppGmBossquietImplBasicAction2ImplGetNextPositionInMovingFunc)(
+    void *BasicAction2Impl, Vector3 *param_1, void *navigator, BossQuietActionTask *task, uint32_t param_4, float *param_5, bool *param_6);
+
+typedef void(__thiscall TppGmBossquietImplCloseCombatAiImplStepMoveFunc)(
+    void *CloseCombatAiImpl, uint32_t param_1, uint32_t StepProc, void *CloseCombatAiKnowledge, void *param_4);
+
+typedef void(__thiscall TppGmBossquietImplCombatAiImplRequestMoveActionFunc)(
+    void *CombatAiImpl, uint32_t param_1, void *Work, Vector3 *param_3, Vector3 *param_4);
+
+typedef void(__thiscall TppGmBossquietImplRecoveryAiImplStepMoveFunc)(
+    void *RecoveryAiImpl, uint32_t param_1, uint32_t StepProc, unsigned char *RecoveryAiKnowledge);
+
+typedef void(__thiscall TppGmBossquietImplSearchAiImplStepMoveFunc)(
+    void *SearchAiImpl, uint32_t param_1, uint32_t StepProc, void *SearchAiKnowledge, void *param_4);
+
+typedef void(__thiscall TppGmBossquietImplSearchAiImplRequestMoveActionFunc)(
+    void *SearchAiImpl, uint32_t param_1, void *Work, Vector3 *param_3, Vector3 *param_4);
+
+typedef void(__thiscall TppGmBossquietImplRecoveryAiImplRequestMoveActionFunc)(
+    void *RecoveryAiImpl, uint32_t param_1, void *Work, Vector3 *param_3, Vector3 *param_4);
+
+typedef bool(__thiscall TppGmBossquietImplCloseCombatAiImplRequestMoveActionFunc)(void *CloseCombatAiImpl, uint32_t param_1, void *Work);
+
+typedef void(__thiscall TppGmBossquietImplAvoidAiImplSetJumpPointFunc)(void *AvoidAiImpl, uint32_t param_1, void *CoreAiKnowledge);
+
+typedef void *(__thiscall TppGmImplAiControllerImplGetCoreKnowledgeFunc)(void *AiControllerImpl, uint32_t param_1);
+
+typedef void(__thiscall TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLifeFunc)(
+    void *LifeControllerImpl, TppGmBossquietLifeControllerWork *work, uint32_t entityIndex, float param_3);
+
 // lua library functions
 extern luaI_openlibFunc *luaI_openlib;
 extern luaL_openlibsFunc *luaL_openlibs;
@@ -550,4 +629,33 @@ extern TppUiMenuUiCommonDataManagerLoadLanguageBlockFunc *TppUiMenuUiCommonDataM
 extern TppUiUtilityChangeLanguageFunc *TppUiUtilityChangeLanguage;
 extern TppGmPlayerImplEquipControllerImplInitializeFunc *TppGmPlayerImplEquipControllerImplInitialize;
 extern TppGmPlayerImplEquipControllerImplGetEquipIdSlotFunc *TppGmPlayerImplEquipControllerImplGetEquipIdSlot;
+extern TppGmBossquietImplActionControllerImplSetCommandFunc *TppGmBossquietImplActionControllerImplSetCommand;
+extern TppGmBossquietImplActionControllerImplSetExtraActionCommandFunc *TppGmBossquietImplActionControllerImplSetExtraActionCommand;
+extern TppGmLiquidImplActionControllerImplSetActionTaskCompletedFunc *TppGmLiquidImplActionControllerImplSetActionTaskCompleted;
+extern TppGmBossquietImplActionControllerImplSetActionTaskFunc *TppGmBossquietImplActionControllerImplSetActionTask;
+extern TppGmBossquietImplActionControllerImplSetNextActionTaskFunc *TppGmBossquietImplActionControllerImplSetNextActionTask;
+extern TppGmBossquietImplActionControllerImplInitializeFunc *TppGmBossquietImplActionControllerImplInitialize;
+extern TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommandFunc *TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommand;
+extern TppGmImplNavigationController2ImplGetNavigatorFunc *TppGmImplNavigationController2ImplGetNavigator;
+extern TppGmImplNavigationController2ImplIsCurrentRequestPreparedFunc *TppGmImplNavigationController2ImplIsCurrentRequestPrepared;
+extern TppGmBossquietImplActionControllerImplCheckUseOutOfNavJumpFunc *TppGmBossquietImplActionControllerImplCheckUseOutOfNavJump;
+extern TppGmImplNavigationController2ImplGetPathFunc *TppGmImplNavigationController2ImplGetPath;
+extern TppGmImplNavigationController2ImplGetResultStateFunc *TppGmImplNavigationController2ImplGetResultState;
+extern TppGmBossquietImplSnipeManagerImplGetOptimalLandingPositionFunc *TppGmBossquietImplSnipeManagerImplGetOptimalLandingPosition;
+extern TppGmSahelanActionTaskoperatorAssignFunc *TppGmSahelanActionTaskoperatorAssign;
+extern TppGmBossquietImplActionControllerImplUpdateActionTaskFunc *TppGmBossquietImplActionControllerImplUpdateActionTask;
+extern TppGmBossquietImplActionControllerImplUpdateFunc *TppGmBossquietImplActionControllerImplUpdate;
+extern TppGmBossquietImplBasicAction2ImplPollingFunc *TppGmBossquietImplBasicAction2ImplPolling;
+extern TppGmBossquietImplActionControllerImplUpdateCommandForSingleFunc *TppGmBossquietImplActionControllerImplUpdateCommandForSingle;
+extern TppGmBossquietImplBasicAction2ImplGetNextPositionInMovingFunc *TppGmBossquietImplBasicAction2ImplGetNextPositionInMoving;
+extern TppGmBossquietImplCloseCombatAiImplStepMoveFunc *TppGmBossquietImplCloseCombatAiImplStepMove;
+extern TppGmBossquietImplCombatAiImplRequestMoveActionFunc *TppGmBossquietImplCombatAiImplRequestMoveAction;
+extern TppGmBossquietImplRecoveryAiImplStepMoveFunc *TppGmBossquietImplRecoveryAiImplStepMove;
+extern TppGmBossquietImplSearchAiImplStepMoveFunc *TppGmBossquietImplSearchAiImplStepMove;
+extern TppGmBossquietImplSearchAiImplRequestMoveActionFunc *TppGmBossquietImplSearchAiImplRequestMoveAction;
+extern TppGmBossquietImplRecoveryAiImplRequestMoveActionFunc *TppGmBossquietImplRecoveryAiImplRequestMoveAction;
+extern TppGmBossquietImplCloseCombatAiImplRequestMoveActionFunc *TppGmBossquietImplCloseCombatAiImplRequestMoveAction;
+extern TppGmBossquietImplAvoidAiImplSetJumpPointFunc *TppGmBossquietImplAvoidAiImplSetJumpPoint;
+extern TppGmImplAiControllerImplGetCoreKnowledgeFunc *TppGmImplAiControllerImplGetCoreKnowledge;
+extern TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLifeFunc *TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLife;
 #endif // HOOK_MGSVTPP_FUNC_TYPEDEFS_H

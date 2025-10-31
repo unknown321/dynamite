@@ -1,7 +1,12 @@
 #ifndef HOOK_DYNAMITESYNCIMPL_H
 #define HOOK_DYNAMITESYNCIMPL_H
 
+#include "BossQuietNextActionTaskActionCondition.h"
 #include "DynamiteSyncSchema_generated.h"
+#include "Tpp/BossQuietActionCommand.h"
+#include "Tpp/BossQuietActionControllerImplWork.h"
+#include "Tpp/BossQuietActionTask.h"
+#include "Tpp/BossQuietDamage.h"
 #include "Tpp/TppTypes.h"
 
 #include <map>
@@ -63,6 +68,22 @@ namespace Dynamite {
         static bool SyncFloatVar(const DynamiteMessage::SyncVar *m, void *vars, uint32_t varIndex);
 
         void SyncEnemyVars();
+
+        void SendBossquietActionCommand(uint32_t p1, BossQuietActionCommand *command);
+        static void HandleSendBossQuietActionCommand(const DynamiteMessage::MessageWrapper *w);
+
+        void SendBossquietExtraActionCommand(uint32_t p1, BossQuietActionCommand *command);
+        static void HandleSendBossQuietExtraActionCommand(const DynamiteMessage::MessageWrapper *w);
+
+        void SendBossquietSetNextActionTask(
+            uint32_t param_1, BossQuietActionTask *actionTask, BossQuietNextActionTaskActionCondition actionCondition);
+        static void HandleSendBossquietSetNextActionTask(const DynamiteMessage::MessageWrapper *w);
+
+        void SendBossquietSetActionTask(uint32_t param_1, BossQuietActionTask *task);
+        static void HandleSendBossquietSetActionTask(const DynamiteMessage::MessageWrapper *w);
+
+        void SendBossQuietDamage(BossQuietDamage *damage);
+        void HandleSendBossQuietDamage(const DynamiteMessage::MessageWrapper *w);
 
         void *steamUDPAddress = nullptr;
         void *steamUDPSocketInfo = nullptr;

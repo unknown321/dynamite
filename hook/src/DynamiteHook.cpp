@@ -1,6 +1,7 @@
 #include "DynamiteHook.h"
 
 #include "BlockInfo.h"
+#include "BossQuietNextActionTaskActionCondition.h"
 #include "DynamiteLua.h"
 #include "Tpp/TppFOB.h"
 #include "Tpp/TppGameStatusFlag.h"
@@ -1103,6 +1104,267 @@ namespace Dynamite {
 
     void TppGmPlayerImplEquipControllerImplInitializeHook(void *EquipControllerImpl, fox::QuarkDesc *param_1) {
         TppGmPlayerImplEquipControllerImplInitialize(EquipControllerImpl, param_1);
-        hookState.equipControllerImpl = (char*)EquipControllerImpl + 0x20;
+        hookState.equipControllerImpl = (char *)EquipControllerImpl + 0x20;
+    }
+
+    void TppGmBossquietImplActionControllerImplSetCommandHook(void *ActionControllerImpl, uint32_t entityIndex, BossQuietActionCommand *ActionCommand) {
+        if (!g_hook->cfg.Host) {
+            return;
+        }
+
+        const auto o1 = (char *)hookState.bossQuietImplActionController + 0x20;
+        const auto work = (BossQuietImplActionControllerImplWork *)(void **)(o1 + 0x48);
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}, entityIndex={}, workPtr={}, work=\n{}\ncommand=\n{}\ncommandDump={}",
+                __PRETTY_FUNCTION__,
+                entityIndex,
+                (void *)work,
+                work->ToString(),
+                ((BossQuietActionTask *)ActionCommand)->ToString(),
+                bytes_to_hex(ActionCommand, sizeof(BossQuietActionCommand)));
+        }
+
+        TppGmBossquietImplActionControllerImplSetCommand(ActionControllerImpl, entityIndex, ActionCommand);
+        g_hook->dynamiteSyncImpl.SendBossquietActionCommand(entityIndex, ActionCommand);
+    }
+
+    void TppGmBossquietImplActionControllerImplSetExtraActionCommandHook(void *ActionControllerImpl, uint32_t entityIndex, void *ExtraActionCommand) {
+        if (!g_hook->cfg.Host) {
+            return;
+        }
+
+        spdlog::info("{}, entityIndex={}", __PRETTY_FUNCTION__, entityIndex);
+        TppGmBossquietImplActionControllerImplSetExtraActionCommand(ActionControllerImpl, entityIndex, ExtraActionCommand);
+        g_hook->dynamiteSyncImpl.SendBossquietExtraActionCommand(entityIndex, (BossQuietActionCommand *)ExtraActionCommand);
+    }
+
+    // this is a rewrite of SetNextActionTask
+    void TppGmBossquietImplActionControllerImplSetNextActionTaskHook(
+        void *ActionControllerImpl, uint32_t entityIndex, BossQuietImplActionControllerImplWork *work) {
+        if (!g_hook->cfg.Host) {
+            return;
+        }
+
+        const auto off1 = *(uint64_t *)((char *)ActionControllerImpl + 0x58);
+        const auto navController = *(void **)((char *)off1 + 0x18);
+        if (navController == nullptr) {
+            spdlog::error("{}, navigation controller is nullptr", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        auto navigator = TppGmImplNavigationController2ImplGetNavigator(navController, entityIndex);
+        if (navigator == nullptr) {
+            spdlog::error("{}, navigator is nullptr", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        auto workCondition = (work->field7_0x17e & 3) - 2;
+        if (workCondition >= 2) {
+            return;
+        }
+
+        uint32_t reqID = *(uint32_t *)((char *)navigator + 8);
+        auto prepared = TppGmImplNavigationController2ImplIsCurrentRequestPrepared(navController, reqID);
+        if (!prepared) {
+            return;
+        }
+
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}, entityIndex={}, workPtr={}, work=\n{}", __PRETTY_FUNCTION__, entityIndex, (void *)work, work->ToString());
+        }
+
+        auto snipeManager = *(void **)((char *)off1 + 0xb0);
+
+        auto vOff = *(uint64_t *)((char *)off1 + 0x10);
+        auto vectorOff = *(uint64_t *)((char *)vOff + 0x20) + entityIndex * 0x10;
+        auto vv = (Vector3 *)vectorOff;
+
+        Vector3 someLocation{
+            .x = vv->x,
+            .y = vv->y,
+            .z = vv->z,
+            .w = 0,
+        };
+
+        auto workLocation = work->task1.v9_0x80;
+
+        const auto outOfNav =
+            TppGmBossquietImplActionControllerImplCheckUseOutOfNavJump(ActionControllerImpl, entityIndex, navController, snipeManager, &someLocation);
+        if (outOfNav) {
+            Vector3 landingPos{};
+            TppGmBossquietImplSnipeManagerImplGetOptimalLandingPosition(snipeManager, &landingPos, entityIndex, &someLocation, &workLocation);
+
+            BossQuietActionTask a{};
+            a.v1_0x0 = landingPos;
+            a.v6_0x50 = work->task1.v6_0x50;
+            a.v2_0x10 = Vector3{};
+            a.v5_0x40 = work->task1.v5_0x40;
+            a.actionType_0xac = 0x11;
+            a.v8_0x70 = work->task1.v8_0x70;
+            a.v7_0x60 = work->task1.v7_0x60;
+            a.field20_0xad = work->task1.field18_0xab;
+            char precalc[16] = {0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+            memcpy(&a.v3_0x20, precalc, 16);
+
+            TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommand(ActionControllerImpl, &a, (BossQuietActionCommand *)work);
+
+            auto currentTask = (BossQuietActionTask *)(*(uint64_t *)((char *)ActionControllerImpl + 0x60) + entityIndex * 0xb0);
+            TppGmSahelanActionTaskoperatorAssign(currentTask, &a);
+            work->field8_0x180 = work->field8_0x180 + 1;
+            // doesn't make much sense?
+            if (work->field8_0x180 == -1) {
+                work->field8_0x180 = 0;
+            }
+
+            currentTask->anotherType_0xa8 = work->field8_0x180;
+            work->field7_0x17e = work->field7_0x17e | 0x40c;
+            g_hook->dynamiteSyncImpl.SendBossquietSetNextActionTask(entityIndex, &a, BossQuietNextActionTaskActionCondition::out_of_nav);
+        } else {
+            const auto path = TppGmImplNavigationController2ImplGetPath(navController, entityIndex);
+            if (path == nullptr) {
+                return;
+            }
+
+            auto i = *(uint32_t *)((char *)path + 0x20);
+            const auto workFlag = *(unsigned short *)((char *)work + 0x17e);
+            if ((workFlag & 0x1000) == 0 && (workFlag & 0x400) == 0) {
+                const auto state = TppGmImplNavigationController2ImplGetResultState(navController, entityIndex);
+                if (state == 5) {
+                    BossQuietActionTask a{};
+                    a.v1_0x0 = workLocation;
+                    a.v5_0x40 = work->task1.v5_0x40;
+                    a.v2_0x10 = Vector3{};
+                    a.v6_0x50 = work->task1.v6_0x50;
+                    a.v7_0x60 = work->task1.v7_0x60;
+                    a.field17_0xaa = a.field17_0xaa & 0xfd | 1;
+                    a.actionType_0xac = 0x11;
+                    a.v8_0x70 = work->task1.v8_0x70;
+
+                    char precalc[16] = {0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+                    memcpy(&a.v3_0x20, precalc, 16);
+                    a.field14_0xa4 = i - 1;
+                    TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommand(ActionControllerImpl, &a, (BossQuietActionCommand *)work);
+                    TppGmBossquietImplActionControllerImplSetActionTask(ActionControllerImpl, entityIndex, work, &a);
+                    work->field5_0x178 = i - 1;
+                    work->field7_0x17e = work->field7_0x17e | 0x404;
+                    g_hook->dynamiteSyncImpl.SendBossquietSetNextActionTask(entityIndex, &a, BossQuietNextActionTaskActionCondition::in_nav_with_state);
+                    return;
+                }
+            }
+            BossQuietActionTask a{};
+
+            a.v1_0x0 = work->task1.v1_0x0;
+            a.v2_0x10 = work->task1.v2_0x10;
+            a.v3_0x20 = work->task1.v3_0x20;
+            a.field17_0xaa = a.field17_0xaa & 0xfd | 1;
+            a.actionType_0xac = work->task1.field17_0xaa;
+            a.v4_0x30 = work->task1.v4_0x30;
+            a.v5_0x40 = work->task1.v5_0x40;
+            a.field20_0xad = work->task1.field18_0xab;
+            a.v6_0x50 = work->task1.v6_0x50;
+            a.v7_0x60 = work->task1.v7_0x60;
+            a.v8_0x70 = work->task1.v8_0x70;
+            a.field14_0xa4 = i - 1;
+            TppGmSahelanImplActionControllerImplSetTaskParamFromActionCommand(ActionControllerImpl, &a, (BossQuietActionCommand *)work);
+            TppGmBossquietImplActionControllerImplSetActionTask(ActionControllerImpl, entityIndex, work, &a);
+            work->field7_0x17e = work->field7_0x17e | 4;
+            work->field5_0x178 = i - 1;
+            g_hook->dynamiteSyncImpl.SendBossquietSetNextActionTask(entityIndex, &a, BossQuietNextActionTaskActionCondition::in_nav_without_state);
+        }
+    }
+
+    void TppGmBossquietImplActionControllerImplSetActionTaskHook(
+        void *ActionControllerImpl, const uint32_t entityIndex, BossQuietImplActionControllerImplWork *work, BossQuietActionTask *task) {
+        if (!g_hook->cfg.Host) {
+            return;
+        }
+
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}, entityIndex {}, task=\n{}", __PRETTY_FUNCTION__, entityIndex, task->ToString());
+        }
+
+        TppGmBossquietImplActionControllerImplSetActionTask(ActionControllerImpl, entityIndex, work, task);
+        g_hook->dynamiteSyncImpl.SendBossquietSetActionTask(entityIndex, task);
+    }
+
+    void TppGmBossquietImplActionControllerImplInitializeHook(void *ActionControllerImpl, fox::QuarkDesc *param_1) {
+        TppGmBossquietImplActionControllerImplInitialize(ActionControllerImpl, param_1);
+        hookState.bossQuietImplActionController = ActionControllerImpl;
+    }
+
+    bool TppGmBossquietImplCloseCombatAiImplRequestMoveActionHook(void *CloseCombatAiImpl, uint32_t param_1, void *Work) { return false; }
+
+    void TppGmBossquietImplRecoveryAiImplStepMoveHook(void *RecoveryAiImpl, uint32_t entityIndex, uint32_t StepProc, unsigned char *RecoveryAiKnowledge) {
+        if (StepProc == 3) {
+            // pretend that moving phase is already over
+            *RecoveryAiKnowledge = 1;
+        } else {
+            TppGmBossquietImplRecoveryAiImplStepMove(RecoveryAiImpl, entityIndex, StepProc, RecoveryAiKnowledge);
+        }
+    }
+
+    void TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLifeHook(
+        void *LifeControllerImpl, TppGmBossquietLifeControllerWork *work, uint32_t entityIndex, float param_3) {
+
+        // very naive, will have network concurrency issues:
+        // if messages from two enemies arrive before processing, second will overwrite the first;
+        // only second will be processed
+
+        bool needSend = false;
+
+        if (work->incomingDamage > 0 || work->incomingStaminaDamage > 0) {
+            spdlog::info("{}, incoming damage {}/(current life {}), {}/(current stam {})",
+                __PRETTY_FUNCTION__,
+                work->incomingDamage,
+                work->currentLife_0xc,
+                work->incomingStaminaDamage,
+                work->currentStamina_0x12);
+
+            needSend = true;
+            hookState.outgoingBossQuietDamage.entityIndex = entityIndex;
+            hookState.outgoingBossQuietDamage.currentLife = work->currentLife_0xc;
+            hookState.outgoingBossQuietDamage.currentStamina = work->currentStamina_0x12;
+            hookState.outgoingBossQuietDamage.lifeDamage = work->incomingDamage;
+            hookState.outgoingBossQuietDamage.staminaDamage = work->incomingStaminaDamage;
+        }
+
+        TppGmBossquietImplanonymous_namespaceLifeControllerImplUpdateLife(LifeControllerImpl, work, entityIndex, param_3);
+
+        if (needSend) {
+            g_hook->dynamiteSyncImpl.SendBossQuietDamage(&hookState.outgoingBossQuietDamage);
+            hookState.outgoingBossQuietDamage = {};
+        }
+
+        if (hookState.incomingBossQuietDamage.entityIndex > -1 && entityIndex == hookState.incomingBossQuietDamage.entityIndex) {
+
+            auto newLife = hookState.incomingBossQuietDamage.currentLife - hookState.incomingBossQuietDamage.lifeDamage;
+            if (newLife < 0) {
+                newLife = 0;
+            }
+
+            if (work->currentLife_0xc > newLife && work->status_0x2d != 1) {
+                spdlog::info("{}, updating life for {} from {} to {}", __PRETTY_FUNCTION__, entityIndex, work->currentLife_0xc, newLife);
+                work->currentLife_0xc = newLife;
+            }
+
+            // killing blow
+            if (hookState.incomingBossQuietDamage.currentLife == 1) {
+                spdlog::info("{}, killing blow", __PRETTY_FUNCTION__);
+                work->currentLife_0xc = 0;
+            }
+
+            auto newStamina = hookState.incomingBossQuietDamage.currentStamina - hookState.incomingBossQuietDamage.staminaDamage;
+            if (newStamina < 0) {
+                newStamina = 0;
+            }
+
+            if (work->currentStamina_0x12 > newStamina && work->status_0x2d != 1) {
+                spdlog::info("{}, updating stamina for {} from {} to {}", __PRETTY_FUNCTION__, entityIndex, work->currentStamina_0x12, newStamina);
+                work->currentStamina_0x12 = newStamina;
+            }
+
+            hookState.incomingBossQuietDamage = {};
+            hookState.incomingBossQuietDamage.entityIndex = -1;
+        }
     }
 }

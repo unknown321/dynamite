@@ -1,8 +1,10 @@
 #include "DynamiteSyncImpl.h"
 
+#include "BossQuietNextActionTaskActionCondition.h"
 #include "DynamiteHook.h"
 #include "DynamiteSyncSchema_generated.h"
 #include "EmblemInfo.h"
+#include "Tpp/BossQuietDamage.h"
 #include "flatbuffers/flatbuffers.h"
 #include "memtag.h"
 #include "mgsvtpp_func_typedefs.h"
@@ -867,6 +869,220 @@ namespace Dynamite {
         }
     }
 
+    void DynamiteSyncImpl::SendBossquietActionCommand(const uint32_t p1, BossQuietActionCommand *command) {
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}", __PRETTY_FUNCTION__);
+        }
+
+        packetNumber++;
+        flatbuffers::FlatBufferBuilder builder(256);
+        const std::vector<int8_t> vec(std::begin(command->data), std::end(command->data));
+        const auto v = builder.CreateVector(vec);
+        const auto sv = DynamiteMessage::CreateSendBossQuietActionCommand(builder, p1, v);
+        const auto message = DynamiteMessage::CreateMessageWrapper(builder, packetNumber, DynamiteMessage::Message_SendBossQuietActionCommand, sv.Union());
+        builder.Finish(message);
+        auto res = SendRaw(&builder);
+        spdlog::info("{}, res {}", __PRETTY_FUNCTION__, res);
+    }
+
+    void DynamiteSyncImpl::HandleSendBossQuietActionCommand(const DynamiteMessage::MessageWrapper *w) {
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}", __PRETTY_FUNCTION__);
+        }
+
+        if (hookState.bossQuietImplActionController == nullptr) {
+            spdlog::error("{}, bossQuietImplActionController is nullptr", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        const auto m = w->msg_as_SendBossQuietActionCommand();
+        const auto command = m->action_command();
+        BossQuietActionCommand cmd{};
+        memcpy(&cmd, command->data(), sizeof(cmd));
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}, {}", __PRETTY_FUNCTION__, bytes_to_hex(&cmd, sizeof(cmd)));
+        }
+
+        TppGmBossquietImplActionControllerImplSetCommand((char *)hookState.bossQuietImplActionController + 0x20, m->param_1(), &cmd);
+    }
+
+    void DynamiteSyncImpl::SendBossquietExtraActionCommand(const uint32_t p1, BossQuietActionCommand *command) {
+        // always log, never seen this one
+        spdlog::info("{}", __PRETTY_FUNCTION__);
+
+        packetNumber++;
+        flatbuffers::FlatBufferBuilder builder(256);
+        const std::vector<uint8_t> vec(std::begin(command->data), std::end(command->data));
+        const auto v = builder.CreateVector(vec);
+        const auto sv = DynamiteMessage::CreateSendBossQuietExtraActionCommand(builder, p1, v);
+        const auto message = DynamiteMessage::CreateMessageWrapper(builder, packetNumber, DynamiteMessage::Message_SendBossQuietExtraActionCommand, sv.Union());
+        builder.Finish(message);
+        auto res = SendRaw(&builder);
+        spdlog::info("{}, res {}", __PRETTY_FUNCTION__, res);
+    }
+
+    void DynamiteSyncImpl::HandleSendBossQuietExtraActionCommand(const DynamiteMessage::MessageWrapper *w) {
+        // always log, never seen this one
+        spdlog::info("{}", __PRETTY_FUNCTION__);
+
+        if (hookState.bossQuietImplActionController == nullptr) {
+            spdlog::error("{}, bossQuietImplActionController is nullptr", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        const auto m = w->msg_as_SendBossQuietExtraActionCommand();
+        const auto command = m->action_command();
+        BossQuietActionCommand cmd{};
+        memcpy(&cmd, command->data(), sizeof(cmd));
+        TppGmBossquietImplActionControllerImplSetExtraActionCommand((char *)hookState.bossQuietImplActionController + 0x20, m->param_1(), &cmd);
+    }
+
+    void DynamiteSyncImpl::SendBossquietSetNextActionTask(
+        const uint32_t param_1, BossQuietActionTask *actionTask, BossQuietNextActionTaskActionCondition actionCondition) {
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}, task=\n{}\ndump={}", __PRETTY_FUNCTION__, actionTask->ToString(), bytes_to_hex(actionTask, sizeof(BossQuietActionTask)));
+        }
+
+        packetNumber++;
+        flatbuffers::FlatBufferBuilder builder(128 * 7);
+
+        const auto byte_span = std::as_bytes(std::span{actionTask, 1});
+        const std::vector<unsigned char> taskVec(
+            reinterpret_cast<const unsigned char *>(byte_span.data()), reinterpret_cast<const unsigned char *>(byte_span.data()) + byte_span.size());
+        const auto tv = builder.CreateVector(taskVec);
+
+        auto at = DynamiteMessage::BossQuietNextActionTaskActionCondition_out_of_nav;
+        switch (actionCondition) {
+        case BossQuietNextActionTaskActionCondition::out_of_nav:
+            at = DynamiteMessage::BossQuietNextActionTaskActionCondition_out_of_nav;
+            break;
+        case BossQuietNextActionTaskActionCondition::in_nav_with_state:
+            at = DynamiteMessage::BossQuietNextActionTaskActionCondition_in_nav_with_state;
+            break;
+        case BossQuietNextActionTaskActionCondition::in_nav_without_state:
+            at = DynamiteMessage::BossQuietNextActionTaskActionCondition_in_nav_without_state;
+            break;
+        default:
+            spdlog::error("{}, unexpected action task value {}", __PRETTY_FUNCTION__, (int)actionCondition);
+            return;
+        }
+
+        const auto sv = DynamiteMessage::CreateSendBossQuietSetNextActionTask(builder, param_1, tv, at);
+        const auto message = DynamiteMessage::CreateMessageWrapper(builder, packetNumber, DynamiteMessage::Message_SendBossQuietSetNextActionTask, sv.Union());
+        builder.Finish(message);
+        auto res = SendRaw(&builder);
+        spdlog::info("{}, res {}", __PRETTY_FUNCTION__, res);
+    }
+
+    void DynamiteSyncImpl::HandleSendBossquietSetNextActionTask(const DynamiteMessage::MessageWrapper *w) {
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}", __PRETTY_FUNCTION__);
+        }
+
+        if (hookState.bossQuietImplActionController == nullptr) {
+            spdlog::error("{}, bossQuietImplActionController is nullptr", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        const auto m = w->msg_as_SendBossQuietSetNextActionTask();
+
+        BossQuietActionTask action_task{};
+        memcpy(&action_task, m->action_task()->data(), sizeof(BossQuietActionTask));
+
+        auto cond = BossQuietNextActionTaskActionCondition::out_of_nav;
+        switch (m->action_type()) {
+        case DynamiteMessage::BossQuietNextActionTaskActionCondition_out_of_nav:
+            cond = BossQuietNextActionTaskActionCondition::out_of_nav;
+            break;
+        case DynamiteMessage::BossQuietNextActionTaskActionCondition_in_nav_with_state:
+            cond = BossQuietNextActionTaskActionCondition::in_nav_with_state;
+            break;
+        case DynamiteMessage::BossQuietNextActionTaskActionCondition_in_nav_without_state:
+            cond = BossQuietNextActionTaskActionCondition::in_nav_without_state;
+            break;
+        default:
+            spdlog::error("{}, unexpected action task value {}", __PRETTY_FUNCTION__, (int)m->action_type());
+            return;
+        }
+
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}, {}", __PRETTY_FUNCTION__, bytes_to_hex(&action_task, sizeof(action_task)));
+        }
+
+        g_hook->dynamiteCore.BossQuietSetNextActionTask(m->param_1(), &action_task, cond);
+    }
+
+    void DynamiteSyncImpl::SendBossquietSetActionTask(const uint32_t param_1, BossQuietActionTask *task) {
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}", __PRETTY_FUNCTION__);
+        }
+
+        packetNumber++;
+        flatbuffers::FlatBufferBuilder builder(128 * 7);
+
+        const auto byte_span = std::as_bytes(std::span{task, 1});
+        const std::vector<unsigned char> taskVec(
+            reinterpret_cast<const unsigned char *>(byte_span.data()), reinterpret_cast<const unsigned char *>(byte_span.data()) + byte_span.size());
+        const auto tv = builder.CreateVector(taskVec);
+
+        const auto sv = DynamiteMessage::CreateSendBossQuietSetActionTask(builder, param_1, tv);
+        const auto message = DynamiteMessage::CreateMessageWrapper(builder, packetNumber, DynamiteMessage::Message_SendBossQuietSetActionTask, sv.Union());
+        builder.Finish(message);
+        auto res = SendRaw(&builder);
+        spdlog::info("{}, res {}", __PRETTY_FUNCTION__, res);
+    }
+
+    void DynamiteSyncImpl::HandleSendBossquietSetActionTask(const DynamiteMessage::MessageWrapper *w) {
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}", __PRETTY_FUNCTION__);
+        }
+
+        if (hookState.bossQuietImplActionController == nullptr) {
+            spdlog::error("{}, bossQuietImplActionController is nullptr", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        const auto m = w->msg_as_SendBossQuietSetActionTask();
+
+        const auto workPtr = (void *)((char *)hookState.bossQuietImplActionController + 0x20 + 0x48);
+        BossQuietActionTask task{};
+        memcpy(&task, m->task()->data(), sizeof(task));
+
+        // no controller offset!
+        TppGmBossquietImplActionControllerImplSetActionTask(
+            hookState.bossQuietImplActionController, m->param_1(), (BossQuietImplActionControllerImplWork *)workPtr, &task);
+    }
+
+    void DynamiteSyncImpl::SendBossQuietDamage(BossQuietDamage *damage) {
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}", __PRETTY_FUNCTION__);
+        }
+
+        packetNumber++;
+        flatbuffers::FlatBufferBuilder builder(128);
+
+        const auto sv = DynamiteMessage::CreateSendBossQuietDamage(
+            builder, damage->entityIndex, damage->currentLife, damage->lifeDamage, damage->currentStamina, damage->staminaDamage);
+        const auto message = DynamiteMessage::CreateMessageWrapper(builder, packetNumber, DynamiteMessage::Message_SendBossQuietDamage, sv.Union());
+        builder.Finish(message);
+        auto res = SendRaw(&builder);
+        spdlog::info("{}, res {}", __PRETTY_FUNCTION__, res);
+    }
+
+    void DynamiteSyncImpl::HandleSendBossQuietDamage(const DynamiteMessage::MessageWrapper *w) {
+        if (g_hook->cfg.debug.bossQuiet) {
+            spdlog::info("{}", __PRETTY_FUNCTION__);
+        }
+
+        const auto m = w->msg_as_SendBossQuietDamage();
+
+        hookState.incomingBossQuietDamage.entityIndex = m->entity_index();
+        hookState.incomingBossQuietDamage.lifeDamage = m->life_damage();
+        hookState.incomingBossQuietDamage.staminaDamage = m->stamina_damage();
+        hookState.incomingBossQuietDamage.currentLife = m->current_life();
+        hookState.incomingBossQuietDamage.currentStamina = m->current_stamina();
+    }
+
     // sends data over GameSocket, unused and deprecated
     bool DynamiteSyncImpl::Send(const flatbuffers::FlatBufferBuilder *builder) const {
         if (this->gameSocket == nullptr) {
@@ -898,11 +1114,6 @@ namespace Dynamite {
         //     break;
         // }
 
-        auto target = 0;
-        if (g_hook->cfg.Host) {
-            target = 1;
-        }
-
         const auto session = FoxNtSessionGetMainSession();
         if (session == nullptr) {
             spdlog::error("{} Main session is null", __PRETTY_FUNCTION__);
@@ -914,15 +1125,6 @@ namespace Dynamite {
             spdlog::error("{} Session2Impl is null", __PRETTY_FUNCTION__);
             return false;
         }
-
-        // const auto memInterface = FoxNtImplSessionImpl2GetMemberInterfaceAtIndex(session2impl, target);
-        // if (memInterface == nullptr) {
-        //     spdlog::error("{}, memInterface is null", __PRETTY_FUNCTION__);
-        //     return false;
-        // }
-        //
-        // const auto index = *(byte *)((char *)memInterface + 0x28);
-        // spdlog::info("{}, target index {}", __PRETTY_FUNCTION__, index);
 
         auto index = 0;
         if (g_hook->cfg.Host) {
@@ -1055,6 +1257,21 @@ namespace Dynamite {
             break;
         case DynamiteMessage::Message_SendEmblem:
             HandleSendEmblem(wrapper);
+            break;
+        case DynamiteMessage::Message_SendBossQuietActionCommand:
+            HandleSendBossQuietActionCommand(wrapper);
+            break;
+        case DynamiteMessage::Message_SendBossQuietExtraActionCommand:
+            HandleSendBossQuietExtraActionCommand(wrapper);
+            break;
+        case DynamiteMessage::Message_SendBossQuietSetNextActionTask:
+            HandleSendBossquietSetNextActionTask(wrapper);
+            break;
+        case DynamiteMessage::Message_SendBossQuietSetActionTask:
+            HandleSendBossquietSetActionTask(wrapper);
+            break;
+        case DynamiteMessage::Message_SendBossQuietDamage:
+            HandleSendBossQuietDamage(wrapper);
             break;
         default:
             spdlog::error("{}, unknown message type {}", __PRETTY_FUNCTION__, static_cast<uint32_t>(wrapper->msg_type()));

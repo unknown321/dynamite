@@ -137,6 +137,7 @@ type Debug struct {
 	NioDetailed                  bool
 	MuxSendError                 bool
 	DynamiteMsg                  bool
+	BossQuiet                    bool
 }
 
 type Config struct {
