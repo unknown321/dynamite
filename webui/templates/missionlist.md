@@ -25,7 +25,7 @@
 <tr><td>8</td><td>OCCUPATION FORCES</td><td>✔</td><td>third tank spawn only for host (<a href="https://github.com/unknown321/dynamite/issues/19" target="_blank">#19</a>)</td></tr>
 <tr><td>9</td><td>BACKUP, BACK DOWN</td><td>✔</td><td></td></tr>
 <tr><td>10</td><td>ANGEL WITH BROKEN WINGS</td><td>✔</td><td></td></tr>
-<tr class="warning-row"><td>11</td><td>CLOAKED IN SILENCE</td><td>?</td><td>boss is local</td></tr>
+<tr><td>11</td><td>CLOAKED IN SILENCE</td><td>✔</td><td></td></tr>
 <tr><td>12</td><td>HELLBOUND</td><td>✔</td><td></td>
 <tr><td>13</td><td>PITCH DARK</td><td>✔</td><td>mission may abort on start (out of mission area) if partner connects too late (<a href="https://github.com/unknown321/dynamite/issues/3" target="_blank">#3</a>)</td></tr>
 <tr><td>14</td><td>LINGUA FRANCA</td><td>✔</td><td>interrogation never starts (<a href="https://github.com/unknown321/dynamite/issues/83" target="_blank">#83</a>)</td></tr>

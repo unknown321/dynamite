@@ -46,7 +46,7 @@ func Init() {
 		"rawHTML": func(s string) template.HTML {
 			return template.HTML(s)
 		},
-	}).ParseFS(handlers.FS, "*.tmpl")
+	}).ParseFS(handlers.FS, "*.tmpl", "*.md")
 
 	if err != nil {
 		panic(err)
@@ -418,7 +418,7 @@ func MissionList(w http.ResponseWriter, r *http.Request) {
 		Flavor:    currentFlavor,
 	}
 
-	if err := tmpl.ExecuteTemplate(w, "missionlist.tmpl", p); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "missionlist.md", p); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
