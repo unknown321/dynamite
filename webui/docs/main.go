@@ -18,6 +18,9 @@ func generate() {
 		panic(err)
 	}
 
+	lines := bytes.Split(source, []byte("\n"))
+	source = bytes.Join(lines[2:], []byte("\n"))
+
 	md := goldmark.New(
 		goldmark.WithExtensions(extension.GFM),
 		goldmark.WithParserOptions(
@@ -28,6 +31,7 @@ func generate() {
 			html.WithUnsafe(),
 		),
 	)
+
 	var buf bytes.Buffer
 	if err = md.Convert(source, &buf); err != nil {
 		panic(err)

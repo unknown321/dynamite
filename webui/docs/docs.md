@@ -1,3 +1,6 @@
+> [!NOTE]
+> This page is best viewed using the installer; GitHub renders it incorrectly.
+
 Usage
 ====
 
