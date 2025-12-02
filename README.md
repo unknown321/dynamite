@@ -35,3 +35,7 @@ https://github.com/user-attachments/assets/e82c43c7-eace-4084-b1fd-c4fb8ef3abe2
 <a href="https://www.youtube.com/watch?v=4xIB7_qEVwI" target="_blank">Mission 15 FOOTPRINTS OF PHANTOMS (07:25)</a>
 
 <a href="https://www.youtube.com/watch?v=JJQbVnNBghE" taget="_blank">General gameplay, funny cuts (13:59)</a>
+
+### Press
+
+[PC Gamer](https://www.pcgamer.com/games/action/after-10-years-theres-a-functioning-metal-gear-solid-5-co-op-mod-so-you-and-a-friend-can-be-played-like-a-damn-fiddle-together/)
