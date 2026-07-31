@@ -9,7 +9,7 @@
 
 float calculateDistance(Vector3 v1, Vector3 v2) {
     float dx = v2.x - v1.x;
-    float dy = v2.y - v2.y;
+    float dy = v2.y - v1.y;
     float dz = v2.z - v1.z;
     return std::sqrt(dx * dx + dy * dy + dz * dz);
 }
