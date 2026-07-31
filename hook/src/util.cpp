@@ -7,15 +7,15 @@
 #include <fstream>
 
 
-float calculateDistance(Vector3 v1, Vector3 v2) {
-    float dx = v2.x - v1.x;
-    float dy = v2.y - v1.y;
-    float dz = v2.z - v1.z;
+float calculateDistance(const Vector3 v1, const Vector3 v2) {
+    const float dx = v2.x - v1.x;
+    const float dy = v2.y - v1.y;
+    const float dz = v2.z - v1.z;
     return std::sqrt(dx * dx + dy * dy + dz * dz);
 }
 
 // checks if vector is out of the map
-bool positionValid(Vector3 v) {
+bool positionValid(const Vector3 v) {
     if ((v.x > MAP_MAX_X) || (v.x < -MAP_MAX_X)) {
         return false;
     }

@@ -7,6 +7,11 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -s")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -s")
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
+set(FLATBUFFERS_BUILD_TESTS OFF)
+
+if (ANALYZE)
+    set(OPTS -fanalyzer -Werror)
+endif ()
 
 include(FetchContent)
 FetchContent_Declare(
@@ -89,6 +94,7 @@ add_library(${PROJECT_NAME} SHARED
 
 add_dependencies(${PROJECT_NAME} version)
 
-target_compile_options(${PROJECT_NAME} PUBLIC -fpermissive)
+target_compile_options(${PROJECT_NAME} PUBLIC -fpermissive ${OPTS})
+
 target_link_options(${PROJECT_NAME} PUBLIC -static)
 target_link_libraries(${PROJECT_NAME} flatbuffers minhook mINI spdlog::spdlog_header_only)

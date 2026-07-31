@@ -7,12 +7,11 @@ WORKDIR /mnt
 ENV MINGW=/mingw
 
 ARG PKG_CONFIG_VERSION=0.29.2
-ARG CMAKE_VERSION=4.0.1
-ARG BINUTILS_VERSION=2.44
-ARG MINGW_VERSION=12.0.0
-ARG GCC_VERSION=15.1.0
+ARG CMAKE_VERSION=4.4.2
+ARG BINUTILS_VERSION=2.47
+ARG MINGW_VERSION=14.0.0
+ARG GCC_VERSION=16.1.0
 ARG NASM_VERSION=2.16.03
-ARG NVCC_VERSION=12.8.1
 
 SHELL [ "/bin/bash", "-c" ]
 
@@ -22,6 +21,7 @@ RUN set -ex \
     && DEBIAN_FRONTEND=noninteractive apt-get upgrade --no-install-recommends -y \
     && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
         ca-certificates \
+        clang-tidy \
         gcc \
         g++ \
         zlib1g-dev \
